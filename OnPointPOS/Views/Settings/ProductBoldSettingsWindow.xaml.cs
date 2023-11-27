@@ -374,7 +374,7 @@ namespace POSSUM
                 bool IsCleanCash = chkDebugCleanCashConfirm.IsChecked == true ? true : false;
                 bool IsDeposit = chkDepositConfirm.IsChecked == true ? true : false;
                 //string paymentDeviceType = txtPaymentDeviceType.Text;
-                string paymentDeviceType = cmbPaymentDeviceType.SelectedValue.ToString();
+                string paymentDeviceType = cmbPaymentDeviceType.SelectedValue?.ToString();
                 string PaymentDevicConStr = txtPaymentDevicConnectionString.Text;
                 var CategoryLine = Convert.ToInt32(cmbCatLines.SelectedValue);
                 var ItemLine = Convert.ToInt32(cmbItemLines.SelectedValue);

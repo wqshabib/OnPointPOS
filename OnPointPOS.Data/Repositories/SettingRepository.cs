@@ -28,20 +28,16 @@ namespace POSSUM.Data
 
                 return settings;
             }
-
         }
-
 
         public Setting GetSettings(string code)
         {
-
             using (var db = new ApplicationDbContext())
             {
-
                 return db.Setting.FirstOrDefault(i => i.Code.Equals(code));
             }
-
         }
+
         public string GetSettingsByCode(SettingCode code,string terminalId)
         {
             try
@@ -49,19 +45,16 @@ namespace POSSUM.Data
                 using (var db = new ApplicationDbContext())
                 {
                     var terminal = Guid.Parse(terminalId);
-                    var res = db.Setting.FirstOrDefault(i => i.Code == code && i.TerminalId == terminal).Value;
-                    return res;
+                    var res = db.Setting.FirstOrDefault(i => i.Code == code && i.TerminalId == terminal);
+                    return res?.Value;
                 }
             }
             catch (Exception ex)
             {
-
                 return ex.ToString();
             }
-
-            
-
         }
+
         public Setting GetDefaultSettings(SettingCode code, string terminlId)
         {
 
