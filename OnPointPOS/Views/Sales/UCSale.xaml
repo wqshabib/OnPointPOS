@@ -1,0 +1,459 @@
+﻿<UserControl x:Class="POSSUM.Views.Sales.UCSale"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:POSSUM.Views.Sales"
+             xmlns:translation="clr-namespace:POSSUM.Res"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
+    <Grid Name="mainGrid"  Margin="1 0 1 0">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="#FF253544" Offset="1"/>
+                <GradientStop Color="#FF214649"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Name="DataEntryGrid" Visibility="Visible"  Margin="0,5,0,0">
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="690"/>
+
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DataGrid AutoGenerateColumns="False" Margin="0" Visibility="Visible" IsReadOnly="True" Grid.ColumnSpan="2"
+              RowDetailsVisibilityMode="Collapsed" Grid.Row="0" Height="180" LoadingRow="OnRowLoading" Name="orderHistoryGrid" VerticalAlignment="Top"   CanUserAddRows="False"  SelectionChanged="orderGrid_SelectionChanged"  Background="#FFDCDEDE" HeadersVisibility="Column"  >
+
+                    <DataGrid.Columns>
+
+
+                        <DataGridTextColumn Header="#" Binding="{Binding Path=ReceiptNumber}" IsReadOnly="True" Width="80"/>
+                        <DataGridTextColumn Header="Datum" Binding="{Binding Path=InvoiceDate}" IsReadOnly="True" Width="*" MinWidth="150"/>
+
+                        <DataGridTextColumn Header="{x:Static translation:UI.Global_Total}" Binding="{Binding Path=OrderTotal,StringFormat='0.00'}" IsReadOnly="True" Width="100"/>
+
+
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Border BorderThickness="1" Grid.Row="1" Margin="2,0,2,0" BorderBrush="Silver" CornerRadius="3 3 0 0"   Background="#FFF" >
+                    <Grid   >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Vertical" Grid.Row="1"  Grid.ColumnSpan="2" Background="Silver" >
+                            <TextBlock Background="Gray" Visibility="Collapsed" Name="lblOrderType" FontWeight="Bold" Text="New Order" TextAlignment="Center" Foreground="White"/>
+                            <TextBlock Background="Gray" Visibility="Collapsed" Name="lblOrderTypeSecondary" FontWeight="Bold" Text="Take away" TextAlignment="Center" Foreground="White" Margin="0,2,0,0" />
+                            <TextBlock Background="Gray" Visibility="Collapsed" Name="lblSaleType" FontWeight="Bold" Text="Take away" TextAlignment="Center" Foreground="White" Margin="0,2,0,0" />
+                            <TextBlock Name="lblOrderTypeCustomer"  Visibility="Collapsed" FontWeight="Bold" Text="Take away" TextAlignment="Center" Foreground="White" Margin="0,2,0,0" />
+                        </StackPanel>
+
+                        <Grid Name="CartContainer" Grid.ColumnSpan="2" Grid.Row="2" ></Grid>
+                        <Border Height="1" Name="brOrderComments" Background="Black" Visibility="Collapsed" VerticalAlignment="Top" Grid.Row="3" Grid.ColumnSpan="2"/>
+                        <TextBlock Name="txtOrderComment" Grid.Row="3" Grid.ColumnSpan="2" Visibility="Collapsed"/>
+
+                        <Grid HorizontalAlignment="Stretch" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                
+                            </Grid.ColumnDefinitions>
+                            
+                            
+                            <Button  Grid.Row="4" Grid.Column="0" Height="50" Name="DirectCashButton" Margin="2" BorderBrush="#FFDE5448"  Style="{StaticResource ShowcaseButtonStyle}"  FontSize="14" Background="#FFF5F5F5"   Foreground="Black" Click="btnDirectCash_Click" >
+                                <Button.Content>
+                                    <Grid Width="245">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="25"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image HorizontalAlignment="Left" Width="24" Height="24" VerticalAlignment="Center" Source="/POSSUM;component/images/cash.png" />
+                                        <TextBlock Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1" VerticalAlignment="Center"  Text="{x:Static translation:UI.CheckOutOrder_Method_Cash}"/>
+                                    </Grid>
+                                </Button.Content>
+                            </Button>
+                            <Button  Grid.Row="4" Grid.Column="0" Height="50" Visibility="Visible" Name="DirectSwishButton" Margin="2" BorderBrush="#FF17A05E"  Style="{StaticResource ShowcaseButtonStyle}"  FontSize="14" Background="#FFF5F5F5"   Foreground="Black" Click="DirectSwishButton_Click" >
+                                <Button.Content>
+                                    <Grid Width="245">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="25"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image HorizontalAlignment="Left" Width="24" Height="24" VerticalAlignment="Center" Source="/POSSUM;component/images/creditcard.png" />
+                                        <TextBlock Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1" VerticalAlignment="Center"  Text="Swish"/>
+                                    </Grid>
+                                </Button.Content>
+                            </Button>
+                            <Button  Grid.Row="4" Grid.Column="2" Height="50" Name="DirectCreditCardButton" Margin="2" BorderBrush="#FF17A05E"  Style="{StaticResource ShowcaseButtonStyle}"  FontSize="14" Background="#FFF5F5F5"   Foreground="Black" Click="btnCreditCard_Click" >
+                                <Button.Content>
+                                    <Grid Width="245">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="25"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image HorizontalAlignment="Left" Width="24" Height="24" VerticalAlignment="Center" Source="/POSSUM;component/images/creditcard.png" />
+                                        <TextBlock Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1" VerticalAlignment="Center"  Text="{x:Static translation:UI.CheckOutOrder_Method_CreditCard}"/>
+                                    </Grid>
+                                </Button.Content>
+                            </Button>
+
+                           
+
+                        </Grid>
+                       
+                        <Button  Grid.Row="5" Grid.Column="0" Height="50" Name="CheckoutButton" Margin="2" BorderBrush="#FF007ACC"  Style="{StaticResource ShowcaseButtonStyle}"  FontSize="14" Background="#FFF5F5F5"   Foreground="Black" Click="btnCheckout_Click" >
+                            <Button.Content>
+                                <Grid Width="245">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image HorizontalAlignment="Left" Width="24" Height="24" VerticalAlignment="Center" Source="/POSSUM;component/images/Payments.png" />
+                                    <TextBlock Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1" VerticalAlignment="Center"  Text="{x:Static translation:UI.Global_Checkout}"/>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+                        <Button  Grid.Row="5" Grid.Column="1" Height="50" Name="BongButton" Margin="2" BorderBrush="#FFC2C3C9"  Style="{StaticResource ShowcaseButtonStyle}"  FontSize="14" Background="#FFF5F5F5"   Foreground="Black" Click="btnHold_Click" >
+                            <Button.Content>
+                                <Grid Width="245">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image HorizontalAlignment="Left" Width="24" Height="24" VerticalAlignment="Center" Source="/POSSUM;component/images/pause.png" />
+                                    <TextBlock Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1" VerticalAlignment="Center"  Text="{x:Static translation:UI.Sales_Pause}"/>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+                        <Button  Grid.Row="5" Grid.Column="1" Height="50" Name="SaveButton" Margin="2" BorderBrush="#FFC2C3C9"  Style="{StaticResource ShowcaseButtonStyle}"  FontSize="14" Background="#FFF5F5F5"   Foreground="Black" Click="btnSave_Click" Visibility="Hidden">
+                            <Button.Content>
+                                <Grid Width="245">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image HorizontalAlignment="Left" Width="24" Height="24" VerticalAlignment="Center" Source="/POSSUM;component/images/pause.png" />
+                                    <TextBlock Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1" VerticalAlignment="Center"  Text="{x:Static translation:UI.Sales_Save}"/>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+
+
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"  />
+                </Grid.RowDefinitions>
+
+
+                <UniformGrid Name="uniformGridCategories" Margin="2 0 2 2" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0"  Columns="5">
+
+                </UniformGrid>
+
+
+
+                <UniformGrid Name="uniformGrid1" Margin="2 10 2 2"  VerticalAlignment="Top" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"   Columns="5">
+
+                </UniformGrid>
+
+
+                <Grid Grid.Row="2" VerticalAlignment="Bottom"  Height="265px" Margin="5 0 10 2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="260px" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="400px"/>
+                    </Grid.ColumnDefinitions>
+
+                    <WrapPanel Grid.Row="2" Grid.Column="0"  Margin="0.5"  Width="260" >
+                        <!--<TextBox Margin="3"  Foreground="#FFFFFFFF" Background="#FF22343E"  BorderThickness="0"  Name="txtPANT"  FontWeight="Bold" Grid.Row="0" Grid.ColumnSpan="5"  Text="9899" TextAlignment="Center" PreviewTextInput="PreviewTextInputHandler"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="18" Width="233"  />
+
+                        <Button Height="49" Width="240" Margin="2"  BorderBrush="#FFA2E05D"  Style="{StaticResource ShowcaseButtonStyle}"  Background="#FFF5F5F5" Foreground="Black" FontSize="14" Name="btnPANT" Click="BtnPANT_Click" >
+                            <Button.Content>
+                                <Grid Width="252">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="1" Margin="10 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center"  Text="Add PANT Product"/>
+                                </Grid>
+                            </Button.Content>
+                        </Button>-->
+
+
+                        <Button Height="49" Width="240" Margin="2"  BorderBrush="#FFA2E05D"  Style="{StaticResource ShowcaseButtonStyle}"  Background="#FFF5F5F5" Foreground="Black" FontSize="14" Name="btnNew" Click="btnNew_Click" >
+                            <Button.Content>
+                                <Grid Width="252">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image HorizontalAlignment="Left" Width="24" Height="24" VerticalAlignment="Center" Source="/POSSUM;component/images/AddNew.png" />
+                                    <TextBlock Grid.Column="1" Margin="10 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center"  Text="{x:Static translation:UI.Sales_NewButton}"/>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+                        <!--<Button  Name="btnSelectTableTemp" Height="49" Width="12" Margin="0" BorderBrush="#FFAFAFAF"  Style="{StaticResource ShowcaseButtonStyle}"  FontSize="14" Background="#FFF5F5F5"   Foreground="Black" Click="btnSelectTable_Click" >
+                            <Button.Content>
+                                <Grid Width="125">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image HorizontalAlignment="Left" Width="24" Height="24" VerticalAlignment="Center" Source="/POSSUM;component/images/Table.png" />
+                                    <TextBlock Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1" VerticalAlignment="Center"  Text="{x:Static translation:UI.Sales_SelectTableButton}"/>
+                                </Grid>
+                            </Button.Content>
+                        </Button>-->
+
+                        <Button   Height="49" Width="126" Margin="2" BorderBrush="#FFAFAFAF"  Style="{StaticResource ShowcaseButtonStyle}"  Background="#FFF5F5F5" Foreground="Black" Name="btnTakeAway" Click="btnTakeAway_Click"  >
+                            <Button.Content>
+                                <Grid Width="124"  Margin="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image HorizontalAlignment="Left" Width="24" Height="24"  VerticalAlignment="Center" Source="/POSSUM;component/images/takwawayorder.png"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Text="{x:Static translation:UI.Sales_TakeAwayButton}"/>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+                        <Button  Height="49" Width="126" Margin="2"  BorderBrush="#FFAFAFAF"  Style="{StaticResource ShowcaseButtonStyle}"  Background="#FFF5F5F5" Foreground="Black" Name="btnReturn" Click="btnReturn_Click" >
+                            <Button.Content>
+                                <Grid Width="125"  Margin="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image HorizontalAlignment="Left" Width="24" Height="24"  VerticalAlignment="Center" Source="/POSSUM;component/Images/returnorder.png"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Text="{x:Static translation:UI.Global_Return}"/>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+
+
+                        
+                        <Button Height="49" Width="126" Margin="2"  BorderBrush="#FFAFAFAF"  Style="{StaticResource ShowcaseButtonStyle}"  Background="#FFF5F5F5"  Foreground="Black" Click="Discount_Click">
+                            <Button.Content>
+                                <Grid Width="125"  Margin="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image HorizontalAlignment="Left" Width="24" Height="24"  VerticalAlignment="Center" Source="/POSSUM;component/images/percentage.png"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Text="{x:Static translation:UI.Sales_Discount}"/>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+
+                        <Button  Height="49" Width="126" Margin="2" BorderBrush="#FFAFAFAF"  Style="{StaticResource ShowcaseButtonStyle}"  FontSize="14" Background="#FFF5F5F5"   Foreground="Black" x:Name="ButtonOpenOrder" Click="ButtonOpenOrder_Click" >
+                            <Button.Content>
+                                <Grid Width="245">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image HorizontalAlignment="Left" Width="24" Height="24" VerticalAlignment="Center" Source="/POSSUM;component/images/openorder.png" />
+                                    <TextBlock Margin="10 0 0 0" HorizontalAlignment="Left" Grid.Column="1" VerticalAlignment="Center"  Text="{x:Static translation:UI.Sales_OpenOrderButton}"/>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+                        <Button Height="49" Width="126" Margin="2" BorderBrush="#FFAFAFAF"  Style="{StaticResource ShowcaseButtonStyle}"  Background="#FFF5F5F5" Foreground="Black" FontSize="14"   Name="btnCashDraw" Click="btnCashDraw_Click"  >
+                            <Button.Content>
+                                <Grid Width="124" Margin="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image HorizontalAlignment="Left" Width="24" Height="24"  VerticalAlignment="Center" Source="/POSSUM;component/images/opendrawer.png"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left"  VerticalAlignment="Center"  Text="{x:Static translation:UI.Sales_CashDrawButton}"/>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+                        <Button  Height="49"  Width="126" Margin="2" BorderBrush="#FFAFAFAF"  Style="{StaticResource ShowcaseButtonStyle}"  Background="#FFF5F5F5"  Foreground="Black" Name="btnOrderComments"  Click="btnOrderComments_Click"  >
+                            <Button.Content>
+                                <Grid Width="125"  Margin="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="24"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image HorizontalAlignment="Left"  Width="22" Height="24"  VerticalAlignment="Center" Source="/POSSUM;component/images/ordercomment.png"/>
+                                    <TextBlock Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Center"  Text="{x:Static translation:UI.Order_Comment}"/>
+
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+
+                        <Button Name="btnCustomer"  Height="49"  Width="126" Margin="2" BorderBrush="#FFAFAFAF"  Style="{StaticResource ShowcaseButtonStyle}" FontSize="14" Background="#FFF5F5F5"  Foreground="Black"   Click="CustomerInfo_Click"  Visibility="Visible" >
+                            <Button.Content>
+                                <Grid Width="125"  Margin="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image HorizontalAlignment="Left" Width="24" Height="24"  VerticalAlignment="Center" Source="/POSSUM;component/images/ordercommet.png"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Text="{x:Static translation:UI.Sales_CustomerButton}"/>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+                        <Button Name="btnSplit"  Height="49"  Width="126" Margin="2" BorderBrush="#FFAFAFAF"   Style="{StaticResource ShowcaseButtonStyle}" FontSize="14" Background="#FFF5F5F5" Foreground="Black"     Click="SplitOrder_Click" Visibility="Collapsed" >
+                            <Button.Content>
+                                <Grid Width="125"  Margin="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image HorizontalAlignment="Left" Width="24" Height="24"  VerticalAlignment="Center" Source="/POSSUM;component/images/splitorder.png"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Text="{x:Static translation:UI.OpenOrder_SplitButton}"/>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+
+                        <Button  Height="49" Width="125" Margin="2"  BorderBrush="#FFAFAFAF"  Style="{StaticResource ShowcaseButtonStyle}"  Background="#FFF5F5F5" Foreground="Black"  Name="btnSearchItem" Click="btnSearchItem_Click" Visibility="Visible" >
+                            <Button.Content>
+                                <Grid Width="245"  Margin="1" HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image HorizontalAlignment="Left" Width="24" Height="24"  VerticalAlignment="Center" Source="/POSSUM;component/images/searchproduct.png"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Text="{x:Static translation:UI.Sales_SearchProduct}"/>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
+
+
+
+
+
+
+                    </WrapPanel>
+
+
+                    <Grid   Grid.Row="2"  Grid.Column="2"   Width="400" Height="265px">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="48"/>
+                            <RowDefinition/>
+                            <RowDefinition Height="49"/>
+                        </Grid.RowDefinitions>
+                        <Grid Margin="2 0 2 0">
+                            <Border CornerRadius="3" BorderThickness="1" BorderBrush="#FF22343E" Background="#FF22343E"/>
+                            <TextBox KeyDown="txtNumber_KeyDown" Margin="3" TextChanged="txtNumber_TextChanged" Foreground="#FFFFFFFF" Background="#FF22343E"  BorderThickness="0"  Name="txtNumber"  FontWeight="Bold" Grid.Row="0" Grid.ColumnSpan="5"  Text="" TextAlignment="Center" PreviewTextInput="PreviewTextInputHandler"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="18"  />
+                            <TextBlock Text=""  Name="lblPriceMessage" Foreground="White" Grid.ColumnSpan="4" VerticalAlignment="Center" Margin="10,0,5,0"/>
+                        </Grid>
+                        <Border Margin="2 3 1 3" Grid.Row="1" Background="Silver" BorderBrush="#FFDCDEDE" BorderThickness="1" CornerRadius="3" Height="160" >
+                            <Grid   Grid.Row="1"  Width="399" Height="160" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0" />
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="80"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button Grid.Row="1"  Grid.Column="0" Content="7" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                                <Button Grid.Row="1"  Grid.Column="1" Content="8" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                                <Button Grid.Row="1"   Grid.Column="2" Content="9" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                                <Button Grid.Row="1"  Grid.Column="2" Content="9" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                                <Button Grid.Row="2"  Grid.Column="0" Content="4" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                                <Button Grid.Row="2"  Grid.Column="1" Content="5" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                                <Button Grid.Row="2"  Grid.Column="2" Content="6" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                                <Button Grid.Row="3" Grid.Column="0" Content="1" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                                <Button Grid.Row="3"  Grid.Column="1" Content="2" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                                <Button Grid.Row="3"  Grid.Column="2" Content="3" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                                <Button Grid.Row="4" Grid.Column="0" Content="0" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                                <Button Grid.Row="4"  Grid.Column="1" Background="#FFDCDEDE" Content="00" FontWeight="bold"  Foreground="Black" Click="NumberButton_Click"  />
+
+                                <Button Grid.Row="4"  Grid.Column="3" Grid.ColumnSpan="2" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Name="btnBackSapce" Click="btnBackSapace_Click" >
+                                    <Button.Content>
+                                        <Image VerticalAlignment="Center" HorizontalAlignment="Center" Source="/POSSUM;component/images/backspace.png"/>
+                                    </Button.Content>
+                                </Button>
+                                <Button Grid.Row="2"  Grid.Column="3" Grid.ColumnSpan="2" Background="#FFDCDEDE" Content="PLU" Foreground="Black" FontSize="14" Name="btnPLU" Click="btnSavePLU_Click"  />
+                                <Button  Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Background="#FFDCDEDE" Content="C" Foreground="Black" FontSize="14" Name="btnClear" Click="btnClear_Click" />
+
+
+                                <Button Grid.Row="4"  Grid.Column="2" Content="." Background="#FFDCDEDE" Foreground="Black" FontSize="14" Name="btnComma" Click="btnComma_Click"  />
+                                <Button Grid.Row="1" Grid.ColumnSpan="2"  Grid.Column="3" Content="x"  Background="#FFDCDEDE" Foreground="Black" FontSize="14" Name="btnMultiply" Click="btnMultiply_Click" />
+                                <Button Grid.Row="3"  Grid.Column="3" Visibility="Collapsed" Content="Bedes"   />
+                            </Grid>
+                        </Border>
+                        <Button Grid.Row="2"   FontWeight="Bold" Content="{x:Static translation:UI.Global_Enter}" Foreground="Black" FontSize="14" Name="btnEnter" Click="btnEnter_Click" Style="{StaticResource ListButtonStyle}" Margin="1">
+                            <Button.Background>
+                                <LinearGradientBrush  EndPoint="1,1" MappingMode="RelativeToBoundingBox" StartPoint="0,0">
+                                    <GradientStop Color="#FF29D87E" Offset="1"/>
+                                    <GradientStop Color="#FF27D8B1"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                        </Button>
+                    </Grid>
+
+                </Grid>
+            </Grid>
+
+        </Grid>
+        <Popup x:Uid="PopupTable" IsOpen="False" Name="PopupTable"  Closed="PopupTable_Closed" Loaded="popupTable_Loaded" Height="Auto" Width="Auto" PopupAnimation="Fade" AllowsTransparency="True">
+            <Border  Background="Silver" CornerRadius="5" BorderThickness="1" BorderBrush="Gray" >
+                <Grid Margin="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True" Margin="2" Visibility="Visible" RowDetailsVisibilityMode="Collapsed"  Name="dataGridTableOrder" Grid.Column="0"  CanUserAddRows="False"    SelectionUnit="FullRow" SelectionMode="Extended" >
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{x:Static translation:UI.OrderHistory_OrderNumber}" Binding="{Binding Path=OrderNoOfDay}" IsReadOnly="True" Width="150" FontFamily="Segoe UI" />
+                            <DataGridTextColumn Header="{x:Static translation:UI.OrderHistory_Date}" Binding="{Binding Path=CreationDate, StringFormat=\{0:dd.MM.yyyy \}}" IsReadOnly="True" FontFamily="Segoe UI"  Width="90"/>
+
+                            <DataGridTemplateColumn Header="" Width="95">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{x:Static translation:UI.OpenOrder_Merge}" Background="#FFDD5044" Foreground="White"  Height="25" FontFamily="Segoe UI"  Width="85" Click="TableOrderMergTo_Click" BorderBrush="Black" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Grid.Row="1" Content="{x:Static translation:UI.Global_Cancel}"   Margin="1"  Width="80"  HorizontalAlignment="Left" BorderThickness="0" Background="#FFDC5847" FontSize="14" Click="CancelPopupButton_Click" FontFamily="Segoe UI"  Foreground="White"/>
+
+                    <Button Grid.Row="1"  Click="CreateNew_Click" Width="75" Margin="2" HorizontalAlignment="Right" Background="#FF007ACC" Foreground="White">
+                        <Button.Content>
+                            <TextBlock>
+                                    <Run Text="{x:Static translation:UI.Sales_Create}"/><Run Text=" "/><Run Text="{x:Static translation:UI.Sales_NewButton}"/>
+                            </TextBlock>
+                        </Button.Content>
+                    </Button>
+                </Grid>
+            </Border>
+        </Popup>
+    </Grid>
+</UserControl>

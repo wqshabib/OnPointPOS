@@ -1,0 +1,195 @@
+﻿body {
+    /*padding-top: 50px;
+    padding-bottom: 20px;*/
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    
+}
+/*Rafat  14-10-14*/
+html{
+
+    background: #e8e8e8;
+}
+
+.multiselect-container {
+    width:100%;
+}
+
+/*Rafat  14-10-14*/
+.btn .caret{
+    margin-top:6px;
+    float:right;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    /*max-width: 480px;*/
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+/*Tab style
+
+.nav-tabs > li > a{
+    background-color:#4285f4;
+    color:#fff !important;
+}
+.nav-tabs > li.active > a, .nav-tabs > li > a:hover{
+    background-color:#fff;
+    color:#428bca !important;
+}
+.nav > li > a{
+    color:#222222;
+}
+.nav > li > a:hover, .nav > li > a:focus{
+    background:none;
+} 
+    */
+
+.mylogo {
+    line-height: 64px !important;
+    height: 60px;
+    padding: 0;
+    color: #5d5d5d;
+    font-size: 19px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+#mydiv {
+   /* top:100px;
+    left:100px;
+    background-color:#d4c7c7;
+    opacity:5;
+    width:1000px;
+    height:500px;
+    position: fixed;
+    left: 50%;
+    top: 45%;*/
+    display: none;
+   /* background: transparent url("images/loading.gif");*/
+    /*z-index: 1000;
+    height: 70px;
+    width: 70px;
+    background-color:red;*/
+  
+    /*height: 50px;
+    position: relative;  
+    z-index:0;
+    background-color: transparent; /* for demonstration */
+}
+.ajax-loader {
+    left: 44%; 
+    float: none;
+    top: 27%;  
+    position: fixed;
+  width: 50px;
+   height: 50px;
+  /* position: absolute;
+   left: 50%;
+   top: 50%; 
+   margin-left: -150px;
+   margin-top: -150px;*/  
+}
+div.ajax-loading1{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height:100%;
+    width:100%;
+    background-color:transparent;
+    z-index: 9999999;
+    /*background-image: url('../../images/loading-bgr.gif');*/
+    opacity: 0.7;
+    filter: alpha(opacity=70); /* ie */
+    -moz-opacity: 0.7; /* mozilla */
+    display:none;
+}
+div.ajax-loading1 * {
+    height:100%;
+    width:100%;               
+    background-image: url('../images/loading1.gif');
+    background-position:  center center;
+    background-repeat: no-repeat;
+    opacity: 1;
+    filter: alpha(opacity=100); /* ie */
+    -moz-opacity: 1; /* mozilla */
+               
+}
+
+#datatable label {
+    font-family: 'Open Sans',Helvetica, Arial, sans-serif;
+    color: #666666;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    font-size-adjust: 100%;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.475;
+}
+.table-hover > tbody > tr:hover > td {
+    background-color: silver;
+    color: #eeeeee;
+    cursor: pointer;
+}
+
+.highlight {
+    background-color: #444141;
+    font-weight: bold;
+    color:#a287d4;  /*#eeeeee;*/
+}
+.dynatree-node.dynatree-lastsib.dynatree-exp-cl.dynatree-ico-c > a {
+    padding-left: 0px;
+    margin-left: 0px;
+    cursor: pointer;
+}
+
+span.dynatree-node > a {
+    padding-left: 0px;
+    margin-left: 0px;
+    cursor: pointer;
+}
+.action-1{ width: 100px;}
+.action-2{ width: 150px;}
+.action-3{ width: 200px;}
+/*table.dataTable tr.odd td.sorting_1 {
+    background-color:transparent;
+}
+table.dataTable tr.odd td.sorting_1 {
+   background-color:transparent;
+}
+table.dataTable tr.even td.sorting_1 {
+    background-color:transparent;
+}
+table.dataTable tr.even td.sorting_1 {
+     background-color:transparent;
+}*/
+/*table.dataTable tr.even td.sorting_1, table.dataTable tr.even td.sorting_1, table.dataTable tr.odd td.sorting_1, table.dataTable tr.odd td.sorting_1 {background-color:#c9c9c9 !important}*/
+

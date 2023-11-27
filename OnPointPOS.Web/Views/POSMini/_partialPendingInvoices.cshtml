@@ -1,0 +1,37 @@
+﻿@model List<OrderViewModel>
+
+
+<div class="panel-body">
+    <div class="table-responsive">
+        <table id="tbl_invoices" class="table admin-form theme-warning tc-checkbox-1 fs13 " cellspacing="0" width="100%">
+            <thead>
+                <tr class="bg-light">
+                    <th style="width:30px"></th>
+                    <th class="">Order @Resource.Number</th>
+                    <th class="">@Resource.Report_Payment @Resource.Address</th>
+                    <th class="">@Resource.Total</th>
+                    <th class="">@Resource.Date</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td id="@item.Id"><input type="checkbox" value="@item.Id" /></td>
+                        <td class="text-left">@item.OrderNoOfDay</td>
+                        <td class="text-left">@item.CustomerName</td>
+                        <td class="text-left">@Math.Round(item.SumAmt,2)</td>
+                        <td class="">@Convert.ToDateTime(item.InvoiceDate).ToString("yyyy-MM-dd")</td>
+
+
+
+                    </tr>
+                }
+            </tbody>
+
+
+        </table>
+    </div>
+</div>

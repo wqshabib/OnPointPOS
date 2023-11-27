@@ -1,0 +1,188 @@
+﻿@model IEnumerable<OutletUserViewModel>
+
+@{
+    ViewBag.Title = "POS USER";
+}
+@section BreadCrumb {
+    <li class="crumb-link" id="indexpage"><a href="/Users" class="ajax-disable"> User</a></li>
+    <li class="crumb-trail" id="currentpage">POS @Resource.Users</li>
+}
+
+<header id="topbar" class="ph10">
+    <div class="topbar-left">
+        <ul class="nav nav-list nav-list-topbar pull-left">
+
+            <li class="active">
+                <a href="/Users/TillUser">POS @Resource.Users</a>
+            </li>
+        </ul>
+    </div>
+    <div class="topbar-right hidden-xs hidden-sm">
+
+        <a onclick="NewUser()" class="btn btn-default btn-gradient btn-sm light fw600 ml10 mt5">
+            <span class="fa fa-plus pr5"></span> @Resource.Add @Resource.User
+        </a>
+
+    </div>
+</header>
+
+<div class="mt25">
+
+    <!-- begin: .tray-center -->
+    <div class="tray tray-center">
+
+        <!-- create new order panel -->
+        <div id="UserCreate">
+
+        </div>
+        <!-- recent orders table -->
+        <div style="margin-bottom:50px;">
+            <div class="panel">
+
+                <div class="panel-body pn">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" id="myTable" role="grid" aria-describedby="datatable_info">
+                            <thead>
+                                <tr role="row">
+
+
+                                    <th>@Resource.Email</th>
+
+                                    <th>@Resource.UserName</th>
+
+                                    <th>@Resource.User @Resource.Code</th>
+                                    <th>@Resource.User @Resource.Report_Trainingmode</th>
+                                    <th>@Resource.Status</th>
+                                    <th>
+
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+
+
+                                        <td>@item.Email</td>
+                                        <td>@item.UserName</td>
+                                        <td>@item.UserCode</td>
+                                        <td style="width: 200px;">@item.TrainingMode</td>
+                                        <td>@item.Status</td>
+                                        <td class="text-right" style="width: 80px;">
+                                            <button type="button" onclick="Edit('@item.Id')" class="btn btn-primary btn-sm btn-gradient fa fa-edit">
+                                                @Resource.Edit
+                                            </button>
+                                        </td>
+
+                                        <td class="text-right" style="width: 80px;">
+                                            <button type="button" onclick="Delete('@item.Id');" class="btn btn-danger btn-sm btn-gradient fa fa-trash-o">
+                                                @Resource.Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        $(function () {
+            $('#users').addClass('active');
+            $('#Admin').addClass('active');
+
+
+            var html = '<a href="/Account">Users</a>'
+            $('#dsh').html(html);
+
+            if (!$('#menuAdmin').hasClass('menu-open')) {
+
+                $('#menuAdmin').attr('style', '').toggleClass('menu-open');
+            }
+
+
+        });
+
+        function Edit(id) {
+            $.ajax({
+                url: '@Url.Action("EditTillUser", "Users")',
+                type: "GET",
+                data: { id: id },
+                success: function (result) {
+
+                    $("#UserCreate").html(result);
+
+                }
+            });
+        }
+        function NewUser() {
+            $.ajax({
+                url: '@Url.Action("CreateTillUser", "Users")',
+                type: "GET",
+                success: function (result) {
+
+                    $("#UserCreate").html(result);
+
+                }
+            });
+        }
+
+        function Delete(id) {
+
+            if (confirm("Are you sure to delete?")) {
+
+                $.ajax({
+                    url: '@Url.Action("DeleteUser", "Users")',
+
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (result) {
+                        alert(result.Message);
+                        window.location.reload();
+                    }
+                });
+            }
+        }
+
+        function SaveData(assignedTills) {
+
+            $.ajax({
+                url: '@Url.Action("SaveUserTills", "Users")',
+                data: JSON.stringify(assignedTills),
+                contentType: "application/json",
+                type: 'POST',
+
+                success: function (result) {
+
+                    $("#msgDiv").show();
+                    $('#msgDiv').html(result.Message);
+                    var tId;
+
+                    $("#msgDiv").hide().slideDown();
+                    clearTimeout(tId);
+                    tId = setTimeout(function () {
+                        $("#msgDiv").hide();
+
+
+                        window.location = '@Url.Action("Index","Users")';
+                    }, 1500);
+
+                }, error: function (e) {
+                    alert('request failed');
+                }
+            });
+        }
+
+
+    </script>
+}

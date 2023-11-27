@@ -1,0 +1,260 @@
+﻿@model LUETemplateSite.Models.SiteModel
+@using LUE;
+@if (Model.ShopConfig.ShopListType == 1)
+{
+    <div class="col-lg-12 col-xs-12 col-menu-wrap">
+        @if (Model.ShopConfig.ShopTemplate != 3)
+        {
+        <div class="col-header"><h4>Meny</h4></div>
+        }
+        @foreach (SimpleContent.SimpleGroup category in Model.MenuContent.Content)
+        {
+            if (category.Type == 2 || category.Type == 3)
+            {
+                <div class="special-menu-header col-lg-12 col-xs-12 @(category.Type == 2 ? "lunch" : String.Empty) @(category.Type == 3 ? "a-la-carte" : String.Empty)">
+                    <span class="glyphicon glyphicon-bookmark special-menu-icon"></span>
+                    <h4>@category.Name</h4>
+                    @{ List<string> list = category.Type == 2 ? Model.CompanyOrderPrinter.AvailabilityLunchList : Model.CompanyOrderPrinter.AvailabilityALaCarteList; }
+                    <p>
+                        @if (list.Count > 0)
+                        {
+                            for (int i = 0; i < list.Count; i++)
+                            {
+                                @(list[i]);
+                                if (i + 1 != list.Count)
+                                {
+                                    <br />
+                                }
+                            }
+                            <br />
+                        }
+                        @category.Description
+                    </p>
+                </div>
+                if (category.Type == 3)
+                {
+                    <div class="col-lg-12 col-xs-12 col-md-12 special-menu-wrap" style="@( !category.Available && (category.Type == 2 || category.Type == 3) ? "display:none;" : String.Empty)">
+                        @{
+                    int index = 0;
+                    double countTo = category.Type == 2 || category.Type == 3 ? category.Items.Count : Math.Ceiling(category.Items.Count / 2.0);
+                        }
+                        @for (index = 0; index < countTo; index++)
+                        {
+                            SimpleContent.SimpleGroup.SimpleC item = category.Items[index];
+                            <div class="col-lg-12 col-xs-12 col-md-12 col-special-menu">
+                                <div class="col-lg-10 col-xs-8 col-md-8 special-menu-item">
+                                    <div class="special-food-item">
+                                        <h4>
+                                            @item.Name
+                                            <div style="display:inline-block" class="food_item_scale">
+                                                @for (int i = 0; i < item.Scale; i++)
+                                                {
+                                                    <img src="~/Content/img/chilli_16x16.png" />
+                                                }
+                                            </div>
+                                        </h4>
+                                        <p>@item.DescriptionOrSubContent()</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-md-2 col-xs-2 special-menu-price">
+                                    <span>@item.Price Kr</span>
+                                </div>
+                                <a href="javascript:void(0)"
+                                   class="col-lg-1 col-md-2 col-xs-2 special-menu-icon @(item.Available ? String.Empty : "disable-link")"
+                                   onclick="@(Model.ShopConfig.MultipleMenus ? "LoadModal('" + item.ID + "', true)" : "LoadModal('" + item.ID + "')")"
+                                   style="display:@(item.Orderable ? "block" : "none")">
+                                    <span class="icons-wrap glyphicon glyphicon-plus-sign"></span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+        }
+        @foreach (SimpleContent.SimpleGroup category in Model.MenuContent.Content)
+        {
+            if (category.Type != 2 && category.Type != 3)
+            {
+                int index = 0;
+                double countTo = Math.Ceiling(category.Items.Count / 2.0);
+                <div id="@category.Name">
+                    <div class="col-food-header col-lg-12 col-xs-12" ><h4>@category.Name</h4></div>
+
+                    <div class="col-lg-6 col-xs-12 col-md-6 food-items-wrapper" style="background: #FFF; min-height: 100px; margin-top: 0px;">
+                        @for (index = 0; index < countTo; index++)
+                    {
+                        SimpleContent.SimpleGroup.SimpleC item = category.Items[index];
+                    <div class="food-item-wrap col-xs-12 col-md-12">
+                        <div class="food-item">
+                            <h4>
+                                @item.Name
+                                <div style="display:inline-block" class="food_item_scale">
+                                    @for (int i = 0; i < item.Scale; i++)
+                                        {
+                                        <img src="~/Content/img/chilli_16x16.png" />
+                                        }
+                                </div>
+                            </h4>
+                            <p>@item.DescriptionOrSubContent()</p>
+                        </div>
+                        <a href="javascript:void(0)"
+                           class="food-menu-add-item @(item.Available ? String.Empty : "disable-link")"
+                           onclick="@(Model.ShopConfig.MultipleMenus ? "LoadModal('" + item.ID + "', true)" : "LoadModal('" + item.ID + "')")"
+                           style="display:@(item.Orderable ? "block" : "none" )">
+                            <span class="icons-wrap glyphicon glyphicon-plus-sign"></span>
+                        </a>
+                        <div class="food-menu-price-wrap">@item.Price Kr</div>
+                    </div>
+                    }
+                    </div>
+                    <div class="col-lg-6 col-xs-12 col-md-6 food-items-wrapper" style="background: #FFF; min-height: 100px; margin-top: 0px;">
+                        @for (int j = index; j < category.Items.Count; j++)
+                    {
+                        SimpleContent.SimpleGroup.SimpleC item = category.Items[j];
+                    <div class="food-item-wrap col-xs-12 col-md-12">
+                        <div class="food-item">
+                            <h4>
+                                @item.Name
+                                <div style="display:inline-block" class="food_item_scale">
+                                    @for (int i = 0; i < item.Scale; i++)
+                                        {
+                                        <img src="~/Content/img/chilli_16x16.png" />
+                                        }
+                                </div>
+                            </h4>
+                            <p>@item.DescriptionOrSubContent()</p>
+                        </div>
+                        <a href="javascript:void(0)"
+                           class="food-menu-add-item @(item.Available ? String.Empty : "disable-link")"
+                           onclick="@(Model.ShopConfig.MultipleMenus ? "LoadModal('" + item.ID + "', true)" : "LoadModal('" + item.ID + "')")"
+                           style="display:@(item.Orderable ? "block" : "none" )">
+                            <span class="icons-wrap glyphicon glyphicon-plus-sign"></span>
+                        </a>
+                        <div class="food-menu-price-wrap">@item.Price Kr</div>
+                    </div>
+                    }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}
+else if (Model.ShopConfig.ShopListType == 2)
+{
+    <div class="col-lg-12 col-xs-12 col-menu-wrap">
+        <br />
+        @foreach (SimpleContent.SimpleGroup category in Model.MenuContent.Content)
+        {
+            <div class="col-lg-12 col-xs-12 special-menu-header">
+                <h4>@category.Name</h4>
+            </div>
+            foreach (SimpleContent.SimpleGroup.SimpleC item in category.Items)
+            {
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 col-xxs-12 card-col">
+                    <a @*href="#@item.ID" förberett för produkt-länkar i framtiden *@
+                       href="javascript:void(0)"
+                       class="card @(item.Available ? String.Empty : "disable-link")"
+                       onclick="@(Model.ShopConfig.MultipleMenus ? "LoadModal('" + item.ID + "', true)" : "LoadModal('" + item.ID + "')")"
+                       style="display:@(item.Orderable ? "block" : "none" )">
+                        <div class="top">
+                            <div class="image" style="background:url(@item.Image); background-size:188px;">
+                                <div class="overlay">
+                                    <span class="glyphicon glyphicon glyphicon-eye-open eye"></span>
+                                    <span class="glyphicon glyphicon-plus-sign plus" onclick="AddDirectlyToCart('@item.ID.ToString()')"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bottom">
+                            <br />
+                            <p class="truncate">@item.Name</p>
+                            <span class="price">@item.Price SEK</span>
+                        </div>
+                    </a>
+                </div>
+            }
+        }
+    </div>
+}
+else if (Model.ShopConfig.ShopListType == 3)
+{
+    <div class="col-header">
+        <h4 style="float:left;font-size:36px">Meny</h4>
+
+        <div style="float:right" class="dropdown cart-dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-shopping-cart"></span>
+                <span class="badge cart-badge"></span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                @Html.Partial("_cart", Model)   
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-xs-12 col-menu-wrap">
+        @foreach (SimpleContent.SimpleGroup category in Model.MenuContent.Content)
+        {
+            <div class="col-food-header col-lg-12 col-xs-12"><h4><img src="~/img/ilp/@(category.Name).png" alt="@category.Name" /></h4></div>
+            <div class="col-lg-6 col-xs-12 col-md-6 food-items-wrapper">
+
+                @if (category.Items.First().Variants.Count > 1)
+                {
+                    <div class="category-variants-names col-xs-12 col-md-12">
+                        <div>
+                            @foreach (var variant in category.Items.First().Variants)
+                            {
+                                if (variant.Price != "0")
+                                {
+                                    <span class="category-variant-name">@variant.Name</span>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                @foreach (SimpleContent.SimpleGroup.SimpleC item in category.Items)
+                {
+                    <a href="javascript:void(0)"
+                       class="food-item-wrap col-xs-12 col-md-12 @(item.Available ? String.Empty : "disable-link")"
+                       onclick="@(Model.ShopConfig.MultipleMenus ? "LoadModal('" + item.ID + "', true)" : "LoadModal('" + item.ID + "')")"
+                       style="display:@(item.Orderable ? "block" : "none" )">
+
+                        <div class="food-item">
+                            <h4>
+                                @item.Name
+                                @if (item.Scale > 0)
+                                {
+                                    <div style="display:inline-block" class="food_item_scale">
+                                        @for (int i = 0; i < item.Scale; i++)
+                                        {
+                                            <img src="~/Content/img/chilli_16x16.png" />
+                                        }
+                                    </div>
+                                }
+                                <span class="glyphicon glyphicon-shopping-cart food-item-cart-icon"></span>
+                            </h4>
+                            @if (item.Variants.Count > 1)
+                            {
+                                <div class="item-variants-prices">
+                                    @foreach (var variant in item.Variants)
+                                    {
+                                        if (variant.Price != "0")
+                                        {
+                                            <span class="item-variant-price">@variant.Price<span>:-</span></span>
+                                        }
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="item-variants-prices">
+                                    <span class="item-variant-price">@item.Price<span>:-</span></span>
+                                </div>
+                            }
+                            <p>@item.DescriptionOrSubContent()</p>
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+    </div>
+}

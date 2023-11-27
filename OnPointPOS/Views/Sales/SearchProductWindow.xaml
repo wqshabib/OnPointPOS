@@ -1,0 +1,76 @@
+﻿<Window x:Class="POSSUM.SearchProductWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:POSSUM="clr-namespace:POSSUM" 
+        xmlns:translation="clr-namespace:POSSUM.Res"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:WpfKb="clr-namespace:WpfKb.Controls;assembly=WpfKb"
+        Title="Product Window" Height="720"  Width="1000"  WindowStyle="None" Background="#FFE5E6D6" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Border BorderBrush="Gray" BorderThickness="1">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border Grid.ColumnSpan="2"  Height="35" Background="#FF012537" VerticalAlignment="Top" />
+            <TextBlock Grid.ColumnSpan="2" Name="txtTitle" Text="{x:Static translation:UI.Sales_SearchProduct}" Width="200" HorizontalAlignment="Left" Foreground="White" FontSize="16" Margin="10,5"/>
+        <Button x:Name="btnClose"  Grid.Column="1" VerticalAlignment="Top"
+                                Margin="0 2 2 0" 
+                                HorizontalAlignment="Right" 
+                                Height="30" Width="40" 
+                                Content="X" FontSize="12" FontFamily="Georgia" FontWeight="Bold" 
+                                Foreground="WhiteSmoke" Background="Red" 
+                                Click="btnCancel_Click" />
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <TextBox Name="txtSearchBox" Width="400" Height="30" VerticalAlignment="Center" Margin="5 2 2 2" GotFocus="txtSearchBox_GotFocus" LostFocus="txtSearchBox_LostFocus" KeyDown="txtSearchBox_KeyDown" TextChanged="txtSearchBox_TextChanged"/>
+                    <Button Name="btnSearch" Content="{x:Static translation:UI.Global_Search}" VerticalAlignment="Center" Width="75" Height="30" Margin="2" Background="#FF007ACC" Foreground="White" Click="Search_Click"/>
+                  
+                </StackPanel>
+                <Button Name="btnAddNew" HorizontalAlignment="Right" Content="{x:Static translation:UI.Global_AddNew}" VerticalAlignment="Center" Width="75" Height="30" Margin="2 2 10 2" Background="#FF007ACC" Foreground="White" Click="Add_Click"/>
+
+                <Popup x:Uid="PopupKeyborad" IsOpen="False" Name="PopupKeyborad" Loaded="popupError_Loaded" Height="Auto" Width="Auto" PopupAnimation="Fade" AllowsTransparency="True">
+                    <Border BorderThickness="1" Background="Azure" >
+                        <WpfKb:OnScreenKeyboard Grid.Row="7" Grid.ColumnSpan="4" Name="UserAreaKeyBoard"  Height="300" Width="600"  HorizontalAlignment="Stretch"  VerticalAlignment="Center" Margin="5"/>
+                    </Border>
+                </Popup>
+               <DataGrid Name="ProductDataGrid" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" SelectionChanged="CustomerDataGrid_SelectionChanged" Height="565" >
+                    <DataGrid.Resources>
+                        <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">35</sys:Double>
+                        <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">35</sys:Double>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{x:Static translation:UI.Global_Barcode}" Binding="{Binding BarCode}"  Width="100"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="PLU" Binding="{Binding PLU}"  Width="100"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="SKU" Binding="{Binding SKU}"  Width="100"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static translation:UI.Report_Description}" Binding="{Binding Description}" Width="*"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static translation:UI.Sales_Unit}" Binding="{Binding Unit}" Width="200" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static translation:UI.Sales_UnitPrice}" Binding="{Binding Price}" Width="100" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static translation:UI.Global_StockQty}" Binding="{Binding StockQuantity}" Width="100" IsReadOnly="True"/>
+                        <DataGridTemplateColumn Header="" Width="70">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource RoundButton}" Background="#FFDCDEDE" Foreground="Black"  Height="25" Width="50" Click="ButtonEdit_Click">
+                                        <Button.Content>
+                                            <Image Source="/POSSUM;component/images/pencil_small.png"/>
+                                        </Button.Content>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            
+            </Grid>
+            <Button  Content="{x:Static translation:UI.Global_Cancel}"  Visibility="Visible" Margin="2" Height="50" Width="80"  Grid.Row="2" HorizontalAlignment="Left" BorderThickness="0" Background="#FFFF4D4D" FontSize="14" Click="btnCancel_Click" FontFamily="Segoe UI"  Foreground="White"/>
+            <Button  Content="{x:Static translation:UI.Prompt_Ok}" IsEnabled="False" Name="OKButton" Visibility="Visible" Margin="2" Height="50" Width="80"  Grid.Row="2" HorizontalAlignment="Right" BorderThickness="0" Background="#FF007ACC" FontSize="14" Click="OKButton_Click" FontFamily="Segoe UI"  Foreground="White" />
+        
+        </Grid>
+    </Border>
+</Window>

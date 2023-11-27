@@ -1,0 +1,142 @@
+﻿<Window x:Class="POSSUM.Views.Sales.CustomerViewCart"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:POSSUM"
+         xmlns:translation="clr-namespace:POSSUM.Res"
+         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d" WindowStyle="None" ResizeMode="NoResize"
+        Title="CustomerViewCart" Height="400" Width="400" WindowStartupLocation="Manual"        BorderThickness="0" Loaded="Window_Loaded">
+    <Window.Resources>
+        <local:BoolToVisibilityConverter
+         x:Key="BoolToVisibilityConverter" 
+         TrueValue="Visible" FalseValue="Collapsed" />
+        <local:StatusToColorConverter x:Key="StatusToColorConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid Name="ActiveOrderGrid"  Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Name="SlideShowGridURL2" Grid.Column="0" >
+                <WebBrowser Name="myBrowser2" />
+            </Grid>
+            <Grid Name="CartGrid" Grid.Column="1">
+                <Border BorderThickness="1" Grid.Row="0" Margin="0,0,5,5" BorderBrush="Silver"   Background="#FFF">
+                    <Grid   >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="55"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical"  Grid.ColumnSpan="3" >
+                            <TextBlock Background="Green" Visibility="Collapsed" Name="lblOrderMessage" FontSize="26" FontWeight="Bold" Text="Order Completed" TextAlignment="Center" Foreground="White"/>
+
+                        </StackPanel>
+                        <ListView Grid.ColumnSpan="3" Grid.Row="1"  BorderThickness="0" Background="Transparent" Foreground="White" Name="lvCart"  Margin="2,0,-2,10" >
+                            <ListView.Resources>
+                                <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">35</sys:Double>
+                                <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">35</sys:Double>
+                            </ListView.Resources>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Background="{Binding Path=UpdateColorName}"  Margin="0.5" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Height="1" Grid.Row="1" Grid.ColumnSpan="6" VerticalAlignment="Bottom" Background="#869699"/>
+                                        <TextBlock Text="{Binding Path=BIDS}" Margin="0 -8 0 0" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="6"/>
+
+                                        <TextBlock Foreground="Black"  Grid.Column="0" Margin="5 3" MaxWidth="250" LineHeight="20" VerticalAlignment="Center" HorizontalAlignment="Left" TextAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=ItemName}" FontSize="26"  FontFamily="Segoe UI"   />
+
+                                        <TextBlock Foreground="Black" MinWidth="80" Grid.Column="1" Margin="2 3" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Path=CartQty}" FontSize="26"  FontFamily="Segoe UI" />
+
+                                        <TextBlock Foreground="Black" Width="100" Grid.Column="2" Margin="2 3" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding Path=GrossTotal, StringFormat='0.00'}" FontSize="26"  FontFamily="Segoe UI" />
+                                        <TextBlock  Foreground="Black"  TextAlignment="Center" Grid.Row="1" Grid.Column="0"   Visibility="{Binding DiscountVisibility, Converter={StaticResource BoolToVisibilityConverter}}" ><Run Text="{Binding Path=DiscountDescription}"/><Run Text=":"/></TextBlock>
+                                        <StackPanel Orientation="Horizontal" Grid.Column="5" HorizontalAlignment="Right"  Grid.Row="1"   Visibility="{Binding DiscountVisibility, Converter={StaticResource BoolToVisibilityConverter}}"  Margin="2 3">
+                                            <TextBlock Text="-" Foreground="Black"/>
+                                            <TextBlock  Foreground="Black" Text="{Binding ItemDiscount, StringFormat='0.00'}"   Visibility="{Binding DiscountVisibility, Converter={StaticResource BoolToVisibilityConverter}}"   FontSize="12" FontFamily="Segoe UI"></TextBlock>
+                                        </StackPanel>
+                                        <ListView Margin="2" Grid.Row="2" Background="Transparent" Grid.Column="1" Grid.ColumnSpan="5" BorderThickness="0" ItemsSource="{Binding IngredientItems}"  >
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+
+                                                            <ColumnDefinition Width="5"/>
+                                                            <ColumnDefinition Width="30"/>
+                                                            <ColumnDefinition Width="15"/>
+                                                            <ColumnDefinition Width="60"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock  TextAlignment="Left" Margin="15 1"><Run Text="{Binding IngredientMode}"/><Run Text=" "/><Run Text="{Binding Product.Name}"/></TextBlock>
+                                                        <TextBlock Grid.Column="1" Text="{Binding Quantity,StringFormat='0'}" Visibility="{Binding GroupQtyVisibility, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                        <TextBlock Grid.Column="4" Text="{Binding GrossTotal, StringFormat='0.00'}" HorizontalAlignment="Right"  />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                        <ListView Margin="2" Grid.Row="1" Background="Transparent" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0" ItemsSource="{Binding ItemDetails}" >
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="10"/>
+                                                            <ColumnDefinition Width="5"/>
+                                                            <ColumnDefinition Width="30"/>
+                                                            <ColumnDefinition Width="50"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="{Binding Product.Description}" TextAlignment="Left" Margin="15 1"/>
+                                                        <TextBlock Grid.Column="1" Text="{Binding CartQty, StringFormat='0.00'}"  Visibility="{Binding GroupQtyVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                        <TextBlock Grid.Column="2" Text="x "  Visibility="{Binding GroupQtyVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                        <TextBlock Grid.Column="3" Text="{Binding UnitPrice}"  Visibility="{Binding GroupQtyVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                        <TextBlock Grid.Column="4" Text="{Binding GrossTotal, StringFormat='0.00'}" HorizontalAlignment="Right"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <TextBlock  FontSize="30" Margin="2"   Grid.Row="2"  FontWeight="Bold" ><Run Text="{x:Static translation:UI.Sales_NetTotalLabel}"/></TextBlock>
+                        <TextBlock  Name="lblGrossTotal"  Grid.Row="2" Grid.Column="1"  FontWeight="Bold" Text="0.00"  FontSize="30"  HorizontalAlignment="Right"  Grid.ColumnSpan="2" Margin="0 0 3 0"/>
+                        <TextBlock FontSize="30" Margin="2"  Grid.Row="3" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="txtVAT"  ><Run Text="{x:Static translation:UI.Global_VAT}"/>:<LineBreak/><Run/><Run Text=":"/></TextBlock>
+                        <TextBlock  Name="lblVatTotal" Grid.ColumnSpan="2"  FontWeight="Bold" Grid.Row="3" Grid.Column="1" Text="0.00"  FontSize="30"  HorizontalAlignment="Right"  Margin="0 0 3 0" />
+                        <TextBlock FontSize="30" FontWeight="Bold" Margin="2" Grid.Row="4" VerticalAlignment="Top" Name="txtTotal" Text="{x:Static translation:UI.Sales_TotalLabel}" />
+                        <TextBlock  Name="lblTotal" Grid.ColumnSpan="2"  Grid.Row="4" Grid.Column="1" Text="0.00" FontWeight="Bold" FontSize="36"  HorizontalAlignment="Right"  Margin="0 0 3 0" />
+                        <TextBlock  Grid.Row="4" Grid.Column="2"   FontSize="36"  Name="lblCurrency" HorizontalAlignment="Left"    ></TextBlock>
+
+                        <TextBlock FontSize="30" FontWeight="Bold" Visibility="Collapsed" Margin="2" Grid.Row="5" VerticalAlignment="Top" Name="lblDiscountTotal" Text="{x:Static translation:UI.Sales_Discount}" />
+                        <TextBlock  Name="txtDiscountTotal" Grid.ColumnSpan="2" Visibility="Collapsed"  Grid.Row="5" Grid.Column="1" Text="0.00" FontWeight="Bold" FontSize="36"  HorizontalAlignment="Right"  Margin="0 0 3 0" />
+
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+        <Grid Name="SlideShowGrid">
+            <WebBrowser Name="myBrowser"/>
+        </Grid>
+        <Grid Name="QRCodeSlideShowGrid" Visibility="Collapsed">
+            <Image Name="QRCodeSlideShowGrid_Image" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        </Grid>
+    </Grid>
+</Window>

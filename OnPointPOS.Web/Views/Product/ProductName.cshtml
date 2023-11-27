@@ -1,0 +1,53 @@
+﻿@model List<ProductTextViewModel>
+
+<input type="hidden" id="hfItemId" value="@ViewBag.ItemId" />
+
+<section>
+   
+   
+
+        <div class="tray tray-center">
+            <div id="NameArea">
+
+            </div>
+
+
+            <div id="tblDiv" class="panel">
+              @Html.Partial("_NameList",Model)
+            </div>
+        </div>
+   
+
+</section>
+
+<script>
+    $(function () {
+
+            EditName(0);
+
+    });
+    function EditName(id) {
+        var itemId = $('#hfItemId').val();
+        $.ajax({
+            url: '@Url.Action("EditName", "Product")',
+            type: "GET",
+            data: { id: id, itemId: itemId },
+            success: function (result) {
+
+
+                $("#NameArea").html(result);
+            }
+        });
+    }
+    function GetList() {
+        var itemId = $('#hfItemId').val();
+        $.ajax({
+            url: '@Url.Action("_NameList", "Product")',
+            type: "GET",
+            data: { itemId: itemId },
+            success: function (result) {
+                $("#tblDiv").html(result);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,266 @@
+﻿@model List<Customer>
+@section BreadCrumb {
+	<li class="crumb-trail" id="currentpage">@Resource.Customer</li>
+
+}
+
+<section>
+
+
+	<header id="topbar" class="ph10">
+		<div class="topbar-left">
+			<ul class="nav nav-list nav-list-topbar pull-left">
+
+				<li>
+					<a href="/StoreSetting">@Resource.Global @Resource.Settings</a>
+				</li>
+
+				<li class="active">
+					<a href="/Customer">@Resource.Customer</a>
+				</li>
+				<li>
+					<a href="/Customer/Invoices">@Resource.Search @Resource.Invoices</a>
+				</li>
+				<li>
+					<a href="/Customer/GenerateInvoice">@Resource.Generate @Resource.Invoice</a>
+				</li>
+
+			</ul>
+		</div>
+		<div class="topbar-right">
+			<a class="btn btn-default btn-sm btn-gradient light fw600 mr15 mt5" data-toggle="modal" data-target="#addEditModal" id="btnAddCustomer">
+				<span class="fa fa-plus pr5"></span>
+				@Resource.Add @Resource.Customer
+			</a>
+			@*<a class="btn btn-primary btn-gradient btn-sm" style="margin-right:2px;" data-toggle='modal' data-target='#addDetailModal' onclick="AddDetail()">
+				<span class="fa fa-plus pr5"></span>
+				@Resource.Details
+			</a>*@
+		</div>
+	</header>
+
+	<div class="panel">
+		<div class="panel-body pn">
+            <div class="table-responsive">
+                
+                <table id="tbl_customer" class="table admin-form theme-warning tc-checkbox-1 fs13">
+                    <thead>
+                        <tr class="bg-light">
+
+                            <th class="">@Resource.Name</th>
+                            <th>@Resource.OrgNo</th>
+                            <th class="">@Resource.Phone</th>
+                            <th>@Resource.City</th>
+                            <th>@Resource.CustomerNo</th>
+                            <th>@Resource.Status</th>
+                            <th style="width:50px;"></th>
+                            <th style="width:50px;"></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*@foreach (var item in Model)
+                {
+                                <tr>
+
+                                    <td class="text-left">@item.Name</td>
+                                    <td class="text-left">@item.OrgNo</td>
+                                    <td class="">@item.Phone</td>
+                                    <td class="">@item.City</td>
+                                    <td class="">@item.CustomerNo</td>
+                                    <td class="">@(item.Active == true ? Resource.Active : Resource.Inactive)</td>
+                                    <td class="text-right">
+                                        <a class="btn btn-primary btn-gradient btn-sm fa fa-edit" style="margin-right:2px;" data-toggle='modal' data-target='#addEditModal' onclick="Edit('@item.Id')"> @Resource.Edit</a>
+                                        @if (item.Active)
+                                        {
+                                            <a class="btn btn-danger btn-gradient btn-sm fa fa-trash-o" style="margin-right:2px;" onclick="Delete('@item.Id')"> @Resource.Delete</a>
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-primary btn-gradient btn-sm fa fa-trash-o" style="margin-right:2px;" onclick="Restore('@item.Id')"> @Resource.Restore</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }*@
+                    </tbody>
+                </table>
+            </div>
+		</div>
+	</div>
+
+
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="addEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width:900px">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">@Resource.Edit @Resource.Customer</h4>
+			</div>
+			<div class="modal-body" id="createcustomer">
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-gradient" data-dismiss="modal"><span class="fa fa-times"></span> @Resource.close</button>
+				<button type="button" id="btnSave" class="btn btn-primary btn-gradient mr10"><span class="fa fa-upload"></span>  @Resource.Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="addDetailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width:400px">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">@Resource.Customer @Resource.Details</h4>
+			</div>
+			<div class="modal-body" id="customerdetail">
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-gradient" data-dismiss="modal"><span class="fa fa-times"></span> @Resource.close</button>
+				<button type="button" id="btnSaveDetail" class="btn btn-primary btn-gradient mr10"><span class="fa fa-upload"></span>  @Resource.Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+
+    $(document).ready(function () {
+
+        $('#tbl_customer').dataTable({
+            "bJQueryUI": true,
+
+     	"bServerSide": true,
+        "sAjaxSource": "Customer/AjaxHandler?status=1",
+        "bProcessing": true,
+        "aoColumns": [
+                        { "sName": "Name", "orderable" : true },
+                        { "sName": "OrgNo", "orderable" : true  },
+                        { "sName": "Phone", "orderable" : true  },
+                        { "sName": "City", "orderable" : true  },
+                        { "sName": "CustomerNo", "orderable" : true  },
+                        { "sName": "Status" },
+                        { "sName": " " },
+                        { "sName": " " }
+                    ],
+            "info": true,   // control table information display field
+            "stateSave": true,  //restore table state on page reload,
+            "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]], "oLanguage": {
+                "oPaginate": {
+                    "sPrevious": " ",
+                    "sNext": " "
+                }
+            },
+            "order": [[0, "asc"]],
+            "iDisplayLength": 5,
+            "aLengthMenu": [
+              [5, 10, 25, 50, -1],
+              [5, 10, 25, 50, "All"]
+            ],
+            "sDom": '<"dt-panelmenu clearfix"lfr>t<"dt-panelfooter clearfix"ip>'
+        });
+    });
+
+
+
+    function buttonize(cellvalue) {
+
+        return '<a  style="margin-right:2px;float:right;color: white;" title="Delete"  class="btn bg-red fa fa-trash-o" onclick="Delete(' + cellvalue+ ')"> Delete</a>' +
+             '<a   style="margin-right:2px;float:right;color: white;" title="Edit" class="btn bg-purple fa fa-edit" onclick="Edit(' + cellvalue + ')"> Edit</a>';
+    }
+
+    $(function () {
+
+        var html = '<a href="/Customer">Customer</a>'
+        $('#dsh').html(html);
+
+        $('#customer').addClass('active');
+        $('#Settings').addClass('active');
+        if (!$('#menuStoreSettings').hasClass('menu-open')) {
+
+            $('#menuStoreSettings').attr('style', '').toggleClass('menu-open');
+        }
+        $('#btnAddCustomer').click(function () {
+
+            $.ajax({
+                url: '@Url.Action("Create", "Customer")',
+                type: "GET",
+                success: function (result) {
+                    $("#createcustomer").html(result);
+
+                }
+            });
+        });
+    });
+    function Edit(id) {
+        var url ='/Customer/Create?id='+id;
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function (result) {
+                $("#createcustomer").html(result);
+
+            }
+        });
+
+    }
+function EditDetail(id)
+    {
+         var url ='/Customer/_customerDetail?id='+id;
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                    $("#customerdetail").html(result);
+
+                }
+            });
+        }
+
+    function AddDetail()
+    {
+         var url ='/Customer/_customFields';
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                    $("#customerdetail").html(result);
+
+                }
+            });
+        }
+
+    function Delete(id) {
+        if (confirm("Are you sure to delete customer?")) {
+            var url = '/Customer/Delete?id=' + id;
+            $.ajax({
+                url: url,
+                type: "POST",
+                success: function (result) {
+                    alert(result.Message);
+                    window.location.reload();
+                }
+            });
+        }
+    }
+     function Restore(id) {
+        if (confirm("Are you sure to restore customer?")) {
+            var url = '/Customer/Restore?id=' + id;
+            $.ajax({
+                url: url,
+                type: "POST",
+                success: function (result) {
+                    alert(result.Message);
+                    window.location.reload();
+                }
+            });
+        }
+    }
+</script>
+

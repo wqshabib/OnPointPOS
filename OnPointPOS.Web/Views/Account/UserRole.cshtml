@@ -1,0 +1,131 @@
+﻿@model IEnumerable<RoleViewModel>
+
+@{
+    ViewBag.Title = "UserRole";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section BreadCrumb {
+    <li class="crumb-link" id="indexpage"><a href="/Account/Index" class="ajax-disable"> User</a></li>
+    <li class="crumb-trail" id="currentpage">Assign Role</li>
+}
+
+    <input type="hidden" id="userid" value="@ViewBag.Id" />
+
+
+<div class="alert alert-success" style="display:none;" id="msgDiv"></div>
+<div class="alert alert-danger" style="display:none;" id="divError"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-visible">
+            <div class="panel-heading">
+                <div class="panel-title hidden-xs"> <span class="glyphicon glyphicon-tasks"></span> Users @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default btn-xs  pull-right", @style = "margin:10px 20px 0px 5px" })  <a class="btn btn-default btn-xs  pull-right" style="margin:10px 0px 0px 5px" id="btnEditRole">Save</a></div>
+            </div>
+            <div class="panel-body pbn">
+                <table class="table table-striped table-bordered table-hover" id="myTable" role="grid" aria-describedby="datatable_info">
+                    <thead>
+                        <tr role="row">
+
+
+                            <th>Role</th>
+                            <th>
+
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td style="display:none">@item.Id</td>
+                                <td style="width: 200px;">@item.Name</td>
+                                <td style="width: 70px;">
+                                    <input type="checkbox" @(Html.Raw(item.IsSelected ? "checked=\"checked\"" : "")) style="width:50px" />
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+@section scripts{
+    <script>
+        $(function () {
+          
+            
+
+
+            var html = '<a href="/Account">Users</a>'
+            $('#dsh').html(html);
+
+            $('#administration').addClass('active');
+            if (!$('#menuadmin').hasClass('menu-open')) {
+
+                $('#menuadmin').attr('style', '').toggleClass('menu-open');
+            }
+
+            $("#btnEditRole").click(function () {
+                userid = $("#userid").val();
+                var permissions = [];
+
+                $('#myTable tbody tr').map(function () {
+                    // $(this) is used more than once; cache it for performance.
+                    var $row = $(this);
+                    selected = $row.find(':nth-child(3)').find('input[type=checkbox]').is(":checked");
+
+                    viewModel =
+                            {
+                                Id: $row.find(':nth-child(1)').text(),
+                                Name: $row.find(':nth-child(2)').text(),
+                                UserId: userid,
+                                IsSelected: selected
+                            };
+
+                    permissions.push(viewModel);
+
+
+                });
+                SaveData(permissions);
+            });
+
+        });
+
+        function SaveData(permissions) {
+
+            $.ajax({
+                url: '@Url.Action("SaveRoles", "Account")',
+                data: JSON.stringify(permissions),
+                contentType: "application/json",
+                type: 'POST',
+
+                success: function (result) {
+
+                    $("#msgDiv").show();
+                    $('#msgDiv').html(result.Message);
+                    var tId;
+
+                    $("#msgDiv").hide().slideDown();
+                    clearTimeout(tId);
+                    tId = setTimeout(function () {
+                        $("#msgDiv").hide();
+                               
+
+                         window.location = '@Url.Action("Index","Account")';
+                    }, 1500);
+
+                }, error: function (e) {
+                    alert('request failed');
+                }
+            });
+        }
+
+
+    </script>
+}

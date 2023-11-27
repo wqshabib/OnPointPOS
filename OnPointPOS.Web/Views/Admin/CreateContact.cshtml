@@ -1,0 +1,241 @@
+﻿@model ContactViewModel
+    @{
+        ViewBag.Title = "Create";
+        // Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+
+    <div class="mt25">
+        <div class="panel">
+            <div class="panel-heading">
+                <span id="addEditLabel" class="panel-title"> @Resource.Add @Resource.Contact</span>
+            </div>
+            <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+            <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+
+            <div class="panel-body">
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.CompanyId)
+                <div class="admin-form">
+                    <div class="section row">
+                        <div class="col-md-6 pn">
+                            <div class="form-group">
+                                <div class="col-md-3 text-right">
+                                    <label class="control-label pt10">@Resource.First @Resource.Name </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="field prepend-icon" data-toggle="tooltip">
+                                        @Html.TextBoxFor(model => model.FirstName, new { @class = "event-name gui-input br-light light", @placeholder = Resource.First + " " + Resource.Name })
+                                        <label class="field-icon">
+                                            <i class="fa fa-user"></i>
+                                        </label>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pn">
+                            <div class="form-group">
+                                <div class="col-md-3 text-right">
+                                    <label class="control-label pt10"> @Resource.Last @Resource.Name  </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="field prepend-icon" data-toggle="tooltip">
+                                        @Html.TextBoxFor(model => model.LastName, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Last + " " + Resource.Name })
+                                        <label class="field-icon">
+                                            <i class="fa fa-map-marker"></i>
+                                        </label>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="section row">
+                        <div class="col-md-6 pn">
+                            <div class="form-group">
+                                <div class="col-md-3 text-right pln">
+                                    <label class="control-label pt10"> @Resource.Email </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="field prepend-icon" data-toggle="tooltip">
+                                        @Html.TextBoxFor(model => model.Email, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Email })
+                                        <label class="field-icon">
+                                            <i class="fa fa-building-o"></i>
+                                        </label>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pn">
+                            <div class="form-group">
+                                <div class="col-md-3 text-right">
+                                    <label class="control-label pt10"> @Resource.Phone </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="field prepend-icon" data-toggle="tooltip">
+                                        @Html.TextBoxFor(model => model.Phone, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Phone })
+                                        <label class="field-icon">
+                                            <i class="fa fa-certificate"></i>
+                                        </label>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="section row" style="display:none;">
+                        <div class="col-md-6 pn">
+                            <div class="form-group">
+                                <div class="col-md-3 text-right">
+                                    <label class="control-label pt10"> @Resource.User @Resource.Name </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="field prepend-icon" data-toggle="tooltip">
+                                        @Html.TextBoxFor(model => model.Username, new { @class = "event-name gui-input br-light light", @placeholder = Resource.User + " " + Resource.Name })
+                                        <label class="field-icon">
+                                            <i class="fa fa-building-o"></i>
+                                        </label>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pn">
+                            <div class="form-group">
+                                <div class="col-md-3 text-right">
+                                    <label class="control-label pt10"> @Resource.Password </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="field prepend-icon" data-toggle="tooltip">
+                                        @Html.TextBoxFor(model => model.Password, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Password })
+                                        <label class="field-icon">
+                                            <i class="fa fa-building-o"></i>
+                                        </label>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="section row">
+                        <div class="col-md-12 pn">
+                            <div class="form-group">
+                                <div class="col-md-2 text-right">
+                                    <label class="control-label pt10">@Resource.Notes </label>
+                                </div>
+                                <div class="col-md-10">
+                                    <label class="field prepend-icon" data-toggle="tooltip">
+                                        @Html.TextAreaFor(model => model.Notes, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Notes })
+                                        <label class="field-icon">
+                                            <i class="fa fa-building-o"></i>
+                                        </label>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+            <div class="panel-footer clearfix">
+                <div class="pull-right">
+                    <button type="button" id="btnSave" class="btn btn-primary btn-gradient mr40">
+                        <span class="fa fa-upload"></span> @Resource.Save
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $('#btnSave').click(function () {
+
+                $("#divError").html('');
+                $("#divError").hide('');
+
+                if ($('#FirstName').val() == '') {
+
+                    $("#divError").html("@Resource.Specify @Resource.First @Resource.Name.");
+                    $("#divError").show();
+                    $('#FirstName').focus();
+                    return;
+                }
+                if ($('#LastName').val() == '') {
+
+                    $("#divError").html("@Resource.Specify @Resource.First @Resource.Name.");
+                    $("#divError").show();
+                    $('#FirstName').focus();
+                    return;
+                }
+                var data = {
+                    Id: $('#Id').val(),
+                    CompanyId: $('#CompanyId').val(),
+                    FirstName: $('#FirstName').val(),
+                    LastName: $('#LastName').val(),
+                    Email: $('#Email').val(),
+                    Phone: $('#Phone').val(),
+                    UserName: $('#UserName').val(),
+                    Password: $('#Password').val(),
+                    Notes: $('#Notes').val()
+
+                };
+
+                $.ajax({
+                    url: '@Url.Action("CreateContact", "Admin")',
+                    type: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function (result) {
+                        var res = result.Message;
+                        var arr = res.split(':');
+                        if (arr[0] == "Success") {
+                            $("#messageBox").show();
+                            $('#messageBox').html(arr[1]);
+                            var tId;
+
+                            $("#messageBox").hide().slideDown();
+                            clearTimeout(tId);
+                            tId = setTimeout(function () {
+                                $("#messageBox").hide();
+                                window.location = '/Admin/Contacts?id=' + $('#CompanyId').val();
+
+                            }, 2000);
+                        }
+                        else {
+                            $("#divError").show();
+                            $('#divError').html(arr[1]);
+                            var tId;
+
+                            $("#divError").hide().slideDown();
+                            clearTimeout(tId);
+                            tId = setTimeout(function () {
+                                $("#divError").hide();
+
+
+                            }, 2000);
+                        }
+
+                        // $("#PartialProductList").html(result);
+
+                    }
+                });
+            });
+
+
+
+
+        });
+    </script>

@@ -1,0 +1,267 @@
+﻿@model ReportViewModel
+@using Microsoft.AspNet.Identity
+@using System.Web.Mvc
+
+<style>
+    .btn-dark {
+        background-color: #008080 !important;
+    }
+
+    .btn-dark:hover {
+        background-color: #5babab !important;
+    }
+</style>
+
+<section id="">
+    <!-- Start: Topbar -->
+    <header id="topbar" class="ph10 hidden-xs">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+                <li class="active">
+                    <a href="/Home/Index">@Resource.Dashboard</a>
+                </li>
+                <li>
+                    <a href="/Product/Index">@Resource.lblProducts</a>
+                </li>
+
+                <li>
+                    <a href="/Category/Index">@Resource.Categories</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <!-- End: Topbar -->
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center pln prn">
+
+            <!-- dashboard tiles -->
+            <div class="row">
+                <div class="col-sm-6 col-xl-6 col-xs-12">
+                    <div class="panel  text-center">
+                        @Html.Partial("DailySale", Model.DailySale)
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-6 col-xs-12">
+                    <div class="panel panel-tile text-center">
+                        @Html.Partial("MonthlySale", Model.MonthlySale)
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- dashboard metric chart -->
+            <div class="panel" style="display:none;">
+                <div class="panel-heading">
+                    <span class="panel-title"> @Resource.Revenue</span>
+                </div>
+                <div class="panel-body pn">
+                    <div id="ecommerce_chart1" style="height: 300px;"></div>
+                </div>
+            </div>
+
+            <!-- recent activity table -->
+            <div class="panel">
+                <div class="panel-heading" style="height: 46px !important; ">
+                    <div class="col-sm-6" style="padding-top: 5px !important;">
+                        <span class="panel-title hidden-xs"> @Resource.TopSoldProduct</span>
+                    </div>
+                    <div class="col-sm-6" style="padding-top: 3px !important;">
+                        <div class="btn-group" style="float: right">
+                            <button class="btn btn-dark" onclick="GetTopProductSold('Day')" id="dayTopProductSoldBtn">Day</button>
+                            <button class="btn btn-dark" onclick="GetTopProductSold('Week')" id="weekTopProductSoldBtn">Week</button>
+                            <button class="btn btn-dark active" onclick="GetTopProductSold('Month')" id="monthTopProductSoldBtn">Monthy</button>
+                            <button class="btn btn-dark" onclick="GetTopProductSold('Year')" id="yearTopProductSoldBtn">Year</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="panel-body pn">
+                    <div class="table-responsive" id="divTopProductsSold">
+                        @Html.Partial("TopProductsSold", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end: .tray-center -->
+    </section>
+    <!-- End: Content -->
+</section>
+
+
+<aside id="sidebar_right" class="nano affix">
+
+    <!-- Start: Sidebar Right Content -->
+    <div class="sidebar-right-content nano-content p15">
+        <h5 class="title-divider text-muted mb20">
+            Server Statistics
+            <span class="pull-right">
+                2013
+                <i class="fa fa-caret-down ml5"></i>
+            </span>
+        </h5>
+        <div class="progress mh5">
+            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 44%">
+                <span class="fs11">DB Request</span>
+            </div>
+        </div>
+        <div class="progress mh5">
+            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 84%">
+                <span class="fs11 text-left">Server Load</span>
+            </div>
+        </div>
+        <div class="progress mh5">
+            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 61%">
+                <span class="fs11 text-left">Server Connections</span>
+            </div>
+        </div>
+        <h5 class="title-divider text-muted mt30 mb10">Traffic Margins</h5>
+        <div class="row">
+            <div class="col-xs-5">
+                <h3 class="text-primary mn pl5">132</h3>
+            </div>
+            <div class="col-xs-7 text-right">
+                <h3 class="text-success-dark mn">
+                    <i class="fa fa-caret-up"></i> 13.2%
+                </h3>
+            </div>
+        </div>
+        <h5 class="title-divider text-muted mt25 mb10">Database Request</h5>
+        <div class="row">
+            <div class="col-xs-5">
+                <h3 class="text-primary mn pl5">212</h3>
+            </div>
+            <div class="col-xs-7 text-right">
+                <h3 class="text-success-dark mn">
+                    <i class="fa fa-caret-up"></i> 25.6%
+                </h3>
+            </div>
+        </div>
+        <h5 class="title-divider text-muted mt25 mb10">Server Response</h5>
+        <div class="row">
+            <div class="col-xs-5">
+                <h3 class="text-primary mn pl5">82.5</h3>
+            </div>
+            <div class="col-xs-7 text-right">
+                <h3 class="text-danger mn">
+                    <i class="fa fa-caret-down"></i> 17.9%
+                </h3>
+            </div>
+        </div>
+        <h5 class="title-divider text-muted mt40 mb20">
+            Server Statistics
+            <span class="pull-right text-primary fw600">USA</span>
+        </h5>
+    </div>
+
+</aside>
+
+
+@section scripts {
+    <script>
+
+        $(function () {
+
+            $('#Dashboard').addClass('active');
+
+        });
+
+    </script>
+
+
+
+    <script>
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("myTable");
+            switching = true;
+            //Set the sorting direction to ascending:
+            dir = "asc";
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                /*Loop through all table rows (except the
+                first, which contains table headers):*/
+                for (i = 1; i < (rows.length - 1); i++) {
+                    //start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /*Get the two elements you want to compare,
+                    one from current row and one from the next:*/
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    /*check if the two rows should switch place,
+                    based on the direction, asc or desc:*/
+                    if (dir == "asc") {
+                        var cmpX = isNaN(parseInt(x.innerHTML)) ? x.innerHTML.toLowerCase() : parseInt(x.innerHTML);
+                        var cmpY = isNaN(parseInt(y.innerHTML)) ? y.innerHTML.toLowerCase() : parseInt(y.innerHTML);
+                    if (cmpX > cmpY){
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        var cmpX = isNaN(parseInt(x.innerHTML)) ? x.innerHTML.toLowerCase() : parseInt(x.innerHTML);
+                        var cmpY = isNaN(parseInt(y.innerHTML)) ? y.innerHTML.toLowerCase() : parseInt(y.innerHTML);
+                        if (cmpX < cmpY) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    /*If a switch has been marked, make the switch
+                    and mark that a switch has been done:*/
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    //Each time a switch is done, increase this count by 1:
+                    switchcount++;
+                } else {
+                    /*If no switching has been done AND the direction is "asc",
+                    set the direction to "desc" and run the while loop again.*/
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+
+        function GetTopProductSold(timeSpan) {
+            console.log(timeSpan)
+            if (timeSpan == 'Day') {
+                $("#dayTopProductSoldBtn").addClass('active');
+                $("#weekTopProductSoldBtn").removeClass('active');
+                $("#monthTopProductSoldBtn").removeClass('active');
+                $("#yearTopProductSoldBtn").removeClass('active');
+            } else if (timeSpan == 'Week') {
+                $("#dayTopProductSoldBtn").removeClass('active');
+                $("#weekTopProductSoldBtn").addClass('active');
+                $("#monthTopProductSoldBtn").removeClass('active');
+                $("#yearTopProductSoldBtn").removeClass('active');
+            } else if (timeSpan == 'Month') {
+                $("#dayTopProductSoldBtn").removeClass('active');
+                $("#weekTopProductSoldBtn").removeClass('active');
+                $("#monthTopProductSoldBtn").addClass('active');
+                $("#yearTopProductSoldBtn").removeClass('active');
+            } else {
+                $("#dayTopProductSoldBtn").removeClass('active');
+                $("#weekTopProductSoldBtn").removeClass('active');
+                $("#monthTopProductSoldBtn").removeClass('active');
+                $("#yearTopProductSoldBtn").addClass('active');
+            }
+
+            $.ajax({
+                url: "@Url.Action("GetTopProductsSoldByTimeSpan", "Home")",
+                type:'Get',
+                data: { timeSpan: timeSpan },
+                success: function (response) {
+                    $('#divTopProductsSold').html("");
+                    $('#divTopProductsSold').html(response);
+                }
+            });
+        }
+    </script>
+
+}
+

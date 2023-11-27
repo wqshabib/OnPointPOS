@@ -1,0 +1,62 @@
+﻿<Window x:Class="POSSUM.Views.PrintOrder.PrintCloseTerminalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:translation="clr-namespace:POSSUM.Res"
+        Title="PrintWindow" WindowStartupLocation="CenterScreen" Style="{StaticResource PrintWindowStyle}" Width="400">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <FlowDocumentReader Grid.Row="1" Name="FlowDocumentReader" ViewingMode="Scroll">
+            <FlowDocument x:Name="flowDocument" Style="{StaticResource PrintFlowDocument}" FontFamily="Courier New"
+                          FontSize="14" FontWeight="Black">
+                <Paragraph>
+                    <Grid x:Name="gdMain" Width="350" Margin="-10,20,0,20" HorizontalAlignment="Left">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="15" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Image Name="logoImage" Grid.ColumnSpan="2" 
+                               Stretch="Fill" Height="50" Width="300" />
+                        <TextBlock Name="lblHeader" Grid.ColumnSpan="2" Visibility="Collapsed"
+                                   Style="{StaticResource PrintStoreTitle}" />
+                        <TextBlock Text="" Visibility="Collapsed" Grid.Row="1" Grid.ColumnSpan="2"
+                                   Name="lblInvoiceType" Margin="5" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static translation:UI.Report_OrgNo}"
+                                   Margin="2" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="2" Grid.Column="1" Name="textBlock4" Text="{Binding Path=OrgNo}"
+                                   VerticalAlignment="Top" Margin="2" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="{x:Static translation:UI.Report_Address}"
+                                   Margin="2" VerticalAlignment="Top" />
+                        <TextBlock Grid.Row="3" Grid.Column="1" Name="txtAddress" TextWrapping="Wrap" Width="260"
+                                   Text="{Binding Path=Address}" Margin="2" VerticalAlignment="Top" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="{x:Static translation:UI.Report_Phone}"
+                                   Margin="2" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="4" Grid.Column="1" Name="txtPhoneno" Text="{Binding Path=Phone}"
+                                   Margin="2" />
+                        <TextBlock Grid.Row="5" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left"
+                                   Name="txtDescription" Margin="2" FontSize="12" />
+                        <!--Fake Line Printing to give space in the end-->
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="." Margin="15" FontSize="5" Foreground="#F7F6F6"
+                                   FontWeight="Light" />
+                    </Grid>
+                </Paragraph>
+            </FlowDocument>
+        </FlowDocumentReader>
+        <StackPanel Orientation="Horizontal" Grid.Row="2">
+            <Button Content="Print" Name="btnPrint" Width="75" Height="30" Click="Print_Click" Margin="5" />
+            <Button Content="Cancel" Name="btnCancel" Width="75" Height="30" Click="Button_Click" Margin="5" />
+        </StackPanel>
+    </Grid>
+</Window>

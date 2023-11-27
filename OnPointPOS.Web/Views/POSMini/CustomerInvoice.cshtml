@@ -1,0 +1,278 @@
+﻿
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+                <li class="active">
+                    <a href="/POSMini/CustomerInvoice">@Resource.ScannerOrders</a>
+                </li>
+            </ul>
+        </div>
+
+    </header>
+    <div id="wait" class="btn-default btn-gradient" style="display:none;width: 80px; height: 80px; position: absolute; top: 50%; left: 50%; z-index: 999999999; border-radius: 8px; border: 1px solid rgb(204, 204, 204); padding: 0px;">
+        <img src='~/Content/img/progress.gif' width="80" height="80" />
+    </div>
+
+    <div class="panel" style="padding: 0; margin: 0 0 10px">
+        <div class="panel-heading">
+            <span class="panel-title">
+                <span class="glyphicon glyphicon-print" id="pd"></span>@Resource.ScannerOrders
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+            <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+            <div class="row">
+
+                <div class="col-sm-2 col-xl-2">
+                    <label class="pull-left mt10 mb10">
+                        @Resource.Report_From:
+                    </label>
+                    <input type='text' id="txtdtFrom" class="form-control datepicker" />
+
+
+                </div>
+
+                <div class="col-sm-2 col-xl-2">
+                    <label class="pull-left mt10 mb10">
+                        @Resource.Report_To:
+                    </label>
+                    <input type='text' id="txtdtTo" class="form-control datepicker" />
+
+
+                </div>
+
+                <div class="col-sm-5 col-xl-2" style="display:none">
+
+                    <label class="pull-left mt10 mb10">
+                        @Resource.Customer
+                    </label>
+
+                    <select name="rest" class="select2-single form-control" id="cmbCustomer">
+                        <option value="00000000-0000-0000-0000-000000000000">@Resource.Select</option>
+                    </select>
+
+                </div>
+                <div class="pull-left mt40">
+                    <a class="btn btn-primary pull-left mr10" data-placement="bottom" title="Print" style="cursor: pointer; padding: 7px 12px 8px; " id="btnView">
+                        @Resource.Show
+                    </a>
+                    <a class="btn btn-primary pull-left mr10" data-placement="bottom" title="Print" style="cursor: pointer; padding: 7px 12px 8px; " id="btnGenerate">
+                        @Resource.ReadyOrder
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="Invoicediv" class="panel">
+
+    </div>
+
+
+
+</section>
+
+
+@section scripts {
+
+    <script>
+         $(document).ajaxStart(function () {
+            $("#wait").css("display", "block");
+        });
+        $(document).ajaxComplete(function () {
+            $("#wait").css("display", "none");
+        });
+       $(function () {
+           $('#POSMiniCustomerInvoice').addClass('active');
+           $('#POSMini').addClass('active');
+
+           if (!$('#menuPOSMini').hasClass('menu-open')) {
+               $('#menuPOSMini').attr('style', '').toggleClass('menu-open');
+           }
+           
+
+            $("#txtdtFrom").datepicker({ dateFormat: 'yy-mm-dd' });
+            $('.selector').datepicker({ dateFormat: 'yy-mm-yy' });
+            $("#txtdtTo").datepicker();
+
+            $(".selector").datepicker({
+                altFormat: "yy-mm-dd"
+            });
+
+            $('#txtdtFrom').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
+
+            $('#txtdtTo').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
+            var currentTime = new Date();
+            var day = currentTime.getDate();
+            var month = currentTime.getMonth() + 1;
+            var year = currentTime.getFullYear();
+
+            if (day < 10) {
+                day = "0" + day;
+            }
+            if (month < 10) {
+                month = "0" + month;
+            }
+
+            var dt = year + "-" + month + "-" + day;
+            $('#txtdtFrom').val(dt);
+            $('#txtdtTo').val(dt);
+
+           FillCustomers();
+           GetInvoiceList();
+            $("#cmbCustomer").change(function () {
+                GetInvoiceList();
+            });
+           $("#btnView").click(function (){
+
+            GetInvoiceList();
+                   });
+
+          $("#btnGenerate").click(function (){
+
+            GenerateInvoice();
+                   });
+        });
+        function GetInvoiceList() {
+
+
+        var customerId= $("#cmbCustomer").val();
+          var dtFrom=  $("#txtdtFrom").val();
+          var dtTo=  $("#txtdtTo").val();
+            $.ajax({
+                url: '@Url.Action("_partialPendingInvoices", "POSMini")',
+                type: "Get",
+                data: {customerId:customerId,dtFrom:dtFrom,dtTo:dtTo },
+                success: function (_d) {
+                    $('#Invoicediv').html(_d);
+                }
+            });
+        }
+        function GenerateInvoice() {
+
+
+
+        var tableObject = [];
+
+        var id = "";
+            $('#tbl_invoices tbody tr').map(function() {
+                // $(this) is used more than once; cache it for performance.
+
+                var $row = $(this);
+
+
+                if ($row.find(':nth-child(1)').find('input[type=checkbox]').is(":checked")) {
+                 id=id+$row.find(':nth-child(1)').attr('id')+",";
+        // tableObject.push(id);
+
+                }
+
+
+
+
+            });
+        if(id=="")
+        {
+        alert('Select any order to ready for generate invoice');
+        return;
+        }
+            //var person = prompt("Please enter remarks", "Invoice");
+      var person = "";
+        var customerId= $("#cmbCustomer").val();
+          var dtFrom=  $("#txtdtFrom").val();
+          var dtTo=  $("#txtdtTo").val();
+            $.ajax({
+                url: '@Url.Action("GenerateCustomerInvoice", "PosMini")',
+                type: "Get",
+                data: {ids:id, customerId: customerId,remanrks:person },
+                success: function (_d) {
+                  var res = _d.Message;
+                    var arr = res.split(':');
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                          GetInvoiceList();
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+                }
+            });
+        }
+        function FillCustomers() {
+
+            $.ajax({
+                url: '@Url.Action("GetInvoicedCustomers", "PosMini")',
+                type: "Get",
+                success: function (_d) {
+                    $('#cmbCustomer').html('');
+                    var $select = $("#cmbCustomer");
+                    $.each(_d, function (i, item) {
+
+                        $('<option>', {
+                            value: item.Id
+                        }).html(item.Name).appendTo($select);
+                    });
+
+                }
+            });
+        }
+         function FillTerminal() {
+
+            $.ajax({
+                url: '@Url.Action("FillTerminal", "Report")',
+                type: "Get",
+                success: function (_d) {
+                    $('#cmbTerminal').html('');
+                    var $select = $("#cmbTerminal");
+                    $.each(_d, function (i, item) {
+
+                        $('<option>', {
+                            value: item.Id
+                        }).html(item.Name).appendTo($select);
+                    });
+
+                }
+            });
+        }
+
+
+    </script>
+
+}
+
+
+
+

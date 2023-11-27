@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "Update Prices";
+}
+<section>
+
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+                <li >
+                    <a href="/Product">@Resource.lblProducts</a>
+                </li>
+                <li class="active">
+                    <a href="/Product/UpdatePrices">@Resource.Update @Resource.Price</a>
+                </li>
+                
+            </ul>
+        </div>
+       
+
+    </header>
+    <div class="pt25">
+
+        <div class="tray tray-center">
+
+
+
+            <div class="panel-menu p12 admin-form theme-primary">
+                <div class="row">
+                    
+
+                    <div class="col-md-5 col-sm-5 pull-right">
+                        <select id="filter-category" name="filter-category" class="select2-single form-control">
+                            <option value="0">@Resource.Filterby  @Resource.Category</option>
+                        </select>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="PartialProductList" style="margin-bottom:50px;">
+
+            </div>
+        </div>
+    </div>
+
+</section>
+@section scripts {
+    <script>
+        $(function () {
+            var html = '<a href="/Product">Products</a>';
+            $('#dsh').html(html);
+
+            $('#Cataglog').addClass('active');
+            $('#productsprice').addClass('active');
+
+            if (!$('#menuCatalog').hasClass('menu-open')) {
+
+                $('#menuCatalog').attr('style', '').toggleClass('menu-open');
+            }
+
+            $.ajax({
+                url: '@Url.Action("GetItemCategories", "Product")',
+                type: "GET",
+
+                success: function (result) {
+                    var $select = $("#filter-category");
+                    $.each(result, function (i, item) {
+
+                        $('<option>', {
+                            value: item.CategoryId
+                        }).html(item.Name).appendTo($select);
+                    });
+
+
+                }
+            });
+
+            $("#filter-category").change(function () {
+
+                GetProductByCategory($('#filter-category').val());
+
+            });
+
+        });
+
+
+        function GetProductByCategory(catid) {
+
+            $.ajax({
+                url: '@Url.Action("_updatePrices", "Product")',
+                type: "GET",
+                data: { catid: catid },
+                success: function (result) {
+                    $('#PartialProductList').html(result);
+                   
+                }
+            });
+        }
+    </script>
+
+}

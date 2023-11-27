@@ -1,0 +1,193 @@
+﻿@model List<SettingViewModel>
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.Global @Resource.Settings</li>
+
+}
+
+<section>
+
+
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+
+                <li class="active">
+                    <a href="/StoreSetting">@Resource.Global @Resource.Settings</a>
+                </li>
+
+                <li>
+                    <a href="/Terminal">@Resource.Terminals</a>
+                </li>
+
+                <li>
+                    <a href="/Outlet">@Resource.Outlets</a>
+                </li>
+
+            </ul>
+        </div>
+        <div class="topbar-right">
+            <a class="btn btn-default btn-gradient btn-sm light fw600 mr15 mt5" href="#" data-toggle="modal" data-target="#addEditModal"   onclick="document.getElementById('myModalLabel').innerHTML = 'Add setting'" id="btnAddSetting">
+                <span class="fa fa-plus pr5"></span>
+                @Resource.Add @Resource.Settings
+            </a>
+        </div>
+    </header>
+
+    <div class="pt25">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center">
+
+
+            <div class="panel">
+                <div class="panel-body pn">
+                    <div class="table-responsive">
+                        <table id="global_settings" class="table admin-form theme-warning tc-checkbox-1 fs13">
+                            <thead>
+                                <tr class="bg-light">
+                                    
+                                    <th class="">@Resource.Description</th>
+                                    <th class="">@Resource.Code</th>
+                                    <th class="">@Resource.Value</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                       
+                                        <td>@item.Description</td>
+                                        <td>@item.Code</td>
+                                        <td>@item.Value</td>
+                                        <td class="text-right" style="width: 80px;">
+                                            <button class="btn btn-primary btn-sm btn-gradient fa fa-edit" data-toggle="modal" data-target="#addEditModal" onclick="Edit(@item.Id)" type="button"> @Resource.Edit </button>
+                                        </td>
+                                        <td class="text-right" style="width: 80px;">
+                                            <button class="btn btn-danger btn-sm btn-gradient fa fa-trash-o" onclick="Delete(@item.Id);" type="button"> @Resource.Delete </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- Modal -->
+<div class="modal fade" id="addEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@Resource.Edit @Resource.Settings</h4>
+            </div>
+            <div class="modal-body" id="createsetting">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-gradient" data-dismiss="modal"><span class="fa fa-times"></span> @Resource.close</button>
+                <button type="button" id="btnSave" class="btn btn-primary btn-gradient mr10"><span class="fa fa-upload"></span>  @Resource.Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+
+    <script>
+        $(document).ready(function () {
+           // $('#global_settings').DataTable();
+        });
+        $(function () {
+
+            var html = '<a href="/StoreSetting">Global Settings</a>'
+            $('#dsh').html(html);
+
+            $('#globalSetting').addClass('active');
+            $('#Settings').addClass('active');
+            if (!$('#menuStoreSettings').hasClass('menu-open')) {
+
+                $('#menuStoreSettings').attr('style', '').toggleClass('menu-open');
+            }
+
+            $('#btnAddSetting').click(function () {              
+
+                $.ajax({
+                    url: '@Url.Action("Create", "StoreSetting")',
+                    type: "GET",
+                    success: function (result) {                       
+                        $("#createsetting").html(result);
+
+                    }
+                });
+            });
+
+        });
+        function Edit(id) {           
+           
+            $.ajax({
+                url: '@Url.Action("Create", "StoreSetting")',
+                type: "GET",
+                data: { id: id },
+                success: function (result) {                  
+                    $("#createsetting").html(result);
+
+                }
+            });
+        }
+        function Delete(id) {
+            if (confirm("@Resource.DeleteConfMsg")) {
+                $.ajax({
+                    url: '@Url.Action("DeleteSetting", "StoreSetting")',
+                    type: "Post",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ id: id }),
+                    success: function (result) {
+                        var res = result.Message;
+                        var arr = res.split(':');
+                        if (arr[0] == "Success") {
+                            alert(arr[1]);
+                            window.location = '/StoreSetting'
+                        }
+                        else
+                            alert(arr[1]);
+
+                    }
+                });
+            }
+        }
+    </script>
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

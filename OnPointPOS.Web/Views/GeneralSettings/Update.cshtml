@@ -1,0 +1,538 @@
+﻿@model AllSettingsViewModel
+
+<div class="panel">
+    <div class="panel-heading">
+        <span id="addEditLabel" class="panel-title"> @Resource.Update  @Resource.Settings</span>
+    </div>
+    <div class="panel-body">
+        <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+        <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+        <div class="admin-form">
+            <div class="section row">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-5 text-right">
+                            <label class="control-label pt10"> @Resource.AccountNumber </label>
+                        </div>
+                        <div class="col-md-7">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.AccountNumber, new { @class = "event-name gui-input br-light light", @placeholder = @Resource.AccountNumber })
+                                <label class="field-icon">
+                                    <i class="fa fa-star-o"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-5 text-right pln">
+                            <label class="control-label pt10"> @Resource.PaymentReceiverName </label>
+                        </div>
+                        <div class="col-md-7">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.PaymentReceiverName, new { @class = "event-name gui-input br-light light", @placeholder = @Resource.PaymentReceiverName })
+                                <label class="field-icon">
+                                    <i class="fa fa-star-o"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section row">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-5 text-right pln">
+                            <label class="control-label pt10"> @Resource.InvoiceReference </label>
+                        </div>
+                        <div class="col-md-7">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.InvoiceReference, new { @class = "event-name gui-input br-light light", @placeholder = @Resource.InvoiceReference })
+                                <label class="field-icon">
+                                    <i class="fa fa-star-o"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="section row">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-5 text-right pln">
+                            <label class="control-label pt10"> @Resource.Email </label>
+                        </div>
+                        <div class="col-md-7">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.Email, new { @class = "event-name gui-input br-light light", @placeholder = @Resource.Email })
+                                <label class="field-icon">
+                                    <i class="fa fa-user"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="section row" style="margin-bottom: 0 !important;">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-5 text-right pln">
+                            <label for="inputStandard" class="control-label pt10"> Printer Image</label>
+                        </div>
+                        <div class="col-md-7">
+                            <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.File, new { Type = "file", @class = "form-input-styled imgfilecreate", id = "imgInp" })
+                                <label for="name2" class="field-icon" style="text-align: left;">
+                                    <i class="fa fa-image" style="font-size: 27px;"></i>
+                                </label>
+                            </label>
+                            <div>
+                                <img id='img-upload' class="img-fluid" src="@Model.MobileLogoUrl" alt=" " width="100" height="100" style="float: left;" />
+                                @if (string.IsNullOrEmpty(Model.MobileLogoUrl))
+                                {
+                                    <a title="Delete" id="btnDelete" class="btn btn-danger btn-gradient btn-sm fa fa-trash-o" onclick="DeleteMobileUrl()" style="margin-left: 5px; margin-top: 36px; float: left; display: none;"> @Resource.Delete</a>
+                                }
+                                else
+                                {
+                                    <a title="Delete" id="btnDelete" class="btn btn-danger btn-gradient btn-sm fa fa-trash-o" onclick="DeleteMobileUrl()" style="margin-left: 5px; margin-top: 36px; float: left;"> @Resource.Delete</a>
+                                }
+                                <div class="clearfix"></div>
+                            </div>
+                            @*@if (string.IsNullOrEmpty(Model.MobileLogoUrl))
+                                {
+                                    <div id="divImage">
+                                        <img id='img-upload' class="img-fluid" alt=" " width="100" height="100" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div id="divImageWithDelete">
+                                        <img id='img-upload' class="img-fluid" src="@Model.MobileLogoUrl" alt=" " width="100" height="100" style="float: left;" />
+                                        <a title="Delete" class="btn btn-danger btn-gradient btn-sm fa fa-trash-o" onclick="DeleteMobileUrl()" style="margin-left: 5px; margin-top: 36px; float: left;"> @Resource.Delete</a>
+                                    </div>
+                                }*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer clearfix">
+        <div class="pull-right">
+            <button type="button" id="btnSave" class="btn btn-primary btn-gradient">
+                <span class="fa fa-upload"></span> @Resource.Save
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="panel pt">
+    <div class="panel-heading">
+        <span id="addEditSoftPayLabel" class="panel-title"> SoftPay Configuration</span>
+    </div>
+    <div class="panel-body">
+        <div class="alert alert-success" style="display: none;" id="messageBox1"></div>
+        <div class="alert alert-danger" style="display: none;" id="divError1"></div>
+
+        <div class="admin-form">
+            <div class="section row mt10">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-5 text-right" style="padding-top: 2px !important;">
+                            <label class="control-label"> @Resource.Select @Resource.Terminal </label>
+                        </div>
+                        <div class="col-md-7">
+                            <select name="rest" class="select2-single form-control" id="cmbTerminal" onchange="GetSoftPayData(this)">
+                                <option value="00000000-0000-0000-0000-000000000000">@Resource.Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section row">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-5 text-right pln">
+                            <label class="control-label"> Status </label>
+                        </div>
+                        <div class="col-md-7">
+                            <input id="SoftPayStatus" type="checkbox" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section row">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-5 text-right pln">
+                            <label class="control-label pt10"> SoftPay Id </label>
+                        </div>
+                        <div class="col-md-7">
+                            <input id="SoftPayId" class="event-name gui-input br-light light" type="text" placeholder="SoftPay Id" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section row">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-5 text-right pln">
+                            <label class="control-label pt10"> SoftPay Merchant </label>
+                        </div>
+                        <div class="col-md-7">
+                            <input id="SoftPayMerchant" class="event-name gui-input br-light light" type="text" placeholder="SoftPay Merchant" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section row">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-5 text-right pln">
+                            <label class="control-label pt10"> Integrator Credentials </label>
+                        </div>
+                        <div class="col-md-7">
+                            <input id="IntegratorCredentials" class="event-name gui-input br-light light" type="text" placeholder="Integrator Credentials" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer clearfix">
+        <div class="pull-right">
+            <button type="button" id="btnSaveSoftPay" class="btn btn-primary btn-gradient">
+                <span class="fa fa-upload"></span> @Resource.Save
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var regexHexaDecimal = /^(0x|0X)?[a-fA-F0-9]+$/; // /(0[xX])?[a-fA-F0-9]+$/
+    var handler;
+    var handlerTimeOut = 1500;
+
+    $(document).ready(function () {
+        FillTerminal();
+
+        $(document).on('change', '.btn-file :file', function () {
+            var input = $(this),
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [label]);
+        });
+
+        $('.btn-file :file').on('fileselect', function (event, label) {
+            var input = $(this).parents('.input-group').find(':text'),
+                log = label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+        });
+
+        $("#imgInp").change(function () {
+            readURL(this);
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img-upload').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    });
+
+    $(function () {
+        $('#btnSave').click(function () {
+
+            $("#divError").html('');
+            $("#divError").hide('');
+
+            if ($('#AccountNumber').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.AccountNumber.");
+                $("#divError").show();
+                $('#AccountNumber').focus();
+                return;
+            }
+
+            if ($('#PaymentReceiverName').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.PaymentReceiverName.");
+                $("#divError").show();
+                $('#PaymentReceiverName').focus();
+                return;
+            }
+
+            if ($('#InvoiceReference').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.InvoiceReference.");
+                $("#divError").show();
+                $('#InvoiceReference').focus();
+                return;
+            }
+
+            if ($('#Email').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Email.");
+                $("#divError").show();
+                $('#Email').focus();
+                return;
+            }
+
+            var formData = new FormData();
+            formData.append("fileBase", $('.imgfilecreate').prop('files')[0])
+            formData.append("file", $('.imgfilecreate').prop('files')[0])
+            formData.append("AccountNumber", $('#AccountNumber').val());
+            formData.append("PaymentReceiverName", $('#PaymentReceiverName').val());
+            formData.append("Email", $('#Email').val());
+            formData.append("InvoiceReference", $('#InvoiceReference').val());
+
+            $.ajax({
+                url: '@Url.Action("Update", "GeneralSettings")',
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                cache: false,
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+                    if (arr[0] == "Success") {
+                        $('#imgInp').val('');
+                        $('#img-upload').attr('src', result.MobileLogoUrl);
+                        $("#btnDelete").css("display", "block");
+
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                        }, 2000);
+                    } else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+                        }, 2000);
+                    }
+                }
+            });
+        });
+
+        $('#btnSaveSoftPay').click(function () {
+            clearTimeout(handler);
+
+            $("#divError1").html('');
+            $("#divError1").hide('');
+
+            if ($('#cmbTerminal').val() && $('#cmbTerminal').val() != "00000000-0000-0000-0000-000000000000") {
+
+            } else {
+                $("#divError1").html("@Resource.Select @Resource.Terminal.");
+                $("#divError1").show();
+
+                handler = setTimeout(hideErrorLayouts, handlerTimeOut);
+                return;
+            }
+
+            if ($('#SoftPayId').val() == '') {
+                $("#divError1").html("@Resource.Specify SoftPay Id.");
+                $("#divError1").show();
+                $('#SoftPayId').focus();
+
+                handler = setTimeout(hideErrorLayouts, handlerTimeOut);
+                return;
+            }
+
+            if ($('#SoftPayMerchant').val() == '') {
+                $("#divError1").html("@Resource.Specify SoftPay Merchant.");
+                $("#divError1").show();
+                $('#SoftPayMerchant').focus();
+
+                handler = setTimeout(hideErrorLayouts, handlerTimeOut);
+                return;
+            }
+
+            if ($('#IntegratorCredentials').val()) {
+                if ($("#IntegratorCredentials").val().length == 32) {
+                    if (regexHexaDecimal.test($("#IntegratorCredentials").val())) {
+
+                    } else {
+                        $("#divError1").html("@Resource.Specify Valid Integrator Credentials.");
+                        $("#divError1").show();
+                        $('#IntegratorCredentials').focus();
+
+                        handler = setTimeout(hideErrorLayouts, handlerTimeOut);
+                        return;
+                    }
+                } else {
+                    $("#divError1").html("Integrator Credentials Length Must Be of 32 Characters.");
+                    $("#divError1").show();
+                    $('#IntegratorCredentials').focus();
+
+                    handler = setTimeout(hideErrorLayouts, handlerTimeOut);
+                    return;
+                }
+            } else {
+                $("#divError1").html("@Resource.Specify Integrator Credentials.");
+                $("#divError1").show();
+                $('#IntegratorCredentials').focus();
+
+                handler = setTimeout(hideErrorLayouts, handlerTimeOut);
+                return;
+            }
+
+            var data = {
+                SoftPayStatus: $("#SoftPayStatus").prop("checked"),
+                SoftPayId: $("#SoftPayId").val(),
+                SoftPayMerchant: $("#SoftPayMerchant").val(),
+                IntegratorCredentials: $("#IntegratorCredentials").val()
+            };
+
+            $.ajax({
+                url: '@Url.Action("UpdateSoftPayConfiguration", "GeneralSettings")',
+                type: "POST",
+                data: { SoftPay: data, TerminalId: $('#cmbTerminal').val() },
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+                    if (arr[0] == "Success") {
+                        $("#messageBox1").show();
+                        $('#messageBox1').html(arr[1]);
+
+                        $("#messageBox1").hide().slideDown();
+
+                        var tId1;
+                        clearTimeout(tId1);
+                        tId1 = setTimeout(function () {
+                            $("#messageBox1").hide();
+                        }, 2000);
+                    } else {
+                        $("#divError1").show();
+                        $('#divError1').html(arr[1]);
+
+                        $("#divError1").hide().slideDown();
+
+                        var tId1;
+                        clearTimeout(tId1);
+                        tId1 = setTimeout(function () {
+                            $("#divError1").hide();
+                        }, 2000);
+                    }
+                }
+            });
+        });
+    });
+
+    function DeleteMobileUrl() {
+        if (confirm("Are you sure to delete this Image?")) {
+            var url = '@Url.Action("DeleteImage", "GeneralSettings")';
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+                    if (arr[0] == "Success") {
+                        $('#imgInp').val('');
+                        $('#img-upload').attr('src', "");
+                        $("#btnDelete").css("display", "none");
+
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                        }, 2000);
+                    } else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+                        }, 2000);
+                    }
+                }
+            });
+        }
+    }
+
+    function FillTerminal() {
+        $.ajax({
+            url: '@Url.Action("FillTerminal", "Report")',
+            type: "GET",
+            success: function (_d) {
+                $('#cmbTerminal').html('');
+                var $select = $("#cmbTerminal");
+                $.each(_d, function (i, item) {
+                    $('<option>', { value: item.Id }).html(item.Name).appendTo($select);
+                });
+            }
+        });
+    }
+
+    function GetSoftPayData(view) {
+        var terminalId = $(view).val();
+
+        if (terminalId && terminalId != "00000000-0000-0000-0000-000000000000") {
+            $.ajax({
+                url: '@Url.Action("GetSoftPayData", "GeneralSettings")',
+                type: "GET",
+                data: { TerminalId: terminalId },
+                success: function (response) {
+                    if (response != null && response.Status == 1) {
+                        $("#SoftPayStatus").prop("checked", response.SoftPay.SoftPayStatus);
+                        $("#SoftPayId").val(response.SoftPay.SoftPayId);
+                        $("#SoftPayMerchant").val(response.SoftPay.SoftPayMerchant);
+                        $("#IntegratorCredentials").val(response.SoftPay.IntegratorCredentials);
+                    } else {
+                        $("#SoftPayStatus").prop("checked", false);
+                        $("#SoftPayId").val("");
+                        $("#SoftPayMerchant").val("");
+                        $("#IntegratorCredentials").val("");
+                    }
+                },
+                error: function (response) {
+                    $("#SoftPayStatus").prop("checked", false);
+                    $("#SoftPayId").val("");
+                    $("#SoftPayMerchant").val("");
+                    $("#IntegratorCredentials").val("");
+                }
+            });
+        } else {
+
+        }
+    }
+
+    function hideErrorLayouts() {
+        $("#divError1").html('');
+        $("#divError1").hide('');
+    }
+</script>

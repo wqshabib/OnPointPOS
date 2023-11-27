@@ -1,0 +1,243 @@
+﻿@model MonthlyCategorySale
+@section BreadCrumb {
+    @*<li class="crumb-trail" id="currentpage">Reports</li>*@
+    <li class="crumb-trail" id="currentpage"><a href="/Report/Index">Report </a> &nbsp;/&nbsp; Sales </li>
+
+}
+<section>
+    <!-- dashboard tiles -->
+
+    <div class="row">
+        <div class="panel panel-tile br-a br-grey">
+            <div class="panel-body admin-form mt10">
+                <div class="col-lg-5 mb10 col-md-12">
+                    <select name="rest" class="select2-single form-control" id="cmbOutlets">
+                        <option value="00000000-0000-0000-0000-000000000000">All</option>
+                    </select>
+                </div>
+                <div id="divyear" class="col-lg-4 mb10 col-sm-6 col-md-6">
+                    <select name="year" class="form-control" id="cmbYear">
+                        <option value="2015">2015</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 mb10 col-sm-6 col-md-6 ptn">
+                    <select name="month" class="form-control" id="cmbMonth">
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8 col-xl-8">
+            <div id="ByMonth">
+                @Html.Partial("MonthlyDetail", Model)
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-xl-4">
+            <div class="panel panel-tile  br-a br-grey" id="ByHour">
+                @Html.Partial("HourlySale", Model.HourlySales)
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+@section scripts {
+
+    <script>
+
+        $(function () {
+
+            //$('#viewReport').addClass('active');
+            //$('#Reports').addClass('active');
+
+            //if (!$('#menureports').hasClass('menu-open')) {
+
+            //    $('#menureports').attr('style', '').toggleClass('menu-open');
+            //}
+
+            var html = '<a href="/Report/Monthly">Sales</a>'
+            $('#dsh').html(html);
+
+            var currentTime = new Date();
+            var day = currentTime.getDate();
+            var month = currentTime.getMonth() + 1;
+            var year = currentTime.getFullYear();
+            FillYears(year);
+           
+            if (day < 10) {
+                day = "0" + day;
+            }
+            if (month < 10) {
+                month = "0" + month;
+            }
+
+            var dt = year + "-" + month + "-" + day;
+
+            dt = "Per timme (" + dt + ")";
+
+            $('#ph').html(dt);
+
+
+
+           /* $('#Reports').addClass('active');*/
+
+            FillOutlets();
+
+            $("#cmbOutlets").change(function () {
+                GetRportByCategory();
+                var year = $('#cmbYear').val();
+                var month = $('#cmbMonth').val();
+                //  var dt = year + "-" + month + "-01";
+
+                var currentTime = new Date();
+                var day = currentTime.getDate();
+                if (day < 10) {
+                    day = "0" + day;
+                }
+                var dt = year + "-" + month + "-" + day;
+
+
+                SaleByHour(dt);
+            });
+
+
+           
+            $("#cmbMonth").val(month);
+            //$("#cmbMonth option").filter(function () {
+            //    if ($(this).val() == month) {
+                   
+            //        return true;
+            //    }
+            //}).prop('selected', true);
+
+            $("#cmbMonth").change(function () {
+                var year = $('#cmbYear').val();
+                GetRportByCategory();
+                var year = $('#cmbYear').val();
+                var month = $('#cmbMonth').val();
+                //  var dt = year + "-" + month + "-01";
+
+                var currentTime = new Date();
+                var day = currentTime.getDate();
+                if (day < 10) {
+                    day = "0" + day;
+                }
+                var dt = year + "-" + month + "-" + day;
+
+
+                SaleByHour(dt);
+            });
+
+
+        });
+        function GetRportByCategory() {
+            var catId = $('#cmbOutlets').val();
+            var year = $('#cmbYear').val();
+            var month = $('#cmbMonth').val();
+            $.ajax({
+                url: '@Url.Action("MonthlyDetail", "Report")',
+                type: "Get",
+                data: { outletId: catId, year: year, month: month },
+                success: function (_d) {
+                    $('#ByMonth').html(_d);
+                }
+            });
+        }
+        function SaleByHour(dt) {
+            var outletId = $('#cmbOutlets').val();
+
+            var currentDate;
+
+            if (dt.indexOf("/") > -1) {
+
+                var nData = new Date(dt);
+                var day = nData.getDate();
+                var month = nData.getMonth() + 1;
+                var year = nData.getFullYear();
+
+                currentDate = day + "-" + month + "-" + year;
+            }
+
+            else
+                currentDate = dt;
+
+
+            $.ajax({
+                url: '@Url.Action("HourlySale", "Report")',
+                type: "Get",
+                data: { outletId: outletId, date: dt },
+                success: function (_d) {
+
+                    $('#ByHour').html(_d);
+                    var date = "Per timme (" + currentDate + ")";
+                    $('#ph').html(date);
+                }
+            });
+        }
+        function FillOutlets() {
+
+            $.ajax({
+                url: '@Url.Action("FillOutlets", "Report")',
+                type: "Get",
+                success: function (_d) {
+                    $('#cmbOutlets').html('');
+                    var $select = $("#cmbOutlets");
+                    $.each(_d, function (i, item) {
+
+                        $('<option>', {
+                            value: item.Id
+                        }).html(item.Name).appendTo($select);
+                    });
+
+                }
+            });
+        }
+        function FillYears(year) {
+
+            $.ajax({
+                url: '@Url.Action("FillYears", "Report")',
+                type: "Get",
+                success: function (_d) {
+                    $('#cmbYear').html('');
+                    var $select = $("#cmbYear");
+                    $.each(_d, function (i, item) {
+
+                        $('<option>', {
+                            value: item.Name
+                        }).html(item.Name).appendTo($select);
+
+                    });
+                  //  $("#cmbYear option[value=" + year + "]").attr("selected", true);
+                    $("#cmbYear").val(year);
+                    //$("#cmbYear option").filter(function () {
+                    //    if ($(this).val() == year) {
+
+                    //        return true;
+                    //    }
+                    //}).prop('selected', true);
+                    //$("divyear select").val(year);
+                }
+            });
+
+        }
+    </script>
+
+}

@@ -1,0 +1,76 @@
+﻿@model LUETemplateSite.Models.SiteModel
+@using (Ajax.BeginForm(
+        "AddToCart",
+        "Home",
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "cart-table-wrapper",
+            LoadingElementId = "load-animation",
+            OnBegin = "HideModal()",
+            OnSuccess = "AddAndHide('" + ViewBag.ID + "')"
+        },
+        new
+        {
+        }
+    ))
+{
+    <div class="modal-content">
+        <div class="modal-header">
+            @* <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> *@
+            <h4 class="modal-title" id="myModalLabel">@ViewBag.Name</h4>
+        </div>
+        <div class="modal-body" style="padding:15px 35px;">
+            <input type="hidden" name="itemid" value="@ViewBag.ID" />
+            <p><strong>@ViewBag.Description</strong></p>
+
+            @MvcHtmlString.Create(ViewBag.Data)
+
+            <script>
+                var b = $("#submit-button");
+                var c = $("input:checkbox[group='1']");
+                var submit = true;
+
+                var hasChecked = function () {
+                    for (var i = 0; i < c.length; ++i) {
+                        var t = c.eq(i);
+                        if (t.attr("mandatory") == 1) {
+                            console.log("its here!");
+                            if (t.is(":checked")) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                };
+                var doLookup = function() {
+                    b.off("click");
+
+                    if (hasChecked()) {
+                        b.attr("type", "submit");
+                    } else {
+                        b.attr("type", "button");
+                        b.click(function() {
+                            alert("Du måste välja minst en i gruppen '" + $(".group-title").attr("data-title") + "'!");
+                        });
+                    }
+                };
+
+
+                if (c.attr("mandatory") == 1) {
+                    c.change(function () { 
+                        doLookup();
+                    });
+                    doLookup();
+                } else {
+                    b.attr("type", "submit");
+                }
+            </script>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal">Stäng</button>
+            <button type="submit" class="btn btn-success btn-shadow" id="submit-button">Lägg till i kundvagn</button>
+        </div>
+    </div>
+    
+}

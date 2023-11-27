@@ -1,0 +1,360 @@
+﻿@model OutletViewModel
+<div class="mt25">
+    <div class="panel">
+        <div class="panel-heading">
+            <span id="addEditLabel" class="panel-title"> @Resource.Add @Resource.Outlet</span>
+        </div>
+        <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+        <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.Id)
+            <div class="admin-form">
+                <div class="section row">
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10"> @Resource.Name </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.Name, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Outlet+" " + Resource.Name })
+                                    <label class="field-icon">
+                                        <i class="fa fa-user"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10"> @Resource.Address </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.Address1, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Address +" 1" })
+                                    <label class="field-icon">
+                                        <i class="fa fa-map-marker"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section row">
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10"> @Resource.Address 2</label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.Address2, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Address + " 2" })
+                                    <label class="field-icon">
+                                        <i class="fa fa-map-marker"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right pln">
+                                <label class="control-label pt10"> @Resource.Address 3 </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.Address3, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Address+" 3" })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section row">
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right pln">
+                                <label class="control-label pt10"> @Resource.City </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.City, new { @class = "event-name gui-input br-light light", @placeholder = Resource.City + " "+ Resource.Name })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10"> @Resource.Postal @Resource.Code </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.PostalCode, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Postal + " " + Resource.Code })
+                                    <label class="field-icon">
+                                        <i class="fa fa-certificate"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="section row">
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10"> @Resource.Kitchen @Resource.Printer </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field select">
+                                    @Html.DropDownListFor(model => model.KitchenPrinterId, Model.KitchenPrinters, new { @class = "field select" })
+                                    <i class="arrow"></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right pln">
+                                <label class="control-label pt10"> @Resource.Bill @Resource.Printer </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field select">
+                                    @Html.DropDownListFor(model => model.BillPrinterId, Model.BillPrinters, new { @class = "field select" })
+                                    <i class="arrow"></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="section row">
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10"> @Resource.OrgNo </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.OrgNo, new { @class = "event-name gui-input br-light light", @placeholder = Resource.OrgNo })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10"> @Resource.Tax @Resource.Description </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.TaxDescription, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Tax + " " + Resource.Description })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                   
+
+                </div>
+                <div class="section row">
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10"> @Resource.Phone </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.Phone, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Phone })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10"> @Resource.Email </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Email })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="section row">
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10"> @Resource.url </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.WebUrl, new { @class = "event-name gui-input br-light light", @placeholder = Resource.url })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+
+                </div>
+                <div class="section row">
+                    <div class="col-md-6 pn">
+                        <div class="col-md-3 text-right">
+                            <label class="control-label pt10"> @Resource.Header @Resource.Text </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextAreaFor(model => model.HeaderText, new { @class = "event-name gui-input br-light light", @style = "height:100px;", @placeholder = Resource.Header + " " + Resource.Text })
+                                <label class="field-icon">
+                                    <i class="fa fa-building-o"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10">  @Resource.Footer @Resource.Text </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextAreaFor(model => model.FooterText, new { @class = "event-name gui-input br-light light",@style="height:100px;", @placeholder = Resource.Footer+" "+ @Resource.Text })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+
+        </div>
+        <div class="panel-footer clearfix">
+            <div class="pull-right">
+                <button type="button" id="btnSave" class="btn btn-primary btn-gradient mr40">
+                    <span class="fa fa-upload"></span> @Resource.Save
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#btnSave').click(function () {
+
+            $("#divError").html('');
+            $("#divError").hide('');
+
+            if ($('#Name').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Outlet @Resource.Name.");
+                $("#divError").show();
+                $('#Name').focus();
+                return;
+            }
+
+            var data = {
+                Id: $('#Id').val(),
+                Name: $('#Name').val(),
+                Address1: $('#Address1').val(),
+                Address2: $('#Address2').val(),
+                PostalCode: $('#PostalCode').val(),
+                OrgNo: $('#OrgNo').val(),
+                City: $('#City').val(),
+                KitchenPrinterId: $('#KitchenPrinterId').val(),
+                BillPrinterId: $('#BillPrinterId').val(),
+                Address3: $('#Address3').val(),
+                TaxDescription: $('#TaxDescription').val(),
+                HeaderText: $('#HeaderText').val(),
+                FooterText: $('#FooterText').val(),
+                WebUrl: $('#WebUrl').val(),
+                Email: $('#Email').val(),
+                Phone: $('#Phone').val()
+
+            };
+
+            $.ajax({
+                url: '@Url.Action("Create", "Outlet")',
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                            window.location='/Outlet'
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+
+                    // $("#PartialProductList").html(result);
+
+                }
+            });
+        });
+
+
+
+
+    });
+</script>

@@ -1,0 +1,120 @@
+﻿@model ItemCampaignViewModel
+
+
+<div class="panel-body">
+    <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+    <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+    <div class="admin-form">
+        @Html.HiddenFor(m => m.ItemId)
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.StartDate)
+        @Html.HiddenFor(m => m.EndDate)
+        <div class="section row">
+            <div class="col-md-12 pn">
+                <div class="form-group">
+                    <div class="col-md-3 text-right">
+                        <label class="control-label pt10"> @Resource.Campaign </label>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="field select">
+                            @Html.DropDownListFor(model => model.CampaignId, Model.Campaigns, "Select Campaign", new { @class = "field select" })
+                            <i class="arrow"></i>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 pn">
+                <div class="form-group">
+                    <div class="col-md-3 text-right">
+                        <label class="control-label pt10"> @Resource.Active </label>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="field select" style="margin-top: 15px;">
+                            @Html.CheckBoxFor(model => model.Active, new { @type = "checkbox" })
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+
+<script>
+    $(function () {
+        $('#btnSaveProductCampaign').click(function () {
+            SaveCampaign();
+        });
+    });
+    function SaveProductCampaign() {
+
+        $("#divError").html('');
+        $("#divError").hide('');
+
+        var compaignId = $('#CampaignId').val();
+
+        if ($('#CampaignId').val() == '') {
+            compaignId='0'
+        }
+
+
+        var data = {
+            Id: $('#Id').val(),
+            ItemId: $('#ItemId').val(),
+            StartDate: $('#StartDate').val(),
+            EndDate: $("#StartDate").val(),
+            CampaignId: compaignId,
+            Active: $("#Active").is(':checked'),
+        };
+
+
+        $.ajax({
+            url: '@Url.Action("SaveProductCampaign", "Product")',
+            type: "POST",
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                var res = result.Message;
+                var arr = res.split(':');
+                if (arr[0] == "Success") {
+                    $("#messageBox").show();
+                    $('#messageBox').html(arr[1]);
+                    var tId;
+
+                    $("#messageBox").hide().slideDown();
+                    clearTimeout(tId);
+                    tId = setTimeout(function () {
+                        $("#messageBox").hide();
+                        // window.location = '/Product'
+                        $('#TextDescription').val('');
+                        $("#addEditModal").modal('hide');
+                    }, 2000);
+                }
+                else {
+                    $("#divError").show();
+                    $('#divError').html(arr[1]);
+                    var tId;
+
+                    $("#divError").hide().slideDown();
+                    clearTimeout(tId);
+                    tId = setTimeout(function () {
+                        $("#divError").hide();
+
+
+                    }, 3000);
+                }
+
+
+            }
+        });
+
+    }
+
+</script>

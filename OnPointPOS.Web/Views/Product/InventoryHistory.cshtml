@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "InventoryHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.Inventory @Resource.History</li>
+}
+
+<section>
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+                <li class="active">
+                    <a href="@Url.Action("InventoryHistory", "Product")">@Resource.Inventory @Resource.History</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <div class="pt25">
+        <div class="panel">
+            <div class="panel-body pn">
+                <div class="table-responsive">
+                    <table id="tbl_cat_sale" class="table admin-form theme-warning tc-checkbox-1 fs13 " cellspacing="0">
+                        <thead>
+                            <tr class="bg-light">
+                                <th>@Resource.Date</th>
+                                <th>@Resource.Inventory @Resource.Name</th>
+                                <th>@Resource.Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+
+    #tbl_cat_sale_wrapper .dt-panelmenu {
+        margin: 0
+    }
+
+    .dt-buttons {
+        float: right !important;
+        margin-left: 15px;
+    }
+
+    .buttons-excel {
+        margin-right: 15px;
+    }
+</style>
+
+<link href="~/Content/DataTables/css/buttons.dataTables.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables/buttons.flash.min.js"></script>
+<script src="~/Scripts/DataTables/jszip.min.js"></script>
+<script src="~/Scripts/DataTables/vfs_fonts.js"></script>
+<script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
+
+@section scripts{
+    <script>
+        $(function () {
+            var html = '<a href="/Product">Products</a>';
+            $('#dsh').html(html);
+
+            $('#Inventory').addClass('active');
+            $('#inventoryHistory').addClass('active');
+
+            if (!$('#menuinventory').hasClass('menu-open')) {
+                $('#menuinventory').attr('style', '').toggleClass('menu-open');
+            }
+
+            tblContent = $('#tbl_cat_sale').dataTable({
+                "bJQueryUI": true,
+                "cache": false,
+                "bServerSide": true,
+                "sAjaxSource": "/Product/GetInventories",
+                "bProcessing": true,
+                "buttons": [
+                    
+                ],
+                "aoColumns": [
+                    { "sName": "@Resource.Date", "data": "1", "orderable": false },
+                    { "sName": "@Resource.Inventory @Resource.Name", "data": "2", "orderable": false },
+                    {
+                        "sName": "@Resource.Action",
+                        "render": function (data, type, object) {
+                            return `<button class="btn btn-primary" type="button" onclick="getDetails('${object[0]}')">Details</button>`;
+                        },
+                        "orderable": false
+                    },
+                ],
+                "info": true,   // control table information display field
+                "stateSave": true,  //restore table state on page reload,
+                "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": " ",
+                        "sNext": " "
+                    }
+                },
+                "order": [[0, "asc"]],
+                "iDisplayLength": 10,
+                "aLengthMenu": [
+                  [10, 25, 50, 10000],
+                  [10, 25, 50, "All"]
+                ],
+                "dom": '<"dt-panelmenu clearfix"lBfr>t<"dt-panelfooter clearfix"ip>'
+            });
+        });
+
+        function getDetails(inventoryHistoryId) {
+            var baseUrl = window.location.origin;
+            window.open(baseUrl + '/Product/InventoryDetails?inventoryHistoryId=' + inventoryHistoryId, '_blank');
+        }
+    </script>
+}

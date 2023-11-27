@@ -1,0 +1,833 @@
+﻿@model ReportViewModel
+
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">Reports</li>
+}
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+
+<style>
+    .blackBox .decr {
+        color: #EB5757;
+    }
+
+    .blackBox .incr {
+        color: #27AE60;
+    }
+
+    .apexcharts-toolbar {
+        display: none !important;
+    }
+</style>
+
+
+
+
+<section>
+    <!-- dashboard tiles -->
+    <div class="mt20 pl10 pr10" id="SaleGraphs">
+        <div class="col-sm-6 col-xs-6">
+            <div class="panel  text-center">
+                @Html.Partial("DailySale", Model.DailySale)
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-6">
+            <div class="panel panel-tile text-center">
+                @Html.Partial("MonthlySale", Model.MonthlySale)
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-6">
+            <div class="panel panel-tile">
+
+                <div class="row m-0">
+                    <div class="col-sm-12 blackBox">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="pl10 mt25 mb5">@Resource.Report_CategorySale</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="btn-group" style="float:right">
+                                    <button class="btn btn-dark" onclick="GetSaleByCategory('Day')" id="dayCategorySaleBtn">Day</button>
+                                    <button class="btn btn-dark active" onclick="GetSaleByCategory('Week')" id="weekCategorySaleBtn">Week</button>
+                                    <button class="btn btn-dark" onclick="GetSaleByCategory('Month')" id="monthCategorySaleBtn">Monthy</button>
+                                    <button class="btn btn-dark" onclick="GetSaleByCategory('Year')" id="yearCategorySaleBtn">Year</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div id="graphSaleByCategory">
+                                    @Html.Partial("_graphSaleByCategory", Model)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-6">
+            <div class="panel panel-tile">
+
+                <div class="row m-0">
+                    <div class="col-sm-12 blackBox">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="pl10 mt25 mb5">@Resource.Product @Resource.Report_Sale</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="btn-group" style="float:right">
+                                    <button class="btn btn-dark" onclick="GetSaleByProduct('Day')" id="dayProductSaleBtn">Day</button>
+                                    <button class="btn btn-dark active" onclick="GetSaleByProduct('Week')" id="weekProductSaleBtn">Week</button>
+                                    <button class="btn btn-dark" onclick="GetSaleByProduct('Month')" id="monthProductSaleBtn">Monthy</button>
+                                    <button class="btn btn-dark" onclick="GetSaleByProduct('Year')" id="yearProductSaleBtn">Year</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div id="graphSaleByProduct">
+                                    @Html.Partial("_graphSaleByProduct", Model)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-xl-12">
+            <div class="panel panel-tile">
+
+                <div class="row m-0">
+                    <div class="col-sm-12 blackBox">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="pl10 mt25 mb5">Statistics</h4>
+                                <p class="pl10 m0" id="SalesPercent" style="display:none"></p>
+                                <h3 class="pl10" id="SalesValue"></h3>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="btn-group" style="float:right">
+                                    <button class="btn btn-dark" onclick="BindSalesChart('Day')" id="daySaleBtn">Day</button>
+                                    <button class="btn btn-dark active" onclick="BindSalesChart('Week')" id="weekSaleBtn">Week</button>
+                                    <button class="btn btn-dark" onclick="BindSalesChart('Month')" id="monthSaleBtn">Monthy</button>
+                                    <button class="btn btn-dark" onclick="BindSalesChart('Year')" id="yearSaleBtn">Year</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div id="statisticsDetail"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-xl-12">
+            <div class="panel panel-tile">
+                <div class="row m-0">
+                    <div class="col-sm-12 blackBox">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="pl10 mt25 mb5">@Resource.PaymentStatus</h4>
+                                <h4 class="pl10 mt25 mb5">&nbsp;</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="btn-group float-right" style="float:right">
+                                    <button class="btn btn-dark" onclick="BindRevenueChart('Day')" id="dayRevenueBtn">Day</button>
+                                    <button class="btn btn-dark active" onclick="BindRevenueChart('Week')" id="weekRevenueBtn">Week</button>
+                                    <button class="btn btn-dark" onclick="BindRevenueChart('Month')" id="monthRevenueBtn">Month</button>
+                                    <button class="btn btn-dark" onclick="BindRevenueChart('Year')" id="yearRevenueBtn">Year</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div id="verticalChart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+@section scripts {
+
+    <script>
+
+        $(function () {
+            var html = '<a href="/Report">Reports</a>'
+            $('#dsh').html(html);
+
+
+            $('#viewReport').addClass('active');
+            $('#Reports').addClass('active');
+
+            if (!$('#menureports').hasClass('menu-open')) {
+
+                $('#menureports').attr('style', '').toggleClass('menu-open');
+            }
+            BindDashboard("Week");
+        });
+
+        var result;
+        var paymentResult;
+        function BindDashboard(data) {
+        $.ajax({
+            url: "@Url.Action("LoadDashboardData", "Report")",
+            data: { dataBy: data},
+            success: function (response) {
+                result = response.SaleData;
+                console.log(result);
+
+                $("#SalesValue").text("kr. " + result.SalesOfWeek);
+                $("#SalesPercent").addClass("decr");
+                $("#SalesPercent").html("<img src=\"https://portal.demo.teranoid.com/img/decrIcon.png\" />" + "- " + result.SalesOfWeekDifference + "%");
+                BindLineChart(result.LstWeekSaleTrend);
+                //BindVerticalChart(result.LstWeekCostTrend, result.LstWeekSaleTrend);
+
+
+
+
+            }
+        });
+
+
+            $.ajax({
+            url: "@Url.Action("LoadDashboardDataForPayments", "Report")",
+            data: { dataBy: data},
+            success: function (response) {
+                paymentResult = response.SaleData;
+                console.log(paymentResult);
+                BindVerticalChart2(paymentResult.StatusLstWeekCostTrend);
+            }
+        });
+
+
+    }
+
+
+        function BindSalesChart(timeSpan) {
+            console.log(timeSpan);
+            if (timeSpan == 'Day') {
+                $("#SalesPercent").removeClass("incr");
+                $("#SalesPercent").removeClass("decr");
+
+                BindLineChart(result.LstDaySaleTrend);
+                $("#daySaleBtn").addClass('active');
+                $("#weekSaleBtn").removeClass('active');
+                $("#monthSaleBtn").removeClass('active');
+                $("#yearSaleBtn").removeClass('active');
+
+                $("#SalesValue").text("kr. " + result.Sales);
+
+                if (result.SalesDirection == 0) {
+                    $("#SalesPercent").addClass("incr");
+                    $("#SalesPercent").html("<img src=\"https://portal.demo.teranoid.com/img/incrIcon.png\" />" + "+ " + result.SalesDifference + "%");
+                }
+                else {
+                    $("#SalesPercent").addClass("decr");
+                    $("#SalesPercent").html("<img src=\"https://portal.demo.teranoid.com/img/decrIcon.png\" />" + "- " + result.SalesDifference + "%");
+                }
+
+            }
+            if (timeSpan == 'Week') {
+                $("#SalesPercent").removeClass("incr");
+                $("#SalesPercent").removeClass("decr");
+
+                BindLineChart(result.LstWeekSaleTrend);
+                $("#daySaleBtn").removeClass('active');
+                $("#weekSaleBtn").addClass('active');
+                $("#monthSaleBtn").removeClass('active');
+                $("#yearSaleBtn").removeClass('active');
+
+                $("#SalesValue").text("kr. " + result.SalesOfWeek);
+
+                if (result.SalesOfWeekDirection == 0) {
+                    $("#SalesPercent").addClass("incr");
+                    $("#SalesPercent").html("<img src=\"https://portal.demo.teranoid.com/img/incrIcon.png\" />" + "+ " + result.SalesOfWeekDifference + "%");
+                }
+                else {
+                    $("#SalesPercent").addClass("decr");
+                    $("#SalesPercent").html("<img src=\"https://portal.demo.teranoid.com/img/decrIcon.png\" />" + "- " + result.SalesOfWeekDifference + "%");
+                }
+
+            }
+            if (timeSpan == 'Month') {
+                $("#SalesPercent").removeClass("incr");
+                $("#SalesPercent").removeClass("decr");
+
+                BindLineChart(result.LstMonthSaleTrend);
+                $("#daySaleBtn").removeClass('active');
+                $("#weekSaleBtn").removeClass('active');
+                $("#monthSaleBtn").addClass('active');
+                $("#yearSaleBtn").removeClass('active');
+
+                $("#SalesValue").text("kr. " + result.SalesOfMonth);
+
+                if (result.SalesOfMonthDirection == 0) {
+                    $("#SalesPercent").addClass("incr");
+                    $("#SalesPercent").html("<img src=\"https://portal.demo.teranoid.com/img/incrIcon.png\" />" + "+ " + result.SalesOfMonthDifference + "%");
+                }
+                else {
+                    $("#SalesPercent").addClass("decr");
+                    $("#SalesPercent").html("<img src=\"https://portal.demo.teranoid.com/img/decrIcon.png\" />" + "- " + result.SalesOfMonthDifference + "%");
+                }
+
+            }
+            if (timeSpan == 'Year') {
+                $("#SalesPercent").removeClass("incr");
+                $("#SalesPercent").removeClass("decr");
+
+                BindLineChart(result.LstYearSaleTrend);
+                $("#daySaleBtn").removeClass('active');
+                $("#weekSaleBtn").removeClass('active');
+                $("#monthSaleBtn").removeClass('active');
+                $("#yearSaleBtn").addClass('active');
+
+                $("#SalesValue").text("kr. " + result.SalesOfYear);
+
+                if (result.SalesOfYearDirection == 0) {
+                    $("#SalesPercent").addClass("incr");
+                    $("#SalesPercent").html("<img src=\"https://portal.demo.teranoid.com/img/incrIcon.png\" />" + "+ " + result.SalesOfYearDifference + "%");
+                }
+                else {
+                    $("#SalesPercent").addClass("decr");
+                    $("#SalesPercent").html("<img src=\"https://portal.demo.teranoid.com/img/decrIcon.png\" />" + "- " + result.SalesOfYearDifference + "%");
+                }
+            }
+
+        }
+
+
+
+        function BindLineChart(lst) {
+            $("#statisticsDetail").empty();
+            var lstValues = [];
+
+            if (lst != null) {
+
+                for (var i = lst.length - 1; i > -1; i--) {
+                    lstValues.push({ x: lst[i].Key, y: lst[i].Value1 });
+                }
+            }
+            var detailStatisticOptions = {
+                series: [{
+                    name: 'Sale',
+                    data: lstValues,
+                }],
+                chart: {
+                    type: 'area',
+                    height: 205,
+                    animations: {
+                        enabled: false
+                    },
+                    zoom: {
+                        enabled: false
+                    },
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth'
+                },
+
+                markers: {
+                    size: 5,
+                    hover: {
+                        size: 9
+                    }
+                },
+                title: {
+                    text: '',
+                },
+                tooltip: {
+                    intersect: true,
+                    shared: false
+                },
+                theme: {
+                    palette: 'palette1'
+                },
+                xaxis: {
+                    type: 'string',
+                    labels: {
+
+                        style: {
+                            colors: [],
+                            fontSize: '14px',
+                            fontFamily: 'Mukta',
+                            cssClass: 'apexcharts-xaxis-label',
+
+                        },
+
+                    },
+                    axisBorder: {
+                        show: true,
+                        color: '#494855',
+                        height: 1,
+                        width: '100%',
+                        offsetX: 0,
+                        offsetY: 0
+                    },
+                },
+                yaxis: {
+                    labels: {
+
+                        style: {
+                            colors: [],
+                            fontSize: '14px',
+                            fontFamily: 'Mukta',
+                            cssClass: 'apexcharts-xaxis-label',
+
+                        },
+
+                    },
+                    title: {
+                        text: ''
+                    },
+                    axisBorder: {
+                        show: true,
+                        color: '#494855',
+                        width: 1,
+                    },
+                },
+                grid: {
+                    show: true,
+                    borderColor: '#000',
+                    strokeDashArray: 0,
+                    position: 'back',
+                    xaxis: {
+                        lines: {
+                            show: false
+                        }
+                    },
+                    yaxis: {
+                        lines: {
+                            show: false
+                        }
+                    },
+                    row: {
+                        colors: undefined,
+                        opacity: 0.5
+                    },
+                    column: {
+                        colors: undefined,
+                        opacity: 0.5
+                    },
+
+                },
+
+            };
+
+            var detailStatistic = new ApexCharts(document.querySelector("#statisticsDetail"), detailStatisticOptions);
+            detailStatistic.render();
+
+        }
+
+
+        function BindRevenueChart(timeSpan) {
+
+            if (timeSpan == 'Day') {
+                BindVerticalChart2(paymentResult.StatusLstDayCostTrend);
+                $("#dayRevenueBtn").addClass('active');
+                $("#weekRevenueBtn").removeClass('active');
+                $("#monthRevenueBtn").removeClass('active');
+                $("#yearRevenueBtn").removeClass('active');
+            }
+            if (timeSpan == 'Week') {
+                BindVerticalChart2(paymentResult.StatusLstWeekCostTrend);
+                $("#dayRevenueBtn").removeClass('active');
+                $("#weekRevenueBtn").addClass('active');
+                $("#monthRevenueBtn").removeClass('active');
+                $("#yearRevenueBtn").removeClass('active');
+            }
+            if (timeSpan == 'Month') {
+                BindVerticalChart2(paymentResult.StatusLstMonthCostTrend);
+                $("#dayRevenueBtn").removeClass('active');
+                $("#weekRevenueBtn").removeClass('active');
+                $("#monthRevenueBtn").addClass('active');
+                $("#yearRevenueBtn").removeClass('active');
+
+            }
+            if (timeSpan == 'Year') {
+                BindVerticalChart2(paymentResult.StatusLstYearCostTrend);
+                $("#dayRevenueBtn").removeClass('active');
+                $("#weekRevenueBtn").removeClass('active');
+                $("#monthRevenueBtn").removeClass('active');
+                $("#yearRevenueBtn").addClass('active');
+
+            }
+
+        }
+
+
+        function BindVerticalChart(lstCost, lstRevenue) {
+            $("#verticalChart").empty();
+            var lstCostValues = [];
+            var lstCostLabels = [];
+            var lstRevenueValues = [];
+            var lstRevenueLabels = [];
+            var lstNetEarningValues = [];
+            var listSeries = []
+            if (lstCost != null) {
+
+                for (var i = lstCost.length - 1; i > -1; i--) {
+                    lstCostValues.push(lstCost[i].Value1);
+                    lstCostLabels.push(lstCost[i].Key);
+                }
+            }
+
+            if (lstRevenue != null) {
+
+                for (var i = lstRevenue.length - 1; i > -1; i--) {
+                    lstRevenueValues.push(lstRevenue[i].Value1);
+                    lstRevenueLabels.push(lstRevenue[i].Key);
+
+                    lstNetEarningValues.push(lstRevenue[i].Value1 - lstCost[i].Value1);
+                }
+            }
+            console.log(lstCost);
+            console.log(lstCostValues);
+
+            var series = [
+                {
+                    name: 'Cost',
+                    data: lstCostValues
+                },
+                {
+                    name: 'Revenue',
+                    data: lstRevenueValues
+                },
+                {
+                    name: 'Net Earning',
+                    data: lstNetEarningValues
+                }
+            ]
+            console.log("series:" + JSON.stringify(series));
+
+            var options = {
+                series: series,
+                chart: {
+                    type: 'bar',
+                    height: 175
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: '55%',
+                    },
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    show: true,
+                    width: 2,
+                    colors: ['transparent']
+                },
+                xaxis: {
+                    categories: lstCostLabels,// ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+
+                    axisBorder: {
+                        show: true,
+                        color: '#494855',
+                        height: 1,
+                        width: '100%',
+                        offsetX: 0,
+                        offsetY: 0
+                    },
+                },
+
+                grid: {
+                    show: true,
+                    borderColor: '#494855',
+                    strokeDashArray: 0,
+                    position: 'back',
+                    xaxis: {
+                        lines: {
+                            show: false
+                        }
+                    },
+                    yaxis: {
+                        lines: {
+                            show: true
+                        }
+                    },
+                    row: {
+                        colors: undefined,
+                        opacity: 0.5
+                    },
+                    column: {
+                        colors: undefined,
+                        opacity: 0.5
+                    },
+
+                },
+                yaxis: {
+                    labels: {
+
+                        style: {
+                            colors: [],
+                            fontSize: '14px',
+                            fontFamily: 'Mukta',
+                            cssClass: 'apexcharts-xaxis-label',
+
+                        },
+
+                    },
+                    title: {
+                        text: ''
+                    },
+                    axisBorder: {
+                        show: true,
+                        color: '#494855',
+                        width: 1,
+                    },
+                },
+                fill: {
+                    opacity: 1
+                },
+                tooltip: {
+                    y: {
+                        formatter: function (val) {
+                            return "kr. " + val
+                        }
+                    }
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#verticalChart"), options);
+            chart.render();
+
+        }
+
+        function BindVerticalChart2(lstCost) {
+            $("#verticalChart").empty();
+            console.log("calling lst data:" + lstCost);
+            console.log("calling lst length:" + lstCost.length);
+            var lstCostValues = [];
+            var lstCostLabels = [];
+            var series = [];
+            if (lstCost != null && lstCost.length > 0) {
+
+                for (var i = lstCost.length - 1; i > -1; i--) {
+                    var data = []
+                    for (var j = lstCost[i].SaleTrendResult.length - 1; j > -1; j--) {
+                        data.push(lstCost[i].SaleTrendResult[j].Value1);
+                        //lstCostLabels.push(lstCost[i].SaleTrendResult[j].Key);
+                    }
+                    series.push({ name: lstCost[i].PaymentType, data: data});
+                    data = [];
+                }
+                for (var j = lstCost[0].SaleTrendResult.length - 1; j > -1; j--) {
+                    lstCostLabels.push(lstCost[0].SaleTrendResult[j].Key);
+                }
+            }
+            console.log(lstCost);
+            console.log(lstCostValues);
+            console.log(series);
+            console.log("series: " + JSON.stringify(series));
+            console.log("lstCostLabels: " + JSON.stringify(lstCostLabels));
+
+            var options = {
+                series: series,
+                chart: {
+                    type: 'bar',
+                    height: 208
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: '55%',
+                    },
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    show: true,
+                    width: 2,
+                    colors: ['transparent']
+                },
+                xaxis: {
+                    categories: lstCostLabels,// ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+
+                    axisBorder: {
+                        show: true,
+                        color: '#494855',
+                        height: 1,
+                        width: '100%',
+                        offsetX: 0,
+                        offsetY: 0
+                    },
+                },
+
+                grid: {
+                    show: true,
+                    borderColor: '#494855',
+                    strokeDashArray: 0,
+                    position: 'back',
+                    xaxis: {
+                        lines: {
+                            show: false
+                        }
+                    },
+                    yaxis: {
+                        lines: {
+                            show: true
+                        }
+                    },
+                    row: {
+                        colors: undefined,
+                        opacity: 0.5
+                    },
+                    column: {
+                        colors: undefined,
+                        opacity: 0.5
+                    },
+
+                },
+                yaxis: {
+                    labels: {
+
+                        style: {
+                            colors: [],
+                            fontSize: '14px',
+                            fontFamily: 'Mukta',
+                            cssClass: 'apexcharts-xaxis-label',
+
+                        },
+
+                    },
+                    title: {
+                        text: ''
+                    },
+                    axisBorder: {
+                        show: true,
+                        color: '#494855',
+                        width: 1,
+                    },
+                },
+                fill: {
+                    opacity: 1
+                },
+                tooltip: {
+                    y: {
+                        formatter: function (val) {
+                            return "kr. " + val
+                        }
+                    }
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#verticalChart"), options);
+            chart.render();
+
+        }
+
+
+
+        function GetSaleByCategory(timeSpan) {
+            console.log(timeSpan);
+            if (timeSpan == 'Day') {
+                $("#dayCategorySaleBtn").addClass('active');
+                $("#weekCategorySaleBtn").removeClass('active');
+                $("#monthCategorySaleBtn").removeClass('active');
+                $("#yearCategorySaleBtn").removeClass('active');
+            }
+            if (timeSpan == 'Week') {
+                $("#dayCategorySaleBtn").removeClass('active');
+                $("#weekCategorySaleBtn").addClass('active');
+                $("#monthCategorySaleBtn").removeClass('active');
+                $("#yearCategorySaleBtn").removeClass('active');
+            }
+            if (timeSpan == 'Month') {
+                $("#dayCategorySaleBtn").removeClass('active');
+                $("#weekCategorySaleBtn").removeClass('active');
+                $("#monthCategorySaleBtn").addClass('active');
+                $("#yearCategorySaleBtn").removeClass('active');
+
+            }
+            if (timeSpan == 'Year') {
+                $("#dayCategorySaleBtn").removeClass('active');
+                $("#weekCategorySaleBtn").removeClass('active');
+                $("#monthCategorySaleBtn").removeClass('active');
+                $("#yearCategorySaleBtn").addClass('active');
+
+            }
+            $.ajax({
+                url: "@Url.Action("GetSalesDateByCategoryTimeSapn", "Report")",
+                type:'Get',
+                data: { timeSpan: timeSpan },
+                success: function (response) {
+                    $('#graphSaleByCategory').html(response);
+                }
+            });
+        }
+
+
+          function GetSaleByProduct(timeSpan) {
+            console.log(timeSpan);
+            if (timeSpan == 'Day') {
+                $("#dayProductSaleBtn").addClass('active');
+                $("#weekProductSaleBtn").removeClass('active');
+                $("#monthProductSaleBtn").removeClass('active');
+                $("#yearCategorySaleBtn").removeClass('active');
+            }
+            if (timeSpan == 'Week') {
+                $("#dayProductSaleBtn").removeClass('active');
+                $("#weekProductSaleBtn").addClass('active');
+                $("#monthProductSaleBtn").removeClass('active');
+                $("#yearProductSaleBtn").removeClass('active');
+            }
+            if (timeSpan == 'Month') {
+                $("#dayProductSaleBtn").removeClass('active');
+                $("#weekProductSaleBtn").removeClass('active');
+                $("#monthProductSaleBtn").addClass('active');
+                $("#yearProductSaleBtn").removeClass('active');
+
+            }
+            if (timeSpan == 'Year') {
+                $("#dayProductSaleBtn").removeClass('active');
+                $("#weekProductSaleBtn").removeClass('active');
+                $("#monthProductSaleBtn").removeClass('active');
+                $("#yearProductSaleBtn").addClass('active');
+
+            }
+            $.ajax({
+                url: "@Url.Action("GetSalesDateByProductTimeSapn", "Report")",
+                type:'Get',
+                data: { timeSpan: timeSpan },
+                success: function (response) {
+                    $('#graphSaleByProduct').html(response);
+                }
+            });
+        }
+
+
+
+
+
+
+
+    </script>
+
+}
+
+
+
+
+
+
+
+

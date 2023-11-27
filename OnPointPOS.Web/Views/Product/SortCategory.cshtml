@@ -1,0 +1,145 @@
+﻿
+@{
+    ViewBag.Title = Resource.Sort + " " + Resource.Product;
+}
+
+<section>
+    <!-- dashboard tiles -->
+    <div id="wait" class="btn-default btn-gradient" style="display:none;width: 80px; height: 80px; position: absolute; top: 50%; left: 50%; z-index: 999999999; border-radius: 8px; border: 1px solid rgb(204, 204, 204); padding: 0px;">
+        <img src='~/Content/img/progress.gif' width="80" height="80" />
+    </div>
+    <input type="hidden" id="SelectedCategory" value="0" />
+    <div class="row">
+
+
+        <div class="col-sm-12 col-xl-12">
+
+            <div class="panel panel-tile br-a br-grey">
+                <div class="panel-body admin-form mt10">
+                    <label class="col-sm-1 pt10" >@Resource.Root</label>
+                    
+                    <div class="col-sm-5 mb10">
+                        <select name="rest" class="select2-single form-control" id="cmbRootCategory">
+                            <option value="0">@Resource.Select @Resource.Root @Resource.Category</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-1 pt10">@Resource.Parent</label>
+                    <div class="col-sm-5 mb10">
+                        <select name="rest" class="select2-single form-control" id="cmbParentCategory">
+                            <option value="0">@Resource.Select @Resource.Parent @Resource.Category</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+
+
+    </div>
+   
+    <div class="row" id="divCategories">
+
+    </div>
+    <div class="row">
+        <input type="button" id="btnBack" style="margin-top:10px; margin-right:10px; width:80px;" value="<<" class="btn btn-default btn-gradient pull-right hidden" />
+       
+    </div>
+   
+</section>
+
+
+
+
+@section scripts {
+
+    <script>
+        $(document).ajaxStart(function () {
+            $("#wait").css("display", "block");
+        });
+        $(document).ajaxComplete(function () {
+            $("#wait").css("display", "none");
+        });
+        $(function () {
+
+            $('#Cataglog').addClass('active');
+            $('#sortproduct').addClass('active');
+
+            if (!$('#menuCatalog').hasClass('menu-open')) {
+
+                $('#menuCatalog').attr('style', '').toggleClass('menu-open');
+            }
+
+            GetRootCategories();
+
+            
+            $("#cmbRootCategory").change(function () {
+                var id = $("#cmbRootCategory").val();
+                GetCategories(id);
+                GetParentCategories(id);
+            });
+            $("#cmbParentCategory").change(function () {
+                var id = $("#cmbParentCategory").val();              
+                $('#btnBack').removeClass('hidden');
+                GetCategories(id);               
+            });
+            $('#btnBack').click(function () {             
+                $('#btnBack').addClass('hidden');
+                var id = $("#cmbRootCategory").val();
+                GetCategories(id);
+            });
+
+        });
+        function GetRootCategories() {
+
+            $.ajax({
+                url: '@Url.Action("GetRootCategory", "Product")',
+                type: "Get",
+                success: function (_d) {
+                    $('#cmbRootCategory').html('');
+                    var $select = $("#cmbRootCategory");
+                    $.each(_d, function (i, item) {
+
+                        $('<option>', {
+                            value: item.Id
+                        }).html(item.Name).appendTo($select);
+                    });
+                }
+            });
+        }
+        function GetParentCategories(catId) {
+
+            $.ajax({
+                url: '@Url.Action("GetParentCategories", "Product")',
+                type: "Get",
+                data: { id: catId },
+                success: function (_d) {
+                    $('#cmbParentCategory').html('');
+                    var $select = $("#cmbParentCategory");
+                    $.each(_d, function (i, item) {
+
+                        $('<option>', {
+                            value: item.Id
+                        }).html(item.Name).appendTo($select);
+                    });
+                }
+            });
+        }
+        function GetCategories(catId) {
+            if (catId == 0)
+                return;
+            $.ajax({
+                url: '@Url.Action("ReportViewCategories", "Product")',
+                type: "Get",
+                data: { id: catId },
+                success: function (_d) {
+                    $('#divCategories').html(_d);
+                }
+            });
+        }
+      
+
+    </script>
+
+}
+

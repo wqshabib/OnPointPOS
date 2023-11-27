@@ -1,0 +1,258 @@
+﻿
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.Categories</li>
+
+}
+
+<section>
+
+
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+
+                <li>
+                    <a href="/Product">@Resource.lblProducts</a>
+                </li>
+
+                <li class="active">
+                    <a href="/Category">@Resource.Categories</a>
+                </li>
+
+
+
+            </ul>
+
+        </div>
+
+
+
+        <div class="topbar-right hidden-xs hidden-sm">
+            <a id="btnAddCategory" class="btn btn-default btn-sm  btn-gradient light fw600 ml10 mt5">
+                <span class="fa fa-plus pr5"></span> @Resource.Add @Resource.Category
+            </a>
+        </div>
+        @*<div>
+                <div  class="dataTables_filter"><label>Search:<input type="text" id="searchby"  class="" style="margin-top:6px;" ></label></div>
+            </div>*@
+    </header>
+
+    <div class="pt25">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center">
+
+            <!-- create new order panel -->
+            <div id="CategoryCreate">
+
+            </div>
+
+            <!-- recent orders table -->
+            <div id="PartialCategoryList" style="margin-bottom:50px;">
+                @(Html.Grid("categoryGrid")
+                                    .AddColumn(new Column("Id").SetHidden(true))
+                                    .AddColumn(new Column("Name").SetLabel(Resource.Name).SetWidth(150).SetAlign(Align.Left))
+                                    .AddColumn(new Column("CategoryLevel").SetLabel(Resource.Level).SetWidth(15).SetSearch(false).SetAlign(Align.Center))
+                                    .AddColumn(new Column("ActiveStatus").SetLabel(Resource.Status).SetSearchType(Searchtype.Select).SetWidth(30).SetSearchTerms((string[])ViewBag.Statuses).SetWidth(30))
+                                    .AddColumn(new Column("Deleted").SetLabel(Resource.Deleted).SetSearchType(Searchtype.Select).SetWidth(30).SetSearchTerms((string[])ViewBag.DeleteStatus).SetWidth(30))
+                                    .AddColumn(new Column("&nbsp;").SetSearch(false).SetCustomFormatter("buttonize").SetWidth(150).SetAlign(Align.Center))
+                                    .SetUrl(Url.Action("GeCategoryByFilter", new { controller = "Category" }))
+                                    .SetAutoWidth(true)
+                                    .SetRowNum(10)
+                                    .SetRowList(new[] { 10, 15, 20, 50 })
+                                    .SetViewRecords(true)
+                                    .SetPager("pager")
+                                    .SetSearchToolbar(true)
+                                    .SetSearchOnEnter(false)
+                                    .SetSearchClearButton(true)
+                                    .SetSearchToggleButton(false)
+                )
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+<div class="modal fade" id="addEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@Resource.Campaign</h4>
+            </div>
+            <div class="modal-body" id="campaigndiv">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-gradient" data-dismiss="modal"><span class="fa fa-times"></span> @Resource.close</button>
+                <button type="button" onclick="SaveCampaign()" class="btn btn-primary btn-gradient mr10"><span class="fa fa-upload"></span>  @Resource.Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts {
+
+    @Styles.Render("~/Content/jqGrid/jqgridui")
+    @Scripts.Render("~/bundles/jqgrid")
+<script>
+
+        $(function () {
+
+            $('#category').addClass('active');
+            $('#Cataglog').addClass('active');
+
+            if (!$('#menuCatalog').hasClass('menu-open')) {
+                $('#menuCatalog').attr('style', '').toggleClass('menu-open');
+            }
+
+            $('#btnAddCategory').click(function () {
+
+                $.ajax({
+                    url: '@Url.Action("Create", "Category")',
+                    type: "GET",
+                    success: function (result) {
+                        $("#CategoryCreate").html(result);
+                    }
+                });
+            });
+
+            $('#searchby').keyup(function () {
+                $.ajax({
+                    url: '@Url.Action("GetSearchByName", "Category")',
+                    type: "GET",
+                    data: { searchToken: $('#searchby').val() },
+                    success: function (result) {
+                        $("#PartialCategoryList").html(result);
+                    }
+                });
+
+            });
+
+            $(function () {
+
+                $('.tree li:has(ul)').addClass('parent_li ').find(' > span').attr('title', 'Collapse this branch');
+                $('.tree li:has(ul)').addClass('parent_li ').find(' > span').addClass('minus');
+
+                $('.tree li.parent_li > span').on('click', function (e) {
+                    var children = $(this).parent('li.parent_li').find(' > ul > li');
+                    if (children.is(":visible")) {
+                        $(this).removeClass('minus');
+                        $(this).addClass('plus');
+                        children.hide('fast');
+                        $(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus-sign').removeClass('icon-minus-sign');
+                    } else {
+                        $(this).removeClass('plus');
+                        $(this).addClass('minus');
+                        children.show('fast');
+                        $(this).attr('title', 'Collapse this branch').find(' > i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
+                    }
+                    e.stopPropagation();
+                });
+
+
+            });
+        });
+
+        function EditCampaign(id) {
+            if (id == 0) {
+                alert("Select a valid Category");
+                return;
+            }
+            $.ajax({
+                url: '@Url.Action("CategoryCampaign", "Category")',
+                type: "GET",
+                data: { id: id },
+                success: function (result) {
+                    $("#addEditModal").modal('show');
+                    $("#campaigndiv").html(result);
+                }
+            });
+        }
+
+        var _lastRow = null;
+
+        function updateOnEdit(name,
+            level,
+            status,
+            deleted) {
+            if (_lastRow != null) {
+                _lastRow.parentElement.parentElement.children[1].innerHTML = name;
+                _lastRow.parentElement.parentElement.children[2].innerHTML = level;
+                _lastRow.parentElement.parentElement.children[3].innerHTML = status;
+                _lastRow.parentElement.parentElement.children[4].innerHTML = deleted;
+            }
+        }
+
+        function Edit(sender, id) {
+            _lastRow = sender;
+            var url = '/Category/Edit?id=' + id;
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                    $("#CategoryCreate").html(result);
+                }
+            });
+        }
+
+        function Delete(sender, id) {
+            _lastRow = sender;
+            if (confirm("Are you sure to delete this category?")) {
+                var url = '/Category/Delete?id=' + id;
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    success: function (result) {
+                        var lst = result.Message.split(':');
+                        alert(lst[1]);
+                        if (lst[0] == 'Success' && _lastRow != null) {
+                            debugger;
+                            var row = _lastRow.parentElement.parentElement;
+                            if (row != null) {
+                                var table = row.parentElement;
+                                if (table != null)
+                                    table.removeChild(row)
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function Restore(id) {
+            if (confirm("Are you sure to restore this category?")) {
+                var url = '/Category/Restore?id=' + id;
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    success: function (result) {
+                        alert(result.Message);
+                        window.location.reload();
+                    }
+                });
+            }
+        }
+
+        function buttonize(cellvalue, options, rowobject) {
+            if (rowobject[4] == 'False') {
+                return '<a   style="margin-right:2px;" title="Edit" class="btn btn-primary btn-gradient btn-sm fa fa-edit" onclick="Edit(this, ' + options.rowId + ')"> @Resource.Edit</a>' +
+                    '<a   style="margin-right:2px;" title="Edit" class="btn btn-primary btn-gradient btn-sm fa fa-edit" onclick="EditCampaign(' + options.rowId + ')"> @Resource.Campaign</a>' +
+                    '<a  style="margin-right:2px;" title="Delete"  class="btn btn-danger btn-gradient btn-sm fa fa-trash-o" onclick="Delete(this, ' + options.rowId + ')"> @Resource.Delete</a>';
+            }
+            else {
+
+                return '<a class="btn btn-primary btn-gradient btn-sm fa fa-edit" style="margin-right:2px; float:right;"  onclick="Restore(' + options.rowId + ')"> @Resource.Restore </a>';
+            }
+
+        }
+</script>
+
+}

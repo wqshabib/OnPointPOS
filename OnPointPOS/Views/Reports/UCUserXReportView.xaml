@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="POSSUM.UCUserXReportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="500">
+    <Grid Background="White" Width="380">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="160" />
+            <RowDefinition Height="300" />
+            <RowDefinition Height="40" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Canvas>
+            <TextBlock Canvas.Left="100" Canvas.Top="3" Foreground="Red" Text="User's X Report View" Name="txtUserXReport"  FontWeight="DemiBold" FontSize="18"/>
+            <Button Content="Print" Name="btnPrint" Width="59" Height="30" Click="Print_Click" Margin="5" Canvas.Left="271" Canvas.Top="115" Visibility="Visible" IsEnabled="True" />
+            <DatePicker Canvas.Left="82" Canvas.Top="85" Height="28" Name="dtpFrom" Width="125" CalendarStyle="{StaticResource styleCalendar}"/>
+            <DatePicker Canvas.Left="82" Canvas.Top="119" Height="28" Name="dtpTo" Width="125" CalendarStyle="{StaticResource styleCalendar}"/>
+            <Button Canvas.Left="212" Canvas.Top="119" Content="View"  Name="btnView" Width="60" Height="30" Click="btnView_Click" />
+            <TextBlock Canvas.Left="14" Canvas.Top="89"   Text="Date From:" Foreground="#ffff" />
+            <TextBlock Canvas.Left="14" Canvas.Top="123" Text="Date To:" Foreground="#ffff"/>
+            <ComboBox Canvas.Left="105" Canvas.Top="29"  Name="cmbEmployee" Width="160" Height="23" SelectedValuePath="ID" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name}" FontSize="11" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label Canvas.Left="14" Canvas.Top="28" Content="Employee:" Height="28" Name="label1" Foreground="#ffff"/>
+        </Canvas>
+
+        <FlowDocumentScrollViewer Grid.Row="1" Margin="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+            <FlowDocument FontFamily="Tahoma" FontSize="12" x:Name="flowDocument" IsColumnWidthFlexible="True"
+                          IsOptimalParagraphEnabled="true" IsHyphenationEnabled="true" PagePadding="Auto" ColumnWidth="380" >
+                <Paragraph >
+                    <Grid x:Name="gdMain">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0"  Margin="1" Name="AllUsersPanel" >
+                            <!-- Header -->
+                            <StackPanel Orientation="Horizontal" >
+
+
+                                <TextBlock Width="100" TextAlignment="Left" Name="txtDate" Text="Date" />
+                                <TextBlock Width="60" Text="Time"  Name="txtTime" TextAlignment="Right"/>
+
+
+                            </StackPanel>
+                            <Line xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    X1="2" Y1="2" Grid.Row="4"
+    X2="200" Y2="2"
+    Stroke="Black" StrokeDashArray="1, 1"
+    StrokeThickness="2" Grid.ColumnSpan="2" />
+                            <ListBox   BorderThickness="0"  x:Name="LBVewUserLog"   ItemsSource="{Binding}"  Margin="1" SelectedValuePath="{Binding Path=Id}" >
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Path=ViewDate, StringFormat=\{0:dd.MM.yy \}}"  Width="100" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Path=ViewDate, StringFormat=\{0:H:mm\}}"  Width="60" HorizontalAlignment="Right" />
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+
+
+
+                            </ListBox>
+                        </StackPanel>
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Total View" Name="txtTotalView" Width="100" Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Left"/>
+                            <TextBlock Text="0"  Width="60" Name="lblTotalView" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" TextAlignment="Right"/>
+                        </Grid>
+                    </Grid>
+                </Paragraph>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+    </Grid>
+</UserControl>

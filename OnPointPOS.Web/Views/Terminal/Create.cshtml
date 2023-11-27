@@ -1,0 +1,265 @@
+﻿@model TerminalViewModel
+
+<div class="panel">
+    <div class="panel-heading">
+        <span id="addEditLabel" class="panel-title"> @Resource.Add  @Resource.Terminal</span>
+    </div>
+    <div class="panel-body">
+        <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+        <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+        <div class="admin-form">
+            @Html.HiddenFor(m => m.Id)
+            <div class="section row">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            <label class="control-label pt10"> @Resource.Outlet </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field select">
+                                @Html.DropDownListFor(model => model.OutletId, Model.Outlets, new { @class = "field select" })
+                                <i class="arrow"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Terminal @Resource.Number. </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.TerminalNo, new { @class = "event-name gui-input br-light light", @readonly = "readonly", @placeholder = Resource.Terminal + " " + Resource.Number })
+                                <label class="field-icon">
+                                    <i class="fa fa-tag"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section row">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            <label class="control-label pt10"> @Resource.Terminal @Resource.Type </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field select">
+                                @Html.DropDownListFor(model => model.TerminalType, Model.TerminalTypes, new { @class = "field select" })
+                                <i class="arrow"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Unique @Resource.Identification </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+
+                                @Html.TextBoxFor(model => model.UniqueIdentification, new { @class = "event-name gui-input br-light light", @readonly = "readonly", @placeholder = Resource.Identification })
+                                <label class="field-icon">
+                                    <i class="fa fa-star-o"></i>
+                                </label>
+                            </label>
+                        </div>
+                        <div class="col-md-2">
+                            @if (string.IsNullOrEmpty(Model.UniqueIdentification))
+                            {
+                                <input type="button" id="btnGetCode" style="margin-left-40px;" class="btn btn-success" value="@Resource.Generate" />
+                            }
+                            else
+                            {
+                                <input type="button" style="margin-left-40px;" class="btn btn-success" value="@Resource.Generate" disabled />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section row">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            <label class="control-label pt10"> @Resource.Status </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field select">
+                                @Html.DropDownListFor(model => model.Status, Model.Statuses, new { @class = "field select" })
+                                <i class="arrow"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Details  </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.Description, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Details })
+                                <label class="field-icon">
+                                    <i class="fa fa-edit"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section row">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            <label class="control-label pt10"> @Resource.Root @Resource.Category </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field select">
+                                @Html.DropDownListFor(model => model.RootCategoryId, Model.Categories, new { @class = "field select" })
+                                <i class="arrow"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            <label class="control-label pt10"> @Resource.Hardware @Resource.Address </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.HardwareAddress, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Hardware + " " + Resource.Address })
+                                <i class="arrow"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section row">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            <label>
+                                @Resource.AutoLogin
+                            </label>
+                        </div>
+                        <div class="col-md-8">
+                            @Html.CheckBoxFor(model => model.AutoLogin, new { @type = "checkbox" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 pn">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer clearfix">
+        <div class="pull-right">
+            <button type="button" id="btnSave" class="btn btn-primary btn-gradient mr40">
+                <span class="fa fa-upload"></span> @Resource.Save
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+
+    $('#btnGetCode').click(function(){
+
+    $.ajax({
+                url: '@Url.Action("GenerateUniqueIdentifier", "Admin")',
+                type: "Get",
+                success: function (result) {
+                    var res = result.UniqueIdentification;
+                    $('#UniqueIdentification').val(res);
+
+                }
+            });
+
+    });
+        $('#btnSave').click(function () {
+
+            $("#divError").html('');
+            $("#divError").hide('');
+
+            if ($('#TerminalNo').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Terminal  @Resource.Number.");
+                $("#divError").show();
+                $('#TerminalNo').focus();
+                return;
+            }
+
+            if ($('#OutletId').val() == '00000000-0000-0000-0000-000000000000') {
+
+                $("#divError").html("@Resource.Select @Resource.Outlet.");
+                $("#divError").show();
+                $('#OutletId').focus();
+                return;
+            }
+
+
+
+            var data = {
+                Id: $('#Id').val(),
+                Description: $('#Description').val(),
+                OutletId: $('#OutletId').val(),
+                UniqueIdentification: $('#UniqueIdentification').val(),
+                TerminalNo: $('#TerminalNo').val(),
+                Status: $('#Status').val(),
+                RootCategoryId: $('#RootCategoryId').val(),
+                HardwareAddress: $('#HardwareAddress').val(),
+                TerminalType: $('#TerminalType').val(),
+                AutoLogin: $('#AutoLogin').is(':checked')
+            };
+
+            $.ajax({
+                url: '@Url.Action("Create", "Terminal")',
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                            window.location = '/Terminal'
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+
+                    // $("#PartialProductList").html(result);
+
+                }
+            });
+        });
+    });
+</script>

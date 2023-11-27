@@ -1,0 +1,77 @@
+﻿<Window x:Class="POSSUM.DiscountWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:POSSUM.Views.Sales"
+        mc:Ignorable="d" WindowStyle="None" WindowStartupLocation="CenterScreen"
+         xmlns:translation="clr-namespace:POSSUM.Res" ResizeMode="NoResize"
+        Title="DiscountWindow" Height="400" Width="400">
+   
+        <Grid x:Name="DialogDiscount" Width="400" Height="400" Visibility="Visible" Grid.Column="0" Grid.ColumnSpan="2"  Grid.RowSpan="3"  Background="#FFE5E6D6">
+            <Grid.RowDefinitions>              
+                <RowDefinition Height="40"/>               
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+          
+            <Border Grid.ColumnSpan="3"  Height="40" Background="#FF012537" VerticalAlignment="Top" />
+        <TextBlock Grid.ColumnSpan="2" Width="200" HorizontalAlignment="Left" Text="{x:Static translation:UI.Sales_Discount}" Foreground="White" FontSize="16" Margin="10,5"/>
+            <Button x:Name="btnDiscountClose" Grid.Column="2" Margin="0 1 1 0"
+                                
+                                HorizontalAlignment="Right"  VerticalAlignment="Top"
+                                Height="39" Width="40" 
+                                Content="X" FontSize="12" FontFamily="Georgia" FontWeight="Bold" 
+                                Foreground="WhiteSmoke" Background="Red" 
+                                Click="btnDiscountClose_Click" />
+
+
+
+       
+           
+           
+           
+            <Grid Grid.ColumnSpan="3" Grid.Row="1"  >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                   
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="133"/>
+                    <ColumnDefinition Width="133"/>
+                    <ColumnDefinition Width="133"/>
+                </Grid.ColumnDefinitions>
+            <Border BorderBrush="#869699" BorderThickness="0.5 0 0.5 0" Grid.Row="0" Grid.ColumnSpan="3" />
+            <StackPanel Grid.ColumnSpan="3"  Orientation="Horizontal">
+                <RadioButton  Content="{x:Static translation:UI.Global_DiscountPercentage}" GroupName="rpt"  VerticalAlignment="Center" Margin="3"   Name="rdbDiscontInPercentage" Foreground="Black" />
+                <RadioButton  Content="{x:Static translation:UI.Global_DiscountAmount}" GroupName="rpt" Grid.Row="1" IsChecked="True" VerticalAlignment="Center" Margin="3"  Name="rdbDiscontInAmount" Foreground="Black" />
+                <RadioButton  Content="{x:Static translation:UI.Gloabl_DiscountPrice}" GroupName="rpt" Grid.Row="1"  VerticalAlignment="Center" Margin="3"  Name="rdbItemPrice" Foreground="Black" Checked="rdbItemPrice_Checked" Unchecked="rdbItemPrice_Unchecked" />
+            </StackPanel>
+            <Border Background="#FF22343E" Grid.Row="1" Grid.ColumnSpan="3" />
+            <TextBlock Name="txtPrice" Visibility="Collapsed" Grid.Row="1" Grid.Column="0"  Margin="2 0 10 0" Background="Transparent"  Foreground="#FFFFFFFF" Height="30" TextAlignment="Left" />
+            <TextBlock Name="txtDiscount" Grid.Row="1" Grid.Column="1"  Margin="2 0 10 0" Background="Transparent"  Foreground="#FFFFFFFF" Height="30" TextAlignment="Center" FontWeight="Bold" FontSize="18"/>
+            <Border  Grid.Row="2"  Grid.ColumnSpan="3" Grid.RowSpan="4"   Background="#869699" Margin="-1"  />
+                <Button Grid.Row="2" Grid.Column="0" Content="1" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="26" FontFamily="Tahoma" Click="ButtonDiscount_Click" />
+            <Button Grid.Row="2" Grid.Column="1" Content="2" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="26" FontFamily="Tahoma" Click="ButtonDiscount_Click"/>
+            <Button Grid.Row="2" Grid.Column="2" Content="3" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="26" FontFamily="Tahoma" Click="ButtonDiscount_Click"/>
+            <Button Grid.Row="3" Grid.Column="0" Content="4"  BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="26" FontFamily="Tahoma" Click="ButtonDiscount_Click"/>
+            <Button Grid.Row="3" Grid.Column="1" Content="5"  BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="26" FontFamily="Tahoma" Click="ButtonDiscount_Click"/>
+            <Button Grid.Row="3" Grid.Column="2" Content="6"  BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="26" FontFamily="Tahoma" Click="ButtonDiscount_Click"/>
+            <Button Grid.Row="4" Grid.Column="0" Content="7"  BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="26" FontFamily="Tahoma" Click="ButtonDiscount_Click"/>
+            <Button Grid.Row="4" Grid.Column="1" Content="8"  BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="26" FontFamily="Tahoma" Click="ButtonDiscount_Click"/>
+            <Button Grid.Row="4" Grid.Column="2" Content="9"  BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="26" FontFamily="Tahoma" Click="ButtonDiscount_Click"/>
+            <Button Grid.Row="5" Grid.Column="0" Content="C"  BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="26" FontFamily="Tahoma" Click="ButtonDiscountClear_Click"/>
+            <Button Grid.Row="5" Grid.Column="1" Content="0" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="26" FontFamily="Tahoma" Click="ButtonDiscount_Click"/>
+            <Button Grid.Row="5" Grid.Column="2" Content="OK"  BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="26" FontFamily="Tahoma" Click="DiscountYesButton_Click"/>
+                
+          
+            </Grid>
+
+
+        </Grid>
+  
+</Window>

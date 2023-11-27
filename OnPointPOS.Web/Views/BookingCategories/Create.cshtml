@@ -1,0 +1,100 @@
+﻿@model POSSUM.Data.Repositories.BookingCategoryViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="alert alert-success" style="display:none;" id="msgDiv"></div>
+<div class="alert alert-danger" style="display:none;" id="divError"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-visible">
+            <div class="panel-heading">
+                <div class="panel-title hidden-xs">
+                    <span class="glyphicon glyphicon-tasks"></span>
+                    Create
+                </div>
+            </div>
+            <div class="panel-body pb20">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <h4>Booking Category</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+                            @Html.LabelFor(model => model.Created, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Created, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Created, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Updated, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Updated, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Updated, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CreatedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.CreatedBy, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CreatedBy, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UpdatedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.UpdatedBy, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.UpdatedBy, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IsDeleted, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.IsDeleted, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.IsDeleted, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-success" />
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div>
+                    <a href="@Url.Action("Index")" class="btn btn-primary">Back to List</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

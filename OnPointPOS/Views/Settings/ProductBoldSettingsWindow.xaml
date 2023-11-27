@@ -1,0 +1,863 @@
+﻿<Window x:Class="POSSUM.ProductBoldSettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:translation="clr-namespace:POSSUM.Res"
+             xmlns:POSSUM="clr-namespace:POSSUM"
+        mc:Ignorable="d"
+        Title="ProductBoldSettingsWindow" Height="700" Width="770" WindowStyle="None" Background="#FFE5E6D6" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Border BorderBrush="Gray" BorderThickness="1">
+        <Grid Margin="0,0,0,-1" Name="layout">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="31*"/>
+                <ColumnDefinition Width="225*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.ColumnSpan="2"  Height="35" Background="#FF012537" VerticalAlignment="Top" />
+            <TextBlock Name="txtTitle" Width="135" HorizontalAlignment="Left" Foreground="White" FontSize="16" Margin="10,5,0,10" Grid.ColumnSpan="2">
+            <Run Text="{x:Static translation:UI.Global_Setting}"/></TextBlock>
+
+            <Button x:Name="btnClose"  Grid.Column="1" VerticalAlignment="Top"
+                                Margin="0 2 2 0" 
+                                HorizontalAlignment="Right" 
+                                Height="30" Width="40" 
+                                Content="X" FontSize="12" FontFamily="Georgia" FontWeight="Bold" 
+                                Foreground="WhiteSmoke" Background="Red" 
+                                Click="BtnClose_Click" />
+            <TabControl Name="TC1" Margin="-10,30,10,61" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                <TabItem  Height="50">
+                    <TabItem.Header>
+                        <TextBlock><Run Text="{x:Static translation:UI.Settings_Retail}"/></TextBlock>
+                    </TabItem.Header>
+
+                    <Grid Margin="0,0,0,41">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="Auto"/>
+
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="190"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Margin="13,18,345,18" Text="Sale Type" Grid.Row="2" VerticalAlignment="Center" Grid.ColumnSpan="2" Visibility="Hidden"/>
+                        <ComboBox Grid.Row="2" Name="cmbSaleType" Grid.Column="1" DisplayMemberPath="Name" SelectedValuePath="Id" Margin="3" Visibility="Hidden"/>
+                        <StackPanel Margin="8,-5,72,36" HorizontalAlignment="Center" Width="20" Grid.RowSpan="2">
+                            <ToggleButton x:Name="catlines" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=catlines}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Category Lines"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+                        <!--<Button Background="White" Grid.Row="1" Margin="8,0,72,31" >
+                            <StackPanel>
+                                <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                            </StackPanel>
+                            <Button.ToolTip>
+                                <ToolTip>
+                                    <StackPanel Width="100">
+                                        <TextBlock Text="Category Lines" FontWeight="ExtraBold"></TextBlock>
+                                    </StackPanel>
+                                </ToolTip>
+                            </Button.ToolTip>
+                        </Button>-->
+                        <TextBlock Margin="10,18,0,16" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Width="118"><Run Text="{x:Static translation:UI.Settings_CategoryLines}"/></TextBlock>
+                        <ComboBox Grid.Row="1" Name="cmbCatLines" Grid.Column="1" DisplayMemberPath="Name" SelectedValuePath="Id" Margin="3"/>
+                        <StackPanel Margin="8,38,72,32" HorizontalAlignment="Center" Width="20" Grid.Row="1" Grid.RowSpan="2">
+                            <ToggleButton x:Name="lng" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=lng}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Change the language"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock Grid.Row="2" VerticalAlignment="Center" Margin="13,16,22,19"><Run Text="{x:Static translation:UI.Settings_Language}"/></TextBlock>
+                        <ComboBox Grid.Row="2" Name="cmbLanguage" Grid.Column="1" DisplayMemberPath="Name" SelectedValuePath="Id" Margin="3" />
+                        <!--<ComboBox Grid.Row="3" Grid.Column="1" Name="cmbCleanCash" DisplayMemberPath="Name" SelectedValuePath="Id" Margin="3"/>-->
+                        <StackPanel Margin="8,38,72,32" HorizontalAlignment="Center" Width="20" Grid.Row="2" Grid.RowSpan="2">
+                            <ToggleButton x:Name="prodBold" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=prodBold}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Text of Product button become bold"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+
+                        <TextBlock VerticalAlignment="Center" Grid.Row="3" Margin="10,18,22,18"><Run Text="{x:Static translation:UI.Settings_ProductBold}"/></TextBlock>
+                        <Viewbox Grid.Row="3" Grid.Column="1" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="2"  Grid.Column="1"  FontFamily="Arial"   Name="chkProductConfirm"   />
+                        </Viewbox>
+                        <StackPanel Margin="8,38,72,32" HorizontalAlignment="Center" Width="20" Grid.Row="3" Grid.RowSpan="2">
+                            <ToggleButton x:Name="bongAlert" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=bongAlert}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Show Bong Alert"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+
+                        <TextBlock  VerticalAlignment="Center"  Grid.Row="4" Grid.Column="0" Margin="10,18"><Run Text="{x:Static translation:UI.Settings_BongAlert}"/></TextBlock>
+                        <Viewbox Grid.Row="4" Grid.Column="1" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkShowBongAlertConfirm"/>
+                        </Viewbox>
+
+                        <TextBlock Visibility="Hidden" VerticalAlignment="Center" Grid.Row="4"  Margin="10,18"><Run Text="{x:Static translation:UI.Settings_Takeaway}"/></TextBlock>
+                        <Viewbox Visibility="Hidden" Grid.Row="4" Grid.Column="1" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="2"  Grid.Column="1"   FontFamily="Arial"   Name="chkTakeawayConfirm"   />
+                        </Viewbox>
+                        <StackPanel Margin="8,38,72,32" HorizontalAlignment="Center" Width="20" Grid.Row="4" Grid.RowSpan="2">
+                            <ToggleButton x:Name="tblView" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=tblView}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Select table view arrage tables according to casher ease."/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+
+                        <TextBlock Name="lblTableViewConfirm"  VerticalAlignment="Center" Grid.Row="5" Margin="10,18,37,18"><Run Text="{x:Static translation:UI.Settings_TableView}"/></TextBlock>
+                        <Viewbox  Grid.Row="5" Grid.Column="1" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkTableViewConfirm"   />
+                        </Viewbox>
+
+                        <TextBlock  VerticalAlignment="Center" Grid.Column="2" Grid.Row="5" Margin="10,18,37,18"><Run Text="{x:Static translation:UI.Settings_DisableCreditCard}"/></TextBlock>
+                        <Viewbox  Grid.Row="5" Grid.Column="4" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkDisableCreditCard"   />
+                        </Viewbox>
+
+                        <TextBlock  VerticalAlignment="Center" Grid.Column="2" Grid.Row="6" Margin="10,18,37,18"><Run Text="Disable Cash Button"/></TextBlock>
+                        <Viewbox  Grid.Row="6" Grid.Column="4" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkDisableCashButton"   />
+                        </Viewbox>
+
+                        <TextBlock  VerticalAlignment="Center" Grid.Column="2" Grid.Row="7" Margin="10,18,37,18"><Run Text="Disable Swish Button"/></TextBlock>
+                        <Viewbox  Grid.Row="7" Grid.Column="4" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkDisableSwishButton"   />
+                        </Viewbox>
+
+                        <TextBlock  VerticalAlignment="Center" Grid.Column="2" Grid.Row="8" Margin="10,18,37,18"><Run Text="Show Comments"/></TextBlock>
+                        <Viewbox  Grid.Row="8" Grid.Column="4" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkShowComments"   />
+                        </Viewbox>
+                        
+
+                        <TextBlock Name="lblTip" VerticalAlignment="Center" Grid.Row="6" Margin="10,18,37,18"><Run Text="{x:Static translation:UI.Settings_TipStatus}"/></TextBlock>
+                        <Viewbox  Grid.Row="6" Grid.Column="1" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkTipStatus"   />
+                        </Viewbox>
+
+                        <TextBlock Name="lblAskForPrintInvoice" VerticalAlignment="Center" Grid.Row="7"  Margin="10,18"><Run Text="Ask For Print"/></TextBlock>                        
+                        <Viewbox  Grid.Row="7" Grid.Column="1" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkAskForPrintInvoice"   />
+                        </Viewbox>
+
+                        <!--other column 2/3-->
+                        <StackPanel Margin="10,0,160,30" HorizontalAlignment="Center" Width="20" Grid.Column="2" Grid.RowSpan="2">
+                            <ToggleButton x:Name="pline" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=pline}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Product Lines"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+
+                        <TextBlock Margin="10,18,22,18" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"><Run Text="{x:Static translation:UI.Settings_ProductLines}"/></TextBlock>
+                        <ComboBox Grid.Row="1" Name="cmbItemLines" Grid.Column="3" DisplayMemberPath="Name" SelectedValuePath="Id" Margin="3"/>
+                        <StackPanel Margin="10,38,160,31" HorizontalAlignment="Center" Width="20" Grid.Row="1" Grid.Column="2" Grid.RowSpan="2">
+                            <ToggleButton x:Name="showPrice" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=showPrice}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Show Price on Buttom on Product"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+
+                        <TextBlock VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Margin="10,18,22,18"><Run Text="{x:Static translation:UI.Settings_ShowPrice}"/></TextBlock>
+                        <Viewbox Grid.Row="2" Grid.Column="4" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkShowPriceConfirm"   />
+                        </Viewbox>
+                        <StackPanel Margin="10,38,160,31" HorizontalAlignment="Center" Width="20" Grid.Row="2" Grid.Column="2" Grid.RowSpan="2">
+                            <ToggleButton x:Name="catBold" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=catBold}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Text of Category button become bold"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+
+                        <TextBlock VerticalAlignment="Center" Grid.Row="3" Grid.Column="2" Margin="10,18,22,18"><Run Text="{x:Static translation:UI.Settings_CategoryBold}"/></TextBlock>
+                        <Viewbox Grid.Row="3" Grid.Column="3" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="2"  Grid.Column="1"   FontFamily="Arial"   Name="chkCategoryConfirm"   />
+                        </Viewbox>
+                        <StackPanel Margin="10,38,160,31" HorizontalAlignment="Center" Width="20" Grid.Row="3" Grid.Column="2" Grid.RowSpan="2">
+                            <ToggleButton x:Name="custView" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=custView}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Show customer view cart"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock VerticalAlignment="Center"   Grid.Row="4" Grid.Column="2"  Margin="10,18"><Run Text="{x:Static translation:UI.Settings_CustomerView}"/></TextBlock>
+                        <Viewbox Grid.Row="4" Grid.Column="4" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="2"  Grid.Column="1"   FontFamily="Arial"   Name="chkCustomerViewConfirm"   />
+                        </Viewbox>
+
+                        <TextBlock x:Name="lblReprint" Visibility="Collapsed" VerticalAlignment="Center"   Grid.Row="8" Grid.Column="2"  Margin="10,18"><Run  Text="Re Print Last Cancelled Payment"/></TextBlock>
+                        <Button x:Name="btnReprint" Click="btnReprint_Click" Visibility="Collapsed" Height="25" Width="80" Grid.Row="8" HorizontalAlignment="Left" Margin="5" Grid.Column="4" Content="Re Print"/>
+
+
+                        <!--<StackPanel Grid.Column="1" Orientation="Horizontal" Grid.Row="1">
+                <RadioButton Name="rdbTipYes" GroupName="TipStatus" IsChecked="True" Margin="5"/>
+                <CheckBox Visibility="Visible" VerticalAlignment="Center" FontFamily="Arial"   x:Name="chkConfirm"   />
+
+            </StackPanel>-->
+                        <!--<StackPanel Grid.Column="1" Orientation="Horizontal" Grid.Row="2">
+                <RadioButton Name="rdbBoldYes" GroupName="TipStatus" IsChecked="True" Margin="5"/>
+            </StackPanel>-->
+                    </Grid>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock> <Run Text="{x:Static translation:UI.Settings_Restaurent}"/></TextBlock>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Margin="8,0,122,30.667" HorizontalAlignment="Center" Width="20" Grid.RowSpan="2">
+                            <ToggleButton x:Name="bongCounter" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=bongCounter}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Show Bong Counter counter not reset when we close terminal"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock Name="lblBongCounterConfirm" VerticalAlignment="Center"  Grid.Row="1"  Margin="10,18"><Run Text="{x:Static translation:UI.Settings_BongCounter}"/></TextBlock>
+                        <Viewbox Grid.Row="1" Grid.Column="1" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="2"  Grid.Column="1"   FontFamily="Arial"   Name="chkBongCounterConfirm"   />
+                        </Viewbox>
+                        <StackPanel Margin="8,37.667,122,18" HorizontalAlignment="Center" Grid.Row="1" Width="20" Grid.RowSpan="2">
+                            <ToggleButton x:Name="dailyCounter" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=dailyCounter}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Show Daily Bong Counter reset when we close terminal"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock Name="lblDailyBongCounterConfirm" VerticalAlignment="Center" Grid.Row="2"   Margin="10,18,0,18"><Run Text="{x:Static translation:UI.Settings_DailyBongCounter}"/></TextBlock>
+                        <Viewbox  Grid.Row="2" Grid.Column="1" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="2"  Grid.Column="1"   FontFamily="Arial"   Name="chkDailyBongCounterConfirm"   />
+                        </Viewbox>
+                        <StackPanel Margin="8,37.667,122,18" HorizontalAlignment="Center" Grid.Row="2" Width="20" Grid.RowSpan="2">
+                            <ToggleButton x:Name="directBong" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=directBong}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Print Bong Recipt on Cash Credit card and checkout for all products which have bong set."/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+
+                        <TextBlock Name="lblBongConfirm"  VerticalAlignment="Center" Grid.Row="3" Margin="10,18,37,18"><Run Text="{x:Static translation:UI.Settings_DirectBong}"/></TextBlock>
+                        <Viewbox Grid.Row="3" Grid.Column="1" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkBongConfirm"   />
+                        </Viewbox>
+                        <StackPanel Margin="8,37.667,122,18" HorizontalAlignment="Center" Grid.Row="3" Width="20" Grid.RowSpan="2">
+                            <ToggleButton x:Name="elveCard" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=elveCard}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Show ElveCard option on check out screen."/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock  VerticalAlignment="Center" Grid.Row="4" Margin="10,18,37,18"><Run Text="{x:Static translation:UI.Settings_ElveCard}"/></TextBlock>
+                        <Viewbox Grid.Row="4" Grid.Column="1" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkElveCardConfirm"   />
+                        </Viewbox>
+
+                        <StackPanel Margin="8,37.667,122,18" HorizontalAlignment="Center" Grid.Row="4" Width="20" Grid.RowSpan="2">
+                            <ToggleButton x:Name="creditNote" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=creditNote}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Show CreditNote option on check out screen."/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+
+                        <TextBlock  VerticalAlignment="Center" Grid.Row="5" Margin="10,18,37,18"><Run Text="{x:Static translation:UI.Settings_CreditNote}"/></TextBlock>
+                        <Viewbox Grid.Row="5" Grid.Column="1" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkCreditNoteConfirm"   />
+                        </Viewbox>
+                        <StackPanel Margin="8,37.667,122,18" HorizontalAlignment="Center" Grid.Row="5" Width="20" Grid.RowSpan="2">
+                            <ToggleButton x:Name="beamPayment" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=beamPayment}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Show BeamPayment option on check out screen."/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock  VerticalAlignment="Center" Grid.Row="6" Margin="10,18,37,18"><Run Text="{x:Static translation:UI.Settings_BeamPayment}"/></TextBlock>
+                        <Viewbox Grid.Row="6" Grid.Column="1" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkBeamPaymentConfirm"   />
+                        </Viewbox>
+                        <TextBlock  VerticalAlignment="Center" Grid.Row="7" Margin="10,18,37,18"><Run Text="{x:Static translation:UI.Settings_Deposit}"/></TextBlock>
+                        <Viewbox Grid.Row="7" Grid.Column="1" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkDepositConfirm"   />
+                        </Viewbox>
+
+                        <!--//other column 3 and 4-->
+
+
+
+                    </Grid>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock> <Run Text="{x:Static translation:UI.Settings_General}"/></TextBlock>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="170"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Margin="8,-1,142,32" HorizontalAlignment="Center" Width="20" Grid.RowSpan="2" Height="29" VerticalAlignment="Bottom">
+                            <ToggleButton x:Name="csUri" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=csUri}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Data Sync API Link"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock VerticalAlignment="Center"  Grid.Column="0" Grid.Row="1" Margin="10,18"><Run Text="{x:Static translation:UI.Settings_ClientSettingsProvider}"/></TextBlock>
+                        <TextBox Name="txtClientSettingsProvider" Grid.ColumnSpan="3" Margin="5" Grid.Row="1" Grid.Column="1"/>
+                        <StackPanel Margin="8,-1,142,32" HorizontalAlignment="Center" Width="20" Grid.Row="1" Grid.RowSpan="2" Height="29" VerticalAlignment="Bottom">
+                            <ToggleButton x:Name="slideShow" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=slideShow}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Slide Show Url path where index file is placed"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="10,18,37,18"><Run Text="{x:Static translation:UI.Settings_SlideShowUrl}"/></TextBlock>
+                        <TextBox Name="txtSlideShowURL" Margin="3" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"/>
+
+                        <StackPanel Margin="8,-1,142,32" HorizontalAlignment="Center" Width="20" Grid.Row="2" Grid.RowSpan="2" Height="29" VerticalAlignment="Bottom">
+                            <ToggleButton x:Name="cleanCash" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=cleanCash}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="One time setting the SKV Dosa is attached For Small CleanCash2, ForBig CleanCash, Dummy when no cleancash is attached."/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+
+                        <TextBlock VerticalAlignment="Center"  Grid.Column="0" Grid.Row="3" Margin="10,18,40,18"><Run Text="{x:Static translation:UI.Settings_ControlUnitType}"/></TextBlock>
+                        <!--<TextBox Name="txtControlUnitType" Margin="5" Grid.Row="3" Grid.Column="1"/>-->
+                        <ComboBox Grid.Row="3" Grid.Column="1" Name="cmbCleanCash" DisplayMemberPath="Name" SelectedValuePath="Id" Margin="3" SelectionChanged="cmbCleanCash_SelectionChanged"/>
+
+
+                        <!--<TextBlock VerticalAlignment="Center" Text="clean cash combo"  Grid.Column="0" Grid.Row="9" Margin="10,18,40,18"></TextBlock>-->
+                        <StackPanel Margin="8,-1,142,32" HorizontalAlignment="Center" Width="20" Grid.Row="3" Grid.RowSpan="2" Height="29" VerticalAlignment="Bottom">
+                            <ToggleButton x:Name="CUSetting" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=CUSetting}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Control unit connection string."/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock VerticalAlignment="Center"  Grid.Row="4" Grid.Column="0"  Margin="10,18"><Run Text="{x:Static translation:UI.Settings_ControlUnitConnectionString}"/></TextBlock>
+                        <TextBox Name="txtControlUnitConnectionStringe" Margin="5" Grid.Row="4" Grid.Column="1"/>
+                        <StackPanel Visibility="Hidden" Margin="8,-1,142,32" HorizontalAlignment="Center" Width="20" Grid.Row="4" Grid.RowSpan="2" Height="29" VerticalAlignment="Bottom">
+                            <ToggleButton x:Name="teminalId" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=teminalId}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Unique Terminal id which is associated with terminal."/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock VerticalAlignment="Center" Visibility="Hidden"   Grid.Row="5" Grid.Column="0" Margin="10,18,40,18"><Run Text="{x:Static translation:UI.Settings_TerminalId}"/></TextBlock>
+                        <TextBox Name="txtTerminalId" Visibility="Hidden" Margin="5" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3"/>
+                        <StackPanel Margin="8,-1,142,32" HorizontalAlignment="Center" Width="20" Grid.Row="6" Grid.RowSpan="2" Height="29" VerticalAlignment="Bottom">
+                            <ToggleButton x:Name="CashDrawerPort" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=CashDrawerPort}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="0x48c=1164, 0x482=1154."/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock VerticalAlignment="Center"   Grid.Row="7" Grid.Column="0" Margin="10,18,25,18"><Run Text="{x:Static translation:UI.Settings_CashDrawerHardwarePort}"/></TextBlock>
+                        <TextBox Name="txtCashDrawerHardwarePort" Margin="5" Grid.Row="7" Grid.Column="1"/>
+                        <StackPanel Margin="8,-1,142,32" HorizontalAlignment="Center" Width="20" Grid.Row="7" Grid.RowSpan="2" Height="29" VerticalAlignment="Bottom">
+                            <ToggleButton x:Name="scaleType" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=scaleType}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="NONE, DUMMY OR NCIPROTOCOL"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock VerticalAlignment="Center"   Grid.Row="8" Grid.Column="0" Margin="10,18,40,18"><Run Text="{x:Static translation:UI.Settings_ScaleType}"/></TextBlock>
+                        <TextBox Name="txtScaleType" Margin="3" Grid.Row="8" Grid.Column="1"/>
+                        <StackPanel Margin="8,0,142,32" HorizontalAlignment="Center" Width="20" Grid.Row="8" Grid.RowSpan="2" Height="29" VerticalAlignment="Bottom">
+                            <ToggleButton x:Name="DebugCleanCash" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=DebugCleanCash}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="for log writing to track what happen need to enable log for cleancash"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock  VerticalAlignment="Center" Grid.Row="9" Margin="10,18,37,17"><Run Text="{x:Static translation:UI.Settings_DebugCleanCash}"/></TextBlock>
+                        <Viewbox  Grid.Row="9" Grid.Column="1" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkDebugCleanCashConfirm"   />
+                        </Viewbox>
+
+                        <TextBox Margin="3" Grid.Row="3" Grid.Column="3"/>
+                        <Button Name="btnCloudCleanCash" Content="{x:Static translation:UI.Set_Cloud_Clean_Cash}" BorderThickness="0.2" BorderBrush="Black" Foreground="White" Background="#FF007ACC" Margin="3" Grid.Row="3" Grid.Column="3" Click="BtnCloudCleanCash_Click" />
+                        
+                        <!--other column-->
+                        <StackPanel Margin="2.667,0,174.667,32" HorizontalAlignment="Center" Width="20" Grid.Row="3" Grid.Column="2" Grid.RowSpan="2" Height="29" VerticalAlignment="Bottom">
+                            <ToggleButton x:Name="apiUser" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=apiUser}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Admin pannel username"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock VerticalAlignment="Center" Grid.Row="4" Grid.Column="2" Margin="10,18,37,18"><Run Text="{x:Static translation:UI.Settings_APIUSER}"/></TextBlock>
+                        <TextBox Name="txtAPIUSER" Margin="3" Grid.Row="4" Grid.Column="3"/>
+                        <StackPanel Margin="2.667,0,174.667,32" HorizontalAlignment="Center" Width="20" Grid.Row="5" Grid.Column="2" Grid.RowSpan="2" Height="29" VerticalAlignment="Bottom">
+                            <ToggleButton x:Name="apiPassword" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=apiPassword}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Admin pannel Password "/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock VerticalAlignment="Center" Grid.Row="6" Grid.Column="2"  Margin="10,18,37,18"><Run Text="{x:Static translation:UI.Settings_APIPassword}"/></TextBlock>
+                        <TextBox Name="txtAPIPassword" Margin="3" Grid.Row="6" Grid.Column="3"/>
+                        <StackPanel Margin="1.667,0,175.667,32" HorizontalAlignment="Center" Width="20" Grid.Row="6" Grid.Column="2" Grid.RowSpan="2" Height="32" VerticalAlignment="Bottom">
+                            <ToggleButton x:Name="paymentDeviceConString" Height="30" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=paymentDeviceConString}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="setting of IP address which on payment device "/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock VerticalAlignment="Center"  Grid.Row="7" Grid.Column="2" Margin="10,18"><Run Text="{x:Static translation:UI.Settings_PaymentDevicConnectionString}"/></TextBlock>
+                        <TextBox Name="txtPaymentDevicConnectionString" Margin="5" Grid.Row="7" Grid.Column="3"/>
+                        <StackPanel Margin="8,-1,142,32" HorizontalAlignment="Center" Width="20" Grid.Row="5" Grid.RowSpan="2" Height="29" VerticalAlignment="Bottom">
+                            <ToggleButton x:Name="paymentDeviceType" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=paymentDeviceType}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Need to set payment device type according to service provider."/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock VerticalAlignment="Center"   Grid.Row="6" Grid.Column="0" Margin="10,18,25,18"><Run Text="{x:Static translation:UI.Settings_PaymentDeviceType}"/></TextBlock>
+                        <TextBox Name="txtPaymentDeviceType" Margin="5" Grid.Row="6" Grid.Column="1"/>
+                        <ComboBox Grid.Row="6" Grid.Column="1" Name="cmbPaymentDeviceType" DisplayMemberPath="Name" SelectedValuePath="Id" Margin="3"/>
+                        <StackPanel Margin="2.667,0,174.667,32" HorizontalAlignment="Center" Width="20" Grid.Row="7" Grid.Column="2" Grid.RowSpan="2" Height="31" VerticalAlignment="Bottom">
+                            <ToggleButton x:Name="cashDrawerType" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=cashDrawerType}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Need to set cash drawer type."/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock VerticalAlignment="Center"  Grid.Row="8" Grid.Column="2" Margin="10,18,40,18"><Run Text="{x:Static translation:UI.Settings_CashDrawerType}"/></TextBlock>
+                        <TextBox Name="txtCashDrawerType" Margin="5" Grid.Row="8" Grid.Column="3"/>
+                        <ComboBox Grid.Row="8" Grid.Column="3" Name="cmbCashDrawerType" DisplayMemberPath="Name" SelectedValuePath="Id" Margin="3"/>
+                        <StackPanel Margin="2.667,0,174.667,32" HorizontalAlignment="Center" Width="20" Grid.Row="8" Grid.Column="2" Grid.RowSpan="2" Height="31" VerticalAlignment="Bottom">
+                            <ToggleButton x:Name="scalePort" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=scalePort}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="Come Port for Scale  (COM1, COM2 .....)"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock VerticalAlignment="Center"  Grid.Row="9" Grid.Column="2" Margin="10,18,40,18"><Run Text="{x:Static translation:UI.Settings_ScalePort}"/></TextBlock>
+                        <TextBox Name="txtSCALEPORT" Margin="3" Grid.Row="9" Grid.Column="3"/>
+                        <StackPanel Margin="2.667,0,174.667,32" HorizontalAlignment="Center" Width="20" Grid.Row="9" Grid.Column="2" Grid.RowSpan="2" Height="31" VerticalAlignment="Bottom">
+                            <ToggleButton x:Name="enableChkOutLog" Height="24" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=enableChkOutLog}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="auto" Height="32" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="All the process which is needed for log writing to track what happen need to enable log for Checkout"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                        <TextBlock  VerticalAlignment="Center" Grid.Column="2" Grid.Row="10" Margin="9.667,18,36.667,17"><Run Text="{x:Static translation:UI.Settings_EnableCheckoutLog}"/></TextBlock>
+                        <Viewbox  Grid.Row="10" Grid.Column="4" Height="50" Width="60" HorizontalAlignment="Left" >
+                            <CheckBox Visibility="Visible"  Grid.Row="3"  Grid.Column="1"   FontFamily="Arial"   Name="chkEnableCheckoutLogConfirm"   />
+                        </Viewbox>
+
+                        <TextBlock  VerticalAlignment="Center" Grid.Column="0" Grid.Row="10" Margin="9.667,18,36.667,17"><Run Text="Till bankgironr"/></TextBlock>
+                        <TextBox Name="txtAccountNumber" Grid.Column="1" Grid.Row="10" Margin="3"  />
+                        <TextBlock  VerticalAlignment="Center" Grid.Column="2" Grid.Row="11" Margin="9.667,18,36.667,17"><Run Text="Betalningsmottagare"/></TextBlock>
+                        <TextBox Name="txtPaymentReceiverName" Grid.Column="3" Grid.Row="11" Margin="3"  />
+                        <TextBlock  VerticalAlignment="Center" Grid.Column="0" Grid.Row="11" Margin="9.667,18,36.667,17"><Run Text="Vår referens"/></TextBlock>
+                        <TextBox Name="txtInvoiceReference" Grid.Column="1" Grid.Row="11" Margin="3"  />
+
+
+
+
+                    </Grid>
+                </TabItem>
+                <TabItem  Visibility="hidden">
+                    <TabItem.Header>
+                        <TextBlock> <Run Text="{x:Static translation:UI.Settings_General}"/></TextBlock>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="170"/>
+                            <ColumnDefinition/>
+
+                        </Grid.ColumnDefinitions>
+                        <StackPanel  HorizontalAlignment="Center" Height="40" Margin="10,-11,141,22.333" Width="19">
+                            <ToggleButton x:Name="button1" Height="16" Margin="0,15,0,14.333" RenderTransformOrigin="0.569,-0.521" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <StackPanel>
+                                            <Image Source="/POSSUM;component/Images/info.png" Width="20" Height="16"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup Placement="Right" IsOpen="{Binding IsChecked, ElementName=button1}" StaysOpen="False">
+                                <Border Background="LightYellow" Width="129" Height="33" RenderTransformOrigin="0.551,-3.06">
+                                    <TextBlock Margin="10,10,47.333,0"><Run Text="I'm the popup"/></TextBlock>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
+
+                    </Grid>
+                </TabItem>
+            </TabControl>
+            <Button Name="btnSave" Content="{x:Static translation:UI.CheckOutOrder_Done}" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" Background="ForestGreen" Grid.Row="1"  Width="64"  Click="BtnSave_Click"  HorizontalAlignment="Right" RenderTransformOrigin="0.27,2.296" Margin="0,608,6,2.667" Grid.Column="1"/>
+
+
+        </Grid>
+
+    </Border>
+</Window>

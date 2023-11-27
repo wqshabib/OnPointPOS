@@ -1,0 +1,177 @@
+﻿@using Kendo.Mvc.UI;
+
+<head>
+    <link href="http://cdn.kendostatic.com/2013.3.1119/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.kendostatic.com/2013.3.1119/styles/kendo.default.min.css" rel="stylesheet" type="text/css" />
+    <script src="http://cdn.kendostatic.com/2013.3.1119/js/jquery.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2013.3.1119/js/kendo.all.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2013.3.1119/js/kendo.aspnetmvc.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2013.3.1119/js/kendo.timezones.min.js"></script>
+</head>
+
+<div class="row">
+    <div class="col-md-1">
+        <div>
+            Booking Areas
+        </div>
+        <div id="team-schedule">
+            <div id="people">
+                @foreach (var item in ViewBag.BookingAreas)
+                {
+                    <div style="padding: 10px;
+    margin: 3px;
+    background: red;
+    background-color: @item.Color;">
+                        <input checked type="checkbox" id="@item.Name" aria-label="@item.Name" value="@item.BookingAreaId">
+                        @item.Name
+                    </div>
+                }
+
+                @*<input checked type="checkbox" id="alex" aria-label="Alex" value="1">
+                <input checked type="checkbox" id="bob" aria-label="Bob" value="2">
+                <input type="checkbox" id="charlie" aria-label="Charlie" value="3">*@
+            </div>
+        </div>
+    </div>
+    <div class="col-md-11">
+        @(Html.Kendo().Scheduler<TaskViewModel>()
+    .Name("scheduler")
+    .Date(DateTime.Now)
+    .StartTime(DateTime.Now)
+    .Height(600)
+    .Views(views =>
+    {
+        views.DayView();
+        views.WorkWeekView();
+        views.WeekView();
+        views.MonthView(workWeekView => workWeekView.Selected(true));
+        //views.AgendaView();
+        //views.TimelineView();
+    })
+    .Timezone("Etc/UTC")
+    .Resources(resource =>
+    {
+        resource.Add(m => m.BookingAreaID)
+            .Title("Event Type")
+            .DataTextField("Name")
+            .DataValueField("BookingAreaId")
+            .DataColorField("Color")
+            .BindTo(ViewBag.BookingAreas);
+    })
+    .Resources(resource =>
+    {
+        resource.Add(m => m.ProductIDs)
+            .Title("Products")
+            .DataTextField("Name")
+            .DataValueField("BookingAreaId")
+            .DataColorField("Color").Multiple(true)
+            .BindTo(ViewBag.BookingAreas);
+    })
+    //.Resources(resource =>
+    //{
+    //    resource.Add(m => m.Price)
+    //        .Title("Price")
+    //        .DataTextField("Price")
+    //        .DataValueField("Price") 
+    //        .DataColorField("Price")
+    //        .BindTo("Price");
+    //})
+    .DataSource(d => d
+        .Model(m =>
+        {
+            m.Id(f => f.TaskID);
+            m.Field(f => f.Title).DefaultValue("Enter title here");
+            m.Field(f => f.BookingAreaID).DefaultValue(1);
+            m.Field(f => f.Description).DefaultValue("Enter description here");
+            m.Field(f => f.Price).DefaultValue("Enter price here");
+            m.RecurrenceId(f => f.RecurrenceID);
+        })
+        .Read("Read", "Bookings")
+        .Create("Create", "Bookings")
+        .Destroy("Destroy", "Bookings")
+        .Update("Update", "Bookings")
+        .Filter(filters =>
+        {
+            //filters.Add(model => model.BookingAreaID).IsEqualTo(1).Or().IsEqualTo(2);
+        })
+    )
+        )
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+
+        var scheduler = $("#scheduler").data("kendoScheduler");
+
+        scheduler.wrapper.on("mouseup touchend", ".k-scheduler-table td, .k-event", function (e) {
+            var target = $(e.currentTarget);
+
+            if (target.hasClass("k-event")) {
+                var event = scheduler.occurrenceByUid(target.data("uid"));
+                scheduler.editEvent(event);
+            } else {
+                var slot = scheduler.slotByElement(target[0]);
+
+                scheduler.addEvent({
+                    start: slot.startDate,
+                    end: slot.endDate
+                });
+            }
+        });
+
+        $("#people :checkbox").change(function (e) {
+            var checked = $.map($("#people :checked"), function (checkbox) {
+                return parseInt($(checkbox).val());
+            });
+
+            var filter = {
+                logic: "or",
+                filters: $.map(checked, function (value) {
+                    return {
+                        operator: "eq",
+                        field: "BookingAreaID",
+                        value: value
+                    };
+                })
+            };
+
+            var scheduler = $("#scheduler").data("kendoScheduler");
+
+            scheduler.dataSource.filter(filter);
+        });
+    })
+</script>
+
+<style>
+
+.k-nav-current > .k-link span + span {
+    max-width: 200px;
+}
+
+#team-schedule {
+   
+}
+
+#people {
+    
+}
+#alex {
+    position: absolute;
+    left: 4px;
+    top: 81px;
+}
+#bob {
+    position: absolute;
+    left: 119px;
+    top: 81px;
+}
+#charlie {
+    position: absolute;
+    left: 234px;
+    top: 81px;
+}
+</style>

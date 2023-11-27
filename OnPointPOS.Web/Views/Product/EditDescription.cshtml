@@ -1,0 +1,150 @@
+﻿@model ProductTextViewModel
+
+
+    <div class="panel-body">
+        <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+        <div class="alert alert-danger" style="display:none;" id="divError"></div>
+        
+        <div class="admin-form">
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.ItemId)
+            <div class="section row">
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            <label class="control-label pt10"> @Resource.Language </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field select">
+                                @Html.DropDownListFor(model => model.LanguageId, Model.Languages, new { @class = "field select" })
+                                <i class="arrow"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+              
+            </div>
+
+           
+            <div class="section row">
+               
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            <label class="control-label pt10"> @Resource.Price  </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.Price, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Add + " " + Resource.Price })
+                                <i class="arrow"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section row">
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            <label class="control-label pt10"> Price Mode </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field select">
+                                @Html.DropDownListFor(model => model.PriceMode, Model.PriceModes, new { @class = "field select" })
+                                <i class="arrow"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+    <div class="panel-footer clearfix">
+        <div class="pull-right">
+            <button type="button" id="btnSavePrice"  class="btn btn-primary btn-gradient mr40">
+                <span class="fa fa-upload"></span> @Resource.Save
+            </button>
+        </div>
+    </div>
+
+
+
+<script>
+    $(function () {
+        $('#btnSavePrice').click(function () {
+            SavePrice();
+        });
+    });
+    function SavePrice() {
+
+        $("#divError").html('');
+        $("#divError").hide('');
+
+            if ($('#Price').val() == '') {
+
+                //'Specify product name'
+
+                $("#divError").html("@Resource.Specify  @Resource.Product  @Resource.Price");
+                $("#divError").show();
+                $('#Description').focus();
+                return;
+            }
+
+        var data = {
+            Id: $('#Id').val(),
+            ItemId: $('#ItemId').val(),
+            Price: $('#Price').val(),
+            OutletId: $("#OutletId").find('option:selected').val(),
+            PriceMode: $("#PriceMode").find('option:selected').val()
+        };
+       
+        $.ajax({
+            url: '@Url.Action("SavePrice", "Product")',
+            type: "POST",
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                var res = result.Message;
+                var arr = res.split(':');
+                if (arr[0] == "Success") {
+                    $("#messageBox").show();
+                    $('#messageBox').html(arr[1]);
+                    var tId;
+
+                    $("#messageBox").hide().slideDown();
+                    clearTimeout(tId);
+                    tId = setTimeout(function () {
+                        $("#messageBox").hide();
+                        // window.location = '/Product'
+                        $('#Price').val('');
+                        GetList();
+                    }, 2000);
+                }
+                else {
+                    $("#divError").show();
+                    $('#divError').html(arr[1]);
+                    var tId;
+
+                    $("#divError").hide().slideDown();
+                    clearTimeout(tId);
+                    tId = setTimeout(function () {
+                        $("#divError").hide();
+
+
+                    }, 3000);
+                }
+
+
+            }
+        });
+
+    }
+
+</script>

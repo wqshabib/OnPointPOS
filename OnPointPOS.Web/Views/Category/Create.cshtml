@@ -1,0 +1,216 @@
+﻿@model CategoryViewModel
+<link href="~/Content/style.css" rel="stylesheet" />
+<div class="panel mb25 mt5">
+    <div class="panel-heading">
+        <span class="panel-title hidden-xs"> @Resource.Add @Resource.Category</span>
+        <ul class="nav panel-tabs-border panel-tabs">
+            <li class="active">
+                <a href="#tab1_1" data-toggle="tab">@Resource.General</a>
+            </li>
+
+        </ul>
+    </div>
+    @using (Html.BeginForm("Create", "Category", null, FormMethod.Post, new { id = "form1", role = "form", @class = "" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(m => m.Parant)
+        @Html.HiddenFor(m => m.CategoryLevel)
+        <div class="panel-body p20 pbn">
+            <div class="tab-content pn br-n admin-form">
+                <div id="tab1_1" class="tab-pane active">
+
+                    <div class="section row mbn">
+                        <div class="section row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Category @Resource.Name</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.TextBoxFor(model => model.Name, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Category + " " + Resource.Name, Title = Resource.Category + " " + Resource.Name, required = "required" ,oninvalid = "this.setCustomValidity('Detta fältet måste vara ifyllt')", oninput = "setCustomValidity('')" })
+                                            @Html.ValidationMessageFor(model => model.Name)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-5 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Terminal @Resource.Root @Resource.Category </label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <label class="field select">
+                                            <select id="parent-category" name="parent-category">
+                                                @Html.Partial("_TreeCategories", Model.SeedCategories)
+                                                <option class="categorylevel-1" value="0" selected="@(Model.SeedCategories.Categories.Where(i => i.IsSelected).Count() == 0)">@Resource.Terminal @Resource.Root @Resource.Category</option>
+                                            </select>
+                                            <i class="arrow"></i>
+                                        </label>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section row">
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;">@Resource.ColorCode </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="input-group colorpicker-component demo demo-auto cursor colorpicker-element">
+                                            <span class="input-group-addon">
+                                                <i style="background-color: rgb(163, 51, 51);"></i>
+                                            </span>
+                                            @Html.TextBoxFor(model => model.ColorCode, new { @class = "form-control demo demo-1 demo-auto", @placeholder = Resource.ColorCode, Title = Resource.ColorCode })
+                                            @Html.ValidationMessageFor(model => model.ColorCode)
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-5 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;">Symbol</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <label class="field select">
+                                            @Html.DropDownListFor(model => model.IconId, Model.Icons, new { @class = "field select" })
+                                            @Html.ValidationMessageFor(model => model.IconId)
+                                            <i class="arrow"></i>
+                                        </label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="section row">
+                            <div class="col-md-6">
+                                <div class="col-md-12 text-center">
+
+                                    <div class="form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label for="inputStandard" class="control-label" style="padding-top: 10px;">@Resource.Sort </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label for="SortOrder" class="field prepend-icon" data-toggle="tooltip">
+
+                                                @Html.TextBoxFor(model => model.SortOrder, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Sort , Title = Resource.Sort })
+                                                @Html.ValidationMessageFor(model => model.SortOrder)
+
+                                                <label for="name2" class="field-icon">
+                                                    <i class="fa fa-sort"></i>
+                                                </label>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-5 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> Status</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <label class="control-label" style="padding-top: 10px;">
+                                            @Html.CheckBoxFor(model => model.Active, new { @type = "checkbox" })
+                                            @Resource.Active
+                                        </label>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                           
+                        </div>
+
+                            <div class="section row mbn">
+                                <div class="col-md-6">
+                                    <div class="col-md-12 text-center">
+
+                                        <div class="form-group">
+                                            <div class="col-md-3 text-right">
+                                                <label for="inputStandard" class="control-label" style="padding-top: 10px;">@Resource.Type </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <label class="field select">
+                                                    @Html.EnumDropDownListFor(model => model.Type, new { @class = "field select" })
+                                                    
+                                                    <i class="arrow"></i>
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="col-sm-12">
+                                        <p class="text-right mbn">
+                                            @*<button class="btn btn-primary" type="button">Save Category</button>*@
+                                            <button class="btn btn-primary fa fa-save" type="submit"> @Resource.Save @Resource.Category</button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+            }
+        </div>
+
+        <script>
+
+            jQuery(document).ready(function () {
+
+                //initializeing color picker
+                $('.demo-auto').colorpicker();
+                $('#Parant').val($('#parent-category').val());
+
+
+            });
+
+
+
+            $('#parent-category').change(function () {
+
+
+                $('#Parant').val($('#parent-category').val());
+
+            });
+
+            $('.tree-checkbox').click(function () {
+
+                $('#Parant').val($(this).attr('id'));
+                $('#CategoryLevel').val($(this).parent().attr('id'));
+            });
+
+
+
+        </script>

@@ -1,0 +1,104 @@
+﻿<Window x:Class="POSSUM.View.OrderHistory.SaleByItemsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:translation="clr-namespace:POSSUM.Res"
+             xmlns:POSSUM="clr-namespace:POSSUM"  Width="950" Height="700" WindowState="Normal"  Background="#FFE5E6D6"
+              xmlns:local="clr-namespace:POSSUM.View.OrderHistory" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+    >
+    <Window.Resources>
+
+        <POSSUM:EnumToNameConverter x:Key="enumTranslator"/>
+        <Style x:Key="{x:Type TextBox}"
+    	TargetType="{x:Type TextBox}">
+            <Setter Property="local:TextBoxMonitor.IsMonitoring"
+              Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border Name="Bd" 
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="#FF0E5567"
+                BorderThickness="1" CornerRadius="5"
+                    SnapsToDevicePixels="true">
+                            <Grid>
+                                <ScrollViewer x:Name="PART_ContentHost"
+                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                <TextBlock Text="" VerticalAlignment="Center" TextAlignment="Center"
+                           Margin="6, 2, 6, 0"
+                           Foreground="Gray" 
+                           Visibility="Collapsed"
+                           Name="txtPrompt" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled"
+    									 Value="false">
+                                <Setter TargetName="Bd"
+    										Property="Background"
+    										Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                <Setter Property="Foreground"
+    										Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="local:TextBoxMonitor.TextLength" Value="0">
+                                <Setter Property="Visibility" TargetName="txtPrompt" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Border BorderBrush="#869699" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition />
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Background="Gray"/>
+            <Border Grid.ColumnSpan="2"  Height="35" Background="#FF012537" VerticalAlignment="Top" />
+            <TextBlock Grid.ColumnSpan="2" Name="txtTitle" Text="{x:Static translation:UI.Sales_ProductSale}" Width="200" HorizontalAlignment="Left" Foreground="White" FontSize="16" Margin="10,5"/>
+            <Button   Grid.Column="1" VerticalAlignment="Top"
+                                Margin="0 2 2 0" 
+                                HorizontalAlignment="Right" 
+                                Height="30" Width="40" 
+                                Content="X" FontSize="12" FontFamily="Georgia" FontWeight="Bold" 
+                                Foreground="WhiteSmoke" Background="Red" 
+                                Click="btnCancel_Click" />
+
+            <StackPanel Grid.Row="1" Height="50"  Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center"  Text="{x:Static translation:UI.OrderHistory_OrderFrom}" Foreground="Black" Width="70" />
+                <DatePicker VerticalAlignment="Center" Height="30" Name="dtpFrom" Width="129" CalendarStyle="{StaticResource styleCalendar}"/>
+                <TextBlock VerticalAlignment="Center"  Text="{x:Static translation:UI.OrderHistory_OrderTo}" Foreground="Black"/>
+
+                <DatePicker Canvas.Left="585" Canvas.Top="12" Height="30" Name="dtpTo" Width="124"  CalendarStyle="{StaticResource styleCalendar}"/>
+
+
+
+
+                <Button Margin="2" Content="{x:Static translation:UI.Global_View}" Height="28" Name="btnView" Width="74" Background="#FF007ACC" Foreground="White" Click="btnView_Click"  />
+                <Button Margin="2,0,2,11" Content="{x:Static translation:UI.Global_Export}" Visibility="Collapsed" Name="btnExport" Width="74" Background="#FF007ACC" Foreground="White" Click="btnExcel_Click" Height="28" VerticalAlignment="Bottom"  />
+
+            </StackPanel>
+            <DataGrid AutoGenerateColumns="False" Margin="2,2,0,2" Visibility="Visible" IsReadOnly="True"
+              RowDetailsVisibilityMode="Collapsed" Grid.Row="2"  Name="dataGrid1"  LoadingRow="OnRowLoading"  CanUserAddRows="False" HorizontalAlignment="Left" Width="940"  >
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{x:Static translation:UI.Global_Category}" Binding="{Binding Path=Category}" IsReadOnly="True" Width="300" />
+                    <DataGridTextColumn Header="{x:Static translation:UI.Global_Product}" Binding="{Binding Path=Description}" IsReadOnly="True" Width="*"/>
+
+                    <DataGridTextColumn Header="{x:Static translation:UI.Report_Quantity}" Binding="{Binding Path=Quantity,StringFormat='0.00',Mode=OneWay}" IsReadOnly="True" Width="130"/>
+                    <DataGridTextColumn Header="{x:Static translation:UI.Global_Total}" Binding="{Binding Path=TaxPercent,StringFormat='0.00'}"  IsReadOnly="True" Width="100"/>
+
+                </DataGrid.Columns>
+            </DataGrid>
+
+
+
+
+        </Grid>
+    </Border>
+</Window>

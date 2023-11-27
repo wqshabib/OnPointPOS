@@ -1,0 +1,273 @@
+﻿<Window x:Class="POSSUM.Views.Sales.ReturnOrderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:translation="clr-namespace:POSSUM.Res"
+          xmlns:local="clr-namespace:POSSUM"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Title="Return Order Window" Height="600" Width="730"  WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <local:BoolToVisibilityConverter
+         x:Key="BoolToVisibilityConverter" 
+         TrueValue="Visible" FalseValue="Collapsed" />
+        <local:StatusToColorConverter x:Key="StatusToColorConverter"/>
+    </Window.Resources>
+    <Border BorderBrush="Gray" BorderThickness="1">
+        <Grid Background="#FFF" Grid.Row="2"  Width="720" x:Name="dlgReturnITems">
+            <Grid Background="Silver">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="65"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="320" />
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="320"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.ColumnSpan="3"  Height="35" Background="#FF012537" VerticalAlignment="Top" />
+
+                <Button Name="btnClose" Grid.Column="2" Content="X" Background="Red" Style="{x:Null}" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" Width="30" Click="btnClose_Click"/>
+                <TextBlock  VerticalAlignment="Center" Foreground="White" FontWeight="Bold"><Run Text="{x:Static translation:UI.Global_Return}"/><Run Text=" Order"/></TextBlock>
+                <Border Grid.Row="2" Background="White" Margin="1" BorderThickness="1" BorderBrush="#869699">
+                    <Grid Grid.Row="1" Margin="1" >
+                        <Grid.RowDefinitions>
+
+                            <RowDefinition/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="22"/>
+
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ListView Grid.ColumnSpan="3" Grid.Row="0"  BorderThickness="0" Background="Transparent" Foreground="White" Name="lvCart" SelectionMode="Multiple" >
+                            <ListView.ItemTemplate>
+
+                                <DataTemplate>
+                                    <Grid  Margin="0.5" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+
+                                        <TextBlock Foreground="Black" Width="190" Grid.Column="0" Margin="5 3" TextAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=Product.Description}" FontSize="12" FontFamily="Segoe UI" />
+                                        <TextBlock Foreground="Black" Width="45" Grid.Column="1" Margin="2 3" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Path=CartQty}" FontSize="12" FontFamily="Segoe UI" />
+
+                                        <TextBlock Foreground="Black"  Grid.Column="2" Margin="2 3" Text="{Binding GrossTotal, StringFormat='0.00'}" HorizontalAlignment="Right"/>
+
+                                        <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right" Grid.Row="1"  Visibility="{Binding DiscountVisibility, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2 3">
+                                            <TextBlock  Foreground="Black"  TextAlignment="Center"  Visibility="{Binding DiscountVisibility, Converter={StaticResource BoolToVisibilityConverter}}"><Run Text="{Binding Path=DiscountDescription}"/><Run Text=":"/></TextBlock>
+                                            <TextBlock Text="-" Visibility="{Binding DiscountVisibility, Converter={StaticResource BoolToVisibilityConverter}}" Foreground="Black"/>
+                                            <TextBlock  Foreground="Black" Text="{Binding ItemDiscount, StringFormat='0.00'}"  Visibility="{Binding DiscountVisibility, Converter={StaticResource BoolToVisibilityConverter}}"  FontSize="12" FontFamily="Segoe UI"></TextBlock>
+                                        </StackPanel>
+                                        <Border Height="1" Grid.Row="2" Grid.ColumnSpan="6" VerticalAlignment="Bottom" Background="#869699"/>
+
+                                        <ListView Margin="2" Grid.Row="2" Background="Transparent" Grid.Column="0" Grid.ColumnSpan="5" BorderThickness="0" ItemsSource="{Binding IngredientItems}"  >
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+
+                                                            <ColumnDefinition Width="50"/>
+                                                            <ColumnDefinition Width="30"/>
+                                                            <ColumnDefinition Width="15"/>
+                                                            <ColumnDefinition Width="60"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock  TextAlignment="Left" Margin="15 1"><Run Text="{Binding IngredientMode}"/><Run Text=" "/><Run Text="{Binding Product.Description}"/></TextBlock>
+                                                        <TextBlock Foreground="Black" Grid.Column="1" TextAlignment="Right" Text="{Binding CartQty,StringFormat='0.00'}" Visibility="{Binding Path=GroupQtyVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                        <TextBlock Grid.Column="4" Text="{Binding GrossTotal, StringFormat='0.00'}" HorizontalAlignment="Right"  />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+
+                                        <ListView Margin="5 2 2 2" Grid.Row="3" Background="Transparent" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="0" ItemsSource="{Binding ItemDetails}" >
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="50"/>
+                                                            <ColumnDefinition Width="30"/>
+                                                            <ColumnDefinition Width="16"/>
+                                                            <ColumnDefinition Width="60"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="{Binding Product.Description}" TextAlignment="Left" Margin="15 1"/>
+                                                        <TextBlock Grid.Column="1" TextAlignment="Right" Text="{Binding CartQty}"  Visibility="{Binding Path=GroupQtyVisibility, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                        <TextBlock Grid.Column="2" Text="x " Visibility="{Binding Path=GroupQtyVisibility, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                        <TextBlock Grid.Column="3" Text="{Binding UnitPrice, StringFormat='0.00'}" Visibility="{Binding Path=GroupQtyVisibility, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                        <TextBlock Grid.Column="4" Text="{Binding GrossTotal, StringFormat='0.00'}" HorizontalAlignment="Right"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+
+
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                        <TextBlock  FontSize="13"   Grid.Row="1" Grid.RowSpan="2" ><Run Text="{x:Static translation:UI.Sales_NetTotalLabel}"/></TextBlock>
+                        <TextBlock  Name="lblGrossTotal" Grid.Column="1" Text="0.00"  FontSize="13"  HorizontalAlignment="Right"  Grid.Row="1" Grid.RowSpan="2" />
+
+                        <TextBlock FontSize="13"  Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="txtVAT"  ><Run Text="{x:Static translation:UI.Global_VAT}"/>:<LineBreak/><Run/></TextBlock>
+                        <TextBlock  Name="lblVatTotal"  Grid.Row="2" Grid.Column="1" Text="0.00"  FontSize="13"  HorizontalAlignment="Right"  />
+
+                        <TextBlock FontSize="18" FontWeight="Bold"  Grid.Row="3" VerticalAlignment="Top" Name="txtTotal" Text="{x:Static translation:UI.Sales_TotalLabel}"/>
+                        <TextBlock  Name="lblTotal"  Grid.Row="3" Grid.Column="1" Text="0.00" FontWeight="Bold" FontSize="18"  HorizontalAlignment="Right" />
+                        <TextBlock  Grid.Row="3" Grid.Column="2"   FontSize="18"  HorizontalAlignment="Left"    ><Run Text="SE"/><Run Text="K"/></TextBlock>
+
+
+
+                        <TextBlock Foreground="#FF939494" Grid.Row="3" Text="" Name="lblOrderNumber"  FontWeight="Bold" FontSize="14" VerticalAlignment="Bottom"  HorizontalAlignment="Left"  Margin="4,2,0,0" />
+
+                    </Grid>
+                </Border>
+                <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Orientation="Vertical" VerticalAlignment="Center">
+                    <Button Content="---&gt;" Name="MoveRightButton" Margin="2 1 2 5" Height="40" Width="80"  Grid.Row="3"  BorderThickness="0" Background="#FF007ACC" FontSize="14" Click="MoveRightButton_Click" FontFamily="Segoe UI"  Foreground="White"/>
+                    <Button Content="&lt;---" Name="MoveLefButton"  Margin="2 5 1 2" Height="40" Width="80"  Grid.Row="3" BorderThickness="0" Background="#FF007ACC" FontSize="14" Click="MoveLefButton_Click" FontFamily="Segoe UI"  Foreground="White"/>
+                </StackPanel>
+                <Border Grid.Row="2" Grid.Column="2" Margin="1" BorderThickness="1" BorderBrush="#869699" Background="White">
+                    <Grid Grid.Row="1" Grid.Column="2" Margin="1" >
+                        <Grid.RowDefinitions>
+
+                            <RowDefinition/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="22"/>
+
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ListView Grid.ColumnSpan="3" Grid.Row="0"  BorderThickness="0" Background="Transparent" Foreground="White" Name="lvNewCart" SelectionMode="Multiple" >
+                            <ListView.ItemTemplate>
+
+                                <DataTemplate>
+                                    <Grid  Margin="0.5" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="Auto"/>
+
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Foreground="Black" Width="190" Grid.Column="0" Margin="5 3" TextAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=Product.Description}" FontSize="12" FontFamily="Segoe UI" />
+                                        <TextBlock Foreground="Black" Width="45" Grid.Column="1" Margin="2 3" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Path=CartQty}" FontSize="12" FontFamily="Segoe UI" />
+
+                                        <TextBlock Foreground="Black"  Grid.Column="2" Margin="2 3" Text="{Binding GrossTotal, StringFormat='0.00'}" HorizontalAlignment="Right"/>
+
+                                        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right"  Visibility="{Binding DiscountVisibility, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2 3">
+                                            <TextBlock  Foreground="Black"  TextAlignment="Center" Visibility="{Binding DiscountVisibility, Converter={StaticResource BoolToVisibilityConverter}}"><Run Text="{Binding Path=DiscountDescription}"/><Run Text=":"/></TextBlock>
+                                            <TextBlock Text="-" Visibility="{Binding DiscountVisibility, Converter={StaticResource BoolToVisibilityConverter}}" Foreground="Black"/>
+                                            <TextBlock  Foreground="Black" Text="{Binding ItemDiscount, StringFormat='0.00'}"  Visibility="{Binding DiscountVisibility, Converter={StaticResource BoolToVisibilityConverter}}"  FontSize="12" FontFamily="Segoe UI"></TextBlock>
+                                        </StackPanel>
+
+                                        <Border Height="1" Grid.Row="2" Grid.ColumnSpan="6" VerticalAlignment="Bottom" Background="#869699"/>
+
+                                        <ListView Margin="2" Grid.Row="2" Background="Transparent" Grid.Column="0" Grid.ColumnSpan="5" BorderThickness="0" ItemsSource="{Binding IngredientItems}"  >
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+
+                                                            <ColumnDefinition Width="50"/>
+                                                            <ColumnDefinition Width="30"/>
+                                                            <ColumnDefinition Width="15"/>
+                                                            <ColumnDefinition Width="60"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock  TextAlignment="Left" Margin="15 1"><Run Text="{Binding IngredientMode}"/><Run Text=" "/><Run Text="{Binding Product.Description}"/></TextBlock>
+
+                                                        <TextBlock Foreground="Black" Grid.Column="1" TextAlignment="Right" Text="{Binding CartQty,StringFormat='0.00'}" Visibility="{Binding Path=GroupQtyVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                        <TextBlock Grid.Column="4" Text="{Binding GrossTotal, StringFormat='0.00'}" HorizontalAlignment="Right"  />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                        <ListView Margin="5 2 2 2" Grid.Row="3" Background="Transparent" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="0" ItemsSource="{Binding ItemDetails}" >
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="50"/>
+                                                            <ColumnDefinition Width="30"/>
+                                                            <ColumnDefinition Width="16"/>
+                                                            <ColumnDefinition Width="60"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="{Binding Product.Description}" TextAlignment="Left" Margin="15 1"/>
+                                                        <TextBlock Grid.Column="1" TextAlignment="Right" Text="{Binding CartQty}"  Visibility="{Binding Path=GroupQtyVisibility, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                        <TextBlock Grid.Column="2" Text="x " Visibility="{Binding Path=GroupQtyVisibility, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                        <TextBlock Grid.Column="3" Text="{Binding UnitPrice, StringFormat='0.00'}" Visibility="{Binding Path=GroupQtyVisibility, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                        <TextBlock Grid.Column="4" Text="{Binding GrossTotal, StringFormat='0.00'}" HorizontalAlignment="Right"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+
+
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+
+                        <TextBlock  FontSize="13"   Grid.Row="1" Grid.RowSpan="2" ><Run Text="{x:Static translation:UI.Sales_NetTotalLabel}"/></TextBlock>
+                        <TextBlock  Name="lblRGrossTotal" Grid.Column="1" Text="0.00"  FontSize="13"  HorizontalAlignment="Right"  Grid.Row="1" Grid.RowSpan="2" />
+
+                        <TextBlock FontSize="13"  Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="txtRVAT"  ><Run Text="{x:Static translation:UI.Global_VAT}"/>:<LineBreak/><Run/></TextBlock>
+                        <TextBlock  Name="lblRVatTotal"  Grid.Row="2" Grid.Column="1" Text="0.00"  FontSize="13"  HorizontalAlignment="Right"  />
+
+                        <TextBlock FontSize="18" FontWeight="Bold"  Grid.Row="3" VerticalAlignment="Top" Name="txtRTotal" Text="{x:Static translation:UI.Sales_TotalLabel}"/>
+                        <TextBlock  Name="lblRTotal"  Grid.Row="3" Grid.Column="1" Text="0.00" FontWeight="Bold" FontSize="18"  HorizontalAlignment="Right" />
+                        <TextBlock  Grid.Row="3" Grid.Column="2"   FontSize="18"  HorizontalAlignment="Left"    ><Run Text="SE"/><Run Text="K"/></TextBlock>
+
+
+
+
+
+                    </Grid>
+                </Border>
+                <StackPanel Orientation="Horizontal"  Grid.Row="3">
+                    <Button Content="{x:Static translation:UI.Global_Cancel}"   Margin="1" Height="50" Width="80"  Grid.Row="3" BorderThickness="0" Background="#FFDC5847" FontSize="14" Click="CancelButton_Click" FontFamily="Segoe UI"  Foreground="White"/>
+
+                </StackPanel>
+
+                <StackPanel Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
+
+                    <Button Content="{x:Static translation:UI.Global_Checkout}" Name="btnNewCheckOut"  Margin="1" Height="50" Width="80"  Grid.Row="3"  BorderThickness="0" Background="#FF007ACC" FontSize="14" Click="CheckoutNewButton_Click" FontFamily="Segoe UI"  Foreground="White"/>
+
+
+                </StackPanel>
+
+            </Grid>
+
+        </Grid>
+    </Border>
+    
+</Window>

@@ -1,0 +1,218 @@
+﻿
+@{
+    ViewBag.Title = "Login on FortNox";
+}
+
+@using System.Configuration;
+
+@if (string.IsNullOrEmpty(ViewBag.Message) || ViewBag.HasError)
+{
+    <div style="text-align:center;">
+
+        <p>
+            <img src="~/Content/assets/img/fortnox-login-logo.png" height="50" />
+        </p>
+        <br>
+
+        <p>
+            <a class="btn btn-lg bg_blackist_grey btn-gradient" href="https://apps.fortnox.se/oauth-v1/auth?client_id=@ConfigurationManager.AppSettings["ClientId"]&redirect_uri=@ConfigurationManager.AppSettings["ReturnURL"]&scope=@ConfigurationManager.AppSettings["Scopes"]&state=somestate123&access_type=offline&response_type=code">
+                Login on FortNox
+            </a>
+        </p>
+    </div>
+
+    <div class="row">
+        <p style="text-align: center; font-size: 18px; ">
+            @ViewBag.Message
+        </p>
+    </div>
+}
+else
+{
+    <p>
+        <div class="row">
+            <p style="text-align: center; font-size: 18px; ">
+                @ViewBag.Message
+            </p>
+        </div>
+
+
+        @if (ViewBag.ProjectList.Count > 0)
+        {
+            <div class="row">
+                <div class="col-sm-3">
+                    <span>Project: </span>
+                    <select id="selProjectList" class="form-control">
+                        @foreach (var item in ViewBag.ProjectList)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.AccountsList.Count > 0)
+        {
+            <div class="row">
+                <div class="col-sm-3">
+                    <span>Debit Account: </span>
+                    <select id="selDebitAccountsList" class="form-control">
+                        @foreach (var item in ViewBag.AccountsList)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <span>Credit Account: </span>
+                    <select id="selCreditAccountsList" class="form-control">
+                        @foreach (var item in ViewBag.AccountsList)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.VouchersList.Count > 0)
+        {
+            <div class="row">
+                <div class="col-sm-3">
+                    <span>Voucher Series: </span>
+                    <select id="selVouchersList" class="form-control">
+                        @foreach (var item in ViewBag.VouchersList)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        }
+
+        <div class="row" style="text-align:center;margin:10px">
+            @if (ViewBag.VouchersList.Count > 0 || ViewBag.AccountsList.Count > 0 || ViewBag.ProjectList.Count > 0)
+            {
+                <button class="btn btn-lg btn-success" style="float:right;" id="btnSave" name="btnSave">Save</button>
+            }
+        </div>
+
+    </p>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.CompanyName))
+{
+    <hr />
+    <p>
+        <h3>
+            Company Info:
+        </h3>
+
+        <br />
+        <div id="CompanyInfo">
+            <p>Company Name: @ViewBag.CompanyName</p>
+            <p>Address: @ViewBag.Address</p>
+            <p>City: @ViewBag.City</p>
+            <p>Organization Number: @ViewBag.OrganizationNumber</p>
+            <p>ZipCode: @ViewBag.ZipCode</p>
+        </div>
+    </p>
+}
+
+
+
+@section scripts {
+
+    <script>
+
+        $(document).ready(function () {
+            $('#FNReport').addClass('active');
+            $('#FNReport').addClass('active');
+
+            if (!$('#menuintegrations').hasClass('menu-open')) {
+
+                $('#menuintegrations').attr('style', '').toggleClass('menu-open');
+            }
+        });
+
+        $('#btnSave').click(function () {
+            var data = {
+                Voucher : $('#selVouchersList').val(),
+                CreditAccount: $('#selCreditAccountsList').val(),
+                DebitAccount: $('#selDebitAccountsList').val(),
+                Project : $('#selProjectList').val()
+            };
+
+            $.ajax({
+                url: '@Url.Action("SaveSetting", "FN")',
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result == "Setting Saved.") {
+                        window.location.href = '@Url.Action("Activation", "FN")';
+                    }
+                    else {
+                        alert(result);
+                    }
+                }
+            });
+        });
+
+        function GetAuthorizationToken() {
+
+            var authCode = $('#AuthCode').val();
+            $('#AuthtokenResult').html("");
+
+            $.ajax({
+                url: '@Url.Action("GetAuthToken", "FN")',
+                type: "Get",
+                data: { authorization: authCode },
+                success: function (data) {
+                    $('#AuthtokenResult').html(data);
+                }
+            });
+        }
+
+
+
+        function GetRefreshToken() {
+
+            var authCode = $('#RefreshToken').val();
+            $('#RefreshTokenId').html("");
+
+            $.ajax({
+                url: '@Url.Action("GetRefreshToken", "FN")',
+                type: "Get",
+                data: { refreshToken: authCode },
+                success: function (data) {
+                    $('#RefreshTokenId').html(data);
+                }
+            });
+        }
+
+
+        function GetCompanyInfo() {
+
+            var authCode = $('#AuthoTokenCode').val();
+            $('#CompanyInfo').html("");
+            var model = { AccessToken: authCode };
+            console.log(JSON.stringify(model));
+
+            $.ajax({
+                url: '@Url.Action("GetCompanyInfo", "FN")',
+                type: "POST",
+                data: JSON.stringify(model),
+                contentType: "application/json",
+                success: function (data) {
+                    $('#CompanyInfo').html(data);
+                }
+            });
+        }
+
+    </script>
+}

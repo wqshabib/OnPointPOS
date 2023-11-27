@@ -1,0 +1,88 @@
+﻿<Window x:Class="POSSUM.Views.Customers.AddCustomerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:POSSUM"
+        xmlns:translation="clr-namespace:POSSUM.Res"
+        xmlns:WpfKb="clr-namespace:WpfKb.Controls;assembly=WpfKb"
+        mc:Ignorable="d"
+        Title="AddCustomerWindow" Height="590" Width="830" WindowStyle="None" Background="#FFE5E6D6"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid Background="Transparent" Name="layoutGrid" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Border Grid.ColumnSpan="4" Height="33" Background="#FF012537" VerticalAlignment="Top" />
+        <TextBlock Name="lblTitle" Text="{x:Static translation:UI.Sales_CustomerButton}" Foreground="White" FontSize="16" Margin="10,5" Grid.ColumnSpan="2"/>
+        <Button  Margin="1" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Column="4" Height="30" Width="30" Content="X" FontSize="12" FontFamily="Georgia" FontWeight="Bold" Foreground="WhiteSmoke" Background="Red" Click="BtnCloseAccountInfo_OnClick" />
+        <TextBlock Text="{x:Static translation:UI.Global_Name}" Grid.Row="1"  Margin="5 1" VerticalAlignment="Center"/>
+        <TextBlock Text="{x:Static translation:UI.Global_OrgNo}" Grid.Row="1" Grid.Column="2"  Margin="5 1" VerticalAlignment="Center"/>
+        <TextBlock  Grid.Row="2"  Margin="5 1" VerticalAlignment="Center"><Run Text="{x:Static translation:UI.Global_Address}"/><Run Text="1"/></TextBlock>
+        <TextBlock  Grid.Row="3"  Margin="5 1" VerticalAlignment="Center"><Run Text="{x:Static translation:UI.Global_Address}"/><Run Text="2"/></TextBlock>
+        <TextBlock Name="lblFloorNo" Grid.Row="6" Margin="5 1" Text="{x:Static translation:UI.Global_Floor}" VerticalAlignment="Center"/>
+        <TextBlock Name="lblPortCode" Grid.Row="6" Grid.Column="2" Margin="5 1" Text="{x:Static translation:UI.Global_PortCode}" VerticalAlignment="Center"/>
+        <TextBlock Text="{x:Static translation:UI.Global_ZipCode}" Grid.Row="4" Grid.Column="0" Margin="5 1" VerticalAlignment="Center"/>
+        <TextBlock Text="{x:Static translation:UI.Global_City}" Grid.Row="4" Grid.Column="2" Margin="5 1" VerticalAlignment="Center"/>
+        <TextBlock Text="{x:Static translation:UI.Report_Phone}"   Grid.Column="0" Grid.Row="5" Margin="5 1" VerticalAlignment="Center"/>
+        <TextBlock Name="lblRefNo" Text="{x:Static translation:UI.Global_Reference}"  Grid.Column="2" Grid.Row="5"  Margin="5 1" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Name="txtName" Text="{Binding Path=Name,Mode=TwoWay}"/>
+        <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal">
+            <TextBox Grid.Row="1" Grid.Column="3" Margin="1" Name="txtOrgNo" Width="170" HorizontalAlignment="Left" Text="{Binding Path=OrgNo,Mode=TwoWay}"/>
+            <TextBlock Text="{x:Static translation:UI.Global_CustomerNo}" VerticalAlignment="Center" Margin="5 1 1 1"/>
+            <TextBox Grid.Row="1" Grid.Column="3" Margin="1" Name="txtCustomerNo" Width="170" HorizontalAlignment="Left" />
+        </StackPanel>
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="1 1 10 1" Name="txtAddress1" Grid.ColumnSpan="3" Text="{Binding Path=Address1,Mode=TwoWay}"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Margin="1 1 10 1" Name="txtAddress2" Grid.ColumnSpan="3" Text="{Binding Path=Address2,Mode=TwoWay}"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Margin="1" Name="txtZipCode" Text="{Binding Path=ZipCode,Mode=TwoWay}"/>
+        <StackPanel Grid.Row="4" Grid.Column="3" Orientation="Horizontal">
+            <TextBox Grid.Row="4" Grid.Column="3" Margin="1" Name="txtCity" Width="160" HorizontalAlignment="Left" Text="{Binding Path=City,Mode=TwoWay}"/>
+            <TextBlock Text="{x:Static translation:UI.Global_Email}" VerticalAlignment="Center" Margin="5 1 1 1"/>
+            <TextBox Grid.Row="1" Grid.Column="3" Margin="1" Name="txtEmail" Text="{Binding Path=Email,Mode=TwoWay}" Width="170" HorizontalAlignment="Left" />
+        </StackPanel>
+        <TextBox Grid.Row="5" Grid.Column="1" Margin="1" Name="txtPhoneNo" Text="{Binding Path=Phone,Mode=TwoWay}"/>
+        <TextBox Grid.Row="5" Grid.Column="3" Margin="1" Name="txtReference" Width="160" HorizontalAlignment="Left" Text="{Binding Path=Reference,Mode=TwoWay}"/>
+        <StackPanel Grid.Column="3" Grid.Row="5" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2 2 80 2" Orientation="Horizontal">
+            <TextBlock Text="Direct Print" VerticalAlignment="Center"/>
+            <Viewbox  Height="50" Width="60" HorizontalAlignment="Left" Margin="2">
+                <CheckBox Name="chkDirectPrint" VerticalAlignment="Center"   IsChecked="{Binding DirectPrint,Mode=TwoWay}" />
+            </Viewbox>
+        </StackPanel>
+        <TextBlock Name="lblDeposit" Text="Current Balance"   Grid.Row="7"  Margin="5,0,5,8" VerticalAlignment="Bottom"/>
+        <TextBlock Name="lblCurrentBalance" Text="0"   Grid.Row="7" Grid.Column="1"  Margin="5,0,5,8" VerticalAlignment="Bottom"/>
+        <TextBlock Name="lblDeposi1t" Text="Has Deposit"   Grid.Row="7"  Grid.Column="2"  Margin="5,0,5,8" VerticalAlignment="Bottom"/>
+        <!--<TextBlock Name="lblCurrentBalanc1e" Text="0"   Grid.Row="7" Grid.Column="3"  Margin="5,0,5,8" VerticalAlignment="Bottom"/>-->
+        <StackPanel Grid.Row="7" Grid.Column="3"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2 2 80 2" Orientation="Horizontal">            
+            <Viewbox  Height="43" Width="60" HorizontalAlignment="Left" Margin="2">
+                <CheckBox Name="chkHasDeposit" VerticalAlignment="Center"   IsChecked="{Binding HasDeposit,Mode=TwoWay}" />
+            </Viewbox>
+        </StackPanel>
+        
+        
+
+        <TextBox Grid.Row="6" Grid.Column="1" Margin="1" Name="txtFloorNo"  />
+        <TextBox Grid.Row="6" Grid.Column="3" Width="160" HorizontalAlignment="Left" Margin="1" Name="txtPortCode"  />
+
+        <WpfKb:OnScreenKeyboard Grid.Row="8" Grid.ColumnSpan="4" Name="UserAreaKeyBoard"  Height="270"  HorizontalAlignment="Stretch"  VerticalAlignment="Center" Margin="5"/>
+        <Button  Content="{x:Static translation:UI.Global_Cancel}"  Visibility="Visible" Margin="10 2" Height="50" Width="80"  Grid.Row="9" HorizontalAlignment="Left" BorderThickness="0" Background="#FFFF4D4D" FontSize="14" Click="BtnCloseAccountInfo_OnClick" FontFamily="Segoe UI"  Foreground="White"/>
+        <Button  Content="{x:Static translation:UI.Prompt_Ok}" Name="OKButton" Visibility="Visible" Margin="2 2 10 2" Height="50" Width="80"  Grid.Row="9" Grid.Column="3" HorizontalAlignment="Right" BorderThickness="0" Background="#FF007ACC" FontSize="14" Click="OKButton_Click" FontFamily="Segoe UI"  Foreground="White" />
+
+
+    </Grid>
+
+</Window>

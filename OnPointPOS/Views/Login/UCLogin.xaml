@@ -1,0 +1,174 @@
+﻿<UserControl x:Class="POSSUM.Views.Login.UCLogin"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:POSSUM.Views.Login"
+             xmlns:translation="clr-namespace:POSSUM.Res"
+             mc:Ignorable="d"  Loaded="UserControl_Loaded"
+             >
+    <Grid>
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="" Name="txtStatusBar" Visibility="Visible" TextAlignment="Center"
+                       HorizontalAlignment="Center" FontWeight="Bold" Foreground="#FFFF7D01" VerticalAlignment="Center" />
+
+            <Border  Name="loginViewBorder" Visibility="Visible" Width="400" Height="320"  Background="Transparent" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Grid   Grid.Row="2"  Grid.Column="2"   Width="400" Height="315px">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="49"/>
+                    </Grid.RowDefinitions>
+                    <Grid Margin="2 0 2 0">
+                        <Border CornerRadius="3" BorderThickness="1"  BorderBrush="#FF22343E" Background="#FF22343E"/>
+                        <TextBox  KeyDown="txtUserName_KeyDown" GotFocus="txtUserName_GotFocus" FontFamily="Arial"  PreviewTextInput="txtUserName_PreviewTextInput" Name="txtUserName" Background="Transparent" Text="" BorderThickness="0" Margin="2" FontWeight="Bold" Foreground="White" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Grid.ColumnSpan="3" />
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="2 2 2 0">
+                        <Border CornerRadius="3" BorderThickness="1" BorderBrush="#FF22343E" Background="#FF22343E"/>
+                        <PasswordBox Name="txtPassword" KeyDown="txtPassword_KeyDown" Background="Transparent" GotFocus="txtPassword_GotFocus" BorderThickness="0" Margin="2"  FontWeight="Bold" Foreground="White" Password="" FontSize="18" Grid.Row="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" Grid.ColumnSpan="3"/>
+                    </Grid>
+                    <Border Margin="2 3 1 3" Grid.Row="2" Background="Silver" BorderBrush="#FFDCDEDE" BorderThickness="1" CornerRadius="3" Height="160" >
+                        <Grid   Grid.Row="1"  Width="399" Height="160" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0" />
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="132" />
+                                <ColumnDefinition Width="132"/>
+                                <ColumnDefinition Width="132"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Row="1"  Grid.Column="0" Content="7" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                            <Button Grid.Row="1"  Grid.Column="1" Content="8" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                            <Button Grid.Row="1"   Grid.Column="2" Content="9" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                            <Button Grid.Row="1"  Grid.Column="2" Content="9" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                            <Button Grid.Row="2"  Grid.Column="0" Content="4" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                            <Button Grid.Row="2"  Grid.Column="1" Content="5" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                            <Button Grid.Row="2"  Grid.Column="2" Content="6" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                            <Button Grid.Row="3" Grid.Column="0" Content="1" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                            <Button Grid.Row="3"  Grid.Column="1" Content="2" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                            <Button Grid.Row="3"  Grid.Column="2" Content="3" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                            <Button Grid.Row="4" Grid.Column="0" Content="0" Background="#FFDCDEDE" Foreground="Black" FontSize="14" Click="NumberButton_Click"/>
+                            <Button Grid.Row="4"  Grid.Column="1" Background="#FFDCDEDE" Content="00" FontWeight="bold"  Foreground="Black" Click="NumberButton_Click"  />
+
+                            <Button Grid.Row="4"  Grid.Column="2"  Background="#FFDCDEDE" Foreground="Black" FontSize="14" Name="btnBackSapce" Click="BackSapace_Click" >
+                                <Button.Content>
+                                    <Image VerticalAlignment="Center" HorizontalAlignment="Center" Source="/POSSUM;component/images/backspace.png"/>
+                                </Button.Content>
+                            </Button>
+
+                            <Button  Grid.Row="4" Grid.Column="1" Background="#FFDCDEDE" Content="C" Foreground="Black" FontSize="14" Name="btnClear" Click="ButtonClear_Click" />
+                        </Grid>
+                    </Border>
+                    <Button Grid.Row="3"   FontWeight="Bold" Content="Enter" Foreground="White" FontSize="14" Name="btnEnter" Click="BTNLogin_Click" Style="{StaticResource ListButtonStyle}" Margin="1" >
+                        <Button.Background>
+                            <LinearGradientBrush  EndPoint="1,1" MappingMode="RelativeToBoundingBox" StartPoint="0,0">
+                                <GradientStop Color="#FF29D87E" Offset="1"/>
+                                <GradientStop Color="#FF27D8B1"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </Grid>
+
+            </Border>
+            <Border Name="openingViewBorder" Visibility="Collapsed" Grid.Column="0" Grid.Row="1"
+                    Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Grid>
+                    <Border Visibility="Visible" Width="399" Height="351" Background="#FF6C7779"
+                            BorderBrush="#FF6C7779" BorderThickness="1" />
+                    <Grid Name="gridConfirmOpening" Margin="0.5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="*" />
+
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="133" />
+                            <ColumnDefinition Width="266" />
+
+
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.ColumnSpan="4" Height="33" Background="#FF012537" VerticalAlignment="Top" />
+                        <TextBlock Text="{x:Static translation:UI.Terminal_Open_Confirm}" Foreground="White"
+                                   FontSize="16" Margin="10 5" Grid.ColumnSpan="2" />
+
+                        <Button Style="{StaticResource FlatButton}" Background="White" BorderThickness="0"
+                                Content="{x:Static translation:UI.Terminal_Open_Change}" Grid.Row="1" Height="59" />
+                        <Button Style="{StaticResource FlatButton}" Background="White" BorderThickness="0"
+                                Content="{x:Static translation:UI.Terminal_Open_Confirm}" Grid.Row="2" Height="59" />
+
+                        <TextBox Background="#FF96AEB9" Grid.Row="1" Grid.Column="1" Height="59" Margin="0.5 0 0 0"
+                                 FontFamily="Arial" FontSize="20" Tag="4" Name="txtAmount"
+                                 Text="{Binding Opening,Mode=TwoWay}" VerticalContentAlignment="Center" Padding="0"
+                                 TextAlignment="Center" IsReadOnly="True" />
+                        <Border Background="#FF96AEB9" Grid.Row="2" Grid.Column="1" Height="59" Margin="0.5 0 0 0" />
+                        <Viewbox Grid.Row="2" Grid.Column="1" Height="50" Width="60">
+                            <CheckBox Visibility="Visible" Grid.Row="2" Grid.Column="1"
+                                      IsChecked="{Binding isOpeningActive,Mode=TwoWay}" FontFamily="Arial"
+                                      Name="chkConfirm" />
+                        </Viewbox>
+                        <Grid Grid.Row="3" Grid.ColumnSpan="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+
+                                <ColumnDefinition Width="133" />
+                                <ColumnDefinition Width="133" />
+                                <ColumnDefinition Width="133" />
+
+                                <ColumnDefinition />
+
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Row="0" Grid.Column="0" Content="1" Background="#FFDCDEDE" FontSize="20"
+                                    FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                            <Button Height="49" Grid.Row="0" Grid.Column="1" Content="2" Background="#FFDCDEDE"
+                                    FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                            <Button Height="49" Grid.Row="0" Grid.Column="2" Content="3" Background="#FFDCDEDE"
+                                    FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                            <Button Height="49" Grid.Row="1" Grid.Column="0" Content="4" Background="#FFDCDEDE"
+                                    FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                            <Button Height="49" Grid.Row="1" Grid.Column="1" Content="5" Background="#FFDCDEDE"
+                                    FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                            <Button Height="49" Grid.Row="1" Grid.Column="2" Content="6" Background="#FFDCDEDE"
+                                    FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                            <Button Height="49" Grid.Row="2" Grid.Column="0" Content="7" Background="#FFDCDEDE"
+                                    FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                            <Button Height="49" Grid.Row="2" Grid.Column="1" Content="8" Background="#FFDCDEDE"
+                                    FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                            <Button Height="49" Grid.Row="2" Grid.Column="2" Content="9" Background="#FFDCDEDE"
+                                    FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                            <Button Height="49" Grid.Row="3" Grid.Column="0" Content="C" Background="#FFDCDEDE"
+                                    FontSize="20" FontFamily="Arial" Click="OpeningBTNNotClearAll_Click" />
+                            <Button Height="49" Grid.Row="3" Grid.Column="1" Content="0" Background="#FFDCDEDE"
+                                    FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                            <Button Height="49" Grid.Row="3" Grid.Column="2" Content="OK" Background="#FFDCDEDE"
+                                    FontSize="20" FontFamily="Arial" Click="OpeningbtnSave_Click" />
+
+
+                        </Grid>
+
+
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

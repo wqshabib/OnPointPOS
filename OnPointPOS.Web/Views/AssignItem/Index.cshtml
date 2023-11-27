@@ -1,0 +1,159 @@
+﻿@{
+    ViewBag.Title = "Items";
+}
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">Item</li>
+}
+<div class="row">
+
+    <div class="panel panel-visible">
+        <div class="panel-heading">
+            <div class="panel-title hidden-xs"> <span class="glyphicon glyphicon-tasks"></span> Items <a onclick="Add()" class="btn btn-default btn-xs  pull-right" style="margin:10px 20px 0px 5px">Add New</a></div>
+        </div>
+        <div class="panel-body">
+       
+
+
+        </div>
+
+
+    </div>
+
+</div>
+<div id="detail"></div>
+
+@section scripts{
+    <!-- jQuery -->
+    @Styles.Render("~/Content/jqGrid/jqgridui")
+    @Scripts.Render("~/bundles/jqgrid")
+    <script>
+        $(document).ready(function () {
+            $('#usr span').css('color', '#a287d4');
+            $('#deviceId').removeClass('active');
+
+            if (!$('#menuActivities').hasClass('menu-open')) {
+
+                $('#menuActivities').attr('style', '').toggleClass('menu-open');
+            }
+            // Init Datatables with Tabletools Addon
+
+        });
+
+        function Add() {
+            BootstrapDialog.show({
+                title: "New Item",
+                message: function (dialog) {
+                    var $message = $('<div></div>');
+                    var pageToLoad = dialog.getData('pageToLoad');
+                    $message.load(pageToLoad);
+
+                    return $message;
+                },
+                data: {
+                    'pageToLoad': '/Item/Create'
+                }
+            });
+        }
+
+        function Update(id) {
+
+
+            BootstrapDialog.show({
+                title: "Update Profile",
+                message: function (dialog) {
+                    var $message = $('<div></div>');
+                    var pageToLoad = dialog.getData('pageToLoad');
+                    $message.load(pageToLoad);
+
+                    return $message;
+                },
+                data: {
+                    'pageToLoad': '/Account/EditProfile?userId=' + id
+                }
+            });
+        }
+
+
+        function Detail(id) {
+            $("#detail").show();
+            $.ajax({
+                url: '@Url.Action("Details", "Account")',
+                type: "Get",
+                data: { id: id },
+                success: function (result) {
+
+                    $('#detail').html(result);
+                }
+            });
+        }
+
+        function Delete(Id) {
+            alert('1');
+            if (confirm("Are you sure to delete?")) {
+                $.ajax({
+                    url: '@Url.Action("DeleteUser", "Account")',
+                    type: 'POST',
+                    data: { id: Id },
+                    success: function (result) {
+                        alert(result.Message);
+                        refreshGrid();
+                       // window.location.reload();
+                    }
+                });
+            }
+        }
+    </script>
+}
+@*script for jqgrid*@
+<script type="text/javascript">
+    var rootPath = window.location;
+    function refreshGrid() {
+        var grid = jQuery("#agentJqGrid");
+        grid.trigger("reloadGrid");
+    }
+    function onRowSelected(rowid, status) {
+
+        Detail(rowid);
+    }
+    function buttonize(cellvalue, options, rowobject) {
+
+        return '<div class="btn-group"><button class="btn bg-green2 btn-gradient btn-sm dropdown-toggle" data-toggle="dropdown" type="button"><span class="glyphicons glyphicons-cogwheel"></span></button>' +
+            '<ul class="dropdown-menu checkbox-persist pull-right text-left" >' +
+            '<li>' +
+            '<a class="fa fa-edit"  onclick="Edit(' + rowobject[5] + ')"> Edit</a>' +
+            '</li>' +
+            '<li>' +
+            '<a class="fa fa-star"  onclick="AssignRole(' + rowobject[5] + ')"> Assign Role</a>' +
+            '</li>' +
+            '<li>' +
+            '<a class="fa fa-info"  onclick="Detail(' + rowobject[5] + ')"> Detail</a>' +
+            '</li>' +
+
+            '<li>' +
+            '<a class="fa fa-times"  onclick="Delete(' + rowobject[5] + ')"> Delete</a>' +
+            '</li>' +
+
+            '</ul>' +
+            '</div>'
+        /*'<input type="button" title="Edit user" value="" style="background-color:transparent;border:none;display:inline; margin-left:3px;" class="ui-icon ui-icon-pencil" onclick="Edit(' + rowobject[5] + ')">' +
+             '<input type="button" title="Assign role to user" value="" style="background-color:transparent;border:none;display:inline; margin-left:3px;" class="ui-icon ui-icon-person" onclick="AssignRole(' + rowobject[5] + ')">' +
+        '<input type="button" title="User detail" value="" style="background-color:transparent;border:none;display:inline; margin-left:3px;" class="ui-icon ui-icon-info" onclick="Detail(' + rowobject[5] + ')">' +
+            '<input type="button" title="delete user" value="" style="background-color:transparent;border:none;display:inline; margin-left:3px;" class="ui-icon ui-icon-trash" onclick="Delete(' + rowobject[5] + ')">';
+
+
+            */
+
+    }
+
+
+    function Edit(id) {
+
+        Update(id);
+        //  window.location = '/Account/EditProfile?userId=' + id;
+
+    }
+    function AssignRole(id) {
+        window.location = '/Account/UserRole?userId=' + id;
+    }
+
+</script>

@@ -1,0 +1,269 @@
+﻿<Application x:Class="POSSUM.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"            
+             xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"             
+             xmlns:local="clr-namespace:POSSUM"  
+             xmlns:controls="clr-namespace:Notifications.Wpf.Controls;assembly=Notifications.Wpf"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"             
+             xmlns:sample="clr-namespace:POSSUM"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="PrintWindowStyle" TargetType="{x:Type Window}">
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Width" Value="350"/>
+                <Setter Property="WindowStyle" Value="None"/>
+                <Setter Property="ResizeMode" Value="NoResize"/>
+            </Style>
+
+            <Style x:Key="PrintFlowDocument" TargetType="{x:Type FlowDocument}">
+
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="IsColumnWidthFlexible" Value="False"/>
+                <Setter Property="IsOptimalParagraphEnabled" Value="False"/>
+                <Setter Property="IsHyphenationEnabled" Value="true"/>
+                <Setter Property="PagePadding" Value="Auto"/>
+                <Setter Property="ColumnWidth" Value="350"/>
+            </Style>
+
+            <Style x:Key="PrintStoreTitle" TargetType="{x:Type TextBlock}">
+                <Setter Property="Text" Value="POSSUM SYSTEM"/>
+                <Setter Property="Width" Value="310"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontFamily" Value="Arial"/>
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="FontWeight" Value="Black"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="TextDecorations" Value="Underline"/>
+            </Style>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Calibri"/>
+            </Style>
+            <Style x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
+
+                <Setter Property="SnapsToDevicePixels" Value="true"/>
+                <Setter Property="OverridesDefaultStyle" Value="true"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Border Background="#FF6C7779" BorderBrush="#FF6C7779" BorderThickness="0 0 0 0"
+          Name="Border"
+       
+          SnapsToDevicePixels="true">
+
+                                <ContentPresenter />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter TargetName="Border" Property="Background"
+                    Value="#FF6C7779"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Foreground"
+                    Value="Black"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style  TargetType="ListViewItem">
+
+                <Setter Property="SnapsToDevicePixels" Value="true"/>
+                <Setter Property="OverridesDefaultStyle" Value="true"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListViewItem">
+                            <Border Background="Transparent"
+          Name="Border"
+       
+          SnapsToDevicePixels="true">
+
+                                <ContentPresenter />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter TargetName="Border" Property="Background"
+                    Value="Silver"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Foreground"
+                    Value="Black"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="styleCalendar" TargetType="{x:Type Calendar}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Calendar}">
+                            <!-- Wrapping in ViewBox will enlarge calendar of that size.-->
+                            <Viewbox Height="400"
+                         Width="400">
+                                <CalendarItem x:Name="PART_CalendarItem"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"/>
+                            </Viewbox>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="TextBox" >
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+
+            <sample:CustomTemplateSelector x:Key="CustomTemplateSelector" />
+            <Style TargetType="controls:Notification">
+                <Setter Property="ContentTemplateSelector" Value="{StaticResource CustomTemplateSelector}" />
+                <Style.Resources>
+                    <DataTemplate DataType="{x:Type system:String}" x:Key="PinkStringTemplate">
+                        <Border Padding="0" MinHeight="20">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="200"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+                                <Border Grid.ColumnSpan="3" Grid.Row="0"  Height="45" Background="#FF012537" VerticalAlignment="Top" />
+                                
+                                <TextBlock Text="{Binding Title, Mode=TwoWay}"  Foreground="White" Grid.ColumnSpan="3" FontSize="14" HorizontalAlignment="Left" Margin="5"  VerticalAlignment="Center" ></TextBlock>
+
+                                <TextBlock Text="Delivery Date" Grid.ColumnSpan="2" Grid.Row="1"  Foreground="White" FontSize="16" Margin="5" Visibility="{Binding DeliveryDateVisibility}"></TextBlock>
+                                <TextBlock Text="{Binding DeliveryDate}" Grid.Row="1" Grid.Column="2"  Foreground="White" FontSize="16" HorizontalAlignment="Right" Margin="5" Visibility="{Binding DeliveryDateVisibility}"></TextBlock>
+
+                                <TextBlock Text="Name" Grid.Row="2"  Foreground="White" FontSize="16" Margin="5" Visibility="{Binding CustomerNameVisibility}"></TextBlock>
+                                <TextBlock Text="{Binding CustomerName}" Grid.Row="2" Grid.Column="2"  Foreground="White" FontSize="16" HorizontalAlignment="Right" Margin="5" Visibility="{Binding CustomerNameVisibility}"></TextBlock>
+
+                                <TextBlock Text="Phone No" Grid.Row="3"  Foreground="White" FontSize="16" Margin="5" Visibility="{Binding CustomerPhoneVisibility}"></TextBlock>
+                                <TextBlock Text="{Binding PhoneNo}" Grid.Row="3" Grid.Column="2"  Foreground="White" FontSize="16" HorizontalAlignment="Right" Margin="5" Visibility="{Binding CustomerPhoneVisibility}"></TextBlock>
+
+                                <TextBlock Text="Email" Grid.Row="4"  Foreground="White" FontSize="16" Margin="5" Visibility="{Binding CustomerEmailVisibility}"></TextBlock>
+                                <TextBlock Text="{Binding Email}" Grid.Row="4" Grid.Column="2"  Foreground="White" FontSize="16" HorizontalAlignment="Right" Margin="5"  Visibility="{Binding CustomerEmailVisibility}"></TextBlock>
+
+                                <TextBlock Text="Address" Grid.Row="5"  Foreground="White" FontSize="16" Margin="5" Visibility="{Binding CustomerAddressVisibility}"></TextBlock>
+                                <TextBlock Text="{Binding Address}" Grid.Row="5" Grid.Column="2"  Foreground="White" FontSize="16" HorizontalAlignment="Right" Margin="5" Visibility="{Binding CustomerAddressVisibility}"></TextBlock>
+
+                                <TextBlock Text="Order Total" Grid.Row="6"  Foreground="White" FontSize="16" Margin="5"></TextBlock>
+                                <TextBlock Text="{Binding OrderTotal}" Grid.Row="6" Grid.Column="2" HorizontalAlignment="Right"  Foreground="White" Margin="5" FontSize="16" ></TextBlock>
+                                
+                                <TextBlock Text="TAX" Grid.Row="7"  Foreground="White" FontSize="16" Margin="5"></TextBlock>
+                                <TextBlock Text="{Binding Tax}" Grid.Row="7" Grid.Column="2"  Foreground="White" FontSize="16" HorizontalAlignment="Right" Margin="5" ></TextBlock>
+
+                                <Grid Grid.Row="8" Margin="5 0 8 0"  Grid.ColumnSpan="5" HorizontalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="Title" Foreground="White" FontSize="16"/>
+                                    <TextBlock Text="Quantity" HorizontalAlignment="Center" Grid.Column="1" Foreground="White" FontSize="16"/>
+                                    <TextBlock Text="Price" Grid.Column="2" HorizontalAlignment="Right" TextAlignment="Right" Foreground="White" FontSize="16" />
+                                </Grid>
+
+                                <ListView Margin="5" Name="lvDataBinding" Grid.ColumnSpan="5"  Grid.Row="9" ItemsSource="{Binding OrderLines}"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" >
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid HorizontalAlignment="Stretch">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Text="{Binding Product.Description}"  FontWeight="Bold" />
+                                                <TextBlock Text="{Binding Quantity}" HorizontalAlignment="Center" Grid.Column="1" FontWeight="Bold"/>
+                                                <TextBlock Text="{Binding UnitPrice}" Grid.Column="2" HorizontalAlignment="Right" TextAlignment="Right" FontWeight="Bold" />
+                                                
+                                                <ListView Margin="0 0 0 0" Name="lvDataBinding1"  BorderBrush="Transparent" BorderThickness="0" Grid.ColumnSpan="3"  Grid.Row="2" ItemsSource="{Binding Ingredients}"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" >
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid HorizontalAlignment="Stretch">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto"/>
+                                                                    <RowDefinition Height="Auto"/>
+                                                                </Grid.RowDefinitions>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*"/>
+                                                                    <ColumnDefinition Width="*"/>
+                                                                    <ColumnDefinition Width="*"/>
+                                                                </Grid.ColumnDefinitions>
+
+                                                                <TextBlock Margin="10 0 0 0" Text="{Binding Product.Description}"  FontWeight="Bold" />
+                                                                <TextBlock Text="{Binding Quantity}" HorizontalAlignment="Center" Grid.Column="1" FontWeight="Bold"/>
+                                                                <TextBlock Text="{Binding UnitPrice}" Grid.Column="2" HorizontalAlignment="Right" TextAlignment="Right" FontWeight="Bold" />
+                                                            </Grid>
+
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </Grid>
+
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+
+                                
+                                <!--<Button x:Name="Cddflose" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"   Background="#FF444444" BorderBrush="White" Width="60px" Height="30px"  Content="Close" Foreground="White"     controls:Notification.CloseOnClick="True"/>
+                                <Button x:Name="Cddfldfdose" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"   Background="#FF444444" BorderBrush="White" Width="60px" Height="30px"  Content="Close" Foreground="White"     controls:Notification.CloseOnClick="True"/>-->
+                                <!--<TextBlock Text="{Binding Message}" Grid.Row="4"  Grid.ColumnSpan="3"  TextWrapping="Wrap" Opacity=".8" />-->
+
+                                <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3" Grid.Row="10" Margin="5" HorizontalAlignment="Right">
+                                    <Button x:Name="Cancel" Command="{Binding RejectCommand}" Visibility="{Binding AcceptVisibility}" Background="Red" BorderBrush="White" Width="60px" Height="Auto"  Content="Reject" Foreground="White"   Margin="3" controls:Notification.CloseOnClick="True"/>
+                                    <Button x:Name="Ok" Command="{Binding AcceptCommand}" Visibility="{Binding AcceptVisibility}" Content="Accept" Width="60px"  Height="Auto" controls:Notification.CloseOnClick="True" Margin="3"/>
+                                    <Button x:Name="Close" Command="{Binding CloseCommand}" Visibility="{Binding CloseVisibility}" Background="#FF444444" BorderBrush="White" Width="60px" Height="Auto"  Content="Close" Margin="3" Foreground="White"   controls:Notification.CloseOnClick="True"/>
+
+
+                                </StackPanel>
+                                
+
+                            </Grid>
+
+                        </Border>
+                    </DataTemplate>
+
+                </Style.Resources>
+
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/Buttons.xaml" />
+                <ResourceDictionary Source="Theme/Default.xaml" />
+                <ResourceDictionary Source="Theme/DataGridStyle.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,36 @@
+﻿<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Fyll i ditt postnummer om du vill ha utkörning annars välj avhämtning.</h4>
+    </div>
+    <div class="modal-body">
+        <br />
+        <div class="row" style="margin: auto; max-width: 400px; width: 90%;">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label>Ange ditt postnummer</label>
+                    <div class="input-group" style="margin-top: 5px;">
+                        <input class="form-control" type="text" id="postal" />
+                        <span class="input-group-addon" id="nunclr" style="background-color: #E74C3C">
+                            <i class="fa fa-times" id="nunok"></i>
+                        </span>
+                    </div>
+                    <button type="button" class="btn btn-default" id="postalbutton" disabled onclick="LoadModal('@ViewBag.ID',true,true)" style="width: 100%; margin-top: 5px;">Gå vidare</button>
+                    <button type="button" class="btn btn-default" onclick="LoadModal('@ViewBag.ID',true)" style="width: 100%; margin-top: 5px;@(!Model.ShopConfig.HasTakeAway?"display:none":string.Empty)">Avhämtning</button>
+                </div>
+            </div>
+        </div>
+        <br />
+    </div>
+</div>
+<script type="text/javascript">
+    $('#postal').keyup(function () {
+        var val = this.value.trim();
+        if (val.length >= 5) {
+            var ok = CheckPostal(val);
+            Postalok(ok, val.length);
+        }
+        else {
+            Postalok(false, val.length);
+        }
+    })
+</script>

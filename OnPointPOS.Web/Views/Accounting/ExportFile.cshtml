@@ -1,0 +1,154 @@
+﻿@model TerminalData
+@{
+    ViewBag.Title = "ExportFile";
+}
+  <section>
+
+
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+
+
+
+                <li>
+                    <a href="/StoreSetting">@Resource.Settings</a>
+                </li>
+                <li>
+                    <a href="/Accounting">@Resource.Accounting</a>
+                </li>
+                <li class="active">
+                    <a href="ExportFile">@Resource.ExportFile</a>
+                </li>
+            </ul>
+        </div>
+
+    </header>
+    <div class="pt25">
+        <div class="tray tray-center">
+            <div class="panel">
+            <div class="panel-body p20">
+                <!--<div class="panel-heading">
+                    <span class="panel-title">
+                        <span class="glyphicon glyphicon-print" id="pd"></span>@Resource.ExportFile
+                    </span>
+                </div>-->
+                <div class="row">
+                        
+                        <div class="col-sm-4 mb10">
+                            <label class="pull-left mb10">
+                                @Resource.Terminal
+                            </label>
+                            <select name="cmbTerminal" class="form-control" id="cmbTerminal"></select>
+                        </div>
+                </div>
+                <div class="row"> 
+                            <div class="col-sm-2">
+                                <label class="pull-left mt10 mb10">
+                                    @Resource.Report_From:
+                                </label>
+                                <input type='text' id="txtdtFrom" class="form-control datepicker" />
+
+                            </div>
+                            
+                            <div class="col-sm-2">
+                                <label class="pull-left mt10 mb10">
+                                    @Resource.Report_To:
+                                </label>
+                                <input type='text' id="txtdtTo" class="form-control datepicker" />
+
+                            </div>
+                            <div class="pull-left mt40">
+                                <a class="btn btn-default btn-lg btn-gradient pull-left mr10" data-placement="bottom" title="Export" style="cursor:pointer;padding:7px 12px;" id="btnExportFile">
+                                    <i class="fa fa-download"> Export</i>
+                                </a>
+
+                            </div>
+                       
+                </div>
+
+
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+
+
+@section scripts {
+
+    <script>
+
+        $(function () {
+           
+            $('#exportfile').addClass('active');
+            $('#Settings').addClass('active');
+
+            if (!$('#menuStoreSettings').hasClass('menu-open')) {
+
+                $('#menuStoreSettings').attr('style', '').toggleClass('menu-open');
+            }
+            $("#txtdtFrom").datepicker({ dateFormat: 'yy-mm-dd' });
+            $('.selector').datepicker({ dateFormat: 'yy-mm-yy' });
+            $("#txtdtTo").datepicker();
+
+            $(".selector").datepicker({
+                altFormat: "yy-mm-dd"
+            });
+            $('#txtdtFrom').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
+
+            $('#txtdtTo').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
+            var currentTime = new Date();
+            var day = currentTime.getDate();
+            var month = currentTime.getMonth() + 1;
+            var year = currentTime.getFullYear();
+
+            if (day < 10) {
+                day = "0" + day;
+            }
+            if (month < 10) {
+                month = "0" + month;
+            }
+
+            var dt = year + "-" + month + "-" + day;
+            $('#txtdtFrom').val(dt);
+            $('#txtdtTo').val(dt);
+            FillTerminals();
+            $('#btnExportFile').click(function () {
+                var dateFrom = $('#txtdtFrom').val();
+                var dateTo = $('#txtdtTo').val();
+                var terminalId = $('#cmbTerminal').val();
+
+                window.location = '/Accounting/DownloadFile?_terminalId=' + terminalId + '&_dtFrom=' + dateFrom + '&_dtTo=' + dateTo;
+            
+            });
+        });
+        function FillTerminals() {
+
+            $.ajax({
+                url: '@Url.Action("FillTerminal", "Accounting")',
+                type: "Get",
+                success: function (_d) {
+                  
+                    $('#cmbTerminal').html('');
+                    var $select = $("#cmbTerminal");
+                    $.each(_d, function (i, item) {
+
+                        $('<option>', {
+                            value: item.Id
+                        }).html(item.Name).appendTo($select);
+                    });
+
+                }
+            });
+        }
+    </script>
+}
+
+
+
+

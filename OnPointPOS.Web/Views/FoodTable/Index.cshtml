@@ -1,0 +1,189 @@
+﻿@model List<FoodTableViewModel>
+
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.Table</li>
+
+}
+<section>
+
+
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+
+                <li>
+                    <a href="/StoreSetting">@Resource.Global @Resource.Settings</a>
+                </li>
+
+                <li >
+                    <a href="/Terminal">@Resource.Terminals</a>
+                </li>
+
+                <li>
+                    <a href="/Outlet">@Resource.Outlets</a>
+                </li>
+                <li class="active">
+                    <a href="/FoodTable">@Resource.Table</a>
+                </li>
+
+            </ul>
+        </div>
+        <div class="topbar-right">
+            <a class="btn btn-default btn-gradient btn-sm light fw600 mr15 mt5" id="btnAddTerminal">
+                <span class="fa fa-plus pr5"></span>
+                @Resource.Add @Resource.Table
+              
+            </a>
+            @*<a class="btn btn-default btn-gradient btn-sm light fw600 mr15" data-toggle="modal" data-target="#addEditModal" href="#">
+                <span class="fa fa-plus pr5"></span>
+                Add Setting
+            </a>*@
+        </div>
+    </header>
+
+    <div class="pt25">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center">
+            <div id="terminalcreate">
+            </div>
+            <div class="panel top mb35">
+                
+                <div class="panel-body pn">
+                    <div class="table-responsive">
+                        <table id="tbl_terminal" class="table admin-form theme-warning tc-checkbox-1 fs13">
+
+                            <thead>
+                                <tr class="bg-light">
+                                    <th class="">@Resource.Floor</th>
+                                    <th class="">@Resource.Table @Resource.Name</th>
+                                    
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="text-left">@item.Floor.Name</td>
+                                        <td>@item.Name</td>
+                                       
+                                        <td class="text-right" style="width: 80px;">
+                                            <button class="btn btn-primary btn-sm btn-gradient fa fa-edit" onclick="Edit(@item.Id)" type="button"> @Resource.Edit </button>
+                                        </td>
+                                        <td class="text-right" style="width: 80px;">
+                                            <button class="btn btn-danger btn-sm btn-gradient fa fa-trash-o" onclick="Delete(@item.Id);" type="button"> @Resource.Delete </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+     </div>
+        </div>
+
+</section>
+<!-- Modal -->
+
+ 
+@section scripts {
+
+    <script>
+        $(function () {
+
+            var html = '<a href="/FoodTable">Tables</a>'
+            $('#dsh').html(html);
+
+            $('#terminal').addClass('active');
+            $('#Settings').addClass('active');
+            if (!$('#menuStoreSettings').hasClass('menu-open')) {
+
+                $('#menuStoreSettings').attr('style', '').toggleClass('menu-open');
+            }
+            $('#btnAddTerminal').click(function () {
+
+                $('#loading').show();
+
+                $.ajax({
+                    url: '@Url.Action("Create", "FoodTable")',
+                    type: "GET",
+                    success: function (result) {
+                        $('#loading').hide();                      
+                        $("#terminalcreate").html(result);
+
+                    }
+                });
+            });
+
+        });
+        function Edit(id) {
+           
+
+            $.ajax({
+                url: '@Url.Action("Create", "FoodTable")',
+                type: "GET",
+                data: { id: id },
+                success: function (result) {
+                    $('#loading').hide();                   
+                    $("#terminalcreate").html(result);
+                    $('#addEditLabel').text('Edit Food Table');
+
+                }
+            });
+        }
+
+        function Delete(id) {
+            if (confirm("@Resource.DeleteConfMsg")) {
+                $.ajax({
+                    url: '@Url.Action("DeleteTable", "FoodTable")',
+                    type: "Post",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ id: id }),
+                    success: function (result) {
+                        var res = result.Message;
+                        var arr = res.split(':');
+                        if (arr[0] == "Success") {
+                            alert(arr[1]);
+                            window.location = '/FoodTable'
+                        }
+                        else
+                            alert(arr[1]);
+
+                    }
+                });
+            }
+        }
+
+
+    </script>
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

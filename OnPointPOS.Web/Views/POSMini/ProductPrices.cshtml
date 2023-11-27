@@ -1,0 +1,143 @@
+﻿@model ItemViewModel 
+<div class="panel">
+	<div class="panel-heading">@Resource.Report_Sale @Resource.User</div>
+	<div class="panel-body br-t p12">
+		<div class="row">
+			
+			
+			<div class="col-md-2 col-sm-4">
+				<br />
+				<input type="button" id="btnView" class="btn btn-primary" width="80" value="@Resource.Show" />
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+
+
+<div class="row" id="rdlcdiv">
+	<div class="col-md-12">
+		<iframe id="reporviewerFrame" style="min-height:calc(1000px - 260px);overflow-y:auto;margin-top:0px;float:left;width:calc(100%);" frameborder="0" scrolling="yes"></iframe>
+	</div>
+	<div class="col-md-5 col-sm-5" id="PrintSale-Report">
+
+	</div>
+</div>
+
+
+
+
+@section scripts{
+	<script>
+
+            $(function () {
+
+
+                $.ajax({
+                    url: '@Url.Action("GetPOSUsers", "Users")',
+                    type: "GET",
+
+                    success: function (result) {
+                        var $select = $("#filter-user");
+                        $.each(result, function (i, item) {
+
+                            $('<option>', {
+                                value: item.Id
+                            }).html(item.UserName).appendTo($select);
+                        });
+
+
+                    }
+                });
+
+
+
+
+
+
+                $('#UserReport').addClass('active');
+                $('#Reports').addClass('active');
+
+                if (!$('#menureports').hasClass('menu-open')) {
+
+                    $('#menureports').attr('style', '').toggleClass('menu-open');
+                }
+
+                $("#txtdtFrom").datepicker({ dateFormat: 'yy-mm-dd', language: 'ru' });
+                $('.selector').datepicker({ dateFormat: 'yy-mm-yy' });
+                $("#txtdtTo").datepicker();
+
+                $('#txtdtFrom').on('changeDate', function (ev) {
+                    $(this).datepicker('hide');
+                });
+
+                $('#txtdtTo').on('changeDate', function (ev) {
+                    $(this).datepicker('hide');
+                });
+
+
+                var currentTime = new Date();
+                var day = currentTime.getDate();
+                var month = currentTime.getMonth() + 1;
+                var year = currentTime.getFullYear();
+
+                if (day < 10) {
+                    day = "0" + day;
+                }
+                if (month < 10) {
+                    month = "0" + month;
+                }
+
+                var dt = year + "-" + month + "-" + day;
+                $('#txtdtFrom').val(dt);
+                $('#txtdtTo').val(dt);
+
+
+                $("#filter-user").change(function () {
+
+                   GetByUser();
+
+                });
+
+                $("#btnView").click(function () {
+                   GetByUser();
+                });
+
+            });
+            function GetByUser() {
+
+
+			ShowRDLCReport('rptuser');
+
+            }
+
+		function ShowRDLCReport(rptName) {
+
+            $('#rdlcdiv').show();
+              var userId = $("#filter-user").val();
+               var  dateFrom = $('#txtdtFrom').val();
+              var   dateTo = $('#txtdtTo').val();
+		
+	        var	terminalId='00000000-0000-0000-0000-000000000000';
+            url = '../Reports/ReportForm.aspx?userId='+userId+'&dtFrom=' + dateFrom + '&dtTo=' + dateTo + '&terminalId=' + terminalId + '&rptName=' + rptName;
+   
+		var frame = document.getElementById('reporviewerFrame');
+            if (frame !== null) {
+                if (frame.src) {
+                    frame.src = url;
+                }
+                else if (frame.contentWindow != null && frame.contentWindow.location != null) {
+                    frame.contentWindow.location = url;
+                }
+                else {
+                    frame.setAttribute('src', url);
+                }
+            }
+            return false;
+
+        }
+	</script>
+}

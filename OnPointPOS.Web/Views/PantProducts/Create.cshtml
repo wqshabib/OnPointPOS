@@ -1,0 +1,122 @@
+﻿@model POSSUM.Model.Product
+
+<link href="~/Content/style.css" rel="stylesheet" />
+<div class="panel mb25 mt5">
+    <div class="panel-heading">
+        <span class="panel-title hidden-xs"> @Resource.Add @Resource.lblPantProducts</span>
+        @*<ul class="nav panel-tabs-border panel-tabs">
+            <li class="active">
+                <a href="#tab1_1" data-toggle="tab">@Resource.General</a>
+            </li>
+
+        </ul>*@
+    </div>
+    @using (Html.BeginForm("Create", "PantProducts", null, FormMethod.Post, new { id = "form1", role = "form", @class = "" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="panel-body p20 pbn">
+            <div class="tab-content pn br-n admin-form">
+                <div id="tab1_1" class="tab-pane active">
+
+                    <div class="section row mbn">
+                        <div class="section row">
+
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.lblPantProducts @Resource.Name</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.TextBoxFor(model => model.Description, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Product + " " + Resource.Name, Title = Resource.Product + " " + Resource.Name, required = "required", oninvalid = "this.setCustomValidity('Detta fältet måste vara ifyllt')", oninput = "setCustomValidity('')" })
+                                            @Html.ValidationMessageFor(model => model.Description)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;">@Resource.Price </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.TextBoxFor(model => model.Price, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Product + " " + Resource.Price, Title = Resource.Price + " " + Resource.Price, required = "required", oninvalid = "this.setCustomValidity('Detta fältet måste vara ifyllt')", oninput = "setCustomValidity('')" })
+                                            @Html.ValidationMessageFor(model => model.Price)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        @*<div class="section row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;">@Resource.Accounting </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.DropDownListFor(model => model.AccountingId, (IEnumerable<SelectListItem>)ViewBag.Accountings, new { @class = "field select" })
+                                            @Html.ValidationMessageFor(model => model.AccountingId)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>*@
+
+
+                        <div class="section row mbn">
+                            <div class="col-md-6">
+                                <div class="col-sm-12">
+                                    <p class="text-right mbn">
+                                        
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-sm-12">
+                                    <p class="text-right mbn">
+                                        <button class="btn btn-primary fa fa-save" type="submit"> @Resource.Save @Resource.Product</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

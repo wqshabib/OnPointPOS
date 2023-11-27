@@ -1,0 +1,607 @@
+﻿@model ItemViewModel
+
+@using MvcJqGrid;
+@using MvcJqGrid.Enums;
+
+@{
+    MvcJqGrid.DataReaders.JsonReader jsonReader = new MvcJqGrid.DataReaders.JsonReader();
+    jsonReader.RepeatItems = false;
+    jsonReader.Id = "dataJson";
+}
+
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.lblProducts</li>
+}
+
+<style>
+    #gs_Description {
+        max-width: 100%;
+    }
+
+    #gs_PlU {
+        max-width: 100%;
+    }
+
+    #gs_BarCode {
+        max-width: 100%;
+    }
+</style>
+
+<section>
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+                <li class="active">
+                    <a href="/Product">@Resource.lblProducts</a>
+                </li>
+                <li>
+                    <a href="/Product/Placeholder">@Resource.Placeholder</a>
+                </li>
+                <li>
+                    <a href="/Category">@Resource.Categories</a>
+                </li>
+            </ul>
+        </div>
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="topbar-right">
+                <a id="btnAddProduct" class="btn btn-default btn-gradient btn-sm light fw600 ml10 mt5">
+                    <span class="fa fa-plus pr5"></span> @Resource.Add @Resource.Product
+                </a>
+            </div>
+        }
+
+    </header>
+    <div id="ProductCreate" style="margin:0 0 0 0;">
+
+    </div>
+    <div id="loading" style="display:none;">
+        <img src="~/Content/img/progress.gif" style="height:100px;width:100px;" />
+    </div>
+    <div class="pt25">
+        <div class="panel-menu p12 theme-primary" style="display:none">
+            <form action="@Url.Action("Upload", "Product")" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    @if (ViewBag.HasError != null && !ViewBag.HasError)
+                    {
+                        <p class="alert alert-success" id="fileSuccess" style="display:block;">Data has been successfully uploaded</p>
+                    }
+                    else if (ViewBag.HasError != null && ViewBag.HasError && !ViewBag.DisplayMessages != null)
+                    {
+                        <p class="alert alert-danger" id="fileError" style="display:block;">@ViewBag.DisplayMessages</p>
+                    }
+                    else
+                    {
+                        <p class="alert alert-danger" id="fileError" style="display:none;"></p>
+                    }
+                </div>
+                <div class="row">
+                    <label for="upload_file" style="margin:10px;" class="col-md-3">Select File to upload products</label>
+                    <input type="file" class="form-control col-md-3" style="width: auto;" name="UploadedFile" id="upload_file">
+                    <button class="btn btn-custom col-md-3" type="submit">Upload</button>
+                </div>
+            </form>
+        </div>
+        <div class="tray tray-center">
+            <div class="panel-menu p12 admin-form theme-primary">
+                <div class="row">
+                    <div class="col-md-5 col-sm-5 pull-right">
+                        <select id="filter-category" name="filter-category" class="select2-single form-control">
+                            <option value="0">@Resource.Filterby  @Resource.Category</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="PartialProductList" style="margin-bottom:50px;">
+                @(Html.Grid("itemsGrid")
+                .SetRequestType(RequestType.Post)
+                .AddColumn(new Column("Id").SetHidden(true))
+                .AddColumn(new Column("Description").SetWidth(170).SetLabel(Resource.Description).SetAlign(Align.Left))
+                .AddColumn(new Column("BarCode").SetWidth(120).SetLabel(Resource.Barcode).SetAlign(Align.Left))
+                //.AddColumn(new Column("SKU").SetLabel(Resource.SKU).SetAlign(Align.Center).SetSearch(true))
+                //.AddColumn(new Column("PlU").SetWidth(90).SetLabel(Resource.PLU).SetAlign(Align.Left).SetSearch(true))
+                .AddColumn(new Column("StockQuantity").SetWidth(60).SetLabel(Resource.Stock).SetSearch(false))
+                .AddColumn(new Column("Weight").SetWidth(60).SetLabel(Resource.Weight).SetSearch(false))
+                //.AddColumn(new Column("ActiveStatus").SetLabel(Resource.Status).SetSearchType(Searchtype.Select).SetSearchTerms((string[])ViewBag.Statuses))
+                .AddColumn(new Column("Tax").SetWidth(60).SetLabel(Resource.Tax).SetSearchType(Searchtype.Select).SetSearchTerms((string[])ViewBag.Tax))
+                .AddColumn(new Column("AccountingCode").SetWidth(60).SetLabel(Resource.Accounting).SetSearchType(Searchtype.Select).SetSearchTerms((string[])ViewBag.AccountingCode))
+                .AddColumn(new Column("Price").SetLabel(Resource.Price).SetSearch(false).SetWidth(60))
+                .AddColumn(new Column("Deleted").SetLabel(Resource.Deleted).SetWidth(40).SetSearchType(Searchtype.Select).SetSearchTerms((string[])ViewBag.DeleteStatus))
+                .AddColumn(new Column("IsOutOfStock").SetHidden(true))
+                .AddColumn(new Column("&nbsp;").SetSearch(false).SetWidth(100).SetCustomFormatter("buttonize").SetAlign(Align.Left))
+                .SetUrl(Url.Action("GeProductByFilter", new { controller = "Product" }))
+                .SetAutoWidth(true)
+                .SetRowNum(10)
+                .SetRowList(new[] { 10, 15, 20, 50 })
+                .SetViewRecords(true)
+                .SetPager("pager")
+                .SetSearchToolbar(true)
+                .SetSearchOnEnter(false)
+                .SetSearchClearButton(true)
+                .SetSearchToggleButton(false)
+                .OnBeforeRequest("myFunc()").OnGridComplete("onGridComplete()")
+                )
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Modal -->
+<div class="modal fade" id="addEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@Resource.Campaign</h4>
+            </div>
+            <div class="modal-body" id="campaigndiv">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-gradient" data-dismiss="modal"><span class="fa fa-times"></span> @Resource.close</button>
+                <button type="button" onclick="SaveProductCampaign()" class="btn btn-primary btn-gradient mr10"><span class="fa fa-upload"></span>  @Resource.Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addPriceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@Resource.Product @Resource.Price</h4>
+            </div>
+            <div class="modal-body" id="addpricediv">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addStockModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@Resource.Product @Resource.Stock</h4>
+            </div>
+            <div class="modal-body" id="addstockdiv">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addNameModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@Resource.Product @Resource.Name</h4>
+            </div>
+            <div class="modal-body" id="addnamediv">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+</style>
+
+
+@section scripts {
+
+    @Styles.Render("~/Content/jqGrid/jqgridui")
+    @Scripts.Render("~/bundles/jqgrid")
+
+    <script>
+        function Validator() {
+            var fileName = $('#upload_file').val();
+            if (fileName) {
+                return true;
+            } else {
+                $('#fileError').html("Please select file.")
+                $('#fileError').fadeIn('fast').delay(5000).fadeOut('fast');
+                return false;
+            }
+        }
+
+
+        $(function () {
+            $(window).on("resize", function () {
+                var $grid = $("#itemsGrid"),
+                    newWidth = $grid.closest(".ui-jqgrid").parent().width();
+                $grid.jqGrid("setGridWidth", newWidth, true);
+            });
+
+            var html = '<a href="/Product">Products</a>';
+            $('#dsh').html(html);
+
+            $('#Cataglog').addClass('active');
+            $('#products').addClass('active');
+
+            if (!$('#menuCatalog').hasClass('menu-open')) {
+                $('#menuCatalog').attr('style', '').toggleClass('menu-open');
+            }
+
+            $('.tree li:has(ul)').addClass('parent_li ').find(' > span').attr('title', 'Collapse this branch');
+            $('.tree li:has(ul)').addClass('parent_li ').find(' > span').addClass('minus');
+
+            $('.tree li.parent_li > span').on('click', function (e) {
+                var children = $(this).parent('li.parent_li').find(' > ul > li');
+                if (children.is(":visible")) {
+                    $(this).removeClass('minus');
+                    $(this).addClass('plus');
+                    children.hide('fast');
+                    $(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus-sign').removeClass('icon-minus-sign');
+                } else {
+                    $(this).removeClass('plus');
+                    $(this).addClass('minus');
+                    children.show('fast');
+                    $(this).attr('title', 'Collapse this branch').find(' > i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
+                }
+                e.stopPropagation();
+            });
+
+            $('#btnProductPrice').click(function () {
+                var rootPath = "https://" + window.location.host + '/';
+                var catId = $('#filter-category').val();
+                var url = "Reports/ProductReportForm.aspx?catId=" + catId + "&rptName=rptproductprice";
+
+                window.open(rootPath + url);
+            });
+
+            $('#btnItemStock').click(function () {
+                var rootPath = "https://" + window.location.host + '/';
+                var catId = $('#filter-category').val();
+                var url = "Reports/ProductReportForm.aspx?catId=" + catId + "&rptName=rptitemstock";
+
+                window.open(rootPath + url);
+            });
+
+            $('#btnProductBarCode').click(function () {
+                var rootPath = "https://" + window.location.host + '/';
+                var catId = $('#filter-category').val();
+                var url = "Reports/ProductReportForm.aspx?catId=" + catId + "&rptName=rptProductBarcode";
+
+                window.open(rootPath + url);
+            });
+
+            $('#btnExpiryItems').click(function () {
+                var rootPath = "https://" + window.location.host + '/';
+                var url = "Reports/ReportForm.aspx?dtFrom=2018-09-01&dtTo=2018-09-11&terminalId=00000000-0000-0000-0000-000000000000&rptName=rptExpiryItems";
+
+                window.open(rootPath + url);
+            });
+
+            $('#btnAddProduct').click(function () {
+                $('#loading').show();
+
+                $.ajax({
+                    url: '@Url.Action("Create", "Product")',
+                    type: "GET",
+
+                    success: function (result) {
+                        $('#loading').hide();
+                        $("#ProductCreate").html(result);
+                    }
+                });
+            });
+
+            $('#btnSyncSeamless').click(function () {
+                $('#loading').show();
+
+                $.ajax({
+                    url: '@Url.Action("SyncSeamless", "Product")',
+                    type: "GET",
+                    success: function (result) {
+                        $('#loading').hide();
+                        alert(result.Message);
+                    },
+                    error: function (err) {
+                        $('#loading').hide();
+                        alert('Error!');
+                    }
+                });
+            });
+
+            $.ajax({
+                url: '@Url.Action("GetItemCategories", "Product")',
+                type: "GET",
+                success: function (result) {
+                    var $select = $("#filter-category");
+                    $.each(result, function (i, item) {
+
+                        $('<option>', {
+                            value: item.CategoryId
+                        }).html(item.Name).appendTo($select);
+                    });
+                }
+            });
+
+            $("#filter-category").change(function () {
+                Search($('#filter-category').val());
+            });
+
+            $("#filter-status").change(function () {
+                GetByCategory($('#filter-category').val(), $('#filter-status').val());
+            });
+
+            $("#filter-deleted").change(function () {
+                GetDeletedItem($('#filter-deleted').val());
+            });
+
+            $("#filter-placeholder").change(function () {
+                GetByPlaceholderCategory($('#filter-category').val(), $('#filter-placeholder').val());
+            });
+        });
+
+        function Search(val) {
+            $("#itemsGrid").jqGrid('setGridParam', {
+                postData: { "category": val }
+            }).trigger('reloadGrid');
+        }
+
+        function myFunc() {
+            $("#itemsGrid").jqGrid('setGridParam', {
+                postData: { "category": $('#filter-category').val() }
+            });
+        }
+
+        function LoadProducts() {
+            $.ajax({
+                url: '@Url.Action("AjaxGetJsonData", "Product")',
+                type: "GET",
+                data: { draw: 1, start: 0, length: 25 },
+                success: function (result) {
+                    $('#PartialProductList').html(result);
+                    // $('#tbl_product').DataTable().ajax.reload();
+                    //  RefreshTable("#tbl_product", result)
+                }
+            });
+        }
+
+        function GetByPlaceholderCategory(catid, holder) {
+            $.ajax({
+                url: '@Url.Action("GetPlaceholderByCategory", "Product")',
+                type: "GET",
+                data: { id: catid, placeholder: holder },
+                success: function (result) {
+                    $('#PartialProductList').html(result);
+                    // $('#tbl_product').DataTable().ajax.reload();
+                    //  RefreshTable("#tbl_product", result)
+                }
+            });
+        }
+
+        function GetByCategory(catid, active) {
+            $.ajax({
+                url: '@Url.Action("GetProductsByCategory", "Product")',
+                type: "GET",
+                data: { id: catid, active: active },
+                success: function (result) {
+                    $('#PartialProductList').html(result);
+                    // $('#tbl_product').DataTable().ajax.reload();
+                    //  RefreshTable("#tbl_product", result)
+                }
+            });
+        }
+
+        function GetDeletedItem(deleted) {
+            $.ajax({
+                url: '@Url.Action("GetDeletedProduct", "Product")',
+                type: "GET",
+                data: { deleted: deleted },
+                success: function (result) {
+                    $('#PartialProductList').html(result);
+                    // $('#tbl_product').DataTable().ajax.reload();
+                }
+            });
+        }
+
+        function RefreshTable(tableId, urlData) {
+            $.getJSON(urlData, null, function (json) {
+                table = $(tableId).dataTable();
+                oSettings = table.fnSettings();
+
+                table.fnClearTable(this);
+
+                for (var i = 0; i < json.aaData.length; i++) {
+                    table.oApi._fnAddData(oSettings, json.aaData[i]);
+                }
+
+                oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+                table.fnDraw();
+            });
+        }
+
+        function AddStock(id) {
+            if (id == 0) {
+                alert("Select a valid product");
+                return;
+            }
+            $.ajax({
+                url: '@Url.Action("AddStock", "Product")',
+                type: "GET",
+                data: { itemId: id },
+                success: function (result) {
+                    $("#addstockdiv").html(result);
+                }
+            });
+        }
+
+        function AddPrice(id) {
+            if (id == 0) {
+                alert("Select a valid product");
+                return;
+            }
+            $.ajax({
+                url: '@Url.Action("ProductPrice", "Product")',
+                type: "GET",
+                data: { itemId: id },
+                success: function (result) {
+                    $("#addpricediv").html(result);
+                }
+            });
+        }
+
+        function EditCampaign(id) {
+            if (id == 0) {
+                alert("Select a valid product");
+                return;
+            }
+            $.ajax({
+                url: '@Url.Action("ProductCampaign", "Product")',
+                type: "GET",
+                data: { id: id },
+                success: function (result) {
+
+                    $("#addEditModal").modal('show');
+                    $("#campaigndiv").html(result);
+                }
+            });
+        }
+
+        function updateOnedit(description,
+            barCode,
+            pLU,
+            stockQuantity,
+            weight,
+            moms,
+            accountingId,
+            price) {
+            if (_lastRow != null) {
+                _lastRow.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].innerHTML = description;
+                _lastRow.parentElement.parentElement.parentElement.parentElement.parentElement.children[2].innerHTML = barCode;
+                //_lastRow.parentElement.parentElement.parentElement.parentElement.parentElement.children[3].innerHTML = pLU;
+                _lastRow.parentElement.parentElement.parentElement.parentElement.parentElement.children[3].innerHTML = stockQuantity;
+                _lastRow.parentElement.parentElement.parentElement.parentElement.parentElement.children[4].innerHTML = weight;
+                _lastRow.parentElement.parentElement.parentElement.parentElement.parentElement.children[5].innerHTML = moms;
+                _lastRow.parentElement.parentElement.parentElement.parentElement.parentElement.children[6].innerHTML = accountingId;
+                _lastRow.parentElement.parentElement.parentElement.parentElement.parentElement.children[7].innerHTML = price;
+            }
+        }
+
+        var _lastRow = null;
+
+        function Edit(sender, id) {
+            _lastRow = sender;
+            //  window.location = '/Product/Edit?id=' + id;
+            $('#loading').show();
+
+            var url = '/Product/Edit?id=' + id;
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (result) {
+                    $('#loading').hide();
+                    $("#ProductCreate").html(result);
+                    $("html, body").animate({ scrollTop: 0 }, "slow");
+                }
+            });
+        }
+
+        function PrintBarcode(id) {
+            var rootPath = "https://" + window.location.host + '/';
+          //Change https when deploying on web server
+            var url = "Reports/ProductReportForm.aspx?catId=" + id + "&rptName=rptOneProductBarcode";
+
+            window.open(rootPath + url);
+        }
+
+        function Delete(sender, id) {
+            _lastRow = sender;
+            if (confirm("Are you sure to delete this product?")) {
+                var url = '/Product/Delete?id=' + id;
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    success: function (result) {
+                        var lst = result.Message.split(':');
+                        alert(lst[1]);
+                        if (lst[0] == 'Success' && _lastRow != null) {
+                            debugger;
+                            var row = _lastRow.parentElement.parentElement.parentElement.parentElement.parentElement;
+                            if (row != null) {
+                                var table = row.parentElement;
+                                if (table != null)
+                                    table.removeChild(row)
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function AddName(id) {
+            if (id == 0) {
+                alert("Select a valid product");
+                return;
+            }
+            $.ajax({
+                url: '@Url.Action("ProductName", "Product")',
+                type: "GET",
+                data: { itemId: id },
+                success: function (result) {
+                    $("#addnamediv").html(result);
+                }
+            });
+        }
+
+        function Restore(id) {
+            if (confirm("Are you sure to restore this product?")) {
+                var url = '/Product/Restore?id=' + id;
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    success: function (result) {
+                        alert(result.Message);
+                        window.location.reload();
+                    }
+                });
+            }
+        }
+
+        function onGridComplete() {
+            var rows = $("#itemsGrid").getDataIDs();
+            for (var i = 0; i < rows.length; i++) {
+                var status = $("#itemsGrid").getCell(rows[i], "IsOutOfStock");
+                if (status == "1") {
+                    $("#itemsGrid").jqGrid('setRowData', rows[i], false, { color: 'red', weightfont: 'bold', background: 'white' });
+                }
+            }
+        }
+
+        function OutOfStockFormatting(cellvalue, options, rowobject) {
+            if (rowobject[9] == "1") {
+
+            }
+        }
+
+        function buttonize(cellvalue, options, rowobject) {
+            if (rowobject[8] == 'False') {
+                return '<div class="btn-group"><button type="button" class="btn btn-primary btn-gradient btn-sm" style=""> <span class="fa fa-user"></span> </button>' +
+                    '<button type="button" class="btn bg-green2 btn-gradient btn-sm dropdown-toggle" data-toggle="dropdown"> <span class="fa fa-cog"></span> </button>' +
+                    '<ul class="dropdown-menu checkbox-persist pull-right text-left" role="menu" style="width:100 !important;" >' +
+                    '<li style="cursor: pointer;"><a style="margin-left:2px;margin-right:2px;"   title="Edit" class="btn btn-primary btn-gradient btn-sm fa fa-edit" onclick="Edit(this,' + "'" + options.rowId + "'" + ')"> @Resource.Edit</a></li>' +
+                    @*'<li style="cursor: pointer;"><a style="margin-left:2px;margin-right:2px;"   title="Name"  class="btn btn-primary btn-gradient btn-sm fa fa-newspaper-o" data-toggle="modal" data-target="#addNameModal" onclick="AddName(' + "'" + options.rowId + "'" + ')"> @Resource.Name</a></li>' +*@
+                    '<li style="cursor: pointer;"><a style="margin-left:2px;margin-right:2px;" title="Stock"  class="btn btn-primary btn-gradient btn-sm fa fa-cubes" data-toggle="modal" data-target="#addStockModal" onclick="AddStock(' + "'" + options.rowId + "'" + ')"> @Resource.Stock</a></li>' +
+                    '<li style="cursor: pointer;"><a style="margin-left:2px;margin-right:2px;" title="Print Barcode"  class="btn btn-primary btn-gradient btn-sm fa fa-barcode"  onclick="PrintBarcode(' + "'" + options.rowId + "'" + ')"> @Resource.Barcode</a></li>' +
+                    '<li style="cursor: pointer;"><a style="margin-left:2px;margin-right:2px;" title="Print Barcode"  class="btn btn-primary btn-gradient btn-sm fa fa-barcode"  onclick="EditCampaign(' + "'" + options.rowId + "'" + ')"> @Resource.Campaign </a></li>' +
+                '<li style="cursor: pointer;"> <a style="margin-left:2px;margin-right:2px; margin-top:2px !important; background-color: #DD5F5B; "  title="Delete"  class="btn btn-danger btn-gradient btn-sm fa fa-trash-o" onclick="Delete(this,' + "'" + options.rowId + "'" + ')"> @Resource.Delete</a></li>' +
+                '</ul></div>';
+            } else {
+                return '<a class="btn btn-primary btn-gradient btn-sm fa fa-edit" style="margin-right:2px; float:right;"  onclick="Restore(' + "'" + options.rowId + "'" + ')"> @Resource.Restore </a>';
+            }
+        }
+    </script>
+}
+
+
+
+

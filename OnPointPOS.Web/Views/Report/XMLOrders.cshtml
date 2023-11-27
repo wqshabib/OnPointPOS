@@ -1,0 +1,111 @@
+﻿@model  List<FileModel>
+@{
+    ViewBag.Title = "XMLOrders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpages">XML Orders Pdf Files</li>
+
+}
+<section>
+
+
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+
+                <li class="active">
+                    <a href="#">XML Orders Pdf Files</a>
+                </li>
+
+            </ul>
+        </div>
+    </header>
+
+    <div class="pt25">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center">
+            <div id="terminalcreate">
+            </div>
+            <div class="panel top mb35">
+
+                <div class="panel-body pn">
+                    <div class="table-responsive">
+                        <table id="tbl_terminal" class="table admin-form theme-warning tc-checkbox-1 fs13">
+
+                            <thead>
+                                <tr class="bg-light">
+                                    <th class="">@Resource.Name</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var file in Model)
+                                {
+                                    <tr>
+                                        <td class="text-left">@file.FileName</td>
+                                        <td class="text-right" style="width: 80px;">
+                                            <a class="btn btn-primary btn-sm btn-gradient fa fa-download" href="@Url.Action("DownloadFile", "Report", new { fileName = file.FileName })">Download</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+@section scripts {
+
+    <script>
+        $(function () {
+
+
+            $('#dsh').html(html);
+
+            $('#XMLOrders').addClass('active');
+
+            if (!$('#menureports').hasClass('menu-open')) {
+
+                $('#menureports').attr('style', '').toggleClass('menu-open');
+            }
+
+        });
+
+    </script>
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,51 @@
+﻿@model LUETemplateSite.Models.SiteModel
+<style>
+    @( !Model.StandAlone ? ".col-lg-basket { margin-top:30px !important; }" : String.Empty )
+    @( !Model.StandAlone ? "@media(max-width:990px){ .col-lg-basket { margin-top:0 !important; } }" : String.Empty )
+    @( "@media(max-width:990px){ .cart-header { border-radius: 0 !important; } }" )
+</style>
+<div class="col-lg-basket col-md-12 col-xs-12" id="basket">
+
+    @if (Model.ShopConfig.ShopTemplate == 1 && Model.ShopConfig.ShopListType != 3)
+    {
+        <div class="col-header cart-header">
+            <h4 id="carttitle">Kundvagn</h4>
+            <p id="cartinfo">Klicka här för att se din order.</p>
+        </div>
+    }
+
+    @if (Model.ShopConfig.ShopTemplate == 3 && Model.ShopConfig.ShopListType != 3)
+    {
+        <div class="col-header cart-header PiccoloheaderColor">
+            <h4 id="carttitle">Kundvagn</h4>
+            <p id="cartinfo">Klicka här för att se din order.</p>
+        </div>
+    }
+
+    <div id="cart-table-wrapper">
+        @if (Model.HasCart)
+        {
+            @Html.Partial("_cartdata", Model, new ViewDataDictionary { { "Cart", Model.Cart }, { "TakeAwayPayment", Model.ShopConfig.TakeAwayPayment }, { "TakeAway", Model.ShopConfig.TakeAway }, { "Delivery", Model.ShopConfig.DeliveryPayment }, { "DeliveryPayment", Model.ShopConfig.Delivery } })
+        }
+        else
+        {
+            @Html.Partial("_cartempty")
+        }
+    </div>
+
+    @if (Model.ShopConfig.ShopTemplate == 1 || Model.ShopConfig.ShopTemplate == 3)
+    {
+        <div class="col-menu-extra col-lg-12 col-xs-12 col-md-12">
+            <div class="col-paymet-item col-xs-4 col-md-4 col-lg-4">
+                <img src="~/img/visa.png" height="80" width="80" style="opacity: 0.5;">
+            </div>
+            <div class="col-paymet-item col-xs-4 col-md-4 col-lg-4">
+                <img src="~/img/mastercard.png" height="80" width="80" style="opacity: 0.5;">
+            </div>
+            <div class="col-paymet-item col-xs-4 col-md-4 col-lg-4">
+                <img src="~/img/dibs.png" height="80" width="80" style="opacity: 0.5;">
+            </div>
+        </div>
+    }
+
+</div>

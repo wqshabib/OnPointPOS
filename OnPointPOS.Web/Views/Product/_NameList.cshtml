@@ -1,0 +1,36 @@
+﻿@model List<ProductTextViewModel>
+
+<div class="table-responsive">
+    <table id="tbl_product_Price" class="table admin-form theme-warning tc-checkbox-1 fs13 " cellspacing="0" width="100%">
+        <thead>
+            <tr class="bg-light">
+                <th style="display:none;"></th>
+                <th class="">@Resource.Language</th>
+                <th class="">@Resource.Product @Resource.Name</th>
+              
+                <th class=""></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="display:none;"><input type="hidden" value="@item.Id" /></td>
+
+                    <td class="text-left">@item.LanguageName</td>
+                    <td class="text-left">@item.TextDescription</td>
+                 
+                    <td class="text-right" style="width: 80px;">
+                        <button type="button" onclick="EditName(@item.Id);" class="btn btn-primary btn-sm  btn-gradient fa fa-edit">
+                            @Resource.Edit
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+
+    </table>
+</div>
+

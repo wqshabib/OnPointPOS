@@ -1,0 +1,123 @@
+﻿@model List<IconStoreModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<section>
+
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+
+                <li>
+                    <a href="/StoreSetting">@Resource.Global @Resource.Settings</a>
+                </li>
+
+                <li>
+                    <a href="/Terminal">@Resource.Terminals</a>
+                </li>
+
+                <li>
+                    <a href="/Outlet">@Resource.Outlets</a>
+                </li>
+                <li class="active">
+                    <a href="/IconStore">@Resource.IconStore</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="topbar-right">
+            <a id="btnAddProduct1" class="btn btn-default btn-gradient btn-sm light fw600 ml10 mt5" href="/IconStore/Create">
+                <span class="fa fa-plus pr5"></span> @Resource.Add @Resource.IconStore
+            </a>
+        </div>
+
+    </header>
+    <div class="pt25">
+        <div class="tray tray-center">
+            <div class="panel">
+                <div class="panel-body pn">
+                    <div class="table-responsive">
+                        <table id="tbl_product" class="table admin-form theme-warning tc-checkbox-1 fs13 " cellspacing="0" width="100%">
+                            <thead>
+                                <tr class="bg-light">
+
+
+                                    <th class="">@Resource.Title</th>
+                                    <th class="">@Resource.Type</th>
+                                    <th class=""></th>
+                                    <th class=""></th>
+                                    <th class="text-right"></th>
+
+                                </tr>
+                            </thead>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-left">@item.Title</td>
+                                    <td class="">@item.Type</td>
+                                    <td class=""><img src="@item.ImageUrl" /></td>
+                                    <td class="text-right" style="width: 80px;">
+                                        <button type="button" onclick="Edit(@item.Id);" class="btn btn-primary btn-sm  btn-gradient fa fa-edit">
+                                            @Resource.Edit
+                                        </button>
+                                    </td>
+                                    <td class="text-right" style="width: 80px;">
+                                        <button type="button" onclick="Delete(@item.Id);" class="btn btn-danger btn-sm btn-gradient fa fa-trash-o">
+                                            @Resource.Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+
+
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section scripts {
+    
+    <script>
+        $(function () {
+
+            var html = '<a href="/IconStore">Icon Store</a>'
+            $('#dsh').html(html);
+
+            $('#iconstore').addClass('active');
+            $('#Settings').addClass('active');
+            if (!$('#menuStoreSettings').hasClass('menu-open')) {
+
+                $('#menuStoreSettings').attr('style', '').toggleClass('menu-open');
+            }
+        });
+        function Edit(id) {
+            var url = '/IconStore/Edit?id=' + id;
+            window.location = url;
+        }
+        function Delete(id) {
+            if (confirm('Are you sure to delete this Icon?')) {
+                var url = '/IconStore/Delete?id=' + id;
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+
+                    success: function (result) {
+
+                        alert(result.Message);
+                        window.location.reload();
+
+                    }
+                });
+            }
+        }
+    </script>
+}

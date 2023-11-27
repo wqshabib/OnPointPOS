@@ -1,0 +1,282 @@
+﻿@model POSSUM.Web.Models.OutletUserViewModel
+
+@{
+    ViewBag.Title = "Add User";
+}
+
+<div class="panel mb25 mt5">
+    <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+    <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+    <div class="panel-heading">
+        <span class="panel-title hidden-xs"> @Resource.Add @Resource.New @Resource.User</span>
+        <ul class="nav panel-tabs-border panel-tabs">
+            <li class="active">
+                <a href="#tab1_1" data-toggle="tab">@Resource.General</a>
+            </li>
+
+
+        </ul>
+    </div>
+    <div id="form1" class="form-horizontal" role="form">
+        @Html.HiddenFor(m => m.Id)
+
+        <div class="panel-body p20 pbn" style="border-top:0 none">
+            <div class="tab-content pn br-n admin-form">
+                <div id="tab1_1" class="tab-pane active">
+
+                    <div class="section row mbn">
+
+                        <div class="section row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Email:</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.TextBoxFor(model => model.Email, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Email, Title = Resource.Email })
+                                            @Html.ValidationMessageFor(model => model.Email)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.UserName:</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.TextBoxFor(model => model.UserName, new { @class = "event-name gui-input br-light light", @placeholder = Resource.UserName, Title = Resource.UserName })
+                                            @Html.ValidationMessageFor(model => model.UserName)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="section row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Code :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.TextBoxFor(model => model.UserCode, new { @class = "event-name gui-input br-light light", @type = "number", @placeholder = Resource.Code, Title = Resource.Code })
+                                            @Html.ValidationMessageFor(model => model.UserCode)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 pn">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right pln">
+                                        <label class="control-label pt10"> @Resource.Report_Trainingmode </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label class="field prepend-icon mt10" data-toggle="tooltip">
+                                            @Html.CheckBoxFor(model => model.TrainingMode, new { @type = "checkbox" })
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Password :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.PasswordFor(model => model.Password, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Password, Title = Resource.Password })
+                                            @Html.ValidationMessageFor(model => model.Password)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Confirm @Resource.Password :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Confirm + " " + Resource.Password, Title = Resource.Confirm + " " + Resource.Password })
+                                            @Html.ValidationMessageFor(model => model.ConfirmPassword)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="section row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Select @Resource.Outlet :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.DropDownListFor(model => model.OutletId, Model.Outlets, new { @class = "field select" })
+                                            @Html.ValidationMessageFor(model => model.Password)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="section row mbn">
+                            <div class="panel-footer clearfix">
+                                <div class="col-sm-12">
+                                    <p class="text-right mbn">
+                                        <button class="btn btn-primary btn-gradient fa fa-save" id="btnAdd" type="button"> @Resource.Add</button>
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $(function () {
+
+
+
+        $('#btnAdd').click(function () {
+            $("#divError").html('');
+            $("#divError").hide('');
+
+            if ($('#UserName').val() == '') {
+                $("#divError").html('Specify UserName');
+                $("#divError").show();
+                $('#UserName').focus();
+                return;
+            }
+
+            if ($('#UserCode').val() == '') {
+                $("#divError").html('Enter Code');
+                $("#divError").show();
+                $('#UserCode').focus();
+                return;
+            }
+
+            if ($('#Password').val() != $('#ConfirmPassword').val()) {
+                $("#divError").html('Password does not match ');
+                $("#divError").show();
+                $('#Password').focus();
+                return;
+            }
+
+            if ($('#OutletId').val() == '' || $('#OutletId').val() == '00000000-0000-0000-0000-000000000000') {
+                $("#divError").html('No outlet selected ');
+                $("#divError").show();
+                $('#OutletId').focus();
+                return;
+            }
+
+            var data = {
+                Id: $('#Id').val(),
+                UserCode: $('#UserCode').val(),
+                TrainingMode: $('#TrainingMode').is(':checked'),
+                Password: $('#Password').val(),
+                ConfirmPassword: $('#ConfirmPassword').val(),
+                UserName: $('#UserName').val(),
+                Email: $('#Email').val(),
+                OutletId: $('#OutletId').val(),
+            };
+
+            $.ajax({
+                url: '@Url.Action("CreateTillUser", "Users")',
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                            window.location = '/Users/TillUser'
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+                }
+            });
+        });
+
+    });
+</script>
+
+
+
+

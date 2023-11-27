@@ -1,0 +1,276 @@
+﻿@model UserViewModel
+@{
+    ViewBag.Title = "Update User";
+    
+}
+
+<div class="panel mb25 mt5">
+    @*<div class="panel-heading">
+            <span class="panel-title hidden-xs"> Add New User</span>
+            <ul class="nav panel-tabs-border panel-tabs">
+                <li class="active">
+                    <a href="#tab1_1" data-toggle="tab">General</a>
+                </li>
+
+            </ul>
+        </div>*@
+
+    <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+    <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+    <div class="panel-heading">
+        <span class="panel-title hidden-xs"> @Resource.Update @Resource.User</span>
+        <ul class="nav panel-tabs-border panel-tabs">
+            <li class="active">
+                <a href="#tab1_1" data-toggle="tab">@Resource.General</a>
+            </li>
+
+
+        </ul>
+    </div>
+    @using (Html.BeginForm("EditUser", "Account", FormMethod.Post, new { @id = "form1", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Id)
+
+        <div class="panel-body p20 pb10">
+            <div class="tab-content pn br-n admin-form">
+                <div id="tab1_1" class="tab-pane active">
+
+                    <div class="section row mbn">
+
+                        <div class="section row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Email :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.TextBoxFor(model => model.Email, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Email, Title = Resource.Email })
+                                            @Html.ValidationMessageFor(model => model.Email)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.User @Resource.Name :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.TextBoxFor(model => model.UserName, new { @class = "event-name gui-input br-light light", @placeholder = Resource.User + " " + Resource.Name })
+                                            @Html.ValidationMessageFor(model => model.UserName)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="section row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Roles :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+                                            @Html.DropDownListFor(model => model.RoleId, Model.Roles, new { @class = "field select" })
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Company :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+                                            @Html.DropDownListFor(model => model.CompanyId, Model.Companies, new { @class = "field select" })
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="section row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Password :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.PasswordFor(model => model.Password, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Password, Title = Resource.Password })
+                                            @Html.ValidationMessageFor(model => model.Password)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Confirm @Resource.Password :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Confirm + " " + Resource.Password, Title = Resource.Confirm + " " + Resource.Password })
+                                            @Html.ValidationMessageFor(model => model.ConfirmPassword)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="section row mbn">
+
+                            <div class="col-sm-12">
+                                <p class="text-right">
+                                    <button class="btn btn-primary btn-gradient fa fa-save" id="btnEdit" type="button"> @Resource.Save</button>
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script>
+
+    $(function () {
+
+
+
+        $('#btnEdit').click(function () {
+
+        
+
+            $("#divError").html('');
+            $("#divError").hide('');
+
+            if ($('#Email').val() == '') {
+
+                $("#divError").html('Specify email');
+                $("#divError").show();
+                $('#Email').focus();
+                return;
+            }
+            if ($('#Password').val() != $('#ConfirmPassword').val()) {
+                $("#divError").html('Password does not match.');
+                $("#divError").show();
+                $('#Password').focus();
+                return;
+            }
+
+            if ($('#RoleId').val() == '00000000-0000-0000-0000-000000000000') {
+
+                $("#divError").html('Select Role.');
+                $("#divError").show();
+                $('#RoleId').focus();
+                return;
+            }
+
+
+
+
+
+            var data = {
+                Id: $('#Id').val(),
+                Email: $('#Email').val(),   
+                UserName: $('#UserName').val(),
+                RoleId: $('#RoleId').val(),
+                CompanyId: $('#CompanyId').val(),
+                Password: $('#Password').val()
+            };
+
+            $.ajax({
+                url: '@Url.Action("EditUser", "Account")',
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                            window.location = '/Account'
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+
+                    // $("#PartialProductList").html(result);
+
+                }
+            });
+        });
+
+    });
+</script>
+
+
+
+

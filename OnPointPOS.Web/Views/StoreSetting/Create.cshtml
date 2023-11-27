@@ -1,0 +1,232 @@
+﻿@model SettingViewModel
+<div class="admin-form">
+    @Html.HiddenFor(m => m.Id)
+    <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+    <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+    <div class="section row">
+        
+        <div class="col-md-12 pn mb10">
+            <div class="form-group">
+                <div class="col-md-3 text-right">
+                    <label class="control-label pt10"> @Resource.Description </label>
+                </div>
+                <div class="col-md-8">
+                    <label class="field prepend-icon" data-toggle="tooltip">
+                        @Html.TextBoxFor(model => model.Description, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Description })
+
+
+                        <label class="field-icon">
+                            <i class="fa fa-comment"></i>
+                        </label>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 pn mb10">
+            <div class="form-group">
+                <div class="col-md-3 text-right pln">
+                    <label class="control-label pt10"> @Resource.Code </label>
+                </div>
+                <div class="col-md-8">
+                    <label class="field prepend-icon" data-toggle="tooltip">
+                        <label class="field select">
+                            @Html.DropDownListFor(model => model.Code, Model.Codes, new { @class = "field select" })
+                            <i class="arrow"></i>
+                        </label>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 pn mb10">
+            <div class="form-group">
+                <div class="col-md-3 text-right">
+                    <label class="control-label pt10"> @Resource.Value </label>
+                </div>
+                <div class="col-md-8">
+                    <label class="field prepend-icon" data-toggle="tooltip">
+                        @Html.TextBoxFor(model => model.Value, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Value })
+                        <label class="field-icon">
+                            <i class="fa fa-building-o"></i>
+                        </label>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 pn mb10">
+            <div class="form-group">
+                <div class="col-md-3 text-right">
+                    <label class="control-label pt10"> @Resource.Sort </label>
+                </div>
+                <div class="col-md-8">
+                    <label class="field prepend-icon" data-toggle="tooltip">
+                        @Html.TextBoxFor(model => model.Sort, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Sort })
+                        <label class="field-icon">
+                            <i class="fa fa-building-o"></i>
+                        </label>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 pn mb10">
+
+            <div class="form-group">
+                <div class="col-md-3 text-right">
+                    <label class="control-label pt10">@Resource.Types </label>
+                </div>
+                <div class="col-md-8">
+                    <label class="field select">
+                        @Html.DropDownListFor(model => model.Type, Model.Types, new { @class = "field select" })
+                        <i class="arrow"></i>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12 pn mb10">
+
+            <div class="form-group">
+                <div class="col-md-3 text-right">
+                    <label class="control-label pt10">@Resource.Outlet </label>
+                </div>
+                <div class="col-md-8">
+                    <label class="field select">
+                        @Html.DropDownListFor(model => model.OutletId, Model.Outlets, new { @class = "field select" })
+                        <i class="arrow"></i>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12 pn mb10">
+
+            <div class="form-group">
+                <div class="col-md-3 text-right">
+                    <label class="control-label pt10">@Resource.Terminal </label>
+                </div>
+                <div class="col-md-8">
+                    <label class="field select">
+                        <select name="rest" class="select2-single form-control" id="TerminalId">
+                            <option value="00000000-0000-0000-0000-000000000000">@Resource.Select @Resource.Terminal</option>
+                        </select>
+                        @*@Html.DropDownListFor(model => model.TerminalId, Model.Terminals, new { @class = "field select" })*@
+                        <i class="arrow"></i>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(function () {
+        $('#btnSave').click(function () {
+
+            $("#divError").html('');
+            $("#divError").hide('');
+
+            if ($('#Title').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Title.");
+                $("#divError").show();
+                $('#Title').focus();
+                return;
+            }
+
+            if ($('#Code').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Code.");
+                $("#divError").show();
+                $('#Code').focus();
+                return;
+            }
+
+            if ($('#Value').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Value.");
+                $("#divError").show();
+                $('#Value').focus();
+                return;
+            }
+
+            var data = {
+                Id: $('#Id').val(),
+                Title: $('#Title').val(),
+                Description: $('#Description').val(),
+                Code: $('#Code').val(),
+                Value: $('#Value').val(),
+                Type: $('#Type').val(),
+                OutletId: $('#OutletId').val(),
+                TerminalId: $('#TerminalId').val(),
+                Sort: $('#Sort').val()
+
+            };
+          
+            $.ajax({
+                url: '@Url.Action("Create", "StoreSetting")',
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                            window.location = '/StoreSetting'
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+
+                    // $("#PartialProductList").html(result);
+
+                }
+            });
+        });
+
+        $("#OutletId").change(function () {
+            var outletid = $('#OutletId').val();
+          
+            $.ajax({
+                url: '@Url.Action("FillTerminal", "StoreSetting")',
+                type: "Get",
+                data: { id: outletid },
+                success: function (_d) {
+                    $('#TerminalId').html('');
+                    var $select = $("#TerminalId");
+                    $.each(_d, function (i, item) {
+
+                        $('<option>', {
+                            value: item.Id
+                        }).html(item.Name).appendTo($select);
+                    });
+
+                }
+            });
+        });
+
+
+    });
+</script>
+

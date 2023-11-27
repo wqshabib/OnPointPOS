@@ -1,0 +1,159 @@
+﻿@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">User Roles</li>
+}
+<section>
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+                <li>
+                    <a href="/Account">Users</a>
+                </li>
+                <li  class="active">
+                    <a href="/Account/RoleList">User Roles</a>
+                </li>
+            </ul>
+        </div>
+        <div class="topbar-right hidden-xs hidden-sm">
+
+            <a id="btnAddRole"  class="btn btn-default btn-gradient btn-sm light fw600 ml10">
+                <span class="fa fa-plus pr5"></span> Add Role
+            </a>
+          
+        </div>
+    </header>
+
+    <div class="mt25">
+
+        
+            <!-- create new order panel -->
+            <div id="UserCreate">
+
+            </div>
+
+            <!-- recent orders table -->
+            <div style="margin-bottom:50px;">
+                <div class="panel">
+
+                    <div class="panel-body pn">
+                        <div class="table-responsive">
+                            <table id="tbl_roles" class="table admin-form theme-warning tc-checkbox-1 fs13">
+                                <thead>
+                                    <tr class="bg-light">
+
+
+                                        <th class=""> Name</th>                                       
+                                        <th class="text-right"></th>
+                                        <th class="text-right"></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model)
+                                    {
+
+
+                                        <tr>
+                                            <td class="text-left">@item.Name</td>
+                                           
+                                            <td class="text-right" style="width: 80px;">
+                                                <button class="btn btn-primary btn-sm btn-gradient fa fa-edit"  onclick="Edit(@item.Id)" type="button"> Edit </button>
+                                            </td>
+                                            <td class="text-right" style="width: 80px;">
+                                                <button type="button" onclick="DeleteRole('@item.Id');" class="btn btn-danger btn-sm btn-gradient fa fa-trash-o">
+                                                    Delete
+                                                </button>
+                                               
+                                            </td>                                           
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        
+    </div>
+
+
+</section>
+
+
+@section scripts{
+ 
+
+<script src="~/Scripts/bootstrap-dialog.min.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+
+
+
+<script>
+    $(document).ready(function () {
+
+        var html = '<a href="/Account/RoleList">User Roles</a>'
+        $('#dsh').html(html);
+        $('#userRoles').addClass('active');
+        $('#deviceId').removeClass('active');    
+
+        $('#Admin').addClass('active');
+
+        if (!$('#menuAdmin').hasClass('menu-open')) {
+
+            $('#menuAdmin').attr('style', '').toggleClass('menu-open');
+        }
+        $('#btnAddRole').click(function () {
+            NewRole();
+        });
+    });
+
+
+
+
+
+    function NewRole() {
+
+        BootstrapDialog.show({
+            title: "Add Role",
+            id: "mydialoge",
+            message: function (dialog) {
+                var $message = $('<div></div>');
+                var pageToLoad = dialog.getData('pageToLoad');
+                $message.load(pageToLoad);
+
+                return $message;
+            },
+            data: {
+                'pageToLoad': '/Account/AddRole'
+            }
+        });
+    }
+
+    
+
+    function DeleteRole(id) {
+
+        if (confirm("Are you sure to delete?")) {
+
+            $.ajax({
+                url: '@Url.Action("RemoveRole", "Account")',
+
+                type: 'POST',
+                data: { id: id },
+                success: function (result) {
+                    alert(result.Message);
+                      window.location.reload();
+                }
+            });
+        }
+    }
+
+</script>
+}
+
+

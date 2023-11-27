@@ -1,0 +1,65 @@
+﻿@model List<ItemViewModel>
+<div class="panel">
+    <div class="panel-heading">
+        <span class="panel-title hidden-xs"> @Resource.TopSoldProduct</span>
+    </div>
+    <div class="panel-body pn">
+        <div class="table-responsive">
+            <table class="table admin-form theme-warning tc-checkbox-1 fs13">
+                <thead>
+                    <tr class="bg-light">
+                        <th class="">@Resource.Product @Resource.Title</th>
+                        <th class="">@Resource.Price</th>
+                        <th class="">@Resource.Active</th>
+                        <th class="">@Resource.Tax</th>
+                        @*<th class="text-right">Status</th>*@
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="">@item.Description</td>
+                            <td class="">@item.Price</td>
+                            <td class="">@item.Active</td>
+                            <td class="">@item.Tax</td>
+                            @*<td class="text-right">
+                                    <div class="btn-group text-right">
+                                        <button type="button" class="btn btn-success br2 btn-xs fs12 dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            Active
+                                            <span class="caret ml5"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <a href="#">Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Delete</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Archive</a>
+                                            </li>
+                                            <li class="divider"></li>
+                                            <li>
+                                                <a href="#">Complete</a>
+                                            </li>
+                                            <li class="active">
+                                                <a href="#">Pending</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Canceled</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>*@
+                        </tr>
+
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+

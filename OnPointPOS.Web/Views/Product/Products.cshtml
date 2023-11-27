@@ -1,0 +1,110 @@
+﻿@model List<ItemViewModel>
+<style>
+    #sortable {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        width: 850px;
+    }
+
+        #sortable li {
+            margin: 3px 3px 3px 0;
+            padding: 1px;
+            float: left;
+            width: 150px;
+            height: 60px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+</style>
+<p>
+    <input type="button" id="btnSave" value="@Resource.Save @Resource.lblProducts @Resource.Sort" class="btn btn-default btn-gradient" />
+    <input type="button" id="btnAddPlaceHolder" value="@Resource.Add @Resource.Placeholder" class="btn btn-primary btn-gradient pull-right" style="margin-right:10px;" />
+    <div id="messageBoxProduct" class="alert alert-success" style="display:none"></div>
+</p>
+<ul id="sortable" style="max-width:1050px;">
+    @foreach (var item in Model)
+    {
+        if (item.IconId == 1)
+        {
+            <li class="ui-state-default" id="@item.Id" title="@item.IsItem"><span class="btn btn-gradient fa fa-child" style="height:60px;width:210px;color:Black; background-color:@item.ColorCode"> @item.Description</span></li>}
+        else
+        {
+            <li class="ui-state-default" id="@item.Id" title="@item.IsItem"><span class="btn btn-gradient" style="height:60px;width:210px;color:Black; background-color:@item.ColorCode"> @item.Description</span></li>}
+
+        }
+</ul>
+<script>
+    $(function () {
+        $("#sortable").sortable();
+        $("#sortable").disableSelection();
+
+        $('#btnSave').click(function () {
+            SaveSort();
+        });
+        $('#btnAddPlaceHolder').click(function () {
+            SavePlaceholder();
+        });
+    });
+    function SavePlaceholder() {
+        var categoryId = $('#SelectedCategory').val();
+        if (categoryId == 0) {
+            alert('Select category');
+            return;
+        }
+        $.ajax({
+            url: '@Url.Action("SavePlaceholder", "Product")',
+            data: { categoryId: categoryId },
+            success: function (_d) {
+                // alert(_d.Message);
+                $("#messageBoxProduct").show();
+                $('#messageBoxProduct').html(_d.Message);
+                var tId;
+
+                $("#messageBoxProduct").hide().slideDown();
+                clearTimeout(tId);
+                tId = setTimeout(function () {
+                    $("#messageBoxProduct").hide();
+                    GetProductByCategory(categoryId);
+
+                }, 2000);
+            }
+        });
+    }
+    function SaveSort() {
+        var list = [];
+        $("#sortable li").each(function (index) {
+
+            var obj = {
+                SortOrder: index,
+                Id: $(this).attr('id'),
+                Description: $(this).text(),
+                CategoryId: $('#SelectedCategory').val(),
+                IsItem: $(this).attr('title')
+            };
+            list.push(obj);
+
+        });
+
+        $.ajax({
+            url: '@Url.Action("SaveSorting", "Product")',
+            type: "Post",
+            contentType: 'application/json',
+            data: JSON.stringify(list),
+            success: function (_d) {
+                // alert(_d.Message);
+                $("#messageBoxProduct").show();
+                $('#messageBoxProduct').html(_d.Message);
+                var tId;
+
+                $("#messageBoxProduct").hide().slideDown();
+                clearTimeout(tId);
+                tId = setTimeout(function () {
+                    $("#messageBoxProduct").hide();
+
+
+                }, 2000);
+            }
+        });
+    }
+</script>

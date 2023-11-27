@@ -1,0 +1,391 @@
+﻿@model Customer
+<div class="admin-form">
+    @Html.HiddenFor(m => m.Id)
+    <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+    <div class="alert alert-danger" style="display:none;" id="divError"></div>
+    <div class="section row">
+        <div class="col-md-12">
+            <div class="section row mbn">
+                <div class="section row">
+                    <div class="col-md-6 pn mb10">
+                        <div class="form-group">
+                            <div class="col-md-4 text-right">
+                                <label class="control-label pt10"> @Resource.Name </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.Name, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Title })
+
+
+                                    <label class="field-icon">
+                                        <i class="fa fa-comment"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pn mb10">
+                        <div class="form-group">
+                            <div class="col-md-4 text-right">
+                                <label class="control-label pt10">Org # </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.OrgNo, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Description })
+
+
+                                    <label class="field-icon">
+                                        <i class="fa fa-comment"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="section row">
+                    <div class="col-md-6 pn mb10">
+                        <div class="form-group">
+                            <div class="col-md-4 text-right">
+
+                                <label class="control-label pt10"> @Resource.ZipCode </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.ZipCode, new { @class = "event-name gui-input br-light light", @placeholder = Resource.ZipCode })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pn mb10">
+                        <div class="form-group">
+                            <div class="col-md-4 text-right">
+                                <label class="control-label pt10"> @Resource.City </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.City, new { @class = "event-name gui-input br-light light", @placeholder = Resource.City })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="section row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-4 text-right">
+                                <label class="control-label pt10"> @Resource.Phone </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.Phone, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Phone })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-4 text-right">
+                                <label class="control-label pt10"> @Resource.Reference </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.Reference, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Reference })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="section row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-4 text-right">
+                                <label class="control-label pt10"> @Resource.Email </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Email })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        
+                    </div>
+
+                </div>
+
+                <div class="col-md-12 pn mb10">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            <label class="control-label pt10"> @Resource.Address 1 </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.Address1, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Address })
+
+
+                                <label class="field-icon">
+                                    <i class="fa fa-comment"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 pn mb10">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Address 2 </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.Address2, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Address })
+
+
+                                <label class="field-icon">
+                                    <i class="fa fa-comment"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="section row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-4 text-right">
+                                <label class="control-label pt10"> @Resource.Floor </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.FloorNo, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Floor })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-4 text-right">
+                                <label class="control-label pt10"> @Resource.PortCode </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.PortCode, new { @class = "event-name gui-input br-light light", @placeholder = Resource.PortCode })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="section row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-4 text-right">
+                                <label class="control-label pt10"> @Resource.CustomerNo </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.CustomerNo, new { @class = "event-name gui-input br-light light", @placeholder = "kundnummer" })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-4 text-right">
+                                <label class="control-label pt10">  </label>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="control-label" style="padding-top: 10px;">
+                                    @Html.CheckBoxFor(model => model.DirectPrint, new { @type = "checkbox" })
+                                    Direct Print
+                                </label>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="col-md-4">
+            <div class="section row">
+                <table id="detailTable" cellspacing="2" class="detailTable"  style="width:280px; margin-left:5px;">
+                    
+                    <tbody>
+                        @foreach (var itm in Model.Customer_CustomField.OrderBy(o => o.SortOrder))
+						{
+                            <tr id="@itm.Id" style="height:60px;" >
+                                <td  style="width:100px;" id="@itm.FieldId"><span class="control-label pt10">@itm.Caption</span></td>
+                                <td  style="width:180px"><input style="width:180px;height:35px; margin-right:1px;" type="text" placeholder="@itm.Caption" value="@itm.Text" /></td>
+                            <td></td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+           
+        </div>
+</div>
+
+<script>
+    $(function () {
+        $('#btnSave').click(function () {
+
+            $("#divError").html('');
+            $("#divError").hide('');
+
+            if ($('#Name').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Name.");
+                $("#divError").show();
+                $('#Name').focus();
+                return;
+            }
+     var tableObject = [];
+     $('#detailTable tbody tr').map(function () {
+
+            var $row = $(this);
+
+
+             id=$(this).attr('id');
+
+            caption = $row.find(':nth-child(1)').find('span').text();
+           title = $row.find(':nth-child(2)').find('input[type=text]').val();
+
+            var _obj = {
+                Id:id,
+                FieldId:$row.find(':nth-child(1)').attr('id'),
+                CustomerId:$('#Id').val(),
+                Caption: caption,
+                Text: title
+            };
+            tableObject.push(_obj);
+
+
+        });
+      
+            var data = {
+                Id: $('#Id').val(),
+                Name: $('#Name').val(),
+                OrgNo: $('#OrgNo').val(),
+                ZipCode: $('#ZipCode').val(),
+                City: $('#City').val(),
+                Phone: $('#Phone').val(),
+                Email: $('#Email').val(),
+                Reference: $('#Reference').val(),
+                Address1: $('#Address1').val(),
+                Address2: $('#Address2').val(),
+                FloorNo: $('#FloorNo').val(),
+                PortCode: $('#PortCode').val(),
+                Active: true,
+                CustomerNo: $('#CustomerNo').val(),
+                DirectPrint: $('#DirectPrint').is(':checked'),
+               Customer_CustomField:tableObject
+
+            };
+
+            $.ajax({
+                url: '@Url.Action("Create", "Customer")',
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                            window.location = '/Customer'
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+
+                    // $("#PartialProductList").html(result);
+
+                }
+            });
+        });
+
+
+
+
+    });
+</script>
+
+

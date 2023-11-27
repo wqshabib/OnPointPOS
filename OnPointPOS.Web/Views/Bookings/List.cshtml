@@ -1,0 +1,522 @@
+﻿@model ItemViewModel
+
+@using MvcJqGrid;
+@using MvcJqGrid.Enums;
+@{
+    MvcJqGrid.DataReaders.JsonReader jsonReader = new MvcJqGrid.DataReaders.JsonReader();
+    jsonReader.RepeatItems = false;
+    jsonReader.Id = "dataJson";
+}
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.lblProducts</li>
+
+}
+<section>
+
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+                <li class="active">
+                    <a href="/Product">@Resource.lblProducts</a>
+                </li>
+                <li>
+                    <a href="/Bookings/Placeholder">@Resource.Placeholder</a>
+                </li>
+                <li>
+                    <a href="/Bookings">@Resource.Categories</a>
+                </li>
+            </ul>
+        </div>
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="topbar-right">
+                <a id="btnAddProduct" class="btn btn-default btn-gradient btn-sm light fw600 ml10 mt5">
+                    <span class="fa fa-plus pr5"></span> @Resource.Add @Resource.Product
+                </a>
+
+            </div>
+        }
+
+    </header>
+
+    <div id="ProductCreate" style="margin:0 0 0 0;">
+
+    </div>
+    <div id="loading" style="display:none;">
+        <img src="~/Content/img/progress.gif" style="height:100px;width:100px;" />
+    </div>
+    <div class="pt25">
+
+        <div class="tray tray-center">
+
+
+
+            <div class="panel-menu p12 admin-form theme-primary">
+                <div class="row">
+
+                    <div class="col-md-5 col-sm-5 pull-right">
+                        <select id="filter-category" name="filter-category" class="select2-single form-control">
+                            <option value="0">@Resource.Filterby  @Resource.Category</option>
+                        </select>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="PartialProductList" style="margin-bottom:50px;">
+                @(Html.Grid("itemsGrid")
+        .SetRequestType(RequestType.Post)
+    .AddColumn(new Column("TaskID").SetHidden(true))
+          .AddColumn(new Column("Title").SetLabel(Resource.Title).SetWidth(100).SetAlign(Align.Left))
+    .AddColumn(new Column("Description").SetLabel(Resource.Description).SetAlign(Align.Left))
+   .AddColumn(new Column("Start").SetLabel("Start").SetAlign(Align.Center).SetSearch(false))
+   .AddColumn(new Column("End").SetLabel("End").SetAlign(Align.Center).SetSearch(false))
+     .AddColumn(new Column("&nbsp;").SetSearch(false).SetCustomFormatter("buttonize") .SetAlign(Align.Right))
+    .SetUrl(Url.Action("GeBookingsByFilter", new { controller = "Bookings" }))
+    .SetAutoWidth(true)
+    .SetRowNum(10)
+    .SetRowList(new[] { 10, 15, 20, 50 })
+    .SetViewRecords(true)
+    .SetPager("pager")
+    .SetSearchToolbar(true)
+    .SetSearchOnEnter(false)
+    .SetSearchClearButton(true)
+    .SetSearchToggleButton(false)
+  .OnBeforeRequest("myFunc()")
+
+                )
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</section>
+<!-- Modal -->
+<div class="modal fade" id="addEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@Resource.Campaign</h4>
+            </div>
+            <div class="modal-body" id="campaigndiv">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-gradient" data-dismiss="modal"><span class="fa fa-times"></span> @Resource.close</button>
+                <button type="button" id="btnSaveCampaign" class="btn btn-primary btn-gradient mr10"><span class="fa fa-upload"></span>  @Resource.Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addPriceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@Resource.Product @Resource.Price</h4>
+            </div>
+            <div class="modal-body" id="addpricediv">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addStockModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@Resource.Product @Resource.Stock</h4>
+            </div>
+            <div class="modal-body" id="addstockdiv">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addNameModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@Resource.Product @Resource.Name</h4>
+            </div>
+            <div class="modal-body" id="addnamediv">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+</style>
+
+
+@section scripts {
+
+
+    @Styles.Render("~/Content/jqGrid/jqgridui")
+    @Scripts.Render("~/bundles/jqgrid")
+
+    <script>
+
+
+        $(function () {
+
+            $(window).on("resize", function () {
+                var $grid = $("#itemsGrid"),
+                    newWidth = $grid.closest(".ui-jqgrid").parent().width();
+                $grid.jqGrid("setGridWidth", newWidth, true);
+            });
+
+            var html = '<a href="/Product">Products</a>';
+            $('#dsh').html(html);
+
+            $('#Cataglog').addClass('active');
+            $('#products').addClass('active');
+
+            if (!$('#menuCatalog').hasClass('menu-open')) {
+
+                $('#menuCatalog').attr('style', '').toggleClass('menu-open');
+            }
+
+            $('.tree li:has(ul)').addClass('parent_li ').find(' > span').attr('title', 'Collapse this branch');
+            $('.tree li:has(ul)').addClass('parent_li ').find(' > span').addClass('minus');
+
+            $('.tree li.parent_li > span').on('click', function (e) {
+                var children = $(this).parent('li.parent_li').find(' > ul > li');
+                if (children.is(":visible")) {
+                    $(this).removeClass('minus');
+                    $(this).addClass('plus');
+                    children.hide('fast');
+                    $(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus-sign').removeClass('icon-minus-sign');
+                } else {
+                    $(this).removeClass('plus');
+                    $(this).addClass('minus');
+                    children.show('fast');
+                    $(this).attr('title', 'Collapse this branch').find(' > i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
+                }
+                e.stopPropagation();
+            });
+
+
+            $('#btnProductPrice').click(function () {
+                var rootPath = "https://" + window.location.host + '/';
+                var catId = $('#filter-category').val();
+                var url = "Reports/ProductReportForm.aspx?catId=" + catId + "&rptName=rptproductprice";
+
+
+                window.open(rootPath + url);
+
+            });
+
+            $('#btnItemStock').click(function () {
+                var rootPath = "https://" + window.location.host + '/';
+                var catId = $('#filter-category').val();
+                var url = "Reports/ProductReportForm.aspx?catId=" + catId + "&rptName=rptitemstock";
+
+                window.open(rootPath + url);
+
+            });
+
+            $('#btnProductBarCode').click(function () {
+                var rootPath = "https://" + window.location.host + '/';
+                var catId = $('#filter-category').val();
+                var url = "Reports/ProductReportForm.aspx?catId=" + catId + "&rptName=rptProductBarcode";
+                window.open(rootPath + url);
+
+            });
+
+            $('#btnExpiryItems').click(function () {
+                var rootPath = "https://" + window.location.host + '/';
+
+                var url = "Reports/ReportForm.aspx?dtFrom=2018-09-01&dtTo=2018-09-11&terminalId=00000000-0000-0000-0000-000000000000&rptName=rptExpiryItems";
+                window.open(rootPath + url);
+
+            });
+
+
+            $('#btnAddProduct').click(function () {
+                $('#loading').show();
+
+                $.ajax({
+                    url: '@Url.Action("Create", "Bookings")',
+                    type: "GET",
+
+                    success: function (result) {
+                        $('#loading').hide();
+
+                        $("#ProductCreate").html(result);
+
+                    }
+                });
+            });
+
+            $('#btnSyncSeamless').click(function () {
+                $('#loading').show();
+
+                $.ajax({
+                    url: '@Url.Action("SyncSeamless", "Bookings")',
+                    type: "GET",
+                    success: function (result) {
+                        $('#loading').hide();
+
+                        alert(result.Message);
+
+                    },
+                    error: function (err) {
+                        $('#loading').hide();
+                        alert('Error!');
+                    }
+                });
+            });
+
+            $.ajax({
+                url: '@Url.Action("GetBookingAreas", "Bookings")',
+                type: "GET",
+
+                success: function (result) {
+                    var $select = $("#filter-category");
+                    $.each(result, function (i, item) {
+
+                        $('<option>', {
+                            value: item.BookingAreaId
+                        }).html(item.Name).appendTo($select);
+                    });
+
+
+                }
+            });
+
+            $("#filter-category").change(function () {
+
+                Search($('#filter-category').val());
+
+            });
+            $("#filter-status").change(function () {
+
+                GetByCategory($('#filter-category').val(), $('#filter-status').val());
+
+            });
+            $("#filter-deleted").change(function () {
+
+                GetDeletedItem($('#filter-deleted').val());
+
+            });
+            $("#filter-placeholder").change(function () {
+
+                GetByPlaceholderCategory($('#filter-category').val(), $('#filter-placeholder').val());
+
+            });
+
+        });
+        function Search(val) {
+            $("#itemsGrid").jqGrid('setGridParam', {
+                postData: { "category": val }
+            }).trigger('reloadGrid');
+
+
+        }
+        function myFunc() {
+
+            $("#itemsGrid").jqGrid('setGridParam', {
+                postData: { "category": $('#filter-category').val() }
+            });
+
+        }
+        function LoadProducts() {
+
+            $.ajax({
+                url: '@Url.Action("AjaxGetJsonData", "Bookings")',
+                type: "GET",
+                data: { draw: 1, start: 0, length: 25 },
+                success: function (result) {
+                    $('#PartialProductList').html(result);
+                }
+            });
+        }
+
+        function GetByPlaceholderCategory(catid, holder) {
+
+            $.ajax({
+                url: '@Url.Action("GetPlaceholderByCategory", "Bookings")',
+                type: "GET",
+                data: { id: catid, placeholder: holder },
+                success: function (result) {
+                    $('#PartialProductList').html(result);
+                }
+            });
+        }
+        function GetByCategory(catid, active) {
+            $.ajax({
+                url: '@Url.Action("GetProductsByCategory", "Bookings")',
+                type: "GET",
+                data: { id: catid, active: active },
+                success: function (result) {
+                    $('#PartialProductList').html(result);
+                }
+            });
+        }
+        function GetDeletedItem(deleted) {
+            $.ajax({
+                url: '@Url.Action("GetDeletedProduct", "Bookings")',
+                type: "GET",
+                data: { deleted: deleted },
+                success: function (result) {
+                    $('#PartialProductList').html(result);
+                }
+            });
+        }
+        function RefreshTable(tableId, urlData) {
+            $.getJSON(urlData, null, function (json) {
+                table = $(tableId).dataTable();
+                oSettings = table.fnSettings();
+
+                table.fnClearTable(this);
+
+                for (var i = 0; i < json.aaData.length; i++) {
+                    table.oApi._fnAddData(oSettings, json.aaData[i]);
+                }
+
+                oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+                table.fnDraw();
+            });
+        }
+
+        function AddStock(id) {
+            if (id == 0) {
+                alert("Select a valid product");
+                return;
+            }
+            $.ajax({
+                url: '@Url.Action("AddStock", "Bookings")',
+                type: "GET",
+                data: { itemId: id },
+                success: function (result) {
+
+                    $("#addstockdiv").html(result);
+                }
+            });
+        }
+        function AddPrice(id) {
+            if (id == 0) {
+                alert("Select a valid product");
+                return;
+            }
+            $.ajax({
+                url: '@Url.Action("ProductPrice", "Bookings")',
+                type: "GET",
+                data: { itemId: id },
+                success: function (result) {
+
+                    $("#addpricediv").html(result);
+                }
+            });
+        }
+        function EditCampaign(id) {
+            if (id == 0) {
+                alert("Select a valid product");
+                return;
+            }
+            $.ajax({
+                url: '@Url.Action("ProductCampaign", "Bookings")',
+                type: "GET",
+                data: { id: id },
+                success: function (result) {
+
+                    $("#campaigndiv").html(result);
+                }
+            });
+        }
+        function Edit(id) {
+
+            $('#loading').show();
+
+            var url = '/Bookings/Edit?id=' + id;
+            $.ajax({
+                url: url,
+                type: "GET",
+
+                success: function (result) {
+                    $('#loading').hide();
+                    $("#ProductCreate").html(result);
+
+                }
+            });
+        }
+        function PrintBarcode(id) {
+            var rootPath = "https://" + window.location.host + '/';
+            //Change https when deploying on web server
+            var url = "Reports/ProductReportForm.aspx?catId=" + id + "&rptName=rptOneProductBarcode";
+            window.open(rootPath + url);
+
+        }
+        function Delete(id) {
+            if (confirm("Are you sure to delete this product?")) {
+                var url = '/Bookings/Delete?id=' + id;
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+
+                    success: function (result) {
+
+                        alert(result.Message);
+                        window.location.reload();
+
+                    }
+                });
+            }
+        }
+        function AddName(id) {
+            if (id == 0) {
+                alert("Select a valid product");
+                return;
+            }
+            $.ajax({
+                url: '@Url.Action("ProductName", "Bookings")',
+                type: "GET",
+                data: { itemId: id },
+                success: function (result) {
+
+                    $("#addnamediv").html(result);
+                }
+            });
+        }
+        function Restore(id) {
+            if (confirm("Are you sure to restore this product?")) {
+                var url = '/Bookings/Restore?id=' + id;
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+
+                    success: function (result) {
+
+                        alert(result.Message);
+                        window.location.reload();
+
+                    }
+                });
+            }
+        }
+        function buttonize(cellvalue, options, rowobject) {
+            return '<div class="btn-group"><button type="button" onclick="Edit(' + "'" + options.rowId + "'" + ')" class="btn btn-primary btn-gradient btn-sm" style="height:30px">Edit</button>' +
+                    '<button type="button" onclick="Delete(' + "'" + options.rowId + "'" + ')" class="btn btn-danger btn-gradient btn-sm" style="height:30px">Delete</button></div>';
+        }
+    </script>
+}

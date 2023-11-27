@@ -1,0 +1,680 @@
+﻿@model ItemViewModel
+
+<link href="~/Content/style.css" rel="stylesheet" />
+
+<style>
+    .top_space {
+        margin-top: 25px;
+        font-size: 11px !important;
+    }
+
+    .sm_label {
+        font-size: 11px !important;
+    }
+
+    .top_space_without_font {
+        margin-top: 25px;
+    }
+</style>
+
+<header id="topbar" class="ph10">
+    <div class="topbar-left hidden">
+        <ul class="nav nav-list nav-list-topbar pull-left">
+            <li class="active">
+                <a href="/Product">@Resource.lblProducts</a>
+            </li>
+            <li>
+                <a href="/Category">@Resource.Categories</a>
+            </li>
+        </ul>
+    </div>
+    <div class="topbar-right">
+        <div class="pull-right">
+            <button class="btn btn-primary fa fa-save" id="btnEditTop" type="button"> @Resource.Update @Resource.Product</button>
+        </div>
+    </div>
+</header>
+<div class="panel mb25 mt5">
+    @using (Html.BeginForm("Edit", "Product", null, FormMethod.Post, new { id = "form1", role = "form", @class = "" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(m => m.SelectedIds);
+        @Html.HiddenFor(m => m.selectedPrimary);
+
+        <div class="panel-body p20 pb10" style="border-top:0px">
+            <div class="tab-content pn br-n admin-form">
+                <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+                <div class="alert alert-danger" style="display:none;" id="divError"></div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="panel">
+                            <div class="panel-heading" style="padding-top:0px;padding-bottom:0px"> <span class="panel-title"> <span class="glyphicon glyphicon-edit"></span> @Resource.Update @Resource.Product </span> </div>
+                            <div class="panel-body">
+                                <div class="section row mbn">
+                                    <div class="">
+                                        <div class="section row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">@Resource.Name</label>
+                                                    @Html.TextBoxFor(model => model.Description, new { @class = "event-name gui-input br-light light", @placeholder = @Resource.Product + " " + Resource.Name, Title = @Resource.Product + " " + Resource.Name })
+                                                    @Html.ValidationMessageFor(model => model.Description)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">@Resource.Barcode</label>
+                                                    @Html.TextBoxFor(model => model.BarCode, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Product + " " + Resource.Barcode, Title = Resource.Product + " " + Resource.Barcode })
+                                                    @Html.ValidationMessageFor(model => model.BarCode)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">@Resource.Price</label>
+                                                    @Html.TextBoxFor(model => model.Price, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Product + " " + Resource.Price, Title = Resource.Product + " " + Resource.Price })
+                                                    @Html.ValidationMessageFor(model => model.Price)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">@Resource.PurchasePrice</label>
+                                                    @Html.TextBoxFor(model => model.PurchasePrice, new { @class = "event-name gui-input br-light light", @placeholder = "Cost Price", Title = "Cost Pris" })
+                                                    @Html.ValidationMessageFor(model => model.PurchasePrice)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="inputStandard" name="lblMargin" id="lblMargin" class="control-label pt10"></label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="inputStandard" name="lblMarginPurchasePrice" id="lblMarginPurchasePrice" class="control-label pt10">Marginal:SEK XXX        XX %</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">@Resource.SKU</label>
+                                                    @Html.TextBoxFor(model => model.SKU, new { @class = "event-name gui-input br-light light", @placeholder = Resource.SKU, Title = @Resource.SKU })
+                                                    @Html.ValidationMessageFor(model => model.SKU)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">@Resource.Accounting</label>
+                                                    @Html.DropDownListFor(model => model.AccountingId, Model.Accountings, new { @class = "field select" })
+                                                    @Html.ValidationMessageFor(model => model.AccountingId)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">@Resource.unit</label>
+                                                    @Html.DropDownListFor(model => model.Unit, Model.UnitTypes, new { @class = "field select" })
+                                                    @Html.ValidationMessageFor(model => model.Unit)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">@Resource.Printer</label>
+                                                    @Html.DropDownListFor(model => model.PrinterId, Model.Printers, new { @class = "field select" })
+                                                    @Html.ValidationMessageFor(model => model.PrinterId)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">@Resource.ColorCode</label>
+                                                    @Html.TextBoxFor(model => model.ColorCode, new { @class = "form-control demo demo-1 demo-auto", @placeholder = Resource.ColorCode, Title = Resource.ColorCode })
+                                                    @Html.ValidationMessageFor(model => model.ColorCode)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="username">@Resource.Stock</label>
+                                                    @Html.TextBoxFor(model => model.StockQuantity, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Stock, Title = @Resource.Stock })
+                                                    @Html.ValidationMessageFor(model => model.StockQuantity)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="MinStockLevel">Minimum @Resource.Stock @Resource.Qty</label>
+                                                    @Html.TextBoxFor(model => model.MinStockLevel, new { @class = "event-name gui-input br-light light", @placeholder = "Min Stock Level", Title = "Min Stock Level" })
+                                                    @Html.ValidationMessageFor(model => model.MinStockLevel)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">@Resource.PLU</label>
+                                                    @Html.TextBoxFor(model => model.PLU, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Product + " " + Resource.PLU, Title = Resource.Product + " " + Resource.PLU })
+                                                    @Html.ValidationMessageFor(model => model.PLU)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">@Resource.Weight</label>
+                                                    @Html.TextBoxFor(model => model.Weight, new { @class = "event-name gui-input br-light light", @placeholder = @Resource.Weight, Title = @Resource.Weight })
+                                                    @Html.ValidationMessageFor(model => model.Weight)
+                                                </div>
+                                            </div>
+                                            @*<div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="username">Level</label>
+                                                        @Html.TextBoxFor(model => model.ReorderLevelQuantity, new { @class = "event-name gui-input br-light light", @placeholder = "Reorder Level Quantity", Title = "Reorder Level Quantity" })
+                                                        @Html.ValidationMessageFor(model => model.ReorderLevelQuantity)
+                                                    </div>
+                                                </div>*@
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">@Resource.Temp_Price_Start_Date</label>
+                                                    @Html.EditorFor(model => model.TempPriceStart, new { @class = "event-name gui-input br-light light", @placeholder = @Resource.Temp_Price_Start_Date, Title = @Resource.Temp_Price_Start_Date })
+                                                    @Html.ValidationMessageFor(model => model.TempPriceStart)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">@Resource.Temp_Price_End_Date</label>
+                                                    @Html.EditorFor(model => model.TempPriceEnd, new { @class = "event-name gui-input br-light light", @placeholder = @Resource.Temp_Price_End_Date, Title = @Resource.Temp_Price_End_Date })
+                                                    @Html.ValidationMessageFor(model => model.TempPriceEnd)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">@Resource.Temp_Price</label>
+                                                    @Html.TextBoxFor(model => model.TempPrice, new { @class = "event-name gui-input br-light light", @placeholder = @Resource.Temp_Price, Title = @Resource.Temp_Price })
+                                                    @Html.ValidationMessageFor(model => model.TempPrice)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group top_space">
+                                                    <label for="inputStandard" name="lblMarginTemp" id="lblMarginTemp" class="control-label pt10 sm_label">Tillfälligt pris marginal:SEK XXX        XX %</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="section row">
+                                            <div class="col-md-6 text-left">
+                                                <div class="form-group">
+                                                    @Html.CheckBoxFor(model => model.IsPantEnabled, new { @type = "checkbox" })
+                                                    <label for="" class="control-label pt10"> @Resource.PantProduct </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" id="pantProduct">
+                                                <div class="form-group">
+                                                    <label class="field select">
+                                                        @Html.DropDownListFor(model => model.PantProductId, (IEnumerable<SelectListItem>)ViewBag.PantProduct, "Select PANT Product", new { @class = "form-control" })
+                                                        <i class="arrow"></i>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="section row">
+                                            <div class="col-sm-3 text-left">
+                                                <label>
+                                                    @*<input type="checkbox" name="info" id="chkpricelock" checked="@Model.PriceLock==true?'checked'">*@
+                                                    @Html.CheckBoxFor(model => model.AskPrice, new { @type = "checkbox" })
+                                                    @Resource.Ask @Resource.Price
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-3 text-left">
+                                                <label>
+                                                    @*<input type="checkbox" name="info" id="chkpricelock" checked="@Model.PriceLock==true?'checked'">*@
+                                                    @Html.CheckBoxFor(model => model.AskWeight, new { @type = "checkbox" })
+                                                    @Resource.Ask @Resource.Weight
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-3 text-left">
+                                                <label>
+                                                    @Html.CheckBoxFor(model => model.AskVolume, new { @type = "checkbox" })
+                                                    @Resource.Ask  @Resource.Volume
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="section row">
+                                            <div class="col-sm-3 text-left">
+                                                <label>
+                                                    @*<input type="checkbox" name="info" id="chkplaceholder" checked="@Model.PlaceHolder==true?'checked'">*@
+                                                    @Html.CheckBoxFor(model => model.PlaceHolder, new { @type = "checkbox" })
+                                                    @Resource.Placeholder
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-3 text-left">
+                                                <label>
+                                                    @* <input type="checkbox" name="info" id="chkactive" checked="@Model.Active==true?'checked'">*@
+                                                    @Html.CheckBoxFor(model => model.Active, new { @type = "checkbox" })
+                                                    @Resource.Active
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-3 text-left">
+                                                <label>
+                                                    @* <input type="checkbox" name="info" id="chkactive" checked="@Model.Active==true?'checked'">*@
+                                                    @Html.CheckBoxFor(model => model.ShowItemButton, new { @type = "checkbox" })
+                                                    @Resource.ShowButton
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="section row">
+                                            <div class="col-sm-3 text-left">
+                                                <label>
+                                                    @*<input type="checkbox" name="info" id="chkpricelock" checked="@Model.PriceLock==true?'checked'">*@
+                                                    @Html.CheckBoxFor(model => model.PriceLock, new { @type = "checkbox" })
+                                                    @Resource.Price @Resource.Lock
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-3 text-left">
+                                                <label>
+                                                    @* <input type="checkbox" name="info" id="chkactive" checked="@Model.Active==true?'checked'">*@
+                                                    @Html.CheckBoxFor(model => model.NeedIngredient, new { @type = "checkbox" })
+                                                    @Resource.Ingredient
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-3 text-left">
+                                                <label>
+                                                    @if (ViewBag.ShowBong)
+                                                    {
+                                                        @Html.CheckBoxFor(model => model.Bong, new { @type = "checkbox" })
+                                                        <label> Bong</label>
+                                                    }
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-3 text-left">
+                                                <label>
+                                                    @* <input type="checkbox" name="info" id="chkactive" checked="@Model.Active==true?'checked'">*@
+                                                    @Html.CheckBoxFor(model => model.DiscountAllowed, new { @type = "checkbox" })
+                                                    @Resource.DiscountAllowed
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="section row">
+                                            <div class="pull-left">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="panel">
+                            <div class="panel-heading" style="padding-top:0px;padding-bottom:0px"> <span class="panel-title"> <span class="glyphicon glyphicon-edit"></span> @Resource.Category </span> </div>
+                            <div class="panel-body">
+                                <div id="frm-category" class="tree well">
+                                    @Html.Partial("_TreeCategories", Model.SeedCategories)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer clearfix">
+            <div class="pull-right">
+                @if (User.IsInRole("Admin"))
+                {<button class="btn btn-primary fa fa-save" id="btnEdit" type="button"> @Resource.Update @Resource.Product</button>}
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+
+    jQuery(document).ready(function () {
+        //initializeing color picker
+        $('.demo-auto').colorpicker();
+        if ($('#IsPantEnabled').is(":checked")) {
+            $('#pantProduct').show();
+        } else {
+            $('#pantProduct').hide();
+        }
+    });
+
+    $(document).ready(function () {
+        $('#IsPantEnabled:checkbox').change(function () {
+            if ($(this).prop("checked") == true) {
+                $('#pantProduct').show();
+            } else if ($(this).prop("checked") == false) {
+                $('#pantProduct').hide();
+            }
+        });
+
+        $('#PurchasePrice').keyup(function () {
+            UpdateMargin();
+        });
+
+        $('#Price').keyup(function () {
+            UpdateMargin();
+        });
+
+        $('#TempPrice').keyup(function () {
+            UpdateTempMargin();
+        });
+
+        $("#AccountingId").change(function () {
+            UpdateMargin();
+            UpdateTempMargin();
+        });
+
+        UpdateMargin();
+        UpdateTempMargin();
+    });
+
+    function parseFloatOpts(num, decimal, thousands) {
+        var bits = num.split(decimal, 2),
+            ones = bits[0].replace(new RegExp('\\' + thousands, 'g'), '');
+        ones = parseFloat(ones, 10),
+            decimal = parseFloat('0.' + bits[1], 10);
+        return ones + decimal;
+    }
+
+    function UpdateMargin() {
+        var moms = 0;
+        var selectedAccounting = $("#AccountingId").find('option:selected').text();
+        if (selectedAccounting.includes('25%')) {
+            moms = 25.0;
+        } else if (selectedAccounting.includes('12%')) {
+            moms = 12.0;
+        } else if (selectedAccounting.includes('6%')) {
+            moms = 6.0;
+        }
+
+        var costPrice = $('#PurchasePrice').val();
+        if (typeof costPrice !== 'undefined' && costPrice) {
+            var costPrice2 = parseFloat(costPrice.replace(',', '.').replace(' ', ''));// parseFloatOpts(costPrice, ',', '.');
+            var momsValue2 = parseFloat(costPrice2 * moms) / parseFloat(100 + moms);
+            $('#lblMarginPurchasePrice').text('Moms Amount: SEK ' + momsValue2.toFixed(2) + '\xa0\xa0\xa0\xa0\xa0\xa0' + moms.toFixed(2) + ' %');
+        } else {
+            costPrice = '0.0';
+            $('#lblMarginPurchasePrice').text('Moms Amount:');
+        }
+
+        var price = $('#Price').val();
+        if (typeof price !== 'undefined' && price && price !== '') {
+
+        } else {
+            price = '0.0';
+            $('#lblMargin').text('Marginal:');
+            return;
+        }
+
+        var customerPrice = parseFloat(price.replace(',', '.').replace(' ', '')); //parseFloatOpts(price, ',', '.');
+        var costPriceExMom = parseFloat(costPrice.replace(',', '.').replace(' ', ''));// parseFloatOpts(costPrice, ',', '.');
+
+        var momsValue = parseFloat(customerPrice * moms) / parseFloat(100 + moms);
+        var customerPriceExMoms = customerPrice - momsValue;
+        var marginInSEK = customerPriceExMoms - costPriceExMom;
+
+        var marginInPercentage = 100;
+
+        if (costPriceExMom != 0)
+            marginInPercentage = parseFloat(marginInSEK / customerPriceExMoms) * 100;
+
+        $('#lblMargin').text('Marginal: SEK ' + marginInSEK.toFixed(2) + '\xa0\xa0\xa0\xa0\xa0\xa0' + marginInPercentage.toFixed(2) + ' %');
+    }
+
+    function UpdateTempMargin() {
+        var costPrice = $('#PurchasePrice').val();
+        if (typeof costPrice !== 'undefined' && costPrice) {
+
+        } else {
+            costPrice = '0.0';
+        }
+
+        var price = $('#TempPrice').val();
+        if (typeof price !== 'undefined' && price) {
+
+        } else {
+            price = '0.0';
+            $('#lblMarginTemp').text('Tillfälligt pris marginal: ');
+            return;
+        }
+
+        var customerPrice = parseFloat(price.replace(',', '.').replace(' ', '')); //parseFloatOpts(price, ',', '.');
+        var costPriceExMom = parseFloat(costPrice.replace(',', '.').replace(' ', ''));// parseFloatOpts(costPrice, ',', '.');
+
+        var moms = 0;
+        var selectedAccounting = $("#AccountingId").find('option:selected').text();
+        if (selectedAccounting.includes('25%')) {
+            moms = 25.0;
+        } else if (selectedAccounting.includes('12%')) {
+            moms = 12.0;
+        } else if (selectedAccounting.includes('6%')) {
+            moms = 6.0;
+        }
+
+        var momsValue = parseFloat(customerPrice * moms) / parseFloat(100 + moms);
+        var customerPriceExMoms = customerPrice - momsValue;
+        var marginInSEK = customerPriceExMoms - costPriceExMom;
+
+        var marginInPercentage = 100;
+
+        if (customerPriceExMoms > 0)
+            marginInPercentage = parseFloat(marginInSEK / customerPriceExMoms) * 100;
+
+        $('#lblMarginTemp').text('Tillfälligt pris marginal: SEK ' + marginInSEK.toFixed(2) + '\xa0\xa0\xa0\xa0\xa0\xa0' + marginInPercentage.toFixed(2) + ' %');
+    }
+
+    $(function () {
+        $('#Cataglog').addClass('active');
+        $('#products').addClass('active');
+
+        if (!$('#menuCatalog').hasClass('menu-open')) {
+
+            $('#menuCatalog').attr('style', '').toggleClass('menu-open');
+        }
+
+        $('.tree-checkbox').click(function () {
+
+            $('#Parant').val($(this).attr('id'));
+            $('#CategoryLevel').val($(this).parent().attr('id'));
+		});
+
+		$('.tree-checkbox-primary').click(function () {
+			$('#selectedPrimary').val($(this).attr('id'));
+        });
+
+        var selectArr = [];
+        var _cats = $('#SelectedIds').val();
+        if (_cats.length > 0) {
+            var str_array = _cats.split(',');
+            for (var i = 0; i < str_array.length; i++) {
+                // Trim the excess whitespace.
+                selectArr[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+            }
+        }
+
+        $('.tree-checkbox').click(function () {
+            $(this).parents('.parent-category').find('select').attr('checked', 'true');
+            var dataid = $(this).attr('id');
+            //alert(dataid);
+            var idx = $.inArray(dataid, selectArr);
+            if (idx == -1) {
+                selectArr.push(dataid);
+            } else {
+                selectArr.splice(idx, 1);
+            }
+        });
+
+
+        $('#btnEditTop').click(function () {
+           // alert("btn top click");
+			EditProduct(selectArr);
+        });
+
+        $('#btnEdit').click(function () {
+           // alert("btn bottom click");
+			EditProduct(selectArr);
+        });
+
+        //$('form').submit(function () {
+
+        //    $('#AskPrice').val($('#chkaskprice').is(':checked'));
+        //    $('#PriceLock').val($('#chkpricelock').is(':checked'));
+        //    $('#Active').val($('#chkactive').is(':checked'));
+        //    $('#PlaceHolder').val($('#chkplaceholder').is(':checked'));
+
+        //    var cats = "";
+        //    for (i = 0; i < selectArr.length; i++) {
+        //        cats = cats + selectArr[i] + ",";
+        //    }
+        //    $('#SelectedIds').val(cats);
+        //});
+    });
+
+    function EditProduct(selectArr) {
+        $("#divError").html('');
+        $("#divError").hide('');
+
+        if ($('#PlaceHolder').is(':checked') == false)
+            if ($('#Description').val() == '') {
+                $("#divError").html("@Resource.Specify  @Resource.Product  @Resource.Name");
+                $("#divError").show();
+                $('#Description').focus();
+                return;
+            }
+
+        var cats = "";
+        for (i = 0; i < selectArr.length; i++) {
+            cats = cats + selectArr[i] + ",";
+        }
+        if (selectArr.length == 0) {
+
+            $("#divError").html("@Resource.Please @Resource.Select @Resource.Category.");
+            $("#divError").show();
+            return;
+        }
+        var primary1 = false;
+        var selectprimID = "";
+        $("input[name=Primary]").each(function (index) {
+            if ($(this).prop("checked")){
+                primary1 = true;
+                selectprimID = $(this).attr('id');
+            }
+        });
+
+        //alert("selectprimID " + selectprimID+" :primary not checked " );
+
+
+        //if (!selectprimID) {
+        //    alert("the string is null or empty");
+        //    return;
+        //}
+
+        var selectedPrimary = -1;
+        if (cats == "0,") {
+            $("#divError").html("@Resource.Please @Resource.Select Category @Resource.Category.");
+            $("#divError").show();
+            return false;
+        }
+
+        if (!primary1) {
+            selectedPrimary = 0;
+        }
+        else if (selectprimID) {
+            //alert("the string is not null or empty");
+            selectedPrimary = selectprimID.replace("P-", "");
+        }
+        // alert(selectedPrimary);
+        //return;
+        var pantProductId = "";
+        var isPantEnabled = false;
+        if ($('#IsPantEnabled').is(":checked")) {
+            pantProductId = $('#PantProductId').val();
+            isPantEnabled = true;
+        }
+
+        var data = {
+            Id: $('#Id').val(),
+            Description: $('#Description').val(),
+            BarCode: $('#BarCode').val(),
+            Price: $('#Price').val(),
+            PurchasePrice: $('#PurchasePrice').val(),
+            AccountingId: $("#AccountingId").find('option:selected').val(),
+            // Tax: $('#TaxValue').val(),
+            PLU: $('#PLU').val(),
+            SKU: $('#SKU').val(),
+            ColorCode: $('#ColorCode').val(),
+            PrinterId: $('#PrinterId').val(),
+            AskPrice: $('#AskPrice').is(':checked'),
+            PriceLock: $('#PriceLock').is(':checked'),
+            Active: $('#Active').is(':checked'),
+            PlaceHolder: $('#PlaceHolder').is(':checked'),
+            Unit: $("#Unit").find('option:selected').val(),
+            ReorderLevelQuantity: 1, //$("#ReorderLevelQuantity").val(),
+            AskWeight: $('#AskWeight').is(':checked'),
+            Bong: $('#Bong').is(':checked'),
+            AskVolume: $('#AskVolume').is(':checked'),
+            ShowItemButton: $('#ShowItemButton').is(':checked'),
+            NeedIngredient: $('#NeedIngredient').is(':checked'),
+            DiscountAllowed: $('#DiscountAllowed').is(':checked'),
+			SelectedIds: cats,
+            //selectedPrimary : $('#selectedPrimary').val()
+            selectedPrimary: selectedPrimary,
+            StockQuantity: $('#StockQuantity').val(),
+            TempPriceStart: $('#TempPriceStart').val(),
+            MinStockLevel: $('#MinStockLevel').val(),
+            TempPriceEnd: $('#TempPriceEnd').val(),
+            TempPrice: $('#TempPrice').val(),
+            PantProductId: pantProductId,
+            IsPantEnabled: isPantEnabled,
+            Weight: $('#Weight').val()
+
+        };
+
+        var moms = '0';
+        var accountingId = '';
+        var selectedAccounting = $("#AccountingId").find('option:selected').text();
+        accountingId = selectedAccounting.split('-')[0];
+        if (selectedAccounting.includes('25%')) {
+            moms = '25.00';
+        } else if (selectedAccounting.includes('12%')) {
+            moms = '12.00';
+        } else if (selectedAccounting.includes('6%')) {
+            moms = '6.00';
+        }
+
+        $.ajax({
+            url: '@Url.Action("Edit", "Product")',
+            type: "POST",
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                var res = result.Message;
+                var arr = res.split(':');
+                if (arr[0] == "Success") {
+                    $("#messageBox").show();
+                    $('#messageBox').html(arr[1]);
+                    var tId;
+
+                    $("#messageBox").hide().slideDown();
+                    clearTimeout(tId);
+                    tId = setTimeout(function () {
+                        $("#messageBox").hide();
+                        // window.location = '/Product'
+                        $("#ProductCreate").html('');
+                        //Search($('#filter-category').val());
+                        updateOnedit(data.Description,
+                            data.BarCode,
+                            data.PLU,
+                            data.StockQuantity,
+                            data.Weight,
+                            moms,
+                            accountingId,
+                            data.Price);
+                    }, 2000);
+                } else {
+                    $("#divError").show();
+                    $('#divError').html(arr[1]);
+                    var tId;
+
+                    $("#divError").hide().slideDown();
+                    clearTimeout(tId);
+                    tId = setTimeout(function () {
+                        $("#divError").hide();
+
+
+                    }, 2000);
+                }
+            }
+        });
+    }
+</script>

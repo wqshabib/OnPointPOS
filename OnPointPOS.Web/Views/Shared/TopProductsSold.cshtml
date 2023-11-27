@@ -1,0 +1,32 @@
+﻿@model ReportViewModel
+
+<table id="myTable" class="table admin-form theme-warning tc-checkbox-1 fs13">
+    <thead>
+        <tr class="bg-light">
+            <th onclick="sortTable(0)" class="">@Resource.Product @Resource.Name</th>
+            <th onclick="sortTable(1)" class="">@Resource.Qty</th>
+            <th onclick="sortTable(2)" class="hidden-xs">@Resource.Price / @Resource.unit</th>
+            <th onclick="sortTable(3)" class="">@Resource.Report_TotalSale</th>
+            <th onclick="sortTable(4)" class="hidden-xs">@Resource.Report_TotalNet</th>
+            <th onclick="sortTable(5)" class="hidden-xs">@Resource.Tax</th>
+            @*<th class="text-right">Status</th>*@
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Products)
+        {
+            <tr>
+                <td class="">@item.Description</td>
+                <td class="">@(item.Unit == ProductUnit.Piece ? Math.Round(item.SoldQty, 0) : Math.Round(item.SoldQty, 2))</td>
+                <td class="hidden-xs">@item.Price/ @item.Unit</td>
+                <td class=""> @Math.Round(item.TotalSale, 2)</td>
+                <td class="hidden-xs">@Math.Round(item.NetSale, 2)</td>
+                <td class="hidden-xs">@Math.Round(item.VatSum, 2) (@item.Tax %)</td>
+
+
+            </tr>
+
+        }
+    </tbody>
+</table>

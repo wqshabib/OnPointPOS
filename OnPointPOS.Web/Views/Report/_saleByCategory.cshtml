@@ -1,0 +1,173 @@
+﻿@model List<ItemViewModel>
+
+<div class="panel">
+    <div class="panel-body pn">
+        <div class="table-responsive">
+            <table id="tbl_cat_sale" class="table admin-form theme-warning tc-checkbox-1 fs13 " cellspacing="0" width="100%">
+                <thead>
+                    <tr class="bg-light">
+                        <th class="">@Resource.Product Title</th>
+                        <th class="">@Resource.Price/st</th>
+                        <th class="">@Resource.Report_Quantity</th>
+                        <th class="">Total @Resource.Report_TotalSale</th>
+                        <th class="">Exkl moms</th>
+                        <th class="">@Resource.Report_VATPercent</th>
+                        <th class="">@Resource.Report_VAT</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                    <tr>
+
+                        <td class="text-left">@item.Description</td>
+                        <td class="text-left">@item.Price</td>
+                        <td class="">@item.SoldQty</td>
+                        <td class="">@item.TotalSale</td>
+                        <td class="">@item.NetSale</td>
+                        <td class="">@item.TaxValue</td>
+                        <td class="">@item.VatSum</td>
+
+                    </tr>
+                    }
+                </tbody>
+
+
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $(function () {
+
+
+        $('#tbl_cat_sale').dataTable({
+            "bJQueryUI": true,
+            "processing": true, // control the processing indicator.
+
+            "info": true,   // control table information display field
+            "stateSave": true,  //restore table state on page reload,
+            "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]], "oLanguage": {
+                "oPaginate": {
+                    "sPrevious": " ",
+                    "sNext": " "
+                }
+            },
+            "order": [[0, "asc"]],
+            "iDisplayLength": 25,
+            "aLengthMenu": [
+              [5, 10, 25, 50, -1],
+              [5, 10, 25, 50, "All"]
+            ],
+            "sDom": '<"dt-panelmenu clearfix"lfr>t<"dt-panelfooter clearfix"ip>'
+        });
+
+
+        $('#CategoryReport').addClass('active');
+        $('#Reports').addClass('active');
+
+        if (!$('#menureports').hasClass('menu-open')) {
+
+            $('#menureports').attr('style', '').toggleClass('menu-open');
+        }
+
+        $("#txtdtFrom").datepicker({ dateFormat: 'yy-mm-dd', language: 'ru' });
+        $('.selector').datepicker({ dateFormat: 'yy-mm-yy' });
+        $("#txtdtTo").datepicker();
+
+        $('#txtdtFrom').on('changeDate', function (ev) {
+            $(this).datepicker('hide');
+        });
+
+        $('#txtdtTo').on('changeDate', function (ev) {
+            $(this).datepicker('hide');
+        });
+
+
+        var currentTime = new Date();
+        var day = currentTime.getDate();
+        var month = currentTime.getMonth() + 1;
+        var year = currentTime.getFullYear();
+
+        if (day < 10) {
+            day = "0" + day;
+        }
+        if (month < 10) {
+            month = "0" + month;
+        }
+
+        var dt = year + "-" + month + "-" + day;
+        $('#txtdtFrom').val(dt);
+        $('#txtdtTo').val(dt);
+
+        $.ajax({
+            url: '@Url.Action("GetItemCategories", "Product")',
+            type: "GET",
+
+            success: function (result) {
+                var $select = $("#filter-category");
+                $.each(result, function (i, item) {
+
+                    $('<option>', {
+                        value: item.CategoryId
+                    }).html(item.Name).appendTo($select);
+                });
+
+
+            }
+        });
+
+        $("#filter-category").change(function () {
+
+            GetByCategory();
+
+        });
+        $("#btnView").click(function () {
+            GetByCategory();
+        });
+
+    });
+    function GetByCategory() {
+        var catName = $("#filter-category option:selected").text();
+        var dtFrom = $('#txtdtFrom').val();
+        var dtTo = $('#txtdtTo').val();
+
+        $.ajax({
+            url: '@Url.Action("GetProductsSaleByCategory", "Report")',
+            type: "GET",
+            data: { catName: catName, dtFrom: dtFrom, dtTo: dtTo },
+            success: function (result) {
+
+                $('#tbl_product').DataTable().ajax.reload();
+                //  RefreshTable("#tbl_product", result)
+
+
+            }
+        });
+    }
+    @*function GetByCategory(categoryId) {
+                if (categoryId == 0) {
+                    alert('select any category');
+                    return;
+                }
+                var dtFrom = $('#txtdtFrom').val();
+                var dtTo = $('#txtdtTo').val();
+                $.ajax({
+                    url: '@Url.Action("PrintCategorySale", "Report")',
+                    type: "Get",
+                    data: { catId: categoryId, dtFrom: dtFrom, dtTo: dtTo },
+                    success: function (_d) {
+
+                        $('#PrintSale-Report').html(_d);
+
+                    }
+                });
+            }*@
+
+</script>
+

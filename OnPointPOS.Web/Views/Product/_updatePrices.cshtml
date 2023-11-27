@@ -1,0 +1,173 @@
+﻿@model List<ItemViewModel>
+@{
+    ViewBag.Title = "Update Prices";
+}
+<style>
+    .datepicker {
+        z-index: 1600 !important; /* has to be larger than 1050 */
+    }
+
+    .detailTable {
+        border-collapse: collapse;
+    }
+
+    .detailth {
+        border: 1px solid #000000;
+        vertical-align: middle;
+        background-color: silver;
+        height: 30px;
+        padding: 5px;
+    }
+
+    .detailtd {
+        border: 1px solid #000000;
+        vertical-align: middle;
+        padding-left: 1px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+    }
+
+    .numberbox {
+        text-align: right;
+        color: black;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-3 pull-left mt40">
+        <a class="btn btn-primary pull-left mr10" data-placement="bottom" title="Update" style="cursor: pointer; height:40px; " id="btnUpdate">
+            @Resource.Update
+        </a>
+
+    </div>
+    <div class="col-sm-8  mt40">
+        <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+        <div class="alert alert-danger" style="display:none;" id="divError"></div>
+    </div>
+
+
+
+
+
+</div>
+
+<div class="row">
+    <table id="detailTable" style="width:100% !important;">
+        <thead>
+            <tr>
+                <th class="detailth">@Resource.Description</th>
+                <th class="detailth">@Resource.Barcode</th>
+                <th class="detailth">@Resource.SKU</th>
+                <th class="detailth" style="width:130px">@Resource.Qty</th>
+                <th class="detailth" style="width:180px">Minimum @Resource.Stock @Resource.Qty</th>
+                <th class="detailth" style="width:130px">@Resource.PurchasePrice</th>
+                <th class="detailth" style="width:130px">@Resource.Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var itm in Model)
+            {
+                <tr id="tr-" @itm.Id>
+                    <td class="detailtd" id=@itm.Id>@itm.Description</td>
+                    <td class="detailtd">@itm.BarCode</td>
+                    <td class="detailtd">@itm.SKU</td>
+                    <td class="detailtd" style="width:130px"><input style="width:130px" class="numberbox" type="text" value="@itm.StockQuantity" /></td>
+                    <td class="detailtd" style="width:180px"><input style="width:180px" class="numberbox" type="text" value="@itm.MinStockLevel" /></td>
+                    <td class="detailtd" style="width:130px"><input style="width:130px" class="numberbox" type="text" value="@itm.PurchasePrice" /></td>
+                    <td class="detailtd" style="width:130px"><input style="width:130px" class="numberbox" type="text" value="@itm.Price" /></td>
+                </tr>
+
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(function () {
+
+
+        $('#btnUpdate').click(function () {
+            SavePrices();
+        });
+
+        $('#detailTable').dataTable(
+            {
+                "paging": false,
+                "info": false
+            }
+        );
+
+    });
+
+
+
+    function SavePrices() {
+
+        var tableObject = [];
+
+
+        $('#detailTable tbody tr').map(function () {
+
+            var $row = $(this);
+
+            itemId = $row.find(':nth-child(1)').attr('id');
+            description = $row.find(':nth-child(1)').text();
+            barcode = $row.find(':nth-child(2)').text();
+            stockQuantity = $row.find(':nth-child(4)').find('input[type=text]').val();
+            minStockLevel = $row.find(':nth-child(5)').find('input[type=text]').val();
+            purchasePrice = $row.find(':nth-child(6)').find('input[type=text]').val();
+            price = $row.find(':nth-child(7)').find('input[type=text]').val();
+
+            var _obj = {
+                Id: itemId,
+                Description: description,
+                Barcode: barcode,
+                StockQuantity: stockQuantity,
+                MinStockLevel: minStockLevel,
+                PurchasePrice: purchasePrice,
+                Price: price
+            };
+
+            tableObject.push(_obj);
+        });
+
+        if (tableObject.length == 0) {
+            alert('No data available to save.');
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("UpdatePrices", "Product")',
+            type: "POST",
+            contentType: 'application/json',
+            data: JSON.stringify(tableObject),
+            success: function (result) {
+                var res = result.Message;
+                var arr = res.split(':');
+                if (arr[0] == "Success") {
+                    $("#messageBox").show();
+                    $('#messageBox').html(arr[1]);
+                    var tId;
+
+                    $("#messageBox").hide().slideDown();
+                    clearTimeout(tId);
+                    tId = setTimeout(function () {
+                        $("#messageBox").hide();
+                    }, 3000);
+                }
+                else {
+                    $("#divError").show();
+                    $('#divError').html(arr[1]);
+                    var tId;
+
+                    $("#divError").hide().slideDown();
+                    clearTimeout(tId);
+                    tId = setTimeout(function () {
+                        $("#divError").hide();
+                    }, 3000);
+                }
+            }
+        });
+    }
+</script>

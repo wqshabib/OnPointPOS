@@ -1,0 +1,184 @@
+﻿@{
+    ViewBag.Title = "InventoryDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.Inventory @Resource.Details</li>
+}
+
+<style>
+    td.details-control {
+        background: url('https://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('https://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
+    }
+</style>
+
+<section>
+    <input id="txtInventoryHistoryId" hidden value="@ViewBag.InventoryHistoryId"/>
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+                <li class="active">
+                    <a>@Resource.Inventory @Resource.Details</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <div class="pt25">
+        <div class="panel">
+            <div class="panel-body pn">
+                <div class="table-responsive">
+                    <table id="tbl_grouped_stock" class="table admin-form theme-warning tc-checkbox-1 fs13 " cellspacing="0">
+                        <thead>
+                            <tr class="bg-light">
+                                <th class="col-sm-2">@Resource.Date</th>
+                                <th>@Resource.Section @Resource.Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    #tbl_cat_sale_wrapper .dt-panelmenu {
+        margin: 0
+    }
+
+    .dt-buttons {
+        float: right !important;
+        margin-left: 15px;
+    }
+
+    .buttons-excel {
+        margin-right: 15px;
+    }
+</style>
+
+<link href="~/Content/DataTables/css/buttons.dataTables.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables/buttons.flash.min.js"></script>
+<script src="~/Scripts/DataTables/jszip.min.js"></script>
+<script src="~/Scripts/DataTables/vfs_fonts.js"></script>
+<script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
+
+@section scripts{
+    <script>
+        var viewTableGroupStock = $('#tbl_grouped_stock');
+        var objDataTable;
+
+        $(function () {
+            var html = '<a href="/Product">Products</a>';
+            $('#dsh').html(html);
+
+            if (!$('#menuinventory').hasClass('menu-open')) {
+                $('#menuinventory').attr('style', '').toggleClass('menu-open');
+            }
+
+            objDataTable = viewTableGroupStock.dataTable({
+                "bJQueryUI": true,
+                "cache": false,
+                "bServerSide": true,
+                "sAjaxSource": "/Product/GetInventoryDetails?inventoryHistoryId=" + $("#txtInventoryHistoryId").val(),
+                "bProcessing": true,
+                "buttons": [
+
+                ],
+                "aoColumns": [
+                    {
+                        "sName": "@Resource.Date",
+                        "data": "CreatedDateString",
+                        "render": function (data, type, object) {
+                            return `<strong>${object.CreatedDateString }</strong>`;
+                        },
+                        "orderable": false
+                    },
+                    {
+                        "sName": "@Resource.Section @Resource.Name",
+                        "data": "GroupName",
+                        "render": function (data, type, object) {
+                            return `<strong>${object.GroupName}</strong>`;
+                        },
+                        "orderable": false
+                    },
+                ],
+                "info": true,   // control table information display field
+                "stateSave": true,  //restore table state on page reload,
+                "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": " ",
+                        "sNext": " "
+                    }
+                },
+                "iDisplayLength": 10,
+                "aLengthMenu": [
+                  [10, 25, 50, 10000],
+                  [10, 25, 50, "All"]
+                ],
+                "dom": '<"dt-panelmenu clearfix"lBfr>t<"dt-panelfooter clearfix"ip>'
+            });
+        });
+
+        var tableBody = viewTableGroupStock.find('tBody');
+        tableBody.on('click', 'tr', function () {
+            //var table = $($(this).closest('table')).DataTable();
+            var table = viewTableGroupStock.DataTable();
+            var row = table.row($(this));
+
+            if (row.child.isShown()) {
+                row.child.hide();
+                $(this).removeClass('shown');
+            } else {
+                var data = row.data();
+                if (data.StockHistory.length > 0) {
+                    row.child(format(data.StockHistory)).show();
+                    $(this).addClass('shown');
+                }
+            }
+        });
+
+        function format(objStockHistory) {
+            var tableString = `<table class="table admin-form theme-warning tc-checkbox-1 fs13 " cellspacing="0">` +
+                `<thead>` +
+                `<tr class="bg-light">` +
+                `<th>@Resource.Date</th>` +
+                `<th>@Resource.Product</th>` +
+                `<th>@Resource.Product @Resource.Stock</th>` +
+                `<th>@Resource.Last @Resource.Stock</th>` +
+                `<th>@Resource.New @Resource.Stock</th>` +
+                `<th>@Resource.Stock @Resource.Value</th></tr>` +
+                `</thead>` +
+                `<tbody>`;
+
+            $.each(objStockHistory, function (i) {
+                var _object = objStockHistory[i];
+
+                tableString = tableString + `<tr>`;
+                tableString = tableString + `<td class="col-sm-2">${_object.CreatedDateString}</td>`;
+                tableString = tableString + `<td class="col-sm-2">${_object.ProductName}</td>`;
+                tableString = tableString + `<td class="col-sm-2">${_object.ProductStock}</td>`;
+                tableString = tableString + `<td class="col-sm-2">${_object.LastStock}</td>`;
+                tableString = tableString + `<td class="col-sm-2">${_object.NewStock}</td>`;
+                tableString = tableString + `<td class="col-sm-2">${_object.StockValue}</td>`;
+                tableString = tableString + `</tr>`;
+            });
+
+            tableString = tableString + `</tbody></table>`;
+
+            return tableString;
+        }
+    </script>
+}

@@ -1,0 +1,11 @@
+﻿
+@model List<PrintViewModel>
+
+<div id="printArea" >
+    @foreach (var order in Model)
+    {
+        <div style="border:solid Gray 1px; border-radius:2px; margin:5px;width:380px;">
+            @Html.Partial("OrderDetail", order)
+        </div>
+    }
+</div>

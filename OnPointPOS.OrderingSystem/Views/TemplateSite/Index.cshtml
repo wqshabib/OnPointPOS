@@ -1,0 +1,1171 @@
+﻿@model LUETemplateSite.Models.SiteModel
+@{
+    ViewBag.Title = Model.ShopConfig.CompanyName;
+    ViewBag.Facebook = Model.GetCompanyInfo.FacebookUrl;
+    ViewBag.Twitter = Model.GetCompanyInfo.TwitterUrl;
+    ViewBag.Instagram = Model.GetCompanyInfo.InstagramUrl;
+}
+
+<style>
+    .hidden2{display:none;}
+     @(!Model.ShopConfig.StandAlone ? "@media(min-width:990px){ .non-standalone-spacer { display:none; } }" : String.Empty)
+
+</style>
+
+<!-- Page Content -->
+@if (Model.ShopConfig.ShopTemplate == 1)
+{
+    <div class="container">
+
+        <div class="logo-div" style="@Model.StandAloneStyle">
+            <h1>
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-xs-12 logo-img">
+                        <span class="round-logo-top"><img class="top-logo" src="@Model.ShopConfig.Image"></span>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-xs-12 logo-text">
+                        @Model.GetCompanyInfo.Name
+                    </div>
+                </div>
+            </h1>
+        </div>
+
+
+        @if (Model.ShopConfig.ShopListType == 1)
+        {
+            <div class="row">
+                <div class="clearfixer"></div>
+                <div class="col-lg-8 col-md-8 col-xs-12">
+                    <div class="col-lg-top-header col-xs-12" style="@Model.StandAloneStyle">
+                        <div class="col-top-logo col-lg-6 col-xs-12 col-md-6">
+                            <h1>Välkommen!</h1>
+                            <p>@Model.GetCompanyInfo.About</p>
+                            <a class="btn btn-default download-menu"
+                               style="@(String.IsNullOrEmpty(Model.GetCompanyInfo.PdfUrl) ? "display:none" : String.Empty)"
+                               href="@(String.IsNullOrEmpty(Model.GetCompanyInfo.PdfUrl) ? "#" : Model.GetCompanyInfo.PdfUrl)"
+                               target="_blank">
+                                <span class="glyphicon glyphicon-file"></span> Ladda ner meny
+                            </a>
+                        </div>
+                        <div class="col-lg-6 col-xs-12 col-md-6 opening">
+                            <img class="opening-icon" src="~/img/clock.png">
+                            <h4>Öppettider</h4>
+                            @for (int i = 0; i < Model.CompanyOrderPrinter.AvailabilityList.Count; i++)
+                            {
+                                @Model.CompanyOrderPrinter.AvailabilityList[i];
+                                if (i + 1 != Model.CompanyOrderPrinter.AvailabilityList.Count)
+                                {
+                                    <br />
+                                }
+                            }
+                            @if (Model.CompanyOrderPrinter.AvailabilityLunchList.Count > 0)
+                            {
+                                <h4>Lunch</h4>
+                                <p>
+                                    @for (int j = 0; j < Model.CompanyOrderPrinter.AvailabilityLunchList.Count; j++)
+                                    {
+                                        @Model.CompanyOrderPrinter.AvailabilityLunchList[j];
+                                        if (j + 1 != Model.CompanyOrderPrinter.AvailabilityLunchList.Count)
+                                        {
+                                            <br />
+                                        }
+                                    }
+                                </p>
+                            }
+                            @if (!(ViewBag.Facebook == "" && ViewBag.Twitter == "" && ViewBag.Instagram == ""))
+                            {
+                                <div class="customer-soc-wrap">
+                                    <h4>Följ oss</h4>
+                                    <a href="@ViewBag.Facebook" style="@(ViewBag.Facebook == "" ? "display:none" : String.Empty)"><img class="customer-soc" src="~/img/facebook.png"></a>
+                                    <a href="@ViewBag.Twitter" style="@(ViewBag.Twitter == "" ? "display:none" : String.Empty)"><img class="customer-soc" src="~/img/twitter.png"></a>
+                                    <a href="@ViewBag.Instagram" style="@(ViewBag.Instagram == "" ? "display:none" : String.Empty)"><img class="customer-soc" src="~/img/instagram.png"></a>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-xs-12 col-top-slide hidden-xs">
+                            @if (Model.ShopConfig.Slides != null)
+                            {
+                                if (Model.ShopConfig.Slides.Count > 1)
+                                {
+                                    foreach (var slide in Model.ShopConfig.Slides)
+                                    {
+                                        <img class="slideshow-slide" style="padding: 20px 0px; width:100%" src="@slide.ImageUrl" />
+                                    }
+                                }
+                                else if (Model.ShopConfig.Slides.Count == 1)
+                                {
+                                    <img style="padding: 20px 0px; width:100%" src="@Model.ShopConfig.Slides.First().ImageUrl" />
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    @if (!Model.ShopConfig.StandAlone)
+                    {
+                        <div class="col-lg-12 col-xs-12 non-standalone-spacer" style="height:80px">
+                            &nbsp;
+                        </div>
+                    }
+                    @if (Model.CustomerOrderPrinterStatus.Offline)
+                    {
+                        <div class="col-lg-12 col-xs-12 varning-box varning_box" style="background: #ffe3e7;">
+                            <div class="icon-varning icon_varning"><img src="~/Content/img/alert.png"></div>
+                            <div class="varning-message varning_message"><h4>Just nu kan du tyvärr inte lägga en beställning</h4></div>
+                        </div>
+                    }
+                    @Html.Partial("_menu", Model)
+                </div>
+                <div class="col-right-sidebar col-lg-4 col-md-4 col-xs-12">
+                    <div class="col-lg-top-menu col-md-12 col-xs-12" style="@Model.StandAloneStyle">
+                        <div class="col-lg-menu-square col-lg-12 col-xs-12 col-md-12">
+                            <a href="tel:0313858609">
+                                <div class="icon-menu-wrap col-lg-12 col-xs-12"><img src="~/img/phone.png"></div>
+                                <h4>Support telefon</h4>
+                                <p>031-385 86 09</p>
+                            </a>
+                        </div>
+                        <div class="col-lg-menu-square col-lg-12 col-xs-12 col-md-12">
+                            <a href="tel:@Model.ReturnOnlyNumerals(Model.GetCompanyInfo.PhoneNo)">
+                                <div class="icon-menu-wrap col-lg-12 col-xs-12"><img src="~/img/phone.png"></div>
+                                <h4>Telefon till restaurangen</h4>
+                                <p>@Model.GetCompanyInfo.PhoneNo</p>
+                            </a>
+                        </div>
+                        <div class="col-lg-menu-square col-lg-12 col-xs-12 col-md-12">
+                            <a href="#map-canvas">
+                                <div class="icon-menu-wrap col-lg-12 col-xs-12"><img src="~/img/pin.png"></div>
+                                <h4>Adress</h4>
+                                <p>@Model.GetCompanyInfo.Address<br />@Model.GetCompanyInfo.ZipCode @Model.GetCompanyInfo.City</p>
+                            </a>
+                        </div>
+                        <!---
+                        <div class="col-menu-extra col-lg-12 col-xs-12 col-md-12 col-md-12" style="@(Model.ShopConfig.ShopTemplate == 2 ? "display:none" : String.Empty)">
+                            <h4>Ladda ner vår app</h4>
+                            <div class="store-link col-lg-6 col-xs-12 col-md-12">
+                                <a @(Model.ShopConfig.AppStoreUrl == "" ? "href=#disabled class=disable-link" : "href=" + Model.ShopConfig.AppStoreUrl)><img src="~/img/app_store.png"></a>
+                            </div>
+                            <div class="store-link col-lg-6 col-xs-12 col-md-12">
+                                <a @(Model.ShopConfig.GooglePlayUrl == "" ? "href=#disabled class=disable-link" : "href=" + Model.ShopConfig.GooglePlayUrl)><img src="~/img/google_play.png"></a>
+                            </div>
+                        </div>
+                            -->
+                    </div>
+                    @Html.Partial("_cart", Model)
+                </div>
+                <div class="col-lg-12 col-xs-12 col-md-12" style="@Model.StandAloneStyle">
+                    <div class="col-map col-xs-12 col-md-12 col-lg-12">
+                        <div id="map-canvas"></div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+        @if (Model.ShopConfig.ShopListType == 3)
+        {
+            if (Model.CustomerOrderPrinterStatus.Offline)
+            {
+                <div class="col-lg-12 col-xs-12 varning-box varning_box">
+                    <img src="~/Content/img/alert.png"><h4>Just nu kan du tyvärr inte lägga en beställning!</h4>
+                </div>
+            }
+            @Html.Partial("_menu", Model)
+        }
+
+    </div>
+}
+
+else if (Model.ShopConfig.ShopTemplate == 3)
+{
+    <div class="container">
+
+        @if (Model.ShopConfig.ShopListType == 1)
+        {
+            <div class="row">
+                <div class="clearfixer"></div>
+                <div class="col-lg-8 col-md-8 col-xs-12">
+                    <div class="col-lg-top-header col-xs-12" style="@Model.StandAloneStyle">
+                        <div>
+                            <div class="col-lg-3">
+                                @*<img src="~/Content/img/Logo_Piccolo.PNG" />*@
+                                <img src="@Model.ShopConfig.Image" class="imgHeader">
+                            </div>
+
+                            <div class="col-lg-8">
+                                <ul class="nav navbar-nav">
+                                    <li class="hidden">
+                                        <a></a>
+                                    </li>
+
+                                    <li>
+                                        <a class="menu-color-red" id="hem"> HEM</a>
+                                    </li>
+                                    <li>
+                                        <a class="menu-color-black" id="menu"> MENY</a>
+                                    </li>
+
+                                    <li>
+                                        <a class="menu-color-black" id="hittaHit"> HITTA HIT</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                            <div id="_slider" class="col-lg-12">
+
+                                @if (Model.ShopConfig.Slides != null && Model.ShopConfig.Slides.Count > 0)
+                                {
+                                    <div class="col-lg-12 col-md-12 col-xs-12  everything-else">
+                                        <div class="col-lg-12 col-xs-12 col-top-slide-inner">
+                                            <ul class="rslides">
+                                                @foreach (var slide in Model.ShopConfig.Slides)
+                                                {
+                                                    <li>
+                                                        @if (!String.IsNullOrEmpty(slide.Url))
+                                                        {
+                                                            <a href="@slide.Url"><img src="@slide.ImageUrl" alt="@slide.Description"></a>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="@slide.ImageUrl" alt="@slide.Description" />
+
+                                                        }
+                                                        <div class="col-lg-12" style="margin-top: 10px;">
+                                                            <h1 class="text-center">@slide.Title</h1>
+                                                        </div>
+                                                        <p>
+                                                            @slide.Description
+                                                        </p>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-xs-12 col-top-slide-after everything-else" style="display:none">
+                                        <div class="col-lg-12 col-md-12 col-xs-12"></div>
+                                    </div>
+                                }
+
+                                @if (Model.ShopConfig.CMS.CmsContents != null)
+                                {
+                                    if (Model.ShopConfig.CMS.CmsContents.Count > 0)
+                                    {
+                                        foreach (var page in Model.ShopConfig.CMS.CmsContents)
+                                        {
+                                            <div class="col-lg-12 col-md-12 col-xs-12 col-cms-page @page.PageId" style="display:none">
+                                                <div class="col-lg-12 col-md-12 col-xs-12">
+                                                    @MvcHtmlString.Create(page.Html)
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                }
+                            </div>
+
+                            <div id="_menu" class="col-lg-12 hidden">
+
+                                @if (Model.CustomerOrderPrinterStatus.Offline)
+                                {
+                                    <div class="col-lg-12 col-xs-12 varning-box varning_box" style="background: #ffe3e7;">
+                                        <div class="icon-varning icon_varning"><img src="~/Content/img/alert.png"></div>
+                                        <div class="varning-message varning_message"><h4>Just nu kan du tyvärr inte lägga en beställning</h4></div>
+                                    </div>
+                                }
+                                @Html.Partial("_menu", Model)
+
+
+                            </div>
+
+                            <div id="_map" class="col-lg-12 hidemap">
+
+                                <div class="col-lg-12 col-xs-12 col-md-12" style="@Model.StandAloneStyle">
+                                    <div class="col-map col-xs-12 col-md-12 col-lg-12">
+                                        <div id="map-canvas"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    @if (!Model.ShopConfig.StandAlone)
+                    {
+                        <div class="col-lg-12 col-xs-12 non-standalone-spacer" style="height:80px">
+                            &nbsp;
+                        </div>
+                    }
+
+                </div>
+                <div class="col-right-sidebar col-lg-4 col-md-4 col-xs-12">
+                    <div class="col-lg-top-menu col-md-12 col-xs-12" style="@Model.StandAloneStyle">
+
+
+
+                        <div class="col-lg-menu-square col-lg-12 col-xs-12 col-md-12">
+                            <a href="">
+                                <div class="icon-menu-wrap col-lg-12 col-xs-12">
+                                    <img class="opening-icon" src="~/img/clock.png">
+                                </div>
+                                <h4>Öppettider</h4>
+
+                                @for (int i = 0; i < Model.CompanyOrderPrinter.AvailabilityList.Count; i++)
+                                {
+                                    @Model.CompanyOrderPrinter.AvailabilityList[i];
+                                    if (i + 1 != Model.CompanyOrderPrinter.AvailabilityList.Count)
+                                    {
+                                        <br />
+                                    }
+                                }
+                                <br /> <br />
+                                @if (Model.CompanyOrderPrinter.AvailabilityLunchList.Count > 0)
+                                {
+                                    <h4>Lunch</h4>
+                                    <p>
+                                        @for (int j = 0; j < Model.CompanyOrderPrinter.AvailabilityLunchList.Count; j++)
+                                        {
+                                            @Model.CompanyOrderPrinter.AvailabilityLunchList[j];
+                                            if (j + 1 != Model.CompanyOrderPrinter.AvailabilityLunchList.Count)
+                                            {
+                                                <br />
+                                            }
+                                        }
+                                    </p>
+                                }
+                            </a>
+                        </div>
+
+                        <div class="col-lg-menu-square col-lg-12 col-xs-12 col-md-12">
+                            <a href="tel:@Model.ReturnOnlyNumerals(Model.GetCompanyInfo.PhoneNo)">
+                                <div class="icon-menu-wrap col-lg-12 col-xs-12"><img src="~/img/phone.png"></div>
+                                <h4>Telefon</h4>
+                                <p>@Model.GetCompanyInfo.PhoneNo</p>
+                            </a>
+                        </div>
+
+                        <div class="col-lg-menu-square col-lg-12 col-xs-12 col-md-12">
+                            <a href="#map-canvas">
+                                <div class="icon-menu-wrap col-lg-12 col-xs-12"><img src="~/img/pin.png"></div>
+                                <h4>Adress</h4>
+                                <p>@Model.GetCompanyInfo.Address<br />@Model.GetCompanyInfo.ZipCode @Model.GetCompanyInfo.City</p>
+                            </a>
+                        </div>
+                        <!--
+                        <div class="col-menu-extra col-lg-12 col-xs-12 col-md-12 col-md-12" style="@(Model.ShopConfig.ShopTemplate == 2 ? "display:none" : String.Empty)">
+                            <h4>Ladda ner vår app</h4>
+                            <div class="store-link col-lg-6 col-xs-12 col-md-12">
+                                <a @(Model.ShopConfig.AppStoreUrl == "" ? "href=#disabled class=disable-link" : "href=" + Model.ShopConfig.AppStoreUrl)><img src="~/img/app_store.png"></a>
+                            </div>
+                            <div class="store-link col-lg-6 col-xs-12 col-md-12">
+                                <a @(Model.ShopConfig.GooglePlayUrl == "" ? "href=#disabled class=disable-link" : "href=" + Model.ShopConfig.GooglePlayUrl)><img src="~/img/google_play.png"></a>
+                            </div>
+                        </div>
+                            -->
+                    </div>
+                    @Html.Partial("_cart", Model)
+                </div>
+
+
+            </div>
+        }
+
+        @if (Model.ShopConfig.ShopListType == 3)
+        {
+            if (Model.CustomerOrderPrinterStatus.Offline)
+            {
+                <div class="col-lg-12 col-xs-12 varning-box varning_box">
+                    <img src="~/Content/img/alert.png"><h4>Just nu kan du tyvärr inte lägga en beställning!</h4>
+                </div>
+            }
+            @Html.Partial("_menu", Model)
+        }
+
+    </div>
+}
+else if (Model.ShopConfig.ShopTemplate == 4)
+{
+    <div class="container">
+
+        @if (Model.ShopConfig.ShopListType == 1)
+        {
+            <div class="row">
+                <div class="clearfixer"></div>
+                <div class="col-lg-8 col-md-8 col-xs-12">
+                    <div class="col-lg-top-header col-xs-12" style="@Model.StandAloneStyle">
+                        <div>
+                            <div class="col-lg-3">
+                                @*<img src="~/Content/img/Logo_Piccolo.PNG" />*@
+                                <img src="@Model.ShopConfig.Image" class="imgHeader">
+                            </div>
+
+                            <div class="col-lg-8">
+                                <ul class="nav navbar-nav">
+                                    <li class="hidden">
+                                        <a></a>
+                                    </li>
+
+                                    <li>
+                                        <a class="menu-color-red" id="hem"> HEM</a>
+                                    </li>
+                                    <li>
+                                        <a class="menu-color-black" id="pizza"> PIZZA</a>
+                                    </li>
+                                    <li>
+                                        <a class="menu-color-black" id="asiatiskt"> ASIATISKT</a>
+                                    </li>
+
+                                    <li>
+                                        <a class="menu-color-black" id="hittaHit"> HITTA HIT</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                            <div id="_slider" class="col-lg-12">
+
+                                @if (Model.ShopConfig.Slides != null && Model.ShopConfig.Slides.Count > 0)
+                                {
+                                    <div class="col-lg-12 col-md-12 col-xs-12  everything-else">
+                                        <div class="col-lg-12 col-xs-12 col-top-slide-inner">
+                                            <ul class="rslides">
+                                                @foreach (var slide in Model.ShopConfig.Slides)
+                                                {
+                                                    <li>
+                                                        @if (!String.IsNullOrEmpty(slide.Url))
+                                                        {
+                                                            <a href="@slide.Url"><img src="@slide.ImageUrl" alt="@slide.Description"></a>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="@slide.ImageUrl" alt="@slide.Description" />
+
+                                                        }
+                                                        <div class="col-lg-12" style="margin-top: 10px;">
+                                                            <h1 class="text-center">@slide.Title</h1>
+                                                        </div>
+                                                        <p>
+                                                            @slide.Description
+                                                        </p>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-xs-12 col-top-slide-after everything-else" style="display:none">
+                                        <div class="col-lg-12 col-md-12 col-xs-12"></div>
+                                    </div>
+                                }
+
+                                @if (Model.ShopConfig.CMS.CmsContents != null)
+                                {
+                                    if (Model.ShopConfig.CMS.CmsContents.Count > 0)
+                                    {
+                                        foreach (var page in Model.ShopConfig.CMS.CmsContents)
+                                        {
+                                            <div class="col-lg-12 col-md-12 col-xs-12 col-cms-page @page.PageId" style="display:none">
+                                                <div class="col-lg-12 col-md-12 col-xs-12">
+                                                    @MvcHtmlString.Create(page.Html)
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                }
+                            </div>
+
+                            <div id="_menu" class="col-lg-12 hidden">
+
+                                @if (Model.CustomerOrderPrinterStatus.Offline)
+                                {
+                                    <div class="col-lg-12 col-xs-12 varning-box varning_box" style="background: #ffe3e7;">
+                                        <div class="icon-varning icon_varning"><img src="~/Content/img/alert.png"></div>
+                                        <div class="varning-message varning_message"><h4>Just nu kan du tyvärr inte lägga en beställning</h4></div>
+                                    </div>
+                                }
+                                @Html.Partial("_menu", Model)
+
+
+                            </div>
+
+                            <div id="_map" class="col-lg-12 hidemap">
+
+                                <div class="col-lg-12 col-xs-12 col-md-12" style="@Model.StandAloneStyle">
+                                    <div class="col-map col-xs-12 col-md-12 col-lg-12">
+                                        <div id="map-canvas"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    @if (!Model.ShopConfig.StandAlone)
+                    {
+                        <div class="col-lg-12 col-xs-12 non-standalone-spacer" style="height:80px">
+                            &nbsp;
+                        </div>
+                    }
+
+                </div>
+                <div class="col-right-sidebar col-lg-4 col-md-4 col-xs-12">
+                    <div class="col-lg-top-menu col-md-12 col-xs-12" style="@Model.StandAloneStyle">
+
+
+
+                        <div class="col-lg-menu-square col-lg-12 col-xs-12 col-md-12">
+                            <a href="">
+                                <div class="icon-menu-wrap col-lg-12 col-xs-12">
+                                    <img class="opening-icon" src="~/img/clock.png">
+                                </div>
+                                <h4>Öppettider</h4>
+
+                                @for (int i = 0; i < Model.CompanyOrderPrinter.AvailabilityList.Count; i++)
+                                {
+                                    @Model.CompanyOrderPrinter.AvailabilityList[i];
+                                    if (i + 1 != Model.CompanyOrderPrinter.AvailabilityList.Count)
+                                    {
+                                        <br />
+                                    }
+                                }
+                                <br /> <br />
+                                @if (Model.CompanyOrderPrinter.AvailabilityLunchList.Count > 0)
+                                {
+                                    <h4>Lunch</h4>
+                                    <p>
+                                        @for (int j = 0; j < Model.CompanyOrderPrinter.AvailabilityLunchList.Count; j++)
+                                        {
+                                            @Model.CompanyOrderPrinter.AvailabilityLunchList[j];
+                                            if (j + 1 != Model.CompanyOrderPrinter.AvailabilityLunchList.Count)
+                                            {
+                                                <br />
+                                            }
+                                        }
+                                    </p>
+                                }
+                            </a>
+                        </div>
+
+                        <div class="col-lg-menu-square col-lg-12 col-xs-12 col-md-12">
+                            <a href="tel:@Model.ReturnOnlyNumerals(Model.GetCompanyInfo.PhoneNo)">
+                                <div class="icon-menu-wrap col-lg-12 col-xs-12"><img src="~/img/phone.png"></div>
+                                <h4>Telefon</h4>
+                                <p>@Model.GetCompanyInfo.PhoneNo</p>
+                            </a>
+                        </div>
+
+                        <div class="col-lg-menu-square col-lg-12 col-xs-12 col-md-12">
+                            <a href="#map-canvas">
+                                <div class="icon-menu-wrap col-lg-12 col-xs-12"><img src="~/img/pin.png"></div>
+                                <h4>Adress</h4>
+                                <p>@Model.GetCompanyInfo.Address<br />@Model.GetCompanyInfo.ZipCode @Model.GetCompanyInfo.City</p>
+                            </a>
+                        </div>
+                        <div class="col-menu-extra col-lg-12 col-xs-12 col-md-12 col-md-12" style="@(Model.ShopConfig.ShopTemplate == 2 ? "display:none" : String.Empty)">
+                            <h4>Ladda ner vår app</h4>
+                            <div class="store-link col-lg-6 col-xs-12 col-md-12">
+                                <a @(Model.ShopConfig.AppStoreUrl == "" ? "href=#disabled class=disable-link" : "href=" + Model.ShopConfig.AppStoreUrl)><img src="~/img/app_store.png"></a>
+                            </div>
+                            <div class="store-link col-lg-6 col-xs-12 col-md-12">
+                                <a @(Model.ShopConfig.GooglePlayUrl == "" ? "href=#disabled class=disable-link" : "href=" + Model.ShopConfig.GooglePlayUrl)><img src="~/img/google_play.png"></a>
+                            </div>
+                        </div>
+                    </div>
+                    @Html.Partial("_cart", Model)
+                </div>
+
+
+            </div>
+        }
+
+        @if (Model.ShopConfig.ShopListType == 3)
+        {
+            if (Model.CustomerOrderPrinterStatus.Offline)
+            {
+                <div class="col-lg-12 col-xs-12 varning-box varning_box">
+                    <img src="~/Content/img/alert.png"><h4>Just nu kan du tyvärr inte lägga en beställning!</h4>
+                </div>
+            }
+            @Html.Partial("_menu", Model)
+        }
+
+    </div>
+}
+else
+{
+    @Html.Partial("_mcheader", Model);
+    <div class="container">
+        <div class="row">
+            <div class="clearfixer"></div>
+
+            @if (Model.ShopConfig.Slides != null && Model.ShopConfig.Slides.Count > 0)
+            {
+                <div class="col-lg-12 col-md-12 col-xs-12 col-top-slide everything-else" style="display:none">
+                    <div class="col-lg-12 col-xs-12 col-top-slide-inner">
+                        <ul class="rslides">
+                            @foreach (var slide in Model.ShopConfig.Slides)
+                            {
+                                <li>
+                                    @if (!String.IsNullOrEmpty(slide.Url))
+                                    {
+                                        <a href="@slide.Url"><img src="@slide.ImageUrl" alt="@slide.Description"></a>
+                                    }
+                                    else
+                                    {
+                                        <img src="@slide.ImageUrl" alt="@slide.Description" />
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-xs-12 col-top-slide-after everything-else" style="display:none">
+                    <div class="col-lg-12 col-md-12 col-xs-12"></div>
+                </div>
+            }
+
+            @if (Model.ShopConfig.CMS.CmsContents != null)
+            {
+                if (Model.ShopConfig.CMS.CmsContents.Count > 0)
+                {
+                    foreach (var page in Model.ShopConfig.CMS.CmsContents)
+                    {
+                        @*<div class="col-lg-12 col-md-12 col-xs-12 col-cms-page" id="@page.PageId" style="display:none">*@
+                        <div class="col-lg-12 col-md-12 col-xs-12 col-cms-page @page.PageId" style="display:none">
+                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                @MvcHtmlString.Create(page.Html)
+                            </div>
+                        </div>
+                    }
+                }
+            }
+
+
+            <div class="col-lg-12 col-md-12 col-xs-12 everything-else" style="display:none">
+                @Html.Partial("_menu", Model)
+            </div>
+
+        </div>
+    </div>
+}
+<!-- END:Page Content -->
+<!-- FOOTER -->
+@if (Model.ShopConfig.ShopTemplate == 1 || Model.ShopConfig.ShopTemplate == 3 || Model.ShopConfig.ShopTemplate == 4)
+{
+    <div class="container-fluid footer-wide-wrap hidden-xs piccloFooter" style="@Model.StandAloneStyle">
+        <div class="container">
+            <div class="row">
+                <div class="footer-wrap col-xs-12 col-md-12 col-lg-12">
+                    <div class="col-footer col-lg-2 col-md-2" style="min-height: 90px; margin-top: 0px;">
+                        <h4>Öppettider</h4>
+                        <p>
+                            @for (int i = 0; i < Model.CompanyOrderPrinter.AvailabilityList.Count; i++)
+                            {
+                                @Model.CompanyOrderPrinter.AvailabilityList[i];
+                                if (i + 1 != Model.CompanyOrderPrinter.AvailabilityList.Count)
+                                {
+                                    <br />
+                                }
+                            }
+                        </p>
+                        @if (Model.CompanyOrderPrinter.AvailabilityLunchList.Count > 0)
+                        {
+                            <h4>Lunch</h4>
+                            <p>
+                                @for (int j = 0; j < Model.CompanyOrderPrinter.AvailabilityLunchList.Count; j++)
+                                {
+                                    @Model.CompanyOrderPrinter.AvailabilityLunchList[j];
+                                    if (j + 1 != Model.CompanyOrderPrinter.AvailabilityLunchList.Count)
+                                    {
+                                        <br />
+                                    }
+                                }
+                            </p>
+                        }
+                    </div>
+
+                    <div class="col-footer col-lg-2 col-md-2" style="min-height: 90px; margin-top: 0px;">
+                        <h4>Telefon</h4>
+                        <p>@Model.GetCompanyInfo.PhoneNo</p>
+                    </div>
+
+                    <div class="col-footer col-lg-2 col-md-2" style="min-height: 90px; margin-top: 0px;">
+                        <h4>Adress</h4>
+                        <p>@Model.GetCompanyInfo.Address<br />@Model.GetCompanyInfo.ZipCode @Model.GetCompanyInfo.City</p>
+                    </div>
+
+                    @if (!(String.IsNullOrEmpty(ViewBag.Facebook) && String.IsNullOrEmpty(ViewBag.Twitter) && String.IsNullOrEmpty(ViewBag.Instagram)))
+                    {
+                        <div class="col-footer col-lg-2 col-md-2" style="min-height: 90px; margin-top: 0px;">
+                            <a class="foot-soc-icon col-xs-12 col-lg-4 col-md-4" href="@ViewBag.Facebook" style="@(ViewBag.Facebook == "" ? "display:none" : String.Empty)"><img src="~/img/facebook.png"></a>
+                            <a class="foot-soc-icon col-xs-12 col-lg-4 col-md-4" href="@ViewBag.Twitter" style="@(ViewBag.Twitter == "" ? "display:none" : String.Empty)"><img src="~/img/twitter.png"></a>
+                            <a class="foot-soc-icon col-xs-12 col-lg-4 col-md-4" href="@ViewBag.Instagram" style="@(ViewBag.Instagram == "" ? "display:none" : String.Empty)"><img src="~/img/instagram.png"></a>
+                        </div>
+                    }
+
+                    <div class="col-footer col-lg-2 col-md-2" style="min-height: 90px; margin-top: 0px;">
+                        <div class="foot-app-icon col-lg-12 col-xs-12 col-md-12"><a @(Model.ShopConfig.AppStoreUrl == "" ? "href=#disabled class=disable-link" : "href=" + Model.ShopConfig.AppStoreUrl)><img src="~/img/app_store.png"></a></div>
+                        <div class="foot-app-icon col-xs-12 col-lg-12 col-md-12"><a @(Model.ShopConfig.GooglePlayUrl == "" ? "href=#disabled class=disable-link" : "href=" + Model.ShopConfig.GooglePlayUrl)><img src="~/img/google_play.png"></a></div>
+                    </div>
+
+                    <div class="col-footer col-lg-2 col-md-2 col-xs-12" style="min-height: 90px; margin-top: 0px;">
+                        <div class="pay-bottom col-lg-12 col-md-12 col-xs-12"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container-fluid footer-wide-wrap" style="@Model.StandAloneStyle">
+        <div class="container">
+            <div class="row">
+
+                <div class="footer-wrap col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                    <div class="col-footer col-lg-3 col-md-3 col-sm-3">
+                        <h4>Telefon</h4>
+                        <p>031 - 788 24 00</p>
+                        @*<p>@Model.GetCompanyInfo.PhoneNo</p>*@
+                    </div>
+
+                    <div class="col-footer col-lg-3 col-md-3 col-sm-3">
+                        <h4>Adress</h4>
+                        <p>Fabriksgatan 10, 412 50 Göteborg</p>
+                        @*<p>@Model.GetCompanyInfo.Address<br />@Model.GetCompanyInfo.ZipCode @Model.GetCompanyInfo.City</p>*@
+                    </div>
+
+                    <div class="col-footer col-lg-3 col-md-3 col-sm-3" style="@((String .IsNullOrEmpty(ViewBag.Facebook) && String.IsNullOrEmpty(ViewBag.Twitter) && String.IsNullOrEmpty(ViewBag.Instagram)) ? "display:none" : String.Empty)">
+                        <a class="foot-soc-icon col-xs-4 col-sm-4 col-lg-4 col-md-4" href="@ViewBag.Facebook" style="@(ViewBag.Facebook == "" ? "display:none" : String.Empty)"><img src="~/img/facebook.png"></a>
+                        <a class="foot-soc-icon col-xs-4 col-sm-4 col-lg-4 col-md-4" href="@ViewBag.Twitter" style="@(ViewBag.Twitter == "" ? "display:none" : String.Empty)"><img src="~/img/twitter.png"></a>
+                        <a class="foot-soc-icon col-xs-4 col-sm-4 col-lg-4 col-md-4" href="@ViewBag.Instagram" style="@(ViewBag.Instagram == "" ? "display:none" : String.Empty)"><img src="~/img/instagram.png"></a>
+                    </div>
+
+                    <div class="col-footer footer-logo col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <img src="~/img/logo256px.png" alt="logo">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- END:FOOTER -->
+
+<input value="@Model.ShopConfig.ShopTemplate" id="btnShopTemplate" type="hidden" />
+
+<div class="modal fade item-modal" id="item-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" id="modaldata"></div>
+</div>
+
+
+
+<script src="/Scripts/jquery-2.1.3.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+
+        var ShopTemplate = $("#btnShopTemplate").val();
+
+        if (ShopTemplate == 3) {
+
+        $("#hem").click(function () {
+
+            $("#hem").removeClass("menu-color-black").addClass("menu-color-red");
+            $("#menu").removeClass("menu-color-red").addClass("menu-color-black");
+            $("#hittaHit").removeClass("menu-color-red").addClass("menu-color-black");
+
+            $("#_slider").removeClass("hidden");
+
+            $("#_menu").removeClass("hidden");
+            $("#_menu").addClass("hidden");
+            $("#_map").removeClass("hidden");
+            $("#_map").addClass("hidden");
+
+        });
+
+        $("#menu").click(function () {
+
+            $("#menu").removeClass("menu-color-black").addClass("menu-color-red");
+            $("#hem").removeClass("menu-color-red").addClass("menu-color-black");
+            $("#hittaHit").removeClass("menu-color-red").addClass("menu-color-black");
+
+            $("#_menu").removeClass("hidden");
+
+            $("#_slider").removeClass("hidden");
+            $("#_slider").addClass("hidden");
+            $("#_map").removeClass("hidden");
+            $("#_map").addClass("hidden");
+
+        });
+
+        $("#hittaHit").click(function () {
+
+            $("#hittaHit").removeClass("menu-color-black").addClass("menu-color-red");
+            $("#hem").removeClass("menu-color-red").addClass("menu-color-black");
+            $("#menu").removeClass("menu-color-red").addClass("menu-color-black");
+
+            $("#_map").removeClass("hidden hidemap");
+
+            $("#_slider").removeClass("hidden");
+            $("#_slider").addClass("hidden");
+            $("#_menu").removeClass("hidden");
+            $("#_menu").addClass("hidden");
+
+        });
+
+        }
+
+        if (ShopTemplate == 4) {
+
+
+            $("#hem").click(function () {
+
+                $("#hem").removeClass("menu-color-black").addClass("menu-color-red");
+                $("#pizza").removeClass("menu-color-red").addClass("menu-color-black");
+                $("#asiatiskt").removeClass("menu-color-red").addClass("menu-color-black");
+                $("#hittaHit").removeClass("menu-color-red").addClass("menu-color-black");
+
+                $("#_slider").removeClass("hidden");
+                $("#_menu").removeClass("hidden").addClass("hidden");
+                $("#_map").removeClass("hidden").addClass("hidden");
+
+
+        });
+
+            $("#pizza").click(function () {
+
+                $("#pizza").removeClass("menu-color-black").addClass("menu-color-red");
+                $("#asiatiskt").removeClass("menu-color-red").addClass("menu-color-black");
+                $("#hem").removeClass("menu-color-red").addClass("menu-color-black");
+                $("#hittaHit").removeClass("menu-color-red").addClass("menu-color-black");
+
+                $("#_menu").removeClass("hidden");
+                $("#_slider").removeClass("hidden").addClass("hidden");
+                $("#_map").removeClass("hidden").addClass("hidden");
+
+                $("#Pizza").removeClass("hidden");
+                $("#Asiatiskt").removeClass("hidden").addClass("hidden");
+
+            });
+
+            $("#asiatiskt").click(function () {
+
+                $("#asiatiskt").removeClass("menu-color-black").addClass("menu-color-red");
+                $("#pizza").removeClass("menu-color-red").addClass("menu-color-black");
+                $("#hem").removeClass("menu-color-red").addClass("menu-color-black");
+                $("#hittaHit").removeClass("menu-color-red").addClass("menu-color-black");
+
+                $("#_menu").removeClass("hidden");
+                $("#_slider").removeClass("hidden").addClass("hidden");
+                $("#_map").removeClass("hidden").addClass("hidden");
+
+                $("#Asiatiskt").removeClass("hidden");
+                $("#Pizza").removeClass("hidden").addClass("hidden");
+
+            });
+
+            $("#hittaHit").click(function () {
+
+                $("#hittaHit").removeClass("menu-color-black").addClass("menu-color-red");
+                $("#hem").removeClass("menu-color-red").addClass("menu-color-black");
+                $("#pizza").removeClass("menu-color-red").addClass("menu-color-black");
+                $("#asiatiskt").removeClass("menu-color-red").addClass("menu-color-black");
+
+                $("#_map").removeClass("hidden hidemap");
+                $("#_slider").removeClass("hidden").addClass("hidden");
+                $("#_menu").removeClass("hidden").addClass("hidden");
+
+
+            });
+
+        }
+
+    });
+
+    //Funktioner:
+    function LoadModal(id, forceload, savetakeaway) {
+        @{
+            var lst = new string[] { "6027A27E-CCC9-4605-AA54-C7525362AF8C", "9C2BE186-6831-4BE0-9DA6-895189908260", "0EE93DFB-C929-445F-B331-9783B0CCF1CF", "A39AB470-CD28-4FDD-AB50-E2F120FE3A13" };
+            bool hidePopup = lst.Contains(Model.ShopConfig.CompanyID.ToUpper());
+        }
+        var hideDeliveryPopup = '@hidePopup';
+        console.log("LoadModal");
+        $("#load-animation").show();
+
+        $.ajax({
+            url: '/TemplateSite/HasCart',
+            type: 'GET',
+            context: document.body,
+            cache: false
+        }).success(function (result) {
+            if (result.HasCart || forceload || hideDeliveryPopup) {
+                $.ajax({
+                    url: '/TemplateSite/GetModalData',
+                    type: 'POST',
+                    context: document.body,
+                    cache: false,
+                    data: {
+                        itemid: id,
+                        pricetype: 1,
+                        takeaway: savetakeaway
+                    }
+                }).success(function (result) {
+                    $("#load-animation").hide();
+                    $('#modaldata').html(result);
+                    $('#item-modal').modal({ backdrop: true, show: true });
+                    $('#item-modal').data('bs.modal').options.backdrop = true;
+                }).error(function (result) {
+                    $("#load-animation").hide();
+                    alert("Ett fel uppstod! Försök igen! Felkod: 2");
+                });;
+            } else {
+                $.ajax({
+                    url: "/TemplateSite/GetZipModal/" + id,
+                    type: "GET",
+                    context: document.body,
+                    cache: false
+                }).success(function (result) {
+                    $("#load-animation").hide();
+                    $('#modaldata').html(result);
+                    $('#item-modal').modal({ backdrop: true, show: true });
+                    $('#item-modal').data('bs.modal').options.backdrop = true;
+                }).error(function (result) {
+                    $("#load-animation").hide();
+                    alert("Ett fel uppstod! Försök igen! Felkod: 3");
+                });
+            }
+        }).error(function (result) {
+            $("#load-animation").hide();
+            alert("Ett fel uppstod! Försök igen! Felkod: 1");
+        });
+    }
+    function OpenOrderModal() {
+        $("#load-animation").show();
+        $.ajax({
+            cache: false,
+            url: "/TemplateSite/OpenOrderModal",
+            type: "GET"
+        }).success(function (result) {
+            $("#load-animation").hide();
+            $("#modaldata").html(result);
+            $("#item-modal").modal({ backdrop: "static", show: true });
+            $('#item-modal').data('bs.modal').options.backdrop = "static";
+        });
+    }
+    function DeleteFromCart(id) {
+        var spinner = $("#load-animation");
+        spinner.show();
+        $.ajax({
+            cache: false,
+            url: '/TemplateSite/DeleteFromCart',
+            type: 'POST',
+            data: {
+                cartid: id
+            }
+        }).success(function (result) {
+            spinner.hide();
+            $('#cart-table-wrapper').html(result);
+            var items = $('#cart-counter');
+            var num = parseInt(items.text());
+            if (!isNaN(num)) {
+                items.text(num - 1);
+            }
+            UpdateCartTotal();
+            UpdateCartBadge();
+        }).error(function (e) {
+            spinner.hide();
+            alert(e.status);
+        })
+    }
+    function HandleMaxSubContent(group, max) {
+        var count = 0;
+        $('input:checkbox:checked').each(function () {
+            if ($(this).attr('group') == group) {
+                count++;
+            }
+        });
+        $('input:checkbox').each(function () {
+            if ($(this).attr('group') == group) {
+                $(this).removeAttr("disabled");
+            }
+        });
+        if (count >= max) {
+            $('input:checkbox').each(function () {
+                if ($(this).attr('group') == group) {
+                    $(this).attr("disabled", 'disabled');
+                }
+            });
+            $('input:checkbox:checked').each(function () {
+                if ($(this).attr('group') == group) {
+                    $(this).removeAttr("disabled");
+                }
+            });
+        }
+    }
+    function SumSubContent() {
+        var owe = 0;
+        $('input:checkbox').each(function () {
+            if ($(this).attr('group') == -1) {
+                owe = owe + $(this).data('amount');
+            }
+        });
+        $('input:checkbox:checked').each(function () {
+            if ($(this).attr('group') == -1) {
+                owe = owe - $(this).data('amount');
+            }
+        });
+        $('input:radio').each(function () {
+            var sum = 0;
+            $('input:checkbox:checked').each(function () {
+                if ($(this).attr('group') == 0) {
+                    sum = sum + $(this).data('amount');
+                }
+                if ($(this).attr('group') == -2) {
+                    sum = sum + $(this).data('amount');
+                }
+            });
+            sum = sum + $(this).data('amount');
+            if (owe > 0) {
+                sum = sum - owe;
+                if (sum < $(this).data('amount')) {
+                    sum = $(this).data('amount');
+                }
+            }
+            $(this).parent("label").children("span").text($(this).data('name') + " " + sum + " kr");
+        });
+        var sumPrice = 0;
+        $('input:checkbox:checked').each(function () {
+            if ($(this).attr('group') == 0) {
+                sumPrice = sumPrice + $(this).data('amount');
+            }
+            if ($(this).attr('group') == -2) {
+                sumPrice = sumPrice + $(this).data('amount');
+            }
+        });
+        sumPrice = sumPrice + $("#price").data('amount');
+        if (owe > 0) {
+            sumPrice = sumPrice - owe;
+            if (sumPrice < $("#price").data('amount')) {
+                sumPrice = $("#price").data('amount');
+            }
+        }
+        $("#price").text(sumPrice + " kr");
+    }
+    function HideModal() {
+        console.log("HideModal()");
+        $("#item-modal").modal("hide");
+    }
+    function AddDirectlyToCart(id) {
+        event.stopPropagation();
+        console.log("AddDirectlyToCart()");
+        $("#load-animation").show();
+
+        var fd = new FormData();
+        fd.append('itemid', id);
+
+        $.ajax({
+            cache: false,
+            url: '/TemplateSite/AddToCart/',
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: 'POST'
+        }).success(function (result) {
+            console.log("success:", result);
+            $("#load-animation").hide();
+            $('#cart-table-wrapper').html(result);
+            AddAndHide(id);
+        }).error(function (error) {
+            console.log("error:", error);
+            $("#load-animation").hide();
+        });
+    }
+    function AddAndHide(mid) {
+        console.log("AddAndHide()");
+
+        $('#card').show();
+        $('#pickup').show();
+        var carttitle = $('#carttitle');
+        var items = $('#cart-counter');
+        var num = parseInt(items.text());
+        var totalNum = num;
+        if (!isNaN(num)) {
+            items.text(num + 1);
+            totalNum = num + 1;
+        }
+
+        //carttitle.text("Varukorg (" + totalNum + " st)");
+        UpdateCartTotal();
+        UpdateCartBadge();
+    }
+    function UpdateCartTotal() {
+        $.ajax({
+            cache: false,
+            url: "/TemplateSite/GetCartTotalAmount",
+            type: "GET"
+        }).success(function (data) {
+            console.log("GetCartQuantity.data: ", data);
+            $("#carttitle").text("Kundvagn ("+data+" kr)");
+        });
+    }
+    function UpdateCartBadge() {
+        $.ajax({
+            cache: false,
+            url: "/TemplateSite/GetCartQuantity",
+            type: "GET"
+        }).success(function (data) {
+            console.log("GetCartQuantity.data: ", data);
+            $(".cart-badge").html(data);
+        });
+    }
+    function CheckPostal(postal) {
+        var ret = false;
+        $.ajax({
+            cache: false,
+            url: '/TemplateSite/PostalCheck/',
+            type: 'POST',
+            async: false,
+            data: {
+                Postal: postal
+            },
+            dataType: 'json',
+            success: function (result) {
+                ret = result.ZipCodeExists;
+            }
+        });
+        return ret;
+    }
+    function Postalok(ok, len) {
+        var okicon = $('#nunok');
+        var okclr = $('#nunclr');
+        var btn = $('#postalbutton');
+        if (ok) {
+            if (okicon.hasClass('fa-times')) {
+                okicon.removeClass('fa-times');
+                okicon.addClass('fa-check');
+                okclr.css('background-color', '#2ECC71');
+            }
+            btn.prop('disabled', false);
+            btn.text('Gå vidare');
+        } else {
+            if (okicon.hasClass('fa-check')) {
+                okicon.removeClass('fa-check');
+                okicon.addClass('fa-times');
+                okclr.css('background-color', '#E74C3C');
+            }
+            btn.prop('disabled', true);
+            if (len >= 5) {
+                btn.text('Vi levererar ej till detta postnummer');
+            }
+        }
+    }
+
+
+
+</script>

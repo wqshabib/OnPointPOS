@@ -1,0 +1,313 @@
+﻿@model DailyCategorySale
+<div class="panel">
+    <div class="panel-heading">@Resource.PerCategory</div>
+    <div class="panel-body br-t p12">
+        <div class="row">
+            <div class="col-md-2 col-sm-4">
+
+                @Resource.Report_From:  <input type='text' id="txtdtFrom" class="form-control datepicker" />
+
+            </div>
+            <div class="col-md-2 col-sm-4">
+                @Resource.Report_To: <input type='text' id="txtdtTo" class="form-control datepicker" />
+            </div>
+            <div class="col-md-3 col-sm-4">
+                @Resource.Filterby  @Resource.Category
+                <select id="filter-category" name="filter-category" class="select2-single form-control">
+                    <option value="0"></option>
+                </select>
+
+            </div>
+            <div class="col-md-3 col-sm-4">
+                @Resource.Filterby  @Resource.Outlet
+                <select id="cmbOutlet" name="cmbOutlet" class="select2-single form-control">
+                    <option value="00000000-0000-0000-0000-000000000000">@Resource.Select @Resource.Outlet</option>
+                </select>
+
+            </div>
+            <div class="col-md-2 col-sm-4">
+                <br />
+                <input type="button" id="btnView" class="btn btn-primary" width="80" value="@Resource.Show" />
+
+                @*<input type="button" id="btnSummary" class="btn btn-primary" width="80" value="Summary" />*@
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="panel">
+
+    <div class="panel-body pn">
+        <div class="table-responsive">
+            <table id="tbl_cat_sale" class="table admin-form theme-warning tc-checkbox-1 fs13 " cellspacing="0">
+                <thead>
+                    <tr class="bg-light">
+
+                        <th class="">@Resource.Product Title</th>
+                        <th class="">@Resource.Price/st</th>
+                        <th class="">@Resource.Price/st Exl</th>
+                        <th class="">@Resource.PurchasePrice</th>
+                        <th class="">@Resource.PurchasePrice Exl moms</th>
+                        <th class="">@Resource.Report_Quantity</th>
+                        <th class="">@Resource.Report_TotalSale</th>
+
+                        <th class="">@Resource.NetProfit</th>
+                        <th class="">@Resource.NetProfit Exl moms</th>
+                        <th class="">@Resource.ProfitPer</th>
+
+                    </tr>
+                </thead>
+                <tbody></tbody>
+
+
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5 col-sm-5" id="PrintSale-Report">
+
+    </div>
+</div>
+<style>
+
+    #tbl_cat_sale_wrapper .dt-panelmenu {
+        margin: 0
+    }
+
+    .dt-buttons {
+        float: right !important;
+        margin-left: 15px;
+    }
+
+    .buttons-excel {
+        margin-right: 15px;
+    }
+</style>
+
+<link href="~/Content/DataTables/css/buttons.dataTables.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables/buttons.flash.min.js"></script>
+<script src="~/Scripts/DataTables/jszip.min.js"></script>
+<script src="~/Scripts/DataTables/vfs_fonts.js"></script>
+<script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
+
+
+@section scripts{
+    <script>
+            $(function () {
+
+		FillOutlets();
+                $.ajax({
+                    url: '@Url.Action("GetItemCategories", "Product")',
+                    type: "GET",
+
+                    success: function (result) {
+                        var $select = $("#filter-category");
+                        $.each(result, function (i, item) {
+
+                            $('<option>', {
+                                value: item.CategoryId
+                            }).html(item.Name).appendTo($select);
+                        });
+
+
+                    }
+                });
+
+
+			  //  catName = $("#filter-category option:selected").text();
+				catId = $('#filter-category').val();
+                 dtFrom = $('#txtdtFrom').val();
+                 dtTo = $('#txtdtTo').val();
+                 outletId = $('#cmbOutlet').val();
+
+
+       tblContent= $('#tbl_cat_sale').dataTable({
+            "bJQueryUI": true,
+			  "cache": false,
+     	"bServerSide": true,
+        "sAjaxSource": "/Report/AjaxHandlerCopy",
+        "bProcessing": true,
+
+"buttons": [
+
+		{
+			extend: 'excel',
+			exportOptions: {
+				columns: ':visible',
+				format: {
+					body: function (data, row, column, node) {
+						data = $('<p>' + data + '</p>').text();
+						return $.isNumeric(data.replace(',', '.')) ? data.replace(',', '.') : data;
+					}
+				}
+			}
+		}
+],
+        "aoColumns": [
+                        { "sName": "Description", "sortable": true },
+                        { "sName": "Price", "sortable": true },
+                        { "sName": "ExcludeMom", "sortable": true },
+                        { "sName": "PurchasePrice", "sortable": true },
+                        { "sName": "PurchasePriceExc", "sortable": true },
+                        { "sName": "SoldQty", "orderable": true },
+                        { "sName": "TotalSale", "sortable": true },
+                        { "sName": "NetSale", "orderable": true },
+                        { "sName": "NetSaleExlMoms", "orderable": true },
+                        { "sName": "ProfitPercentage", "orderable": true }
+                    ],
+            "info": true,   // control table information display field
+            "stateSave": true,  //restore table state on page reload,
+			"fnServerData": function (sSource, aoData, fnCallback) {
+				aoData.push({ "name": "catId", "value": catId },{"name": "dtFrom", "value": dtFrom},{"name": "dtTo", "value": dtTo},{"name":"outletId","value":outletId});
+                    $.getJSON(sSource, aoData, function (json) {
+                        fnCallback(json);
+                    });
+                },
+            "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]], "oLanguage": {
+                "oPaginate": {
+                    "sPrevious": " ",
+                    "sNext": " "
+                }
+			},
+
+            "order": [[0, "asc"]],
+            "iDisplayLength": 10,
+            "aLengthMenu": [
+              [10, 20, 50, -1],
+              [10, 20, 50, "All"]
+            ],
+            "dom": '<"dt-panelmenu clearfix"lBfr>t<"dt-panelfooter clearfix"ip>'
+        });
+
+
+
+                $('#ProfitReport').addClass('active');
+                $('#Reports').addClass('active');
+
+                if (!$('#menureports').hasClass('menu-open')) {
+
+                    $('#menureports').attr('style', '').toggleClass('menu-open');
+                }
+
+                $("#txtdtFrom").datepicker({ dateFormat: 'yy-mm-dd', language: 'ru' });
+                $('.selector').datepicker({ dateFormat: 'yy-mm-yy' });
+                $("#txtdtTo").datepicker();
+
+                $('#txtdtFrom').on('changeDate', function (ev) {
+                    $(this).datepicker('hide');
+                });
+
+                $('#txtdtTo').on('changeDate', function (ev) {
+                    $(this).datepicker('hide');
+                });
+
+
+                var currentTime = new Date();
+                var day = currentTime.getDate();
+                var month = currentTime.getMonth() + 1;
+                var year = currentTime.getFullYear();
+
+                if (day < 10) {
+                    day = "0" + day;
+                }
+                if (month < 10) {
+                    month = "0" + month;
+                }
+
+                var dt = year + "-" + month + "-" + day;
+                $('#txtdtFrom').val(dt);
+                $('#txtdtTo').val(dt);
+
+
+                $("#filter-category").change(function () {
+
+                   GetByCategory();
+
+                });
+		 $("#cmbOutlet").change(function () {
+
+                   GetByCategory();
+
+                });
+                $("#btnView").click(function () {
+                   GetByCategory();
+                });
+
+                $("#btnSummary").click(function () {
+                    catId = $('#filter-category').val();
+                    dtFrom = $('#txtdtFrom').val();
+                    dtTo = $('#txtdtTo').val();
+                    outletId = $('#cmbOutlet').val();
+
+
+                });
+
+            });
+            function GetByCategory() {
+               //  catName = $("#filter-category option:selected").text();
+				catId = $('#filter-category').val();
+                 dtFrom = $('#txtdtFrom').val();
+                 dtTo = $('#txtdtTo').val();
+		  outletId = $('#cmbOutlet').val();
+			 tblContent.fnDraw();
+                @*$.ajax({
+                    url: '@Url.Action("GetProductsSaleByCategory", "Report")',
+                    type: "GET",
+                    data: { catName: catName, dtFrom: dtFrom, dtTo: dtTo },
+                    success: function (result) {
+
+                        $('#catsale').html(result);
+                        //  RefreshTable("#tbl_product", result)
+
+
+                    }
+                });*@
+            }
+            @*function GetByCategory(categoryId) {
+                if (categoryId == 0) {
+                    alert('select any category');
+                    return;
+                }
+                var dtFrom = $('#txtdtFrom').val();
+                var dtTo = $('#txtdtTo').val();
+                $.ajax({
+                    url: '@Url.Action("PrintCategorySale", "Report")',
+                    type: "Get",
+                    data: { catId: categoryId, dtFrom: dtFrom, dtTo: dtTo },
+                    success: function (_d) {
+
+                        $('#PrintSale-Report').html(_d);
+
+                    }
+                });
+            }*@
+		function FillOutlets() {
+
+            $.ajax({
+                url: '@Url.Action("FillOutlets", "Report")',
+                type: "Get",
+                success: function (_d) {
+                    $('#cmbOutlet').html('');
+                    var $select = $("#cmbOutlet");
+                    $.each(_d, function (i, item) {
+
+                        $('<option>', {
+                            value: item.Id
+                        }).html(item.Name).appendTo($select);
+                    });
+
+                }
+            });
+        }
+    </script>
+}

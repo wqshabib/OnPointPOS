@@ -1,0 +1,114 @@
+﻿<Window x:Class="POSSUM.PromptInfoAmount"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:POSSUM="clr-namespace:POSSUM"            
+             xmlns:translation="clr-namespace:POSSUM.Res"        
+        WindowStartupLocation="CenterScreen" 
+        Title="PromptInfoAmount"  Height="290" Width="470"  WindowStyle="None" Background="#FFE5E6D6" ResizeMode="NoResize">
+    <Grid>
+        <Border Name="openingViewBorder"  Grid.Column="0" Grid.Row="1"   Background="#869699" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid  Name="gridConfirmOpening" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="Auto"/>
+
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.ColumnSpan="4" Height="43" Background="#FF012537" VerticalAlignment="Top" />
+                <TextBlock Text="{x:Static translation:UI.Main_CashDepositWithDraw}" Foreground="White" FontSize="16" Margin="4,8,2,0" Grid.ColumnSpan="4" />
+                <!--<Button  Margin="0,1,108,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" Width="30" Content="X" FontSize="12" FontFamily="Georgia" FontWeight="Bold" Foreground="WhiteSmoke" Background="Red" Click="BtnCloseCheckout_OnClick" />-->
+                <!--<Button Content="Cash Draw type" Width="100" Height="35" Grid.Row="3" Margin="1" Background="#FF012537" />-->
+                <!--<Button Content="Tab Name" Name="btnOpening" Width="100" Height="35" Grid.Row="4" Margin="1" Background="#FF012537" />-->
+                <Button Style="{StaticResource FlatButton}" Background="White" Content="{x:Static translation:UI.Main_Amount}"  Grid.Row="3" Margin="0.5 0 10 0"  ClickMode="Release" />
+
+                <!--<TextBlock Background="#FF96AEB9" Grid.Row="3" Grid.Column="1" Margin="1"  FontFamily="Arial" FontSize="20" Height="35" Tag="2"  Text="{Binding CashDrawType,Mode=TwoWay}" Padding="0" TextAlignment="Center" HorizontalAlignment="Left"  Width="160" />
+                <TextBlock Background="#FF96AEB9" Grid.Row="4" Grid.Column="1" Margin="1"  FontFamily="Arial" FontSize="20" Height="35" Tag="3"  Text="{Binding TabletName,Mode=TwoWay}" Padding="0" TextAlignment="Center" HorizontalAlignment="Left" Width="160" />-->
+                <TextBox Background="#FF96AEB9" Text="" FontWeight="Bold" Foreground="Black" Grid.Row="3" Grid.Column="1" Margin="-10 1 1 1"   FontFamily="Arial" FontSize="20"  Tag="4" Name="txtAmount"  VerticalContentAlignment="Center" TextAlignment="Center"    IsReadOnly="True"/>
+
+                <Grid Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="80"/>
+
+                        <ColumnDefinition/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Button Height="49" Grid.Row="0" Grid.Column="1" Content="1"   Background="#FFDCDEDE"  FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                    <Button Height="49" Grid.Row="0" Grid.Column="2" Content="2" Background="#FFDCDEDE"  FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                    <Button Height="49" Grid.Row="0" Grid.Column="3" Content="3"  Background="#FFDCDEDE" FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                    <Button Height="49" Grid.Row="1" Grid.Column="1" Content="4"  Background="#FFDCDEDE"  FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                    <Button Height="49" Grid.Row="1" Grid.Column="2" Content="5"  Background="#FFDCDEDE"  FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                    <Button Height="49" Grid.Row="1" Grid.Column="3" Content="6"  Background="#FFDCDEDE"  FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                    <Button Height="49" Grid.Row="2" Grid.Column="1" Content="7"  Background="#FFDCDEDE"  FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                    <Button Height="49" Grid.Row="2" Grid.Column="2" Content="8"  Background="#FFDCDEDE"  FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                    <Button Height="49" Grid.Row="2" Grid.Column="3" Content="9"  Background="#FFDCDEDE"  FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                    <Button Height="49" Grid.Row="3" Grid.Column="1" Content="C"  Background="#FFDCDEDE"  FontSize="20" FontFamily="Arial" Click="OpeningBTNNotClearAll_Click" />
+                    <Button Height="49" Grid.Row="3" Grid.Column="2" Content="0" Background="#FFDCDEDE"  FontSize="20" FontFamily="Arial" Click="OpeningButtonNumber_Click" />
+                    <Button Height="49" Grid.Row="3" Grid.Column="3" Content=""  Background="#FFDCDEDE"  FontSize="20" FontFamily="Arial"/>
+
+
+                </Grid>
+                <StackPanel HorizontalAlignment="Right" Orientation="Vertical" VerticalAlignment="Stretch" Grid.Column="3" Grid.Row="3" Grid.RowSpan="2" >
+
+                    <Button Name="btnOption1" VerticalAlignment="Top"   HorizontalAlignment="Left" 
+                            Width="225"  Height="60" Padding="3,0,3,0"
+                              BorderThickness="1" Foreground="Black" 
+                            Click="btnOptionDeposit_Click" Margin="1,0,1,1"  >
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{x:Static translation:UI.Main_Deposit}"/>
+                                <TextBlock Text=" (+)"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+
+                    <Button Name="btnOption2" VerticalAlignment="Top"   HorizontalAlignment="Left" 
+                            Width="225"  Height="60" Padding="3,0,3,0"
+                            BorderThickness="1" Foreground="Black" 
+                            Click="btnOptionWithDraw_Click" Margin="1,0,1,1" >
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{x:Static translation:UI.Main_Withdrawal}"/>
+                                <TextBlock Text=" (-)"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+
+                    <Button Name="btnCancel" VerticalAlignment="Top"   HorizontalAlignment="Left" 
+                            Width="225"  Height="60" Padding="3,0,3,0"
+                            Content="{x:Static translation:UI.Global_Cancel}" Background="Red" Foreground="White" 
+                            Click="btnCancel_Click" Margin="1,0,1,1"  />
+
+                    <Button Name="btnChangeCashDrawer" VerticalAlignment="Top" Content="Switch To Cashguard" Visibility="Visible"  HorizontalAlignment="Left" 
+                            Width="225"  Height="60" Padding="3,0,3,0"
+                            BorderThickness="1" Foreground="Black" 
+                            Click="ChangeCashDrawerClick" Margin="1,0,1,1" >
+                        
+                    </Button>
+
+                </StackPanel>
+            </Grid>
+
+        </Border>
+
+    </Grid>
+</Window>

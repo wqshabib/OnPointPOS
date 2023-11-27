@@ -1,0 +1,188 @@
+﻿<Window x:Class="POSSUM.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:POSSUM.Controls" 
+         xmlns:translation="clr-namespace:POSSUM.Res"        
+        xmlns:controls="clr-namespace:Notifications.Wpf.Controls;assembly=Notifications.Wpf"
+        xmlns:wpf="clr-namespace:Notifications.Wpf;assembly=Notifications.Wpf"
+        xmlns:notifications="clr-namespace:Notifications.Wpf.Controls;assembly=Notifications.Wpf"    
+        mc:Ignorable="d"
+       Title="POSSUM- Kassasystem"  MinWidth="1024" MinHeight="720"   WindowStartupLocation="CenterScreen" ResizeMode="NoResize"  WindowState="Maximized" Loaded="Window_Loaded" Closing="Window_Closing" WindowStyle="None" Icon="POSTERMINAL.ico" FontFamily="Calibri" Height="674.377" >
+    <Grid Name="outerGrid" Background="#FFE5E6D6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="323*"/>
+            <ColumnDefinition Width="58"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" Name="topRow"/>
+            <RowDefinition Name="ContentRow"/>
+            <RowDefinition Height="35" />
+        </Grid.RowDefinitions>
+        <Grid Name="mainCanvas"   VerticalAlignment="Stretch" Margin="0,2,0,0"  HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Grid.RowSpan="2"  />
+        <Grid Name="AdminArea" Width="750" Margin="6,0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="2" Visibility="Collapsed" Background="Transparent" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+        <Border Grid.Row="2" Grid.ColumnSpan="2" Background="#FF28475D" Margin="-2,0,-2,-2"/>
+        <Grid Grid.Row="2" Name="UserListGrid" VerticalAlignment="Center"   Background="Transparent" Grid.ColumnSpan="2" Margin="10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="105"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="85"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid Name="AcitivityManuGrid" ></Grid>
+            
+            <Button Name="btnCheckIn" Visibility="Visible" Grid.Column="1"     Style="{StaticResource FlatButton}" Background="Transparent" Content="{x:Static translation:UI.Main_PersonLog}" Foreground="White"  FontFamily="Gotham Rounded Medium" Click="Checkin_Click" Height="20" VerticalAlignment="Center">
+
+            </Button>
+
+            <Button Name="btnUserInfo" 
+                    Visibility="Visible" Grid.Column="3" 
+                    Style="{StaticResource FlatButton}" Background="Transparent" 
+                    Content="USER LOGGED IN : 111" 
+                    FontSize="12"
+                    Foreground="LightGreen"  
+                    FontWeight="Bold"
+                    FontFamily="Gotham Rounded Medium" 
+                    Click="btnUserInfo_Click" Height="20" VerticalAlignment="Center">
+
+            </Button>
+
+            <Button Name="btnQuitApp" Visibility="Visible" 
+                    Grid.Column="2" 
+                    Style="{StaticResource FlatButton}" Background="Transparent" Content="QUIT APP" Foreground="White"  FontFamily="Gotham Rounded Medium" Click="btnQuitApp_Click" Height="20" VerticalAlignment="Center">
+
+            </Button>
+            
+            <local:DropDownButton Grid.Column="2" x:Name="btnPendingOrders" BorderThickness="0" 
+                                        Content="" Foreground="White"   Margin="1 1 2 1"  HorizontalAlignment="Left" Background="Transparent" FontFamily="Gotham Rounded Medium" >
+                <local:DropDownButton.DropDown>
+                    <ContextMenu >
+                        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" Margin="0" Visibility="Visible" RowDetailsVisibilityMode="Collapsed"  Name="PendingDataGrid"  CanUserAddRows="False"   >
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{x:Static translation:UI.OrderHistory_OrderNumber}" Binding="{Binding Path=id}" IsReadOnly="True" Width="100" FontFamily="Segoe UI"  />
+                                <DataGridTextColumn Header="{x:Static translation:UI.OrderHistory_Date}" Binding="{Binding Path=CreatedOn, StringFormat=\{0:dd.MM.yyyy \}}" IsReadOnly="True" FontFamily="Segoe UI"  Width="100"/>
+
+                                <DataGridTextColumn Header="{x:Static translation:UI.Sales_CustomerButton}" Binding="{Binding Path=Customer}" IsReadOnly="True" Width="180" FontFamily="Segoe UI" />
+
+                                <DataGridTextColumn Header="{x:Static translation:UI.Global_Total}" Binding="{Binding Path=total_price}"  IsReadOnly="True" Width="120" FontFamily="Segoe UI"  />
+
+                                <DataGridTemplateColumn Header="" Width="80">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="{x:Static translation:UI.Global_View}" Foreground="Black"   Height="25" Width="65" FontFamily="Segoe UI"   BorderBrush="Black" Click="PendingOrder_Click" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" Margin="0" Visibility="Collapsed" RowDetailsVisibilityMode="Collapsed"  Name="PendingDataGridOld"  CanUserAddRows="False"   >
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{x:Static translation:UI.OrderHistory_OrderNumber}" Binding="{Binding Path=OrderNo}" IsReadOnly="True" Width="100" FontFamily="Segoe UI"  />
+                                <DataGridTextColumn Header="{x:Static translation:UI.OrderHistory_Date}" Binding="{Binding Path=TimeStamp, StringFormat=\{0:dd.MM.yyyy \}}" IsReadOnly="True" FontFamily="Segoe UI"  Width="100"/>
+                                <DataGridTextColumn Header="Resturant Name" Binding="{Binding Path=ResturantName}" IsReadOnly="True" FontFamily="Segoe UI"  Width="180" Visibility="Collapsed"/>
+                                <DataGridTextColumn Header="{x:Static translation:UI.Sales_CustomerButton}" Binding="{Binding Path=CustomerName}" IsReadOnly="True" Width="180" FontFamily="Segoe UI" />
+                                <DataGridTextColumn Header="{x:Static translation:UI.Global_Phone}" Binding="{Binding Path=CustomerDetails.PhoneNo}" Visibility="Visible" Width="120" IsReadOnly="True" FontFamily="Segoe UI"  />
+                                <DataGridTextColumn Header="{x:Static translation:UI.Global_Total}" Binding="{Binding Path=Total}"  IsReadOnly="True" Width="120" FontFamily="Segoe UI"  />
+
+                                <DataGridTemplateColumn Header="" Width="80">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="{x:Static translation:UI.Global_View}" Foreground="Black"   Height="25" Width="65" FontFamily="Segoe UI"   BorderBrush="Black" Click="PendingOrder_Click" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+
+                    </ContextMenu>
+                </local:DropDownButton.DropDown>
+            </local:DropDownButton>
+            <TextBlock Text="" Grid.Column="4"   Name="txtUpdateAlert"  Background="Transparent" FontSize="18" Foreground="Red" Height="22" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="11" Margin="0 5 2 0" Foreground="#FF506576" FontFamily="Gotham Rounded Medium" Text="POSSUM V1.0"></TextBlock>
+            <StackPanel Name="imgCanvas" Grid.Column="6" Orientation="Horizontal"  VerticalAlignment="Center">
+
+                <TextBlock x:Name="txtAppMode" Canvas.Left="40" TextAlignment="Center"  VerticalAlignment="Center"  Margin="5 5 0 0" FontSize="11"  Foreground="#FF506576" Text="ONLINE" FontFamily="Gotham Rounded Medium"/>
+                <Image  Source="{Binding Path=ImgPath}" Width="20" Height="18"   Margin="5 2 0 0" />
+                <TextBlock  Visibility="Visible" Text="Support - 031-7882400 (Vardagar 08:00 - 17:00) support@possumsystem.com" Name="lblSupport" VerticalAlignment="Center" FontSize="16" Foreground="White"  Margin="35 0 0 0" />
+                <StackPanel Name="stkPanel" Margin="2"  Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Name="btnVendorMessage" Visibility="Collapsed"  Style="{StaticResource FlatButton}" ToolTip="{x:Static translation:UI.Main_NewMessage}" Background="Transparent" Content="{x:Static translation:UI.Main_Important_message}" Foreground="#FFD85145"  FontFamily="Gotham Rounded Medium" Click="VendorMessage_Click" Height="20" VerticalAlignment="Top"/>
+                </StackPanel>
+            </StackPanel>
+            <Button Style="{StaticResource FlatImageButton}" HorizontalAlignment="Left" Margin="15 1 1 1" Grid.Column="7" Name="btnCGError" Visibility="Collapsed" Click="CGError_Click">
+                <Button.Content>
+                    <Image Source="images/cashguarderror.png" />
+                </Button.Content>
+            </Button>
+            <TextBlock Text="00:00:00" Grid.Column="7" Name="txtClock" Background="Transparent" FontSize="16" Foreground="White" Margin="10 0 10 0" FontFamily="Gotham Rounded Medium" Height="20" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+        </Grid>
+        <Popup x:Uid="PopupError" IsOpen="False" Name="PopupError" Loaded="popupError_Loaded" Height="Auto" Width="Auto" PopupAnimation="Fade" AllowsTransparency="True">
+            <Border BorderThickness="1" Background="Azure" >
+                <StackPanel Background="Red"  Name="PopupContent">
+                    <Grid x:Name="gdChild" Height="Auto" Width="Auto" Margin="10,0,10,20" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="45"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="90"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="10" Grid.Column="0" Grid.Row="0" Name="popupTitle" Text="Warning" Grid.ColumnSpan="3"  FontWeight="Bold"  FontSize="20" FontFamily="Tahoma" Foreground="White" />
+                        <TextBlock Margin="10" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Name="popupContent" Text="Dummytext" FontSize="16" FontFamily="Tahoma" Foreground="White" />
+                        <Button Name="btnPopupOK" Content="OK" Grid.Column="0" Grid.Row="2" x:Uid="PopupErrorOK" Background="#FF005484" FontWeight="Bold"  FontSize="20" FontFamily="Tahoma" Height="45" Width="90"  Click="OK_Click" />
+                        <Button Name="btnPopupClose" Content="Close" Grid.Column="1" Grid.Row="2" x:Uid="PopupErrorClose" Background="#FF005484" FontWeight="Bold"  FontSize="20" FontFamily="Tahoma" Height="45" Width="90"  Click="PopupClose_Click" />
+                        <Button Name="btnPopupCancel" Content="Cancel" Grid.Column="2" Grid.Row="2" x:Uid="PopupErrorCancel" Background="#FF005484" FontWeight="Bold"  FontSize="20" FontFamily="Tahoma" Height="45" Width="90" Click="Cancel_Click" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Popup>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Name="notificationCon" Height="120" Width="300" Visibility="Collapsed">
+
+        </StackPanel>
+
+        <!--<DockPanel>
+            <UniformGrid DockPanel.Dock="Bottom" Rows="1">
+                <Button Content="Show" Click="Button_Click"/>
+                <Button Content="Show in window" Click="Button_Click_1" />
+            </UniformGrid>
+            <controls:NotificationArea x:Name="WindowArea" Position="TopLeft" MaxItems="3"/>
+            <notifications:NotificationArea x:Name="WindowArea1" Position="BottomRight" MaxItems="3"/>
+        </DockPanel>-->
+        <!--<DockPanel>
+            <UniformGrid DockPanel.Dock="Bottom" Rows="1">
+                <Button Content="Show" Click="Button_Click"/>
+                <Button Content="Show in window" Click="Button_Click_1" />
+            </UniformGrid>
+            <controls:NotificationArea x:Name="WindowArea" Position="TopLeft" MaxItems="3"/>
+            <notifications:NotificationArea x:Name="WindowArea1" Position="BottomRight" MaxItems="3"/>
+        </DockPanel>-->
+    </Grid>
+</Window>

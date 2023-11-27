@@ -1,0 +1,65 @@
+﻿
+@model SeededCategories
+@if (Model.Categories.Where(s => s.Parant == Model.Seed).Any())
+{
+    for (int i = 0; i < Model.Categories.Count(); i++)
+    {
+        if (Model.Categories[i].Parant == Model.Seed)
+        {
+            SeededCategories inner = new SeededCategories { Seed = Model.Categories[i].CategoryId, Categories = Model.Categories };
+            var _class = (Model.Categories[i].Parant == 0) ? "parent-category" : "child-category";
+            <ul>
+                <li class="@_class">
+                    <div class="category_block">
+                        <span style="padding:1px">&nbsp;</span>
+                        <a  id="@Model.Categories[i].CategoryLevel">
+                            @if ((Model.Categories[i].Parant == 0) == false)
+                            {
+                                <input type="checkbox" name="chkName" checked="@Model.Categories[i].IsSelected" class="tree-checkbox @_class" id=@Model.Categories[i].CategoryId />
+                            }
+                            <label for=@i class="@_class">
+                                @Html.DisplayFor(model => model.Categories[i].Name)
+                            </label>
+
+                        </a>
+                        @if (Model.Categories[i].Parant != 0)
+                        {
+                            <div class="pull-right primary_option_block">
+                                <input type="radio" name="Primary" checked="@Model.Categories[i].IsPrimary" class="tree-checkbox-primary" id="P-@Model.Categories[i].CategoryId" />
+                                <span>Primary</span>
+                            </div>
+                        }
+                    </div>
+                    @Html.Partial("_TreeCategories", inner)
+                </li>
+            </ul>
+        }
+    }
+}
+<script>
+    $(function () {
+        //set initial state.
+        // $('.tree-checkbox').val($(this).is(':checked'));
+        done = 0;
+        $(".tree-checkbox").change(function () {
+            if ($(this).is(":checked")) {
+                //alert($(this).attr('id'));
+                //$(this).attr("checked", false);
+                if (done == 0) {
+                    $('#P-' + $(this).attr('id')).prop('checked', true);
+                    selectedPrimary = $(this).attr('id');
+                  
+                }
+                done = 1;
+            }
+            if ($(this).is(":checked") == '0') {
+                //alert($(this).attr('id'));
+                //$(this).attr("checked", false);
+                if ($('#P-' + $(this).attr('id')).is(":checked") == "1")
+                    done = 0;
+                $('#P-' + $(this).attr('id')).prop('checked', false);
+            }
+        });
+    });
+
+</script>

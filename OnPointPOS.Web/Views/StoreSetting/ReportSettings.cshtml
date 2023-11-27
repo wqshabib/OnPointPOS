@@ -1,0 +1,207 @@
+﻿@model List<ZReportSetting>
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.Global @Resource.Settings</li>
+
+}
+
+<section>
+
+
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+
+                <li>
+                    <a href="/StoreSetting">@Resource.Global @Resource.Settings</a>
+                </li>
+
+                <li class="active">
+                    <a href="/StoreSetting/ReportSettings">@Resource.Reports @Resource.Settings</a>
+                </li>
+
+
+
+            </ul>
+        </div>
+        <div class="topbar-right">
+            <button class="btn btn-primary fa fa-save" id="btnUpdateSettings" type="button"> @Resource.Update @Resource.Settings</button>
+        </div>
+    </header>
+
+    <div class="pt25">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center">
+
+
+            <div class="panel">
+                <div class="panel-body pn">
+                    <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+                    <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+                    <div class="table-responsive">
+                        <table id="tblReport_settings" class="table admin-form theme-warning tc-checkbox-1 fs13">
+                            <thead>
+                                <tr class="bg-light">
+                                    <th class="">@Resource.ReportTag</th>
+
+                                    <th style="width:100px;" class="">@Resource.Show</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+
+
+                                        <td class="text-left" id="@item.Id">@item.ReportTag</td>
+
+                                        <td style="width:100px;"><input type="checkbox" class="rdb_chkBox" value="@item.Id" @(Html.Raw(item.Visiblity ? "checked=\"checked\"" : "")) /> </td>
+
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+@section scripts {
+
+    <script>
+        $(document).ready(function () {
+           // $('#global_settings').DataTable();
+        });
+        $(function () {
+
+            var html = '<a href="/Report">Reports</a>'
+            $('#dsh').html(html);
+
+            $('#reportsetting').addClass('active');
+            $('#Reports').addClass('active');
+
+            if (!$('#menureports').hasClass('menu-open')) {
+
+                $('#menureports').attr('style', '').toggleClass('menu-open');
+            }
+
+        $('#btnUpdateSettings').click(function(){
+
+        UpdateSettings();
+
+        });
+
+
+        });
+
+        function UpdateSettings() {
+            if (confirm("Do you want to update this z Report settings?")) {
+
+                      var tableObject = [];
+
+
+            $('#tblReport_settings tbody tr').map(function() {
+                // $(this) is used more than once; cache it for performance.
+
+                var $row = $(this);
+                a = 0;
+
+                if ($row.find(':nth-child(2)').find('input[type=checkbox]').is(":checked")) {
+
+                    a = 1;
+
+                }
+
+
+              //  var temp = $row.find(':nth-child(1)').text() + " " + $row.find(':nth-child(2)').text() + " " + a;
+        id=$row.find(':nth-child(1)').attr('id');
+        tag=$row.find(':nth-child(1)').text();
+
+             var obj={
+                   Id:id,
+                   ReportTag:tag,
+                   Visiblity:a
+                  };
+                tableObject.push(obj);
+
+
+            });
+
+
+                $.ajax({
+                    url: '@Url.Action("SetReportSetting", "StoreSetting")',
+                    type: "POST",
+                   contentType: 'application/json',
+                    data: JSON.stringify(tableObject),
+                    success: function (result) {
+                      var res = result.Message;
+                    var arr = res.split(':');
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                            window.location = '/StoreSetting/ReportSettings'
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+
+
+                    }
+                });
+            }
+        }
+    </script>
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,112 @@
+{[
+  {
+    "ContentCategoryName": "Mat",
+    "ContentCategoryDescription": "",
+    "SimpleContent": [
+      {
+        "ContentId": "808fe6c6-cf2e-43a9-80c7-158120eb1dd0",
+        "Name": "Margherita ",
+        "Description": " ",
+        "Price": 10.0,
+        "IncludedSubContent": "Basilika",
+        "ContentCustom": [
+          {
+            "Name": "Bild",
+            "Type": "image",
+            "Value": "",
+            "Label": null,
+            "Attributes": null
+          },
+          {
+            "Name": "Name",
+            "Type": "",
+            "Value": null,
+            "Label": null,
+            "Attributes": null
+          }
+        ],
+        "SimpleContentVariant": [],
+        "Scale": 0,
+        "Available": true,
+        "Orderable": true,
+        "Identifier": "margherita",
+        "DiscountAmount": 0.0,
+        "StockQty": 0
+      },
+      {
+        "ContentId": "13ffd8c7-0e87-4b61-975f-4fedd495d4c8",
+        "Name": "Mixa egen sallad",
+        "Description": "sallad with multiple options",
+        "Price": 79.0,
+        "IncludedSubContent": "",
+        "ContentCustom": [
+          {
+            "Name": "Bild",
+            "Type": "image",
+            "Value": "",
+            "Label": null,
+            "Attributes": null
+          },
+          {
+            "Name": "Name",
+            "Type": "",
+            "Value": null,
+            "Label": null,
+            "Attributes": null
+          }
+        ],
+        "SimpleContentVariant": [
+          {
+            "Name": "Family",
+            "Price": 79.0
+          },
+          {
+            "Name": "Regular",
+            "Price": 79.0
+          }
+        ],
+        "Scale": 2,
+        "Available": true,
+        "Orderable": true,
+        "Identifier": "mixa-egen-sallad",
+        "DiscountAmount": 0.0,
+        "StockQty": 0
+      },
+      {
+        "ContentId": "1b4ad6b1-b715-4c60-814d-ac80185aba9d",
+        "Name": "Tonfisksallad ",
+        "Description": " ",
+        "Price": 120.0,
+        "IncludedSubContent": "",
+        "ContentCustom": [
+          {
+            "Name": "Bild",
+            "Type": "image",
+            "Value": "",
+            "Label": null,
+            "Attributes": null
+          },
+          {
+            "Name": "Name",
+            "Type": "",
+            "Value": null,
+            "Label": null,
+            "Attributes": null
+          }
+        ],
+        "SimpleContentVariant": [],
+        "Scale": 0,
+        "Available": true,
+        "Orderable": true,
+        "Identifier": "tonfisksallad",
+        "DiscountAmount": 0.0,
+        "StockQty": 0
+      }
+    ],
+    "OrderPrinterAvailabilityType": 0,
+    "Available": true,
+    "Orderable": true,
+    "Status": 0,
+    "StatusText": null
+  }
+]}

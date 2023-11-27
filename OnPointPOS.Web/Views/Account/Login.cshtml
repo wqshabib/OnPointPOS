@@ -1,0 +1,140 @@
+﻿@model LoginViewModel
+
+@{
+    ViewBag.Title = "Log in";
+
+
+}
+@{
+    Layout = null;
+
+}
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <title>Login</title>
+    <meta name="keywords" content="Possum" />
+    <meta name="description" content="">
+    <meta name="author" content="NSD">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font CSS (Via CDN) -->
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800'>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="~/Content/css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/theme.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/utility.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/custom.css">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    @*<style>
+            body {
+                background-image: url('/Content/img/stock/splash/3.jpg') !important;
+                background-repeat: no-repeat !important;
+                background-position: center !important;
+                background-color: #cccccc;
+
+
+            }
+        </style>*@
+</head>
+
+<body class="minimal screenlock-page">
+    <script> var boxtest = localStorage.getItem('boxed'); if (boxtest === 'true') { document.body.className += ' boxed-layout'; } </script>
+
+
+    <!-- Start: Main -->
+    <div id="main">
+        <div id="content">
+            <div class="row">
+                <div id="page-logo"> <img src="~/Content/img/logos/header-logo.png" class="img-responsive" alt="logo" style="visibility:hidden;"> </div>
+            </div>
+            <div class="row">
+                    <div class="panel" style="background:transparent">
+                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            
+                            <div class="panel-body">
+                                @Html.ValidationSummary(true)
+                                <div class="login-avatar mn"> <img src="~/Content/img/logos/possum-logo.png" width="280" alt="avatar" style="background: white;"> </div>
+                                @*<div class="login-info"> <span class="login-name"> <b class="text-grey3">Cynthia Blue</b> - logged out for <b>5 hours</b></span> <span class="login-email"> cynthiarose@company.com </span> </div>*@
+                                <div class="form-group">
+
+                                    <div class="input-group">
+                                        <span class="input-group-addon color_blackist_grey"><span class="glyphicon glyphicon-user"></span> </span>
+                                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = Resource.UserName })
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.UserName)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon color_blackist_grey"><span class="glyphicon glyphicon-link"></span> </span>
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = Resource.Password })
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.Password)
+                                </div>
+                                <span class="btn btn-sm" style="background: orangered;"><a style="color:white;" href="@Url.Action("ResetPasswordRequest")"> Glömt @Resource.Password?</a></span>
+                                <button class="btn btn-sm bg_blackist_grey btn-gradient  pull-right" type="submit" value="@Resource.Login">
+                                   
+                                    @Resource.Login
+                                </button>
+                            </div>
+                           
+                        }
+                    </div>
+               
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay-black"></div>
+    <!-- End: Main -->
+    <div style="color:white; vertical-align:central;text-align:center;position: absolute; bottom: 0;left: 0;right: 0;background: #008080;" class="panel-footer"><p>PoS&SuM System AB, Nellickevägen 26, 412 63 Göteborg, 031-788 24 00, info@posssumsystem.com </p></div>
+
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="~/Scripts/jquery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+
+    <!-- Page Plugins -->
+    <script type="text/javascript" src="~/Content/vendor/plugins/backstretch/jquery.backstretch.min.js"></script>
+
+    <!-- Theme Javascript -->
+    @*<script type="text/javascript" src="~/Scripts/ajax/spin.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/ajax/underscore-min.js"></script>
+    <script type="text/javascript" src="~/Scripts/ajax/main.js"></script>
+    <script type="text/javascript" src="~/Scripts/ajax/ajax.js"></script>
+    <script type="text/javascript" src="~/Scripts/ajax/custom.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            // Init Full Page BG(Backstretch) plugin
+            $.backstretch("/Content/img/stock/splash/2.jpg");
+
+        });
+    </script>
+</body>
+</html>
+
+
+  

@@ -1,0 +1,50 @@
+﻿@model List<OrderViewModel>
+
+
+<div class="panel-body">
+    @if (!(Model != null && Model.Count > 0))
+    {
+        <div class="row">
+            <div class="alert alert-danger">
+                No record found. Please try again.
+            </div>
+        </div>
+    }
+
+    <div class="table-responsive">
+        <table id="tbl_invoices" class="table admin-form theme-warning tc-checkbox-1 fs13 " cellspacing="0" width="100%">
+            <thead>
+                <tr class="bg-light">
+
+                    <th class="">Order @Resource.Number</th>
+                    <th class="">@Resource.Reference</th>
+                    <th class="">@Resource.Report_Payment @Resource.Address</th>
+                    <th class="">@Resource.Total</th>
+                    <th class="">@Resource.Date</th>
+                    <th style="width:30px"></th>
+                    <th style="width:30px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td class="text-left">@item.InvoiceNumber</td>
+                    <td class="text-left">@item.Remarks</td>
+                    <td class="text-left">@item.CustomerName</td>
+                    <td class="text-left">@item.SumAmt</td>
+                    <td class="">@item.CreationDate.ToString("yyyy-MM-dd")</td>
+                    <td class=""><a class="btn btn-primary btn-gradient btn-sm fa fa-file-pdf-o" style="margin-right:2px; float:right;" onclick="PrintInvoice('@item.Id')">Pdf</a></td>
+                    <td class=""><a class="btn btn-primary btn-gradient btn-sm glyphicon glyphicon-envelope" style="margin-right:2px; float:right;" onclick="EmailInvoice('@item.Id')">Email</a></td>
+
+
+
+                </tr>
+                }
+            </tbody>
+
+
+        </table>
+    </div>
+</div>

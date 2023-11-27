@@ -1,0 +1,57 @@
+﻿@model OrderViewModel
+
+
+<div class="panel-body">
+    <div class="table-responsive" style="float:right">
+        <label>
+            @Resource.Customer @Resource.Name : @Model.CustomerName
+        </label>
+    </div>
+</div>
+
+<div class="panel-body">
+    <div class="table-responsive">
+        <table id="tbl_invoices" class="table admin-form theme-warning tc-checkbox-1 fs13 " cellspacing="0" width="100%">
+            <thead>
+                <tr class="bg-light">
+                    <th class="">Order @Resource.Name</th>
+                    <th class="">@Resource.Qty @Resource.Address</th>
+                    <th class="">@Resource.Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderLines)
+                {
+                    <tr>
+                        <td class="text-left">@item.ItemName</td>
+                        <td class="text-left">@item.Quantity</td>
+                        <td class="text-left">@Math.Round(item.UnitPrice, 2)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div style="width:330px;white-space:nowrap">
+        <table class="table">
+
+            <tbody>
+                <tr style="border-top:solid 1px gray;">
+                    <td align="left">@Resource.Total</td>
+                    <td align="center" style="width: 150px;padding-right:0 5px 0 0"></td>
+                    <td align="right"></td>
+                    <td align="right">@Math.Round(Model.OrderTotal, 2)</td>
+                </tr>
+                @if (Model.RoundedAmount != 0)
+                {
+                    <tr style="border-top:solid 1px black;">
+                        <td align="left">@Resource.Report_Rounding</td>
+                        <td align="center" style="width: 150px;padding-right:0 5px 0 0"></td>
+                        <td align="right"></td>
+                        <td align="right">@Math.Round(Model.RoundedAmount, 2)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

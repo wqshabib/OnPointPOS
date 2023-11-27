@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2003/10/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <RightMargin>1in</RightMargin>
+  <Body>
+    <ReportItems>
+      <List Name="list1">
+        <Style />
+        <Height>1.25in</Height>
+        <Top>0.25in</Top>
+        <Grouping Name="list1_Details_Group">
+          <GroupExpressions>
+            <GroupExpression>=Ceiling(RowNumber(Nothing)/3)</GroupExpression>
+          </GroupExpressions>
+        </Grouping>
+        <Width>2.625in</Width>
+        <ReportItems>
+          <Matrix Name="matrix1">
+            <Corner>
+              <ReportItems>
+                <Textbox Name="textbox1">
+                  <Style>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingRight>2pt</PaddingRight>
+                  </Style>
+                  <ZIndex>7</ZIndex>
+                  <rd:DefaultName>textbox1</rd:DefaultName>
+                  <CanGrow>true</CanGrow>
+                  <Value />
+                </Textbox>
+              </ReportItems>
+            </Corner>
+            <Height>1in</Height>
+            <Style />
+            <MatrixRows>
+              <MatrixRow>
+                <MatrixCells>
+                  <MatrixCell>
+                    <ReportItems>
+                      <Textbox Name="CustomerID">
+                        <Style>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <BorderStyle>
+                            <Default>Solid</Default>
+                          </BorderStyle>
+                          <PaddingBottom>2pt</PaddingBottom>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingRight>2pt</PaddingRight>
+                        </Style>
+                        <ZIndex>4</ZIndex>
+                        <rd:DefaultName>CustomerID</rd:DefaultName>
+                        <CanGrow>true</CanGrow>
+                        <Value>=First(Fields!CustomerID.Value)</Value>
+                      </Textbox>
+                    </ReportItems>
+                  </MatrixCell>
+                </MatrixCells>
+                <Height>0.25in</Height>
+              </MatrixRow>
+              <MatrixRow>
+                <MatrixCells>
+                  <MatrixCell>
+                    <ReportItems>
+                      <Textbox Name="CompanyName">
+                        <Style>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <BorderStyle>
+                            <Default>Solid</Default>
+                          </BorderStyle>
+                          <PaddingBottom>2pt</PaddingBottom>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingRight>2pt</PaddingRight>
+                        </Style>
+                        <ZIndex>2</ZIndex>
+                        <rd:DefaultName>CompanyName</rd:DefaultName>
+                        <CanGrow>true</CanGrow>
+                        <Value>=First(Fields!CompanyName.Value)</Value>
+                      </Textbox>
+                    </ReportItems>
+                  </MatrixCell>
+                </MatrixCells>
+                <Height>0.25in</Height>
+              </MatrixRow>
+              <MatrixRow>
+                <MatrixCells>
+                  <MatrixCell>
+                    <ReportItems>
+                      <Textbox Name="City">
+                        <Style>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <BorderStyle>
+                            <Default>Solid</Default>
+                          </BorderStyle>
+                          <PaddingBottom>2pt</PaddingBottom>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingRight>2pt</PaddingRight>
+                        </Style>
+                        <rd:DefaultName>City</rd:DefaultName>
+                        <CanGrow>true</CanGrow>
+                        <Value>=First(Fields!City.Value)</Value>
+                      </Textbox>
+                    </ReportItems>
+                  </MatrixCell>
+                </MatrixCells>
+                <Height>0.25in</Height>
+              </MatrixRow>
+            </MatrixRows>
+            <MatrixColumns>
+              <MatrixColumn>
+                <Width>1in</Width>
+              </MatrixColumn>
+            </MatrixColumns>
+            <DataSetName>DataSet1</DataSetName>
+            <ColumnGroupings>
+              <ColumnGrouping>
+                <DynamicColumns>
+                  <Grouping Name="matrix1_ColumnGroup1">
+                    <GroupExpressions>
+                      <GroupExpression>=RowNumber("list1_Details_Group")</GroupExpression>
+                    </GroupExpressions>
+                  </Grouping>
+                  <ReportItems>
+                    <Textbox Name="textbox2">
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingRight>2pt</PaddingRight>
+                      </Style>
+                      <ZIndex>6</ZIndex>
+                      <rd:DefaultName>textbox2</rd:DefaultName>
+                      <CanGrow>true</CanGrow>
+                      <Value>=RowNumber("list1_Details_Group")</Value>
+                    </Textbox>
+                  </ReportItems>
+                </DynamicColumns>
+                <Height>0.25in</Height>
+              </ColumnGrouping>
+            </ColumnGroupings>
+            <Width>2in</Width>
+            <Top>0.125in</Top>
+            <Left>0.125in</Left>
+            <RowGroupings>
+              <RowGrouping>
+                <Width>1in</Width>
+                <StaticRows>
+                  <StaticRow>
+                    <ReportItems>
+                      <Textbox Name="textbox3">
+                        <Style>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <BorderStyle>
+                            <Default>Solid</Default>
+                          </BorderStyle>
+                          <PaddingBottom>2pt</PaddingBottom>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingRight>2pt</PaddingRight>
+                        </Style>
+                        <ZIndex>5</ZIndex>
+                        <rd:DefaultName>textbox3</rd:DefaultName>
+                        <CanGrow>true</CanGrow>
+                        <Value>Customer ID</Value>
+                      </Textbox>
+                    </ReportItems>
+                  </StaticRow>
+                  <StaticRow>
+                    <ReportItems>
+                      <Textbox Name="textbox5">
+                        <Style>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <BorderStyle>
+                            <Default>Solid</Default>
+                          </BorderStyle>
+                          <PaddingBottom>2pt</PaddingBottom>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingRight>2pt</PaddingRight>
+                        </Style>
+                        <ZIndex>3</ZIndex>
+                        <rd:DefaultName>textbox5</rd:DefaultName>
+                        <CanGrow>true</CanGrow>
+                        <Value>Company Name</Value>
+                      </Textbox>
+                    </ReportItems>
+                  </StaticRow>
+                  <StaticRow>
+                    <ReportItems>
+                      <Textbox Name="textbox7">
+                        <Style>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <BorderStyle>
+                            <Default>Solid</Default>
+                          </BorderStyle>
+                          <PaddingBottom>2pt</PaddingBottom>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingRight>2pt</PaddingRight>
+                        </Style>
+                        <ZIndex>1</ZIndex>
+                        <rd:DefaultName>textbox7</rd:DefaultName>
+                        <CanGrow>true</CanGrow>
+                        <Value>City</Value>
+                      </Textbox>
+                    </ReportItems>
+                  </StaticRow>
+                </StaticRows>
+              </RowGrouping>
+            </RowGroupings>
+          </Matrix>
+        </ReportItems>
+        <Left>0.375in</Left>
+      </List>
+    </ReportItems>
+    <Style />
+    <Height>2in</Height>
+  </Body>
+  <TopMargin>1in</TopMargin>
+  <DataSources>
+    <DataSource Name="Northwind">
+      <rd:DataSourceID>5ca44c05-0dbe-4188-890c-9953ebcb5a25</rd:DataSourceID>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>data source=.;initial catalog=Northwind</ConnectString>
+        <IntegratedSecurity>true</IntegratedSecurity>
+      </ConnectionProperties>
+    </DataSource>
+  </DataSources>
+  <Width>6.5in</Width>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Fields>
+        <Field Name="CustomerID">
+          <DataField>CustomerID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="City">
+          <DataField>City</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>Northwind</DataSourceName>
+        <CommandText>SELECT     CustomerID, CompanyName, City
+FROM         Customers</CommandText>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <LeftMargin>1in</LeftMargin>
+  <rd:SnapToGrid>true</rd:SnapToGrid>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <rd:ReportID>49e54554-f679-412d-81e8-13a6fe186857</rd:ReportID>
+  <BottomMargin>1in</BottomMargin>
+  <Language>en-US</Language>
+</Report>

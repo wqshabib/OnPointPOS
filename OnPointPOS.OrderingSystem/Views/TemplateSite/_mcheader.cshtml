@@ -1,0 +1,68 @@
+﻿@model LUETemplateSite.Models.SiteModel
+@using LUE;
+@{
+    CustomerCart Cart = ViewBag.Cart;
+}
+<style>
+    @( !Model.StandAlone ? ".col-lg-basket { margin-top:30px !important; }" : String.Empty )
+    @( !Model.StandAlone ? "@media(max-width:990px){ .col-lg-basket { margin-top:0 !important; } }" : String.Empty )
+    @( "@media(max-width:990px){ .cart-header { border-radius: 0 !important; } }" )
+</style>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand my-nav-link" href="#">
+                <img src="@Model.ShopConfig.CompanyImagePath" style="height:100%; float:left; margin-right:10px;">
+                <span>@Model.ShopConfig.CMS.Name</span>
+            </a>
+
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                @if (Model.ShopConfig.CMS.CmsContents.Count > 0)
+                {
+                    foreach (var page in Model.ShopConfig.CMS.CmsContents)
+                    {
+                        <li><a href="#@page.PageId" class="nav-link my-nav-link">@page.Name</a></li>
+                    }
+                    <li><a href="#" class="nav-link my-nav-link">Shop</a></li>
+                }
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Kundvagn 
+                        <span class="badge cart-badge">0</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            @Html.Partial("_cart", Model)
+
+                            <div class="col-menu-extra col-lg-12 col-xs-12 col-md-12">
+                                <div class="col-paymet-item col-xs-4 col-md-4 col-lg-4">
+                                    <img src="~/img/visa.png" height="80" width="80" style="opacity: 0.5;">
+                                </div>
+                                <div class="col-paymet-item col-xs-4 col-md-4 col-lg-4">
+                                    <img src="~/img/mastercard.png" height="80" width="80" style="opacity: 0.5;">
+                                </div>
+                                <div class="col-paymet-item col-xs-4 col-md-4 col-lg-4">
+                                    <img src="~/img/dibs.png" height="80" width="80" style="opacity: 0.5;">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>

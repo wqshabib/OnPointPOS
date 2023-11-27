@@ -1,0 +1,282 @@
+﻿
+@section BreadCrumb {
+	@*<li class="crumb-trail" id="currentpage">Reports</li>*@
+	<li class="crumb-trail" id="currentpage"><a href="/Report/Index">Report </a> &nbsp;/&nbsp; Sales </li>
+
+}
+<style>
+	#content {
+		padding-bottom: 15px !important;
+	}
+</style>
+<section>
+	<div id="wait" class="btn-default btn-gradient" style="display:none;width: 80px; height: 80px; position: absolute; top: 50%; left: 50%; z-index: 999999999; border-radius: 8px; border: 1px solid rgb(204, 204, 204); padding: 0px;">
+		<img src='~/Content/img/progress.gif' width="80" height="80" />
+	</div>
+	<input type="hidden" id="msgTerminal" value="@(Resource.Select+" "+Resource.Terminal)" />
+	<!-- dashboard tiles -->
+	<div class="panel" style="padding: 0; margin: 0 0 10px">
+		<div class="panel-heading">
+			<span class="panel-title">
+				<span class="glyphicon glyphicon-print" id="pd"></span>Rapportgenerator
+			</span>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+
+				<div class="col-sm-2 col-xl-2">
+					<label class="pull-left mt10 mb10">
+						@Resource.Report_From:
+					</label>
+					<input type='text' id="txtdtFrom" class="form-control datepicker" />
+
+
+				</div>
+
+				<div class="col-sm-2 col-xl-2">
+					<label class="pull-left mt10 mb10">
+						@Resource.Report_To:
+					</label>
+					<input type='text' id="txtdtTo" class="form-control datepicker" />
+
+
+				</div>
+				<div class="col-sm-3 col-xl-2">
+
+					<label class="pull-left mt10 mb10">
+						@Resource.Terminal
+					</label>
+
+					<select name="rest" class="select2-single form-control" id="cmbTerminal">
+						<option value="00000000-0000-0000-0000-000000000000">@Resource.Select</option>
+					</select>
+
+				</div>
+				<div class="col-sm-3 col-xl-2">
+
+					<label class="pull-left mt10 mb10">
+						@Resource.Layout
+					</label>
+
+					<select name="rest" class="select2-single form-control" id="cmbLayout">
+						<option value="0" selected="selected">Z-Rapport</option>
+						<option value="1">Kategorirapport RDLC</option>
+						<option value="2">Bokföringsrapport RDLC</option>
+						<option value="3">Moms Rapport RDLC</option>
+						<option value="4">Z-Rapport RDLC</option>
+					</select>
+
+				</div>
+				<div class="pull-left mt40">
+					<a class="btn btn-primary pull-left mr10" data-placement="bottom" title="Print" style="cursor: pointer; padding: 7px 12px 8px; " id="btnPrintDetail">
+						@Resource.Show
+					</a>
+					@*<a class="btn btn-primary pull-left mr10" data-placement="bottom" title="Print" style="cursor: pointer; padding: 7px 12px 8px;" id="btnPrintDetail">
+							Excel
+						</a>*@
+					<a class="btn btn-primary fa fa-upload" data-placement="bottom" title="Print Pdf" style="cursor: pointer; padding: 7px 12px 8px;" id="btnEmailPdf">
+						Email PDF
+					</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="row" id="Zdiv">
+		<div class="col-sm-12 col-xl-12">
+			<div class="panel" style="background-color: #fff; /*min-height:600px;*/" id="PrintZ-Report">
+
+			</div>
+		</div>
+	</div>
+	<div class="row" id="rdlcdiv">
+		<div class="col-md-12">
+			<iframe id="reporviewerFrame" style="min-height:calc(1000px - 260px);overflow-y:auto;margin-top:0px;float:left;width:calc(100%);" frameborder="0" scrolling="yes"></iframe>
+		</div>
+		<div class="col-md-5 col-sm-5" id="PrintSale-Report">
+
+		</div>
+	</div>
+	<div class="modal fade" id="PrintDetailModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">@Resource.Printer</h4>
+				</div>
+				<div class="modal-body" id="showrepport">
+
+				</div>
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+
+@section scripts {
+
+	<script>
+         $(document).ajaxStart(function () {
+            $("#wait").css("display", "block");
+        });
+        $(document).ajaxComplete(function () {
+            $("#wait").css("display", "none");
+        });
+        $(function () {
+
+            $('#Reportgenerator').addClass('active');
+            $('#Reports').addClass('active');
+
+            if (!$('#menureports').hasClass('menu-open')) {
+
+                $('#menureports').attr('style', '').toggleClass('menu-open');
+            }
+            $("#txtdtFrom").datepicker({ dateFormat: 'yy-mm-dd' });
+            $('.selector').datepicker({ dateFormat: 'yy-mm-yy' });
+            $("#txtdtTo").datepicker();
+
+            $(".selector").datepicker({
+                altFormat: "yy-mm-dd"
+            });
+
+            $('#txtdtFrom').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
+
+            $('#txtdtTo').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
+            var currentTime = new Date();
+            var day = currentTime.getDate();
+            var month = currentTime.getMonth() + 1;
+            var year = currentTime.getFullYear();
+
+            if (day < 10) {
+                day = "0" + day;
+            }
+            if (month < 10) {
+                month = "0" + month;
+            }
+
+            var dt = year + "-" + month + "-" + day;
+            $('#txtdtFrom').val(dt);
+            $('#txtdtTo').val(dt);
+            FillTerminal();
+            $('#btnPrintDetail').click(function () {
+                var layoutId = $('#cmbLayout').val();
+
+                if (layoutId == 0) {
+
+                    ShowZReport();
+                }
+                else if (layoutId == 1)
+                    ShowRDLCReport("rptcat");
+                else if (layoutId == 2)
+                    ShowRDLCReport("rptAccounting");
+                else if (layoutId == 3)
+                    ShowRDLCReport("rptvatsale");
+                else
+                {
+
+                    if ($('#cmbTerminal').val() == '00000000-0000-0000-0000-000000000000')
+                    {
+                        alert($('#msgTerminal').val());
+                    }
+                    else
+                        ShowRDLCReport("rptzreport");
+                }
+
+
+            });
+
+            $('#btnPrintPdf').click(function () {
+                var dateFrom = $('#txtdtFrom').val();
+                var dateTo = $('#txtdtTo').val();
+                var terminalId = $('#cmbTerminal').val();
+                window.location = '/Report/PrintPDFReport?terminalId=' + terminalId + '&dtFrom=' + dateFrom + '&dtTo=' + dateTo;
+
+
+            });
+		    $('#btnEmailPdf').click(function(){
+		         var dateFrom = $('#txtdtFrom').val();
+                var dateTo = $('#txtdtTo').val();
+                var terminalId = $('#cmbTerminal').val();
+		     $.ajax({
+                url: '@Url.Action("GenerateAndEmailZReport", "Report")',
+                type: "Get",
+		        data:{dtFrom:dateFrom,dtTo:dateTo,terminalId:terminalId},
+                success: function (_d) {
+                  alert(_d.Message);
+                }
+             });
+
+		       });
+        });
+        function FillTerminal() {
+
+            $.ajax({
+                url: '@Url.Action("FillTerminal", "Report")',
+                type: "Get",
+                success: function (_d) {
+                    $('#cmbTerminal').html('');
+                    var $select = $("#cmbTerminal");
+                    $.each(_d, function (i, item) {
+
+                        $('<option>', {
+                            value: item.Id
+                        }).html(item.Name).appendTo($select);
+                    });
+
+                }
+            });
+        }
+        function ShowZReport() {
+            
+            $('#rdlcdiv').hide();
+            $('#Zdiv').show();
+            var dateFrom = $('#txtdtFrom').val();
+            var dateTo = $('#txtdtTo').val();
+            var terminalId = $('#cmbTerminal').val();
+            if (terminalId == '00000000-0000-0000-0000-000000000000') {
+                alert($('#msgTerminal').val());
+                return;
+            }
+            $.ajax({
+                url: '@Url.Action("PrintDetailReport", "Report")',
+                type: "Get",
+                data: { terminalId: terminalId, dtFrom: dateFrom, dtTo: dateTo },
+                success: function (_d) {
+                    $('#PrintZ-Report').html(_d);
+                }
+            });
+        }
+        function ShowRDLCReport(rptName) {
+            $('#rdlcdiv').show();
+            $('#Zdiv').hide();
+            var dateFrom = $('#txtdtFrom').val();
+            var dateTo = $('#txtdtTo').val();
+            var terminalId = $('#cmbTerminal').val();
+            url = '../Reports/ReportForm.aspx?dtFrom=' + dateFrom + '&dtTo=' + dateTo + '&terminalId=' + terminalId + '&rptName=' + rptName;
+            var frame = document.getElementById('reporviewerFrame');
+            if (frame !== null) {
+                if (frame.src) {
+                    frame.src = url;
+                }
+                else if (frame.contentWindow != null && frame.contentWindow.location != null) {
+                    frame.contentWindow.location = url;
+                }
+                else {
+                    frame.setAttribute('src', url);
+                }
+            }
+            return false;
+
+        }
+
+	</script>
+}
+

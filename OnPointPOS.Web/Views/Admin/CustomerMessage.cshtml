@@ -1,0 +1,115 @@
+﻿@model CustomerInbox
+@{
+	ViewBag.Title = "Inbox";
+	Layout = null;
+}
+
+
+
+	<div >
+		
+		<div class="alert alert-success" style="display:none;" id="messageBox"></div>
+		<div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+			@Html.HiddenFor(m => m.OutletId)
+			<div class="admin-form">
+				<div class="section row">
+					<div class="col-md-12 pn">
+						<div class="form-group">
+							<div class="col-md-2 text-right">
+								<label class="control-label pt10"> @Resource.Description </label>
+							</div>
+							<div class="col-md-10">
+								<label class="field prepend-icon" data-toggle="tooltip">
+									@Html.TextAreaFor(model => model.Description, new { @class = "event-name gui-input br-light light", @style = "height:200px", @placeholder = Resource.Message })
+									<label class="field-icon">
+										<i class="fa fa-user"></i>
+									</label>
+								</label>
+							</div>
+						</div>
+					</div>
+				
+
+
+
+				</div>
+
+			
+			</div>
+			
+
+
+		
+		
+	</div>
+
+<script>
+    $(function () {
+        $('#btnSave').click(function () {
+
+            $("#divError").html('');
+            $("#divError").hide('');
+
+            if ($('#Description').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Description");
+                $("#divError").show();
+                $('#Name').focus();
+                return;
+            }
+
+            var data = {
+                Id: $('#Id').val(),
+                Description: $('#Description').val(),
+                OutletId: $('#OutletId').val()
+            };
+
+            $.ajax({
+                url: '@Url.Action("SaveMessage", "Admin")',
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                            window.location='/Admin/Outlets'
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+
+                    // $("#PartialProductList").html(result);
+
+                }
+            });
+        });
+
+
+
+
+    });
+</script>
+
+

@@ -1,0 +1,157 @@
+﻿
+@{
+    ViewBag.Title = "Purchase";
+}
+<style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 10pt;
+    }
+
+    table {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+    }
+
+        table th {
+            background-color: #F7F7F7;
+            color: #333;
+            font-weight: bold;
+        }
+
+        table th, table td {
+            padding: 5px;
+            border-color: #ccc;
+        }
+</style>
+
+<h2>Purchase Invoice</h2>
+<table id="tblCustomers" cellpadding="0" cellspacing="0" border="1">
+    <thead>
+        <tr>
+            <th>Item Name</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+        <tr>
+            <td style="width:200px;"><select name="rest" class="select2-single form-control" id="cmbItem">
+    <option value="0">select</option>
+</select> </td>
+            <td><input type="number" id="txtQty" /></td>
+            <td><input type="number" id="txtUnitPrice" /></td>
+            <td><input type="button" onclick="Add()" style="width:75px" value="Add" class="btn btn-default"/></td>
+        </tr>
+    </tfoot>
+</table>
+
+<script type="text/javascript">
+    $(function () {
+        $(".autoCompInput").bind("keypress", {}, keypressInBox);
+        FillItems();
+    });
+
+    function FillItems() {
+
+        $.ajax({
+            url: '@Url.Action("FillSuppliers", "Supplier")',
+            type: "Get",
+            success: function (_d) {
+                $('#cmbItem').html('');
+                var $select = $("#cmbItem");
+                $.each(_d, function (i, item) {
+
+                    $('<option>', {
+                        value: item.Id
+                    }).html(item.Name).appendTo($select);
+                });
+
+            }
+        });
+    }
+
+        //window.onload = function () {
+        //    //Build an array containing Customer records.
+        //    var customers = new Array();
+        //    customers.push(["John Hammond", "United States"]);
+        //    customers.push(["Mudassar Khan", "India"]);
+        //    customers.push(["Suzanne Mathews", "France"]);
+        //    customers.push(["Robert Schidner", "Russia"]);
+
+        //    //Add the data rows.
+        //    for (var i = 0; i < customers.length; i++) {
+        //        AddRow(customers[i][0], customers[i][1]);
+        //    }
+        //};
+
+    function Add() {
+        var cmbItem = document.getElementById("cmbItem");
+        var itemid = $(cmbItem).val();
+ 
+        var itemName = $("#cmbItem option:selected").text();
+       
+        var txtQty = document.getElementById("txtQty");
+            var txtUnitPrice = document.getElementById("txtUnitPrice");
+            AddRow(itemid, itemName, txtQty.value, txtUnitPrice.value);
+            txtQty.value = "0";
+            txtUnitPrice.value = "0";
+        };
+
+        function Remove(button) {
+            //Determine the reference of the Row using the Button.
+            var row = button.parentNode.parentNode;
+            var name = row.getElementsByTagName("TD")[0].innerHTML;
+            if (confirm("Do you want to delete: " + name)) {
+
+                //Get the reference of the Table.
+                var table = document.getElementById("tblCustomers");
+
+                //Delete the Table row using it's Index.
+                table.deleteRow(row.rowIndex);
+            }
+        };
+
+        function AddRow(itemid,itemname,qty, unitprice) {
+            //Get the reference of the Table's TBODY element.
+            var tBody = document.getElementById("tblCustomers").getElementsByTagName("TBODY")[0];
+
+            //Add Row.
+            row = tBody.insertRow(-1);
+
+            //Add Name cell.
+            var cell = row.insertCell(-1);
+            cell.innerHTML = itemname;
+         
+            cell.setAttribute("id", itemid);
+            //Add Qty cell.
+             cell = row.insertCell(-1);
+            cell.innerHTML = qty;
+            //Add UnitPrice cell.
+            cell = row.insertCell(-1);
+            cell.innerHTML = unitprice;
+
+            //Add Button cell.
+            cell = row.insertCell(-1);
+            var btnRemove = document.createElement("INPUT");
+            btnRemove.type = "button";
+            btnRemove.value = "Remove";
+           
+            btnRemove.setAttribute("onclick", "Remove(this);");
+            btnRemove.setAttribute("class", "btn btn-danger");
+            cell.appendChild(btnRemove);
+        }
+     
+
+        function keypressInBox(e) {
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if (code == 13) {
+                alert('hi');
+                //Enter keycode                        
+                e.preventDefault();
+                alert($(this).val());
+            }
+        };
+</script>

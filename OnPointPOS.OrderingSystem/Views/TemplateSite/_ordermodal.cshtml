@@ -1,0 +1,580 @@
+﻿@model LUETemplateSite.Models.SiteModel
+@using LUE;
+@{
+    CustomerCart Cart = ViewBag.Cart;
+
+    bool hasDelivery = Model.ShopConfig.HasDelivery;
+    bool hasTakeAway = Model.ShopConfig.HasTakeAway;
+    bool hasCardPayment = Model.ShopConfig.HasPayment;
+    bool hasCashPayment = Model.ShopConfig.HasCashPayment;
+
+    bool takeawaySelected = Model.TakeawaySelected;
+    bool cardPaymentSelected = (hasCardPayment && !hasCashPayment);
+}
+
+<div class="modal-content">
+
+    <div class="modal-header">
+        @* <button type="button" class="close" data-dismiss="modal">&times;</button> *@
+        <h4 class="modal-title">Slutför beställning</h4>
+    </div>
+
+    <div id="orderform">
+        @using (Ajax.BeginForm(
+            "CreateOrder",
+            "Home",
+            new AjaxOptions
+            {
+                LoadingElementId = "load-animation",
+                OnSuccess = "LoadPaymentIframe",
+            },
+            new
+            {
+
+            }
+            ))
+        {
+            <div class="modal-body">
+                @if (takeawaySelected)
+                {
+                    <input type="hidden" id="tas" value="true" />
+                }
+
+                <div class="col-lg-12 col-md-12 col-xs-12 modal-wrap">
+                    <div class="col-lg-6 col-md-6 col-xs-12 payment-basket-wrap">
+                        <div class="payment-basket-header col-xs-12 col-lg-12 col-md-12">
+                            <h3>Dina Varor</h3>
+                        </div>
+                        @foreach (CustomerCart.CartItem item in Cart.Items)
+                        {
+                            <div class="payment-basket-item col-xs-12 col-lg-12 col-md-12">
+                                <h4>
+                                    @( Model.TruncateString(item.Title + (item.HasVariant ? " (" + item.Variant + ")" : String.Empty), 24))
+                                    <span class="food-item-price">@item.Price KR</span>
+                                </h4>
+                                @if (item.SubItems.Count > 0)
+                                {
+                                    <p>
+                                        @foreach (var sub in item.SubItems)
+                                        {
+                                            <span>@sub.Text</span>
+                                            <span>@sub.Price KR</span><br />
+                                        }
+                                    </p>
+                                }
+                            </div>
+                        }
+                        <div class="col-basket-total col-xs-12 col-lg-12" style="border-bottom: 1px solid #ededed;">
+                            <h4>Antal varor<span class="col-basket-total-price">@Cart.TotalQuantity</span></h4>
+                        </div>
+                        <span @(Cart.CustomerPaymentFee == 0 ? "style=display:none" : String.Empty)>
+                            <div class="col-basket-total col-xs-12 col-lg-12 card-related" style="border-bottom: 1px solid #ededed; @(hasCashPayment ? "display:none" : String.Empty)">
+                                <h4><span class="payment-fee-explanation">Betalningsförmedlingsavgift</span> <span class="col-basket-total-price">@Cart.CustomerPaymentFee KR</span></h4>
+                            </div>
+                        </span>
+                        <div class="col-basket-total col-xs-12 col-lg-12 delivery-related" style="border-bottom: 1px solid #ededed; @((takeawaySelected || (hasDelivery==true && hasTakeAway==false)) ? String.Empty : "display:none")">
+                            <h4>Utkörningsavgift <span class="pull-right" id="diliveryfee">tillkommer</span> </h4>
+                        </div>
+                        <div class="col-basket-total col-xs-12 col-lg-12">                           
+                            <h4>
+                                Totalt
+                                <input type="hidden" id="hdTotal" value="@(Cart.TotalAmount - Cart.CustomerPaymentFee)"/>
+                                <span  class="col-basket-total-price card-related" @(hasCashPayment ? "style=display:none" : String.Empty)>@Cart.TotalAmount KR</span>
+                                <span id="spTotal" class="col-basket-total-price cash-related" @(hasCashPayment ? String.Empty : "style=display:none")>@(Cart.TotalAmount - Cart.CustomerPaymentFee) KR</span>
+                            </h4>
+                        </div>
+
+                        <div class="col-basket-total col-xs-12 col-lg-12" style="display:none;">
+                            <label>Ange Discount Kod</label>
+                            <div class="input-group" style="margin-top: 5px;">
+                                <input class="form-control" type="text" id="discountcode" />
+                                <span class="input-group-addon" id="nunclrdis" style="background-color: #E74C3C">
+                                    <i class="fa fa-times" id="nunokdis"></i>
+                                </span>
+                            </div>
+                            <input type="hidden" id="discountAmount" />
+                            <button type="button" class="btn btn-default" id="discountbutton" disabled onclick="ApplyDiscount()" style="width: 100%; margin-top: 5px;">Ansök rabatt</button>
+                        </div>
+
+                       
+                        <div class="col-lg-12 col-md-12 col-xs-12 change-order-btn-wrap">
+                            <button class="btn-change-order" data-dismiss="modal">
+                                <span class="glyphicon glyphicon-chevron-left"></span> Gå tillbaka
+                            </button>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="col-lg-6 col-md-6 col-xs-16 modal-formtab modal-formtab-border">
+
+                        <div class="col-lg-12 col-md-12 col-xs-12 col-delivery-header" style="@(Model.ShopConfig.MultipleMenus || Model.ShopConfig.ShopTemplate == 2 ? "display:none" : String.Empty)">
+                            <h1>Välj Leveranssätt</h1>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-xs-12 delivery-tab-wrap" style="@(Model.ShopConfig.MultipleMenus || Model.ShopConfig.ShopTemplate == 2 ? "display:none" : String.Empty)">
+
+                            @if (hasTakeAway)
+                            {
+                                <div class="@(hasDelivery ? "col-lg-6 col-md-6 col-xs-6" : "col-lg-12 col-md-12 col-xs-12") option-takeaway col-checkbox-wrap">
+                                    <label>
+                                        <input value="0"
+                                               id="takeaway-checkbox"
+                                               type="checkbox"
+                                               name="deliverychoice"
+                                               class="option-input checkbox"
+                                               @( !hasDelivery ? "checked disabled" : (takeawaySelected ? String.Empty : "checked"))
+                                               @( Model.ShopConfig.MultipleMenus ? "disabled" : String.Empty)>
+                                        <br />
+                                        <!-- HIDDEN ELEMENT: --><input value="0" id="takeaway-radio" type="radio" name="deliverytype" style="display:none" @( !hasDelivery && hasTakeAway ? "checked" : (takeawaySelected ? String.Empty : "checked")) />
+                                        <span class="checktitle">Avhämtning</span>
+                                    </label>
+                                </div>
+                            }
+                            @if (hasDelivery)
+                            {
+                                <div class="@(hasTakeAway ? "col-lg-6 col-md-6 col-xs-6" : "col-lg-12 col-md-12 col-xs-12") option-delivery col-checkbox-wrap">
+                                    <label>
+                                        <input value="1"
+                                               id="delivery-checkbox"
+                                               type="checkbox"
+                                               name="deliverychoice"
+                                               class="option-input checkbox"
+                                               @( !hasTakeAway ? "checked disabled" : (takeawaySelected ? "checked" : String.Empty))
+                                               @( Model.ShopConfig.MultipleMenus ? "disabled" : String.Empty)>
+                                        <br />
+                                        <!-- HIDDEN ELEMENT: --><input value="1" id="delivery-radio" type="radio" name="deliverytype" style="display:none" @( !hasTakeAway && hasDelivery ? "checked" : (takeawaySelected ? "checked" : String.Empty)) />
+                                        <span class="checktitle">Utkörning</span>
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-xs-12 col-delivery-header delivery-header-border-top">
+                            <h1>Välj Betalsätt</h1>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-xs-12 delivery-tab-wrap">
+
+                            <div class="col-lg-12 col-md-12 col-xs-12 col-delivery-tab">
+                                @if (hasCardPayment)
+                                {
+                                    <div class="@(hasCashPayment ? "col-lg-6 col-md-6 col-xs-6" : "col-lg-12 col-md-12 col-xs-12") col-checkbox-wrap">
+                                        <label>
+                                            <input name="payment-choice" id="card-checkbox" type="checkbox" class="option-input checkbox" @(!hasCashPayment ? "checked disabled" : String.Empty)><br />
+                                            <span class="checktitle">Kortbetalning</span>
+                                        </label>
+                                    </div>
+                                }
+                                @if (hasCashPayment)
+                                {
+                                    <div class="@(hasCardPayment ? "col-lg-6 col-md-6 col-xs-6" : "col-lg-12 col-md-12 col-xs-12") col-checkbox-wrap">
+                                        <label>
+                                            <input name="payment-choice" id="cash-checkbox" type="checkbox" class="option-input checkbox" @(!hasCardPayment ? "checked disabled" : "checked")><br />
+                                            <span class="checktitle">Betala kontant</span>
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                            @if (hasDelivery)
+                            {
+                                <div class="form-group-wrap delivery-related" id="deliveryform" style="@((takeawaySelected || hasTakeAway==false) ? String.Empty : "display:none;") padding-bottom:0">
+                                    <div class="form-group">
+                                        <label for="deliveryaddress">Adress <span id="limitMsg" style="font-size:12px !important; font-weight: bold !important; color:red !important;"></span></label>
+                                        @(Html.Kendo().ComboBox()
+                                        .Name("deliveryadress")
+                                        .DataTextField("Text")
+                                        .DataValueField("Value")
+                                        .Filter(FilterType.Contains)
+                                        .MinLength(3)
+                                        .Placeholder("Börja skriva gatuadress för att söka...")
+                                        .Suggest(true)
+                                        .AutoBind(false)
+                                        .HtmlAttributes(new { style = "width:100%;", @class = "deliveryformclass" })
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read =>
+                                                {
+                                                    read.Action("SearchAdress", "Home");
+                                                })
+                                                .ServerFiltering(true);
+                                        })
+                                        )
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="firstname">Förnamn</label>
+                                        <input type="text" class="form-control deliveryformclass" name="firstname" id="firstname">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="surname">Efternamn</label>
+                                        <input type="text" class="form-control deliveryformclass" name="surname" id="surname">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Telefonnummer</label>
+                                        <input type="tel" pattern="0([-\s]?\d){6,10}" class="form-control deliveryformclass" name="phone" id="phone">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="doorcode">Portkod</label>
+                                        <input type="number" pattern="^[0-9]+$" class="form-control" name="doorcode" id="doorcode">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="floor">Våning</label>
+                                        <input type="number" pattern="^[0-9]+$" class="form-control" name="floor" id="floor">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="apartmentnumber">Lägenhetsnummer</label>
+                                        <input type="number" pattern="^[0-9]+$" class="form-control" name="apartmentnumber" id="apartmentnumber">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="other">Övrigt</label>
+                                        <input type="text" class="form-control" name="other" id="other">
+                                    </div>
+                                </div>
+                            }
+
+                            @if (hasTakeAway)
+                            {
+                                <div class="form-group-wrap takeaway-related" id="takeawayform" style="@(takeawaySelected ? "display:none;" : String.Empty) padding-bottom:0">
+                                    <div class="form-group">
+                                        <label for="firstname2">Förnamn</label>
+                                        <input type="text" class="form-control takeawayformclass" name="firstname2" id="firstname2">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="surname2">Efternamn</label>
+                                        <input type="text" class="form-control takeawayformclass" name="surname2" id="surname2">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone2">Telefonnummer</label>
+                                        <input type="tel" pattern="0([-\s]?\d){6,10}" class="form-control takeawayformclass" name="phone2" id="phone2">
+                                    </div>
+                                </div>
+                                if(!string.IsNullOrEmpty(Model.ShopConfig.CorporateGuid) && Model.ShopConfig.CorporateGuid.ToUpper().Equals("72DE85CE-0D2B-49F7-9685-1A16271F9DB6"))
+                                { 
+                                    <div class="form-group hidden2 barnet-name" style="margin:10px;">
+                                        <label for="comment">Barnets namn</label><br />
+                                        <input type="text" class="form-control" name="other" id="other">
+                                    </div>
+                                    <div class="form-group" style="margin:10px;">
+                                        <label for="comment">Meddelande</label><br />
+                                        <textarea class="form-control" name="comment" id="comment" rows="3"></textarea>
+                                    </div>
+                                }
+                            }
+
+                            <div class="form-group-wrap" style="padding-top:0; @(Model.ShopConfig.ShopTemplate != 1 ? "display:none;" : String.Empty)">
+
+                                @if (Model.CustomerOrderPrinterStatus.OrderPrinters != null)
+                                {
+                                    <div class="form-group">
+                                        <label for="restaurant">Välj restaurang</label>
+                                        <select class="form-control" name="restaurant" id="restaurant" required>
+                                            <option value="" disabled selected>Välj en restaurang...</option>
+                                            @foreach (var item in Model.CustomerOrderPrinterStatus.OrderPrinters)
+                                            {
+                                                var offline = item.OrderPrinterStatus != CustomerOrderPrinterStatus.OrderPrinter.Status.Online;
+                                                <option value="@item.OrderPrinterId" @(offline ? "disabled" : String.Empty)>
+                                                    @item.OrderPrinterName @(offline ? " (offline)" : String.Empty)
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                }
+                                
+                                <div class="form-group">
+                                    <label for="comment">Meddelande till restaurangen</label><br />
+                                    <textarea class="form-control" name="comment" id="comment" rows="3"></textarea>
+                                </div>
+
+                                @if (Model.DeliveryDates.Count > 0)
+                                {
+                                    <div class="form-group">
+                                        <label for="deliverydate">Önskad tid</label>
+                                        @Html.DropDownList("deliverydate", (List<SelectListItem>)Model.DeliveryDates, new { @class = "form-control", style = "margin-top:5px;", name = "deliverydate" })
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="checkout-btn-wrap" id="divbtns">
+                                <button type="submit" name="submit" onclick="return VerifyAdress()" value="card" id="card" class="btn-modal-checkout btn-checkout-green card-related" style="display:none" @(Model.CustomerOrderPrinterStatus.Online || Model.ShopConfig.ShopTemplate == 2 ? String.Empty : "disabled style=opacity:0.4")>Slutför beställning</button>
+                                <button type="submit" name="submit" onclick="return VerifyAdress()" value="cash" id="cash" class="btn-modal-checkout btn-checkout-green cash-related" @(Model.CustomerOrderPrinterStatus.Online || Model.ShopConfig.ShopTemplate == 2 ? String.Empty : "disabled style=opacity:0.4")>Slutför beställning</button>
+                               
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div style="-webkit-overflow-scrolling: touch;">
+        <iframe src="" id="payment" width="100%" height="500px" style="display:none; width:100%; border:none; height:500px"></iframe>
+    </div>
+</div>
+
+
+
+<style>
+    .hideArrow {
+        padding: 0 0 0 0;
+    }
+
+        .hideArrow > .k-input {
+            border-radius: 3px 3px 3px 3px;
+        }
+</style>
+
+<script>
+    @MvcHtmlString.Create("var takeawaySelected = ('" + takeawaySelected + "' != 'True');")
+    @MvcHtmlString.Create("var cardPaymentSelected = ('" + cardPaymentSelected + "' == 'True');")
+
+    var sh = function(s, h) {
+        $(s).show();
+        $(h).hide();
+    };
+    console.log("cardPaymentSelected: ", cardPaymentSelected);
+    if (cardPaymentSelected) {
+        sh(".card-related", ".cash-related");
+    }
+
+    var pr = function(c) {
+        if (c) {
+            $(".takeawayformclass").prop("required", "required");
+            $(".deliveryformclass").removeAttr("required");
+        } else {
+            $(".deliveryformclass").prop("required", "required");
+            $(".takeawayformclass").removeAttr("required");
+        }
+    };
+    console.log(takeawaySelected);
+    pr(takeawaySelected);
+
+    $("input:checkbox").click(function () {
+        console.log("groda");
+        var t = $(this);
+        var group = "input:checkbox[name='" + t.prop("name") + "']";
+        $(group).prop("checked", false);
+        t.prop("checked", true);
+
+        switch (t.prop("id")) {
+            case "card-checkbox":
+                sh(".card-related", ".cash-related");
+                break;
+            case "cash-checkbox":
+                sh(".cash-related", ".card-related");
+                break;
+            case "takeaway-checkbox":
+                $("#takeaway-radio").prop("checked", true);
+                $("#delivery-radio").prop("checked", false);
+                sh(".takeaway-related", ".delivery-related");
+                //RESET DELIVERY FEE DATA
+                $('#divbtns :button').removeAttr('disabled');
+                $('#divbtns :button').removeClass('disable-link');
+                $('#limitMsg').html(' ');
+                $('#diliveryfee').html('tillkommer');
+                $('#spTotal').html(parseInt($('#hdTotal').val()) + ' KR');
+                $('#deliveryadress').val('');
+                $("input[name*='deliveryadress_input']").val("");
+                pr(true);
+                break;
+            case "delivery-checkbox":
+                $("#delivery-radio").prop("checked", true);
+                $("#takeaway-radio").prop("checked", false);
+
+                sh(".delivery-related", ".takeaway-related");
+                pr(false);
+                break;
+        }
+    });
+
+    $(function () {
+        try {
+            var combo = $("#deliveryadress").data("kendoComboBox");
+            combo.bind("select", combobox_select);
+            combo.wrapper.find(".k-select").hide().closest(".k-dropdown-wrap").addClass("hideArrow");
+        } catch (e) { }
+
+        $('#discountcode').keyup(function () {
+            var val = this.value.trim();
+            if (val.length >= 5) {
+                var ok = CheckDiscountCode(val);
+
+                Discountok(ok, val.length);
+            }
+            else {
+                Discountok(false, val.length);
+            }
+        })
+    });
+
+    function CheckDiscountCode(postal) {
+        var ret = false;
+        $.ajax({
+            cache: false,
+            url: '/Home/CheckDiscountCode/',
+            type: 'POST',
+            async: false,
+            data: {
+                DiscountCode: postal
+            },
+            dataType: 'json',
+            success: function (result) {
+                $('#discountAmount').val(result.Discount);
+                ret = result.DiscountCodeExists;
+            }
+        });
+        return ret;
+    }
+
+    function Discountok(ok, len) {
+       
+        var okicon = $('#nunokdis');
+        var okclr = $('#nunclrdis');
+        var btn = $('#discountbutton');
+        if (ok) {
+            if (okicon.hasClass('fa-times')) {
+                okicon.removeClass('fa-times');
+                okicon.addClass('fa-check');
+                okclr.css('background-color', '#2ECC71');
+            }
+            btn.prop('disabled', false);
+            btn.text('Ansök rabatt');
+        } else {
+            if (okicon.hasClass('fa-check')) {
+                okicon.removeClass('fa-check');
+                okicon.addClass('fa-times');
+                okclr.css('background-color', '#E74C3C');
+            }
+            btn.prop('disabled', true);
+            if (len >= 5) {
+                btn.text('Ansök rabatt');
+            }
+        }
+    }
+
+    function ApplyDiscount() {
+
+    }
+
+    function combobox_select(e) {
+       
+        if (e.item == null) return;
+        var DataItem = this.dataItem(e.item.index());
+       
+        $.ajax({
+            type: 'GET',
+            url: '/Home/GetCompanyOrderPrinter',
+            data: { postalid: DataItem.Value },
+            success: function (data) {
+                var priceLimit = parseInt(data.DeliveryMinimumAmount);
+                var deliveFeeAmount = parseInt(data.DeliveryFee);
+               
+                var total = parseInt($('#hdTotal').val());
+                if (priceLimit > total) {
+                    $('#divbtns :button').prop('disabled', true);
+                    $('#divbtns :button').addClass('disable-link');
+                    $('#limitMsg').html('<br/>Den angivna adressen kräver en beställning på minst ' + priceLimit + 'kr för utkörning.');
+                }
+                else {
+                    $('#divbtns :button').removeAttr('disabled');
+                    $('#divbtns :button').removeClass('disable-link');
+                    $('#limitMsg').html(' ');
+                }
+                if (deliveFeeAmount > 0) {
+                   
+                    $('#diliveryfee').html(deliveFeeAmount + ' KR');
+                    var totalamount = deliveFeeAmount + total;                   
+                    $('#spTotal').html(totalamount + ' KR');
+                }
+                else {
+                    $('#diliveryfee').html(' ');
+                }
+            }
+        });
+        // Use the selected item or its text
+    }
+
+    function LoadPaymentIframe(data) {
+        var iframe = $("#payment");
+        iframe.attr('src', data.url);
+        iframe.show();
+        $('#orderform').hide();
+
+        var doPoll = false;
+        var poll = function() {
+            if (doPoll) {
+                setTimeout(function() {
+                    $.ajax({
+                        cache: false,
+                        type: 'GET',
+                        url: '/Home/CancelPoll',
+                        success: function(data) {
+
+                            console.log("orderStatus: ", data.orderStatus);
+
+                            if (data.closemodal) {
+                                $('#item-modal').modal('hide');
+                                doPoll = false;
+                            }
+                            if (data.orderStatus == 6) {
+                                $.ajax({
+                                    cache: false,
+                                    type: "GET",
+                                    url: "/Home/ReloadCart",
+                                    success: function(data) {
+                                        $('#cart-table-wrapper').html(data);
+                                    }
+                                });
+                            }
+                        },
+                        complete: poll
+                    });
+                }, 1000);
+            }
+        };
+        poll();
+    }
+
+    function VerifyAdress() {
+        $("#load-animation").hide();
+        var radio = $('input:radio[name=deliverytype]:checked');
+        console.log("radio.val(): ", radio.val());
+        var secret = $('#tas');
+        var da = $('#deliveryadress');
+        if (da.length > 0) {
+            var ad = da.data('kendoComboBox').text();
+            var ret = true;
+            if (radio) {
+                if (radio.val() == "1") {
+                    ret = CheckAdress(ad);
+                }
+            } else if (secret) {
+                ret = CheckAdress(ad);
+            }
+            return ret;
+        }
+        return true;
+    }
+
+    function CheckAdress(ad) {
+        $("#load-animation").show();
+
+        var ret = false;
+        $.ajax({
+            cache: false,
+            url: "/Home/SearchAdress/" + ad,
+            type: "GET",
+            async: false,
+        }).success(function (result) {
+            console.log("CheckAdress: ", result);
+            $("#load-animation").hide();
+
+            var res = result.length > 0;
+            if (!res) {
+                alert('Vi kan inte leverera till den valda adressen!');
+            }
+            ret = res;
+        });
+        return ret;
+    }
+
+</script>

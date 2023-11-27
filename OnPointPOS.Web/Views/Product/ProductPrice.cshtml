@@ -1,0 +1,53 @@
+﻿@model List<ProductPriceViewModel>
+
+<input type="hidden" id="hfItemId" value="@ViewBag.ItemId" />
+
+<section>
+   
+   
+
+        <div class="tray tray-center">
+            <div id="PriceArea">
+
+            </div>
+
+
+            <div id="tblDiv" class="panel">
+              @Html.Partial("_PriceList",Model)
+            </div>
+        </div>
+   
+
+</section>
+
+<script>
+    $(function () {
+      
+            EditPrice(0);
+        
+    });
+    function EditPrice(id) {
+        var itemId = $('#hfItemId').val();
+        $.ajax({
+            url: '@Url.Action("EditPrice", "Product")',
+            type: "GET",
+            data: { id: id, itemId: itemId },
+            success: function (result) {
+
+
+                $("#PriceArea").html(result);
+            }
+        });
+    }
+    function GetList() {
+        var itemId = $('#hfItemId').val();
+        $.ajax({
+            url: '@Url.Action("_PriceList", "Product")',
+            type: "GET",
+            data: { itemId: itemId },
+            success: function (result) {
+                $("#tblDiv").html(result);
+            }
+        });
+    }
+</script>

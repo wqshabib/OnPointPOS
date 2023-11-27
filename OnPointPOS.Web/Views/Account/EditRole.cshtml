@@ -1,0 +1,61 @@
+﻿@model RoleViewModel
+
+@{Layout = null;}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>RoleViewModel</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UserId)
+                @Html.ValidationMessageFor(model => model.UserId)
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsSelected, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IsSelected)
+                @Html.ValidationMessageFor(model => model.IsSelected)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.asc, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.asc)
+                @Html.ValidationMessageFor(model => model.asc)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,182 @@
+﻿@model PricePolicy
+
+<div class="panel">
+    <div class="panel-heading">      
+        <span id="addEditLabel" class="panel-title"> @Resource.Add  @Resource.Policy</span>
+    </div>
+    <div class="panel-body">
+        <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+        <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+        <div class="admin-form">
+            @Html.HiddenFor(m => m.Id)
+        
+            <div class="section row">
+
+
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.BuyLimit  </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.BuyLimit, new { @class = "event-name gui-input br-light light", @placeholder = Resource.BuyLimit })
+                                <label class="field-icon">
+                                    <i class="fa fa-edit"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section row">
+               
+
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Discount   </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.DiscountAmount, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Discount })
+                                <label class="field-icon">
+                                    <i class="fa fa-edit"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="section row">
+
+
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Description  </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.Description, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Description })
+                                <label class="field-icon">
+                                    <i class="fa fa-edit"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+    <div class="panel-footer clearfix">
+        <div class="pull-right">
+            <button type="button" id="btnSave" class="btn btn-primary btn-gradient mr40">
+                <span class="fa fa-upload"></span> @Resource.Save
+            </button>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script>
+    $(function () {
+        $("#DiscountAmount").focusout(function () {
+
+            $("#Description").val("For each " + $('#BuyLimit').val() + " remove " + $('#DiscountAmount').val() + " ");
+        });
+        $("#BuyLimit").focusout(function () {
+
+            $("#Description").val("For each " + $('#BuyLimit').val() + " remove " + $('#DiscountAmount').val() + " ");
+        });
+        $('#btnSave').click(function () {
+
+            $("#divError").html('');
+            $("#divError").hide('');
+
+            if ($('#BuyLimit').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.BuyLimit  @Resource.Qty.");
+                $("#divError").show();
+                $('#BuyLimit').focus();
+                return;
+            }
+            if ($('#DiscountAmount').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Discount  @Resource.Value.");
+                $("#divError").show();
+                $('#FreeOffer').focus();
+                return;
+            }
+            if ($('#Description').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Description ");
+                $("#divError").show();
+                $('#Description').focus();
+                return;
+            }
+
+
+
+            var data = {
+                Id: $('#Id').val(),
+                BuyLimit: $('#BuyLimit').val(),
+                DiscountAmount: $('#DiscountAmount').val(),
+                Description: $('#Description').val()
+            };
+
+            $.ajax({
+                url: '@Url.Action("Create", "PricePolicy")',
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                            window.location = '/PricePolicy'
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+
+                    // $("#PartialProductList").html(result);
+
+                }
+            });
+        });
+
+
+
+
+    });
+</script>

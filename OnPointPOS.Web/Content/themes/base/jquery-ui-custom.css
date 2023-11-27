@@ -1,0 +1,26 @@
+﻿.ui-icon {
+    background-repeat: no-repeat;
+    display: block;
+    overflow: hidden;
+    text-indent: -99999px;
+}
+.ui-icon {
+    background-image: url("images/ui-icons_888888_256x240.png");
+    height: 16px;
+    width: 16px;
+}
+.ui-widget-content .ui-icon {
+    background-image: url("images/ui-icons_888888_256x240.png")
+}
+.ui-icon-seek-first {
+    background-position: -80px -160px;
+}
+.ui-icon-seek-prev {
+    background-position: -48px -160px;
+}
+.ui-icon-seek-next {
+    background-position: -32px -160px;
+}
+.ui-icon-seek-end {
+    background-position: -64px -160px;
+}

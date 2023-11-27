@@ -1,0 +1,110 @@
+﻿@*@model List<CategoryViewModel>*@
+<div class="panel">
+    <div class="panel-body pn">
+        <div class="table-responsive">
+            <table id="tbl_category" class="table admin-form theme-warning tc-checkbox-1 fs13">
+                <thead>
+                    <tr class="bg-light">
+
+                        <th class="">@Resource.Title</th>
+                        <th>@Resource.Level</th>  
+                        <th>@Resource.Deleted</th> 
+                        <th class="text-right"></th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script>
+
+
+    $(document).ready(function () {
+
+       $('#tbl_category').dataTable({
+            "processing": true, // control the processing indicator.
+            "serverSide": true, // recommended to use serverSide when data is more than 10000 rows for performance reasons
+            "info": true,   // control table information display field
+            "stateSave": true,  //restore table state on page reload,
+            "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],    // use the first inner array as the page length values and the second inner array as the displayed options
+            "ajax":{
+                "url": "@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"))/Category/AjaxGetJsonData",
+                "type": "GET"
+            },
+
+           "columns": [
+             { "data": "Name", "orderable": true },
+              { "data": "CategoryLevel", "orderable": false },
+              { "data": "Deleted", "orderable": false },
+             { "data": "Edit","width":50 },
+              { "data": "Delete", "width": 50 }
+           ],
+           "oLanguage": {
+               "oPaginate": {
+                   "sPrevious": " ",
+                   "sNext": " "
+               }
+           },
+           "order": [[0, "asc"]],
+           "iDisplayLength": 25,
+           "aLengthMenu": [
+             [5, 10, 25, 50, -1],
+             [5, 10, 25, 50, "All"]
+           ],
+           "sDom": '<"dt-panelmenu clearfix"lfr>t<"dt-panelfooter clearfix"ip>',
+        });
+    });
+
+
+
+    function buttonize(cellvalue) {
+
+        return '<a  style="margin-right:2px;float:right;color: white;" title="Delete"  class="btn bg-red fa fa-trash-o" onclick="Delete(' + cellvalue+ ')"> Delete</a>' +
+             '<a   style="margin-right:2px;float:right;color: white;" title="Edit" class="btn bg-purple fa fa-edit" onclick="Edit(' + cellvalue + ')"> Edit</a>';
+    }
+
+    $(function () {
+
+
+        $('.edit').click(function () {
+            var id = $(this).attr('id');
+            Edit(id);
+        });
+        $('.delete').click(function () {
+            var id = $(this).attr('id');
+            Delete(id);
+        });
+    });
+    function Edit(id) {
+        var url ='/Category/Edit?id='+id;
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function (result) {
+                $("#CategoryCreate").html(result);
+
+            }
+        });
+
+    }
+
+    function Delete(id) {
+        var url = '/Category/Delete?id=' + id;
+        $.ajax({
+            url: url,
+            type: "POST",
+            success: function (result) {
+                alert(result.Message);
+                window.location.reload();
+            }
+        });
+    }
+</script>

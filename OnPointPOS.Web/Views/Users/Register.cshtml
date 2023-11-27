@@ -1,0 +1,222 @@
+﻿@model RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+
+
+ 
+
+<div >@Html.ValidationSummary("error")</div>
+
+
+<div class="panel mb25 mt5">
+    @*<div class="panel-heading">
+            <span class="panel-title hidden-xs"> Add New User</span>
+            <ul class="nav panel-tabs-border panel-tabs">
+                <li class="active">
+                    <a href="#tab1_1" data-toggle="tab">General</a>
+                </li>
+
+            </ul>
+        </div>*@
+
+   
+
+    <div class="panel-heading">
+        <span class="panel-title hidden-xs"> @Resource.Add @Resource.New @Resource.User</span>
+        <ul class="nav panel-tabs-border panel-tabs">
+            <li class="active">
+                <a href="#tab1_1" data-toggle="tab">@Resource.General</a>
+            </li>
+
+
+        </ul>
+    </div>
+    @using (Html.BeginForm("Register", "Users", FormMethod.Post, new { @id = "form1", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Id)
+
+        <div class="panel-body p20 pb10">
+            <div class="tab-content pn br-n admin-form">
+                <div id="tab1_1" class="tab-pane active">
+
+                    <div class="section row mbn">
+
+                        <div class="section row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Email :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.TextBoxFor(model => model.Email, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Email, Title = Resource.Email })
+                                            @Html.ValidationMessageFor(model => model.Email)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.User @Resource.Code :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.TextBoxFor(model => model.UserName, new { @class = "event-name gui-input br-light light", @placeholder = Resource.User + " "+ Resource.Code, Title = Resource.User + " " +Resource.Code })
+                                            @Html.ValidationMessageFor(model => model.UserName)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="section row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Password :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.PasswordFor(model => model.Password, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Password, Title = Resource.Password })
+                                            @Html.ValidationMessageFor(model => model.Password)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Confirm @Resource.Password :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Confirm + " " +Resource.Password, Title = Resource.Confirm +" "+Resource.Password })
+                                            @Html.ValidationMessageFor(model => model.ConfirmPassword)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="section row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Phone :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Phone +" " +Resource.Number, Title = Resource.Phone +" " +Resource.Number })
+                                            @Html.ValidationMessageFor(model => model.PhoneNumber)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Training @Resource.Mode :</label>
+                                    </div>
+                                    <div class="col-md-8">
+
+                                        @*@Html.CheckBoxFor(model => model.TrainingMode, new { @class = "event-name gui-input br-light light" })
+                                            @Html.ValidationMessageFor(model => model.TrainingMode)*@
+
+                                        @Html.CheckBoxFor(model => model.TrainingMode, new { @type = "checkbox", style = "middle; margin: 12px;" })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="section row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Roles :</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @*@Html.TextBoxFor(model => model.PhoneNumber, new { @class = "event-name gui-input br-light light", @placeholder = "PhoneNumber", Title = "Phone Number" })
+                            @Html.ValidationMessageFor(model => model.PhoneNumber)*@
+
+                                            @Html.DropDownListFor(model => model.RoleId, Model.Roles, new { @class = "field select" })
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+                        <div class="section row mbn">
+
+                            <div class="col-sm-12">
+                                <p class="text-right">
+                                    <button class="btn btn-primary btn-gradient fa fa-save" id="btnAdd" type="submit"> @Resource.Register</button>
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+

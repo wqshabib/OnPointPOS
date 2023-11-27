@@ -1,0 +1,15 @@
+﻿@model List<SaleDetail>
+<div class="panel-heading" id="ph">@Resource.PerHours</div>
+<div class="panel-body br-t p12">
+    <table class="table">
+        <tbody>
+            <tr><th>@Resource.Time</th><th style="text-align:right;">@Resource.Report_Sale</th></tr>
+            @foreach (var sale in Model)
+            {
+                <tr><td align="left" style="width:150px;">@sale.GroupName</td><td align="right"> @Math.Round(sale.GrossTotal,2) kr</td></tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+

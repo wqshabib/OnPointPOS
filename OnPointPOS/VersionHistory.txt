@@ -1,0 +1,8 @@
+﻿
+Version.No 2:    date(4-Feb-19)
+1. Resolved the issue of OrderTotal calculation
+2. decimal amount issue in database (OrderDetail Qty column)
+3. Discount issue on CheckOut window
+
+
+

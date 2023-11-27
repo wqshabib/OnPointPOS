@@ -1,0 +1,25 @@
+﻿@model List<TerminalStatusLog>
+
+<div class="panel-heading ui-sortable-handle">Z @Resource.Reports</div>
+<div class="panel-body">
+    <table class="table">
+        <thead>
+            <tr><th>@Resource.Date</th><th style="text-align:right;"></th></tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td align="left" style="width:170px;">@item.ActivityDate</td>
+                    <td align="right">
+                        <a class="btn btn-default btn-gradient " data-toggle="tooltip" data-placement="bottom" title="Print" style="cursor:pointer;padding:6px 12px;" onclick=PrintReport("@item.ReportId")>
+                            <i class="fa fa-print"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

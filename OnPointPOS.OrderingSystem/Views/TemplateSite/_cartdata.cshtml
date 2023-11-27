@@ -1,0 +1,53 @@
+﻿@model LUETemplateSite.Models.SiteModel
+@using LUE;
+@{
+    CustomerCart Cart = ViewBag.Cart;
+}
+
+@if (Cart != null && Cart.TotalQuantity != "0")
+{
+    <div class="col-basket-items col-xs-12 col-lg-12" style="padding:0; max-height:155px; overflow:auto">
+        @{ int itemIndex = 1; }
+        @foreach (CustomerCart.CartItem item in Cart.Items)
+        {
+        <div class="col-basket-item col-xs-12 col-lg-12">
+            <h4>
+                @( Model.TruncateString(item.Title + (item.HasVariant ? " (" + item.Variant + ")" : String.Empty), 24))
+                <a href="javascript:void(0)" @("onclick=DeleteFromCart('" + item.ID + "')")><span class="glyphicon-right-basket-item glyphicon-remove"></span></a>
+                @*<button class="btn-change">Ändra</button>*@
+                <span class="food-item-price">@item.Price Kr</span>
+                <div class="col-basket-subitems" style="margin-top:5px">
+                    @foreach (var sub in item.SubItems)
+                    {
+                        <div class="col-basket-subitem" style="font-size:11px;">
+                            <span>@sub.Text</span>
+                            <span>@(sub.Price + " KR")</span>
+                        </div>
+                    }
+                </div>
+            </h4>
+        </div>
+        itemIndex++;
+        }
+    </div>
+    <div class="col-basket-total col-xs-12 col-lg-6" style="border-right: 1px solid #ededed;">
+        <h4>Antal<span class="col-basket-total-price">@Cart.TotalQuantity</span></h4>
+    </div>
+    <div class="col-basket-total col-xs-12 col-lg-6">
+        <h4>Total<span class="col-basket-total-price">@(Cart.TotalAmount - Cart.CustomerPaymentFee) KR</span></h4>
+    </div>
+    <div class="checkout-wrap col-xs-12 col-lg-12">
+        @if (Model.OrderFlow.Equals("SIMPLE"))
+        {
+            <button class="btn-checkout btn-checkout-green" onclick="OpenOrderModal()" @(Model.CustomerOrderPrinterStatus.Offline && Model.ShopConfig.ShopTemplate == 1 ? "disabled style=opacity:0.4" : String.Empty)>Till kassan</button>
+        }
+        else
+        {
+            <a href="/Checkout" class="btn-checkout btn-checkout-green"  @(Model.CustomerOrderPrinterStatus.Offline && Model.ShopConfig.ShopTemplate == 1 ? "disabled style=opacity:0.4" : String.Empty)>Till kassan</a>
+        }
+    </div>
+}
+else
+{
+    @Html.Partial("_cartempty")
+}

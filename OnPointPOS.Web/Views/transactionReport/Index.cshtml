@@ -1,0 +1,222 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.TransactionReport</li>
+
+}
+<section>
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+                <li class="active">
+                    <a href="/TransactionReport">@Resource.TransactionReport</a>
+                </li>
+            </ul>
+            
+        </div>
+
+    </header>
+    <div class="panel">
+        <div class="panel-menu p12 admin-form theme-primary">
+            <div class="row">
+                <input type="hidden" id="msgTerminal" value="@(Resource.Select+" "+Resource.Terminal)" />
+                <div class="col-md-3 col-sm-5">
+
+                    @Resource.Report_From:  <input type='text' id="txtdtFrom" class="form-control datepicker" />
+
+                </div>
+                <div class="col-md-3 col-sm-5">
+                    @Resource.Report_To: <input type='text' id="txtdtTo" class="form-control datepicker" />
+                </div>
+                <div class="col-md-3 col-sm-5">
+
+                    @Resource.Terminal
+                    <select name="rest" class="select2-single form-control" id="cmbTerminal">
+                        <option value="00000000-0000-0000-0000-000000000000">@Resource.Select</option>
+                    </select>
+
+                </div>
+                <div class="col-md-3 col-sm-5">
+                    <br />
+                    <input type="button" id="btnView" class="btn btn-primary" width="80" value="@Resource.Show" />
+                    <input type="button" id="btnOrderDetail" class="btn btn-primary" width="80" value="@Resource.Details" />
+                    <a class="btn btn-default" id="btnExport">
+                        <span class="fa fa-plus pr5"></span>
+                        Export
+                    </a>
+
+                </div>
+
+
+
+            </div>
+        </div>
+        <div id="wait" class="btn-default btn-gradient" style="display:none;width: 80px; height: 80px; position: absolute; top: 50%; left: 50%; z-index: 999999999; border-radius: 8px; border: 1px solid rgb(204, 204, 204); padding: 0px;">
+            <img src='~/Content/img/progress.gif' width="80" height="80" />
+        </div>
+        <div id="PartialOrderList" class="panel mt25 top mb35">
+
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="orderViewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@Resource.Receipt</h4>
+            </div>
+            <div class="modal-body">
+               <div id="OrderDetail" style="height:400px;overflow-y:scroll;">
+
+               </div>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+         $(document).ajaxStart(function () {
+            $("#wait").css("display", "block");
+        });
+        $(document).ajaxComplete(function () {
+            $("#wait").css("display", "none");
+        });
+        $(function () {
+
+
+            FillTerminal();
+            $("#txtdtFrom").datepicker({ dateFormat: 'yy-mm-dd', language: 'ru' });
+            $('.selector').datepicker({ dateFormat: 'yy-mm-yy' });
+            $("#txtdtTo").datepicker();
+
+            $('#txtdtFrom').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
+
+            $('#txtdtTo').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
+
+
+            var currentTime = new Date();
+            var day = currentTime.getDate();
+            var month = currentTime.getMonth() + 1;
+            var year = currentTime.getFullYear();
+
+            if (day < 10) {
+                day = "0" + day;
+            }
+            if (month < 10) {
+                month = "0" + month;
+            }
+
+            var dt = year + "-" + month + "-" + day;
+            $('#txtdtFrom').val(dt);
+            $('#txtdtTo').val(dt);
+
+
+
+            var html = '<a href="/TransactionReport">TransactionReport</a>'
+            $('#dsh').html(html);
+
+
+            $('#TReport').addClass('active');
+            $('#Reports').addClass('active');
+
+            if (!$('#menureports').hasClass('menu-open')) {
+
+                $('#menureports').attr('style', '').toggleClass('menu-open');
+            }
+
+            $('#btnView').click(function(){
+                if ($('#cmbTerminal').val() == '00000000-0000-0000-0000-000000000000') {
+                    alert($('#msgTerminal').val());
+                }
+                else {
+                    ShowOrder();
+                }
+            });
+            $('#btnOrderDetail').click(function () {
+                if ($('#cmbTerminal').val() == '00000000-0000-0000-0000-000000000000') {
+                    alert($('#msgTerminal').val());
+                }
+                else {
+                    ShowOrderDetail();
+                }
+            });
+
+            $('#btnExport').click(function () {
+                var rootPath = "https://" + window.location.host + '/';
+                var dtFrom = $('#txtdtFrom').val();
+                var dtTo = $('#txtdtTo').val();
+                if ($('#cmbTerminal').val() == '00000000-0000-0000-0000-000000000000') {
+                    alert($('#msgTerminal').val());
+                }
+                else {
+                    var url = "Reports/OrderReportForm.aspx?dtFrom=" + dtFrom + "&dtTo=" + dtTo + "&terminal=" + $('#cmbTerminal').val();
+                    window.open(rootPath + url);
+                }
+            });
+
+        });
+        function ShowOrder()
+        {
+            var dtFrom =  $('#txtdtFrom').val();
+            var dtTo = $('#txtdtTo').val();
+            var terminal = $('#cmbTerminal').val();
+            $.ajax({
+                url: '@Url.Action("OrderList", "TransactionReport")',
+                type: "GET",
+                data: { dtFrom: dtFrom, dtTo: dtTo, terminal: terminal },
+                success: function (result) {
+                    $("#PartialOrderList").html(result);
+                }
+            });
+        }
+
+        function ShowOrderDetail() {
+            var dtFrom = $('#txtdtFrom').val();
+            var dtTo = $('#txtdtTo').val();
+            var terminal = $('#cmbTerminal').val();
+            $.ajax({
+                url: '@Url.Action("_orderDetailReport", "TransactionReport")',
+                type: "GET",
+                data: { dtFrom: dtFrom, dtTo: dtTo, terminal: terminal },
+                success: function (result) {
+                    $("#PartialOrderList").html(result);
+                }
+            });
+        }
+
+        function FillTerminal() {
+
+            $.ajax({
+                url: '@Url.Action("FillTerminal", "Report")',
+                type: "Get",
+                success: function (_d) {
+                    $('#cmbTerminal').html('');
+                    var $select = $("#cmbTerminal");
+                    $.each(_d, function (i, item) {
+
+                        $('<option>', {
+                            value: item.Id
+                        }).html(item.Name).appendTo($select);
+                    });
+
+                }
+            });
+        }
+
+</script>
+
+
+

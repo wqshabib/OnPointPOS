@@ -1,0 +1,180 @@
+﻿@model List<TerminalStatusLog>
+<section>
+    <!-- dashboard tiles -->
+    <div class="row">
+
+
+        <div class="col-sm-6 col-xl-3">
+
+            <div class="panel panel-tile br-a br-grey">
+                <div class="panel-body admin-form mt10">
+                    <label class="col-lg-2 mb15 col-sm-2 col-md-2">Year</label>
+                    <div id="divyear" class="col-lg-4 mb8 col-sm-6 col-md-6">
+                        <select name="year" class="form-control" id="cmbYear">
+                            <option value="2015">2015</option>
+                        </select>
+                    </div>
+                    <label class="col-lg-2 mb8 col-sm-2 col-md-2">Month</label>
+                    <div class="col-lg-3 mb10 col-sm-6 col-md-6 ptn">
+                        <select name="month" class="form-control" id="cmbMonth">
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel panel-tile br-a br-grey">
+                <div class="panel-body admin-form mt10">
+                    <div class="col-lg-2 mb10 col-sm-6 col-md-6">
+                        @Resource.Terminal
+                    </div>
+                    <div class="col-lg-7 mb10 col-md-12">
+                        <select name="rest" class="select2-single form-control" id="cmbTerminal">
+                            <option value="00000000-0000-0000-0000-000000000000">Select</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3 mb10 col-md-12">
+                        <input type="button" class="btn btn-default" value="@Resource.Show" id="btnView"/>
+                    </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 col-xl-3">
+
+
+            <div id="ZaReportList" class="panel">
+
+            </div>
+
+
+        </div>
+
+        <div class="col-sm-6 col-xl-5">
+            <div class="panel" id="PrintZ-Report">
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section scripts {
+
+    <script>
+
+       $(function () {
+
+
+            var currentTime = new Date();
+            var day = currentTime.getDate();
+            var month = currentTime.getMonth() + 1;
+            var year = currentTime.getFullYear();
+            FillYears(year);
+         if (month < 10) {
+                    month = "0" + month;
+                }
+
+         $("#cmbMonth").val(month);
+
+            $('#ZReport').addClass('active');
+            $('#Reports').addClass('active');
+
+            if (!$('#menureports').hasClass('menu-open')) {
+
+                $('#menureports').attr('style', '').toggleClass('menu-open');
+            }
+            FillTerminal();
+            $("#cmbTerminal").change(function () {
+                GetReportList();
+            });
+           $("#btnView").click(function (){
+
+            GetReportList();
+                   });
+        });
+        function GetReportList() {
+          var terminalId=  $("#cmbTerminal").val();
+          var year=  $("#cmbYear").val();
+          var month=  $("#cmbMonth").val();
+            $.ajax({
+                url: '@Url.Action("ZReportList", "Report")',
+                type: "Get",
+                data: { terminalId: terminalId,year:year,month:month },
+                success: function (_d) {
+                    $('#ZaReportList').html(_d);
+                }
+            });
+        }
+        function PrintReport(reportId) {
+
+            $.ajax({
+                url: '@Url.Action("PrintZReport", "Report")',
+                type: "Get",
+                data: { reportId: reportId },
+                success: function (_d) {
+
+                    $('#PrintZ-Report').html(_d);
+
+                }
+            });
+        }
+        function FillTerminal() {
+
+            $.ajax({
+                url: '@Url.Action("FillTerminal", "Report")',
+                type: "Get",
+                success: function (_d) {
+                    $('#cmbTerminal').html('');
+                    var $select = $("#cmbTerminal");
+                    $.each(_d, function (i, item) {
+
+                        $('<option>', {
+                            value: item.Id
+                        }).html(item.Name).appendTo($select);
+                    });
+
+                }
+            });
+        }
+
+
+        function FillYears(year) {
+
+            $.ajax({
+                url: '@Url.Action("FillYears", "Report")',
+                type: "Get",
+                success: function (_d) {
+                    $('#cmbYear').html('');
+                    var $select = $("#cmbYear");
+                    $.each(_d, function (i, item) {
+
+                        $('<option>', {
+                            value: item.Name
+                        }).html(item.Name).appendTo($select);
+
+                    });
+
+                    $("#cmbYear").val(year);
+
+                }
+            });
+
+        }
+    </script>
+
+}

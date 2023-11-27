@@ -1,0 +1,24 @@
+﻿@model MonthlySale
+
+<div class="panel-heading ui-sortable-handle">
+    <a href="/Report/Monthly" class="panel-title">@Resource.TotalSale @Resource.under @Model.SaleMonth</a>
+</div>
+<div class="panel-body">
+    <h1 class="fs30 mt5 mb20"><a class="text-blue" href="/Report/Monthly">@Math.Round(Model.GrandTotal,2) kr</a></h1>
+
+    <table class="table">
+        <thead>
+            <tr class=""><th>@Resource.Outlet</th><th style="text-align:right;">@Resource.Report_TotalNet</th><th style="text-align:right;">@Resource.Report_TotalSale</th></tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.OutletSale != null)
+            {
+                foreach (var item in Model.OutletSale)
+                {
+                    <tr><td align="left" style="width:150px;">@item.OutletName</td><td align="right">@Math.Round(item.NetTotal, 2) </td><td align="right">@Math.Round(item.GrossTotal, 2) kr</td></tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+

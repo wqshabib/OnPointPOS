@@ -1,0 +1,77 @@
+﻿@model List<CategoryViewModel>
+
+               <div class="col-xs-12">
+                   <div>
+                   <style>
+                       #catsortable {
+                           list-style-type: none;
+                           margin: 0;
+                           padding: 0;
+                           width: 900px;
+                       }
+
+                           #catsortable li {
+                               margin: 3px 3px 3px 0;
+                               padding: 1px;
+                               float: left;
+                               width: 150px;
+                               height: 60px;
+                               font-size: 1.1em;
+                               text-align: center;
+                           }
+                   </style>
+                   <p>
+                       <input type="button" id="btnSaveCategory" value="@Resource.Save @Resource.Categories @Resource.Sort" class="btn btn-default btn-gradient"  />                       
+                       <div id="messageBox" class="alert alert-success" style="display:none"></div>
+                   </p>
+                   <ul id="catsortable" style="max-width:1050px;">
+                       @foreach (var cat in Model)
+                       {
+                           <li class="ui-state-default" id="@cat.Id"> <span class="btn btn-gradient" style="height:60px;width:150px;color:Black; background-color:@cat.ColorCode" onclick="GetProductByCategory(@cat.Id)"> @cat.Name</span></li>
+                       }
+                   </ul>
+                   <script>
+                       $(function() {
+                           $( "#catsortable" ).sortable();
+                           $( "#catsortable" ).disableSelection();
+
+                           $('#btnSaveCategory').click(function () {
+                               SaveCategorySort();
+                           });
+                       });
+                       function SaveCategorySort() {
+                           var list = [];
+                           $("#catsortable li").each(function (index) {
+
+                               var obj = {
+                                   SortOrder: index,
+                                   Id: $(this).attr('id'),
+                                   Name: $(this).text()
+                               };
+                               list.push(obj);
+
+                           });
+
+                           $.ajax({
+                               url: '@Url.Action("SaveCategorySorting", "Product")',
+                               type: "Post",
+                               contentType: 'application/json',
+                               data: JSON.stringify(list),
+                               success: function (_d) {
+                                   $("#messageBox").show();
+                                   $('#messageBox').html(_d.Message);
+                                   var tId;
+
+                                   $("#messageBox").hide().slideDown();
+                                   clearTimeout(tId);
+                                   tId = setTimeout(function () {
+                                       $("#messageBox").hide();
+
+
+                                   }, 2000);
+                               }
+                           });
+                       }
+                   </script>
+                   </div>
+</div>

@@ -1,0 +1,275 @@
+﻿@model CategoryViewModel
+<link href="~/Content/style.css" rel="stylesheet" />
+<div class="panel mb25 mt5">
+    <div class="panel-heading">
+        <span class="panel-title hidden-xs"> @Resource.Edit @Resource.Category</span>
+        <ul class="nav panel-tabs-border panel-tabs">
+            <li class="active">
+                <a href="#tab1_1" data-toggle="tab">@Resource.General</a>
+            </li>
+        </ul>
+    </div>
+    @using (Html.BeginForm("Edit", "Category", null, FormMethod.Post, new { id = "form1", role = "form", @class = "" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(m => m.Parant)
+        @Html.HiddenFor(m => m.CategoryLevel)
+        <div class="panel-body p20 pbn">
+            <div class="tab-content pn br-n admin-form">
+                <div id="tab1_1" class="tab-pane active">
+                    <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+                    <div class="alert alert-danger" style="display:none;" id="divError"></div>
+                    <div class="section row mbn">
+                        <div class="section row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Category @Resource.Name</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+
+                                            @Html.TextBoxFor(model => model.Name, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Category + " " + Resource.Name, Title = Resource.Category + " " + Resource.Name, required = "required", oninvalid = "this.setCustomValidity('Detta fältet måste vara ifyllt')", oninput = "setCustomValidity('')" })
+                                            @Html.ValidationMessageFor(model => model.Name)
+
+                                            <label for="name2" class="field-icon">
+                                                <i class="fa fa-tag"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-5 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Terminal @Resource.Root @Resource.Category </label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <label class="field select">
+                                            <select id="parent-category" name="parent-category">
+                                                @Html.Partial("_TreeCategories", Model.SeedCategories)
+                                                <option class="categorylevel-1" value="0" selected="@(Model.Parant == 0)">@Resource.Terminal @Resource.Root @Resource.Category</option>
+                                            </select>
+                                            <i class="arrow"></i>
+                                        </label>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section row">
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;">@Resource.ColorCode </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="input-group colorpicker-component demo demo-auto cursor colorpicker-element">
+                                            <span class="input-group-addon">
+                                                <i style="background-color: rgb(163, 51, 51);"></i>
+                                            </span>
+                                            @Html.TextBoxFor(model => model.ColorCode, new { @class = "form-control demo demo-1 demo-auto", @placeholder = Resource.ColorCode, Title = Resource.ColorCode })
+                                            @Html.ValidationMessageFor(model => model.ColorCode)
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-5 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;">Symbol</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <label class="field select">
+                                            @Html.DropDownListFor(model => model.IconId, Model.Icons, new { @class = "field select" })
+                                            @Html.ValidationMessageFor(model => model.IconId)
+                                            <i class="arrow"></i>
+                                        </label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="section row">
+                            <div class="col-md-6">
+                                <div class="col-md-12 text-center">
+                                    <div class="form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label for="inputStandard" class="control-label" style="padding-top: 10px;">@Resource.Sort </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label for="SortOrder" class="field prepend-icon" data-toggle="tooltip">
+
+                                                @Html.TextBoxFor(model => model.SortOrder, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Sort, Title = Resource.Sort })
+                                                @Html.ValidationMessageFor(model => model.SortOrder)
+
+                                                <label for="name2" class="field-icon">
+                                                    <i class="fa fa-sort"></i>
+                                                </label>
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-5 text-right">
+                                        <label for="inputStandard" class="control-label" style="padding-top: 10px;"> Status</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <label class="control-label" style="padding-top: 10px;">
+                                            @Html.CheckBoxFor(model => model.Active, new { @type = "checkbox" })
+                                            @Resource.Active
+                                        </label>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="section row">
+                            <div class="col-md-6">
+                                <div class="col-md-12 text-center">
+
+                                    <div class="form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label for="inputStandard" class="control-label" style="padding-top: 10px;">@Resource.Type </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label class="field select">
+
+                                                @Html.EnumDropDownListFor(model => model.Type, new { @class = "field select" })
+
+                                                <i class="arrow"></i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-sm-12">
+                                    <p class="text-right mbn">
+                                        <button class="btn btn-primary fa fa-save" id="btnEdit" type="button"> @Resource.Update @Resource.Category</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    jQuery(document).ready(function () {
+        //initializeing color picker
+        $('.demo-auto').colorpicker();
+        $('#Parant').val($('#parent-category').val());
+    });
+
+    $('#parent-category').change(function () {
+        $('#Parant').val($('#parent-category').val());
+    });
+
+    $(function () {
+        $('.tree-checkbox').click(function () {
+            $('#Parant').val($(this).attr('id'));
+            $('#CategoryLevel').val($(this).parent().attr('id'));
+        });
+    });
+
+    $('#btnEdit').click(function () {
+        // alert("btn bottom click");
+        EditCategory();
+    });
+
+    function EditCategory() {
+        $("#divError").html('');
+        $("#divError").hide('');
+
+        if ($('#Name').val() == '') {
+            $("#divError").html("@Resource.Specify  @Resource.Category  @Resource.Name");
+            $("#divError").show();
+            $('#Name').focus();
+            return;
+        }
+
+        var data = {
+            Id: $('#Id').val(),
+            Parant: $('#Parant').val(),
+            CategoryLevel: $('#CategoryLevel').val(),
+            Name: $('#Name').val(),
+            Type: $('#Type').val(),
+            Active: $('#Active').val(),
+            SortOrder: $('#SortOrder').val(),
+            IconId: $("#IconId").val(),
+            ColorCode: $('#ColorCode').val(),
+            SKU: $('#SKU').val()
+        };
+
+        $.ajax({
+            url: '@Url.Action("Edit", "Category")',
+            type: "POST",
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                var res = result.Message;
+                var arr = res.split(':');
+                if (arr[0] == "Success") {
+                    $("#messageBox").show();
+                    $('#messageBox').html(arr[1]);
+                    var tId;
+
+                    $("#messageBox").hide().slideDown();
+                    clearTimeout(tId);
+                    tId = setTimeout(function () {
+                        $("#messageBox").hide();
+                        $("#CategoryCreate").html('');
+                        var active = 'Active';
+                        debugger;
+                        if (data.Active == 'true')
+                            active = 'Active';
+                        else
+                            active = 'Inactive';
+
+                        updateOnEdit(data.Name,
+                            data.CategoryLevel,
+                            active,
+                            'False');
+                    }, 2000);
+                } else {
+                    $("#divError").show();
+                    $('#divError').html(arr[1]);
+                    var tId;
+
+                    $("#divError").hide().slideDown();
+                    clearTimeout(tId);
+                    tId = setTimeout(function () {
+                        $("#divError").hide();
+                    }, 2000);
+                }
+            }
+        });
+    }
+</script>

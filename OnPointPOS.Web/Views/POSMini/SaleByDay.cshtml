@@ -1,0 +1,24 @@
+﻿@model List<SaleDetail>
+<div class="panel-heading">
+    <span class="panel-title">
+        <span class="glyphicon glyphicon-tasks" id="pd"></span> @Resource.PerDay
+    </span> 
+</div>
+<div class="panel-body br-t p12">
+    <table class="table" id="tpd">
+        <tbody>
+            <tr><th>@Resource.Date</th><th style="text-align:right;">@Resource.Report_TotalNet</th><th style="text-align:right;">@Resource.Report_TotalSale</th></tr>
+            @foreach (var sale in Model)
+            {
+            <tr><td align="left" style="width:150px;"><a href="#" onclick="SaleByHour('@sale.SaleDay.ToString("yyyy-MM-dd")')">@sale.GroupName</a></td><td align="right">@sale.NetTotal</td><td align="right">@sale.GrossTotal kr</td></tr>
+            }
+            <tr >
+                <td align="left" style="width:150px;border-top:solid 1px Black;"><strong>@Resource.Report_GrandTotal</strong></td><td align="right" style="border-top:solid 1px Black;"><strong> @Model.Sum(s => s.NetTotal)</strong></td><td align="right" style="border-top:solid 1px Black;"><strong> @Model.Sum(s => s.GrossTotal) Kr</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script>    
+
+    
+</script>

@@ -1,0 +1,90 @@
+﻿<Window x:Class="POSSUM.AddProductWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:POSSUM"
+        xmlns:localModel="clr-namespace:POSSUM.Model"
+          xmlns:translation="clr-namespace:POSSUM.Res"
+        xmlns:WpfKb="clr-namespace:WpfKb.Controls;assembly=WpfKb"
+        mc:Ignorable="d"
+        Title="Add Product" Height="700"  Width="800"  WindowStyle="None" Background="#FFE5E6D6" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+
+    <Grid Background="Transparent" Name="layoutGrid" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Border Grid.ColumnSpan="4" Height="33" Background="#FF012537" VerticalAlignment="Top" />
+        <TextBlock  Foreground="White" FontSize="16" Margin="10,5" Grid.ColumnSpan="2"><Run Text="{x:Static translation:UI.Global_AddNew}"/><Run Text=" "/><Run Text="{x:Static translation:UI.Global_Product}"/></TextBlock>
+        <Button  Margin="1" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Column="4" Height="30" Width="30" Content="X" FontSize="12" FontFamily="Georgia" FontWeight="Bold" Foreground="WhiteSmoke" Background="Red" Click="BtnCloseAccountInfo_OnClick" />
+        <TextBlock Text="{x:Static translation:UI.Global_Barcode}" Grid.Row="1"  Margin="5 1" VerticalAlignment="Center"/>
+        <TextBlock  Grid.Row="2"  Margin="5 1" VerticalAlignment="Center"><Run Text="{x:Static translation:UI.Global_Description}"/></TextBlock>
+        <TextBlock  Grid.Row="3"  Margin="5 1" VerticalAlignment="Center"><Run Text="{x:Static translation:UI.Sales_UnitPrice}"/></TextBlock>
+
+        <TextBlock Grid.Row="4" Margin="5 1" VerticalAlignment="Center" Visibility="Visible"><Run Text="{x:Static translation:UI.Sales_Unit}"/></TextBlock>
+        <TextBlock Visibility="Collapsed"  Grid.Row="5"  Margin="5 1" VerticalAlignment="Center"><Run Text="{x:Static translation:UI.Global_VAT}"/><Run Text=" %"/></TextBlock>
+        <TextBlock Grid.Row="5" Margin="5 1" VerticalAlignment="Center" Visibility="Visible"><Run Text="{x:Static translation:UI.Global_Category}"/></TextBlock>
+
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="1" Name="txtBarcode" VerticalContentAlignment="Center" Text="{Binding Path=BarCode,Mode=TwoWay}" KeyDown="txtBox_KeyDown"/>
+
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="1" Name="txtDescription" VerticalContentAlignment="Center" Text="{Binding Path=Description,Mode=TwoWay}" KeyDown="txtBox_KeyDown"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Margin="1" Name="txtUnitPrice" VerticalContentAlignment="Center"  KeyDown="txtBox_KeyDown" TextChanged="txtUnitPrice_TextChanged" GotFocus="txtUnitPrice_GotFocus" />
+
+        
+
+        <TextBlock Grid.Row="6" Margin="5 1" VerticalAlignment="Center" Visibility="Visible"><Run Text="{x:Static translation:UI.Report_Accounting}"/></TextBlock>
+        <TextBlock Grid.Row="7" Margin="5 1" VerticalAlignment="Center" Visibility="Visible"><Run Text="{x:Static translation:UI.Global_PreparationTime}"/></TextBlock>
+
+        <ComboBox Name="cmbUnit" DisplayMemberPath="Text" SelectedValuePath="Value" Grid.Row="4" Grid.Column="1" Margin="1" KeyDown="txtBox_KeyDown"/>
+        <ComboBox Name="cmbVat" Visibility="Collapsed" DisplayMemberPath="TaxValue" SelectedValuePath="TaxValue" Grid.Row="5" Grid.Column="1" Margin="1" KeyDown="txtBox_KeyDown"/>
+        <ComboBox Name="cmbCategory" DisplayMemberPath="Name" SelectedValuePath="Id" Grid.Row="5" Grid.Column="1" Margin="1" />
+        <ComboBox Name="cmbAccounting" DisplayMemberPath="Name" SelectedValuePath="Id" Grid.Row="6" Grid.Column="1" Margin="1" />
+        <ComboBox Name="cmbPreparationTime" DisplayMemberPath="Text" SelectedValuePath="Value" Grid.Row="7" Grid.Column="1" Margin="1" />
+
+        <TextBlock Grid.Row="8" Margin="5 1" VerticalAlignment="Center" Visibility="Visible"><Run Text="{x:Static translation:UI.Report_StockQuantity}"/></TextBlock>
+        <TextBox Grid.Row="8" Grid.Column="1" Margin="1" Name="txtStockQuantity" VerticalContentAlignment="Center"  KeyDown="txtBox_KeyDown" TextChanged="txtUnitPrice_TextChanged" GotFocus="txtUnitPrice_GotFocus" />
+
+        <TextBlock Grid.Row="9" Margin="5 1" VerticalAlignment="Center" Visibility="Visible"><Run Text="{x:Static translation:UI.Report_StockQuantity}"/></TextBlock>
+        <TextBox Grid.Row="9" Grid.Column="1" Margin="1" Name="txtMinStockQuantity" VerticalContentAlignment="Center"  KeyDown="txtBox_KeyDown" TextChanged="txtMinStockQuantity_TextChanged" GotFocus="txtMinStockQuantity_GotFocus" />
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Margin="20 0 0 0">
+            <TextBlock Text="{x:Static translation:UI.Global_AskPrice}" VerticalAlignment="Center" Margin="2"/>
+            <Viewbox  Height="50" Width="60" HorizontalAlignment="Left" Margin="2">
+                <CheckBox Visibility="Visible"   IsChecked="{Binding AskPrice,Mode=TwoWay}" FontFamily="Arial"   Name="chkAskPrice"   />
+            </Viewbox>
+            <TextBlock Text="{x:Static translation:UI.Global_ShowButton}" VerticalAlignment="Center" Margin="2"/>
+            <Viewbox  Height="50" Width="60" HorizontalAlignment="Left">
+                <CheckBox Visibility="Visible"   IsChecked="{Binding ShowItemButton,Mode=TwoWay}" FontFamily="Arial"   Name="chkShowButton"   />
+            </Viewbox>
+            <TextBlock Text="{x:Static translation:UI.Sales_Discount}" VerticalAlignment="Center" Margin="2"/>
+            <Viewbox  Height="50" Width="60" HorizontalAlignment="Left">
+                <CheckBox Visibility="Visible"   IsChecked="{Binding DiscountAllowed,Mode=TwoWay}" FontFamily="Arial"   Name="chkdiscountAllowed"   />
+            </Viewbox>
+        </StackPanel>
+
+        <WpfKb:OnScreenKeyboard Grid.Row="12" Grid.ColumnSpan="4" Name="UserAreaKeyBoard"  Height="300"  HorizontalAlignment="Stretch"  VerticalAlignment="Center" Margin="5"/>
+        <Button Grid.Row="13" Margin="5"   Content="{x:Static translation:UI.Global_Cancel}"  Visibility="Visible"  Width="100" Height="50"  HorizontalAlignment="Left" BorderThickness="0" Background="#FFFF4D4D" FontSize="14" Click="BtnCloseAccountInfo_OnClick" FontFamily="Segoe UI"  Foreground="White"/>
+        <Button  Grid.Row="13" Margin="0,5,5,0" Grid.Column="2"  Content="{x:Static translation:UI.Prompt_Ok}" Name="OKButton" Visibility="Visible" Width="100" Height="50"  HorizontalAlignment="Right" BorderThickness="0" Background="#FF007ACC" FontSize="14" Click="OKButton_Click" FontFamily="Segoe UI"  Foreground="White" VerticalAlignment="Top" />
+
+
+    </Grid>
+
+</Window>

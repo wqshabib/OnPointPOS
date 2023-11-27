@@ -1,0 +1,201 @@
+﻿<Window x:Class="POSSUM.Views.Bookings.BookingListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:translation="clr-namespace:POSSUM.Res"
+             xmlns:POSSUM="clr-namespace:POSSUM"  Width="950" Height="700" WindowState="Normal"  Background="#FFE5E6D6"
+              xmlns:local="clr-namespace:POSSUM.View.OrderHistory" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+    >
+    <Window.Resources>
+
+        <POSSUM:EnumToNameConverter x:Key="enumTranslator"/>
+        <Style x:Key="{x:Type TextBox}"
+    	TargetType="{x:Type TextBox}">
+            <Setter Property="local:TextBoxMonitor.IsMonitoring"
+              Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border Name="Bd" 
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="#FF0E5567"
+                BorderThickness="1" CornerRadius="5"
+                    SnapsToDevicePixels="true">
+                            <Grid>
+                                <ScrollViewer x:Name="PART_ContentHost"
+                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                <TextBlock Text="" VerticalAlignment="Center" TextAlignment="Center"
+                           Margin="6, 2, 6, 0"
+                           Foreground="Gray" 
+                           Visibility="Collapsed"
+                           Name="txtPrompt" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled"
+    									 Value="false">
+                                <Setter TargetName="Bd"
+    										Property="Background"
+    										Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                <Setter Property="Foreground"
+    										Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="local:TextBoxMonitor.TextLength" Value="0">
+                                <Setter Property="Visibility" TargetName="txtPrompt" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+
+
+    <Border BorderBrush="#869699" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Background="Gray"/>
+            <Border Grid.ColumnSpan="2"  Height="35" Background="#FF012537" VerticalAlignment="Top" />
+            <TextBlock Grid.ColumnSpan="2" Name="txtTitle" Text="Bookings" Width="200" HorizontalAlignment="Left" Foreground="White" FontSize="16" Margin="10,5"/>
+            <Button   Grid.Column="1" VerticalAlignment="Top"
+                                Margin="0 2 2 0" 
+                                HorizontalAlignment="Right" 
+                                Height="30" Width="40" 
+                                Content="X" FontSize="12" FontFamily="Georgia" FontWeight="Bold" 
+                                Foreground="WhiteSmoke" Background="Red" 
+                                Click="btnCancel_Click" />
+
+
+            <TabControl Grid.Row="1" x:Name="tcMain" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <TabItem Header="Unpaid Bookings" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="40"/>
+
+                        </Grid.RowDefinitions>
+
+                        <Canvas Grid.Row="0" Height="50" VerticalAlignment="Top">
+                            <DatePicker Canvas.Left="392" Canvas.Top="11" Height="30" Name="dtpFrom" Width="129" CalendarStyle="{StaticResource styleCalendar}"/>
+                            <TextBlock Canvas.Left="312" Canvas.Top="18"   Text="{x:Static translation:UI.OrderHistory_OrderFrom}" Foreground="Black" Width="70" />
+                            <DatePicker Canvas.Left="585" Canvas.Top="12" Height="30" Name="dtpTo" Width="124"  CalendarStyle="{StaticResource styleCalendar}"/>
+                            <TextBlock Canvas.Left="529" Canvas.Top="18"  Text="{x:Static translation:UI.OrderHistory_OrderTo}" Foreground="Black"/>
+
+
+                            <TextBox VerticalContentAlignment="Center" Name="txtOrderNumber" PreviewTextInput="txtOrderNumber_PreviewTextInput" Canvas.Left="151" Canvas.Top="10" Height="30" Text=""  Width="150" />
+
+                            <!--<RadioButton Canvas.Left="710"  Canvas.Top="4"  Content="My Open" Name="rdbMyOPenOrders" GroupName="Status" Foreground="#ffff" Width="104" />
+            <RadioButton Canvas.Left="820" IsChecked="True" Canvas.Top="4" Content="My closed" GroupName="Status"  Name="rdbMyCompletedOrders" Foreground="#ffff" Width="106" />-->
+
+
+                            <Button Canvas.Left="718" Canvas.Top="12" Content="{x:Static translation:UI.Global_View}" Height="28" Name="btnView" Width="74" Background="#FF007ACC" Foreground="White" Click="btnView_Click" Margin="0" />
+                            <TextBlock Canvas.Left="2" Canvas.Top="18"    Foreground="Black" ><Run Text="{x:Static translation:UI.OrderHistory_OrderNumber}"/><Run Text="/"/> <Run Text="{x:Static translation:UI.Sales_OrderCommentButton}"/></TextBlock>
+                            <!--<Button Canvas.Left="627" Canvas.Top="11" Content="Print" Height="28" Name="btnPrint" Width="75" Click="btnPrint_Click" />-->
+                        </Canvas>
+                        <DataGrid AutoGenerateColumns="False" Margin="2,2,0,2" Visibility="Visible" IsReadOnly="True"
+              RowDetailsVisibilityMode="Collapsed" Grid.Row="1"  Name="dataGrid1" LoadingRow="OnRowLoading"  CanUserAddRows="False" HorizontalAlignment="Left" Width="940"  >
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" IsReadOnly="True" Width="120" />
+                                <DataGridTextColumn Header="Description" Binding="{Binding Path=Description}" IsReadOnly="True" Width="120"/>
+                                <DataGridTextColumn Header="Start" Binding="{Binding Path=Start}" IsReadOnly="True" Width="130"/>
+                                <DataGridTextColumn Header="End" Binding="{Binding Path=End}" IsReadOnly="True" Width="130"/>
+
+                                <DataGridTemplateColumn Header="" Width="70">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="{x:Static translation:UI.Global_View}" Background="#FFDCDEDE" Foreground="Black"  Height="25" Width="50" Click="ButtonPrint_Click">
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="" Width="70">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Pay" Background="#FFDCDEDE" Foreground="Black"  Height="25" Width="50" Click="ButtonReturn_Click">
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Canvas Grid.Row="2">
+                            <TextBlock Canvas.Left="336" Canvas.Top="8" Visibility="Hidden" FontSize="18" Name="textBlock1" Text="Order(s) Total:" FontWeight="Bold" Foreground="Green"/>
+                            <TextBlock Canvas.Left="465" Canvas.Top="8" Visibility="Hidden" FontSize="18" Name="txtOrdersTotal" Text="0" FontWeight="Bold" Foreground="Red"/>
+                        </Canvas>
+                    </Grid>
+
+                </TabItem>
+                <TabItem Header="Paid Bookings" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="40"/>
+
+                        </Grid.RowDefinitions>
+
+                        <Canvas Grid.Row="0" Height="50" VerticalAlignment="Top">
+                            <DatePicker Canvas.Left="392" Canvas.Top="11" Height="30" Name="dtpFromcc" Width="129" CalendarStyle="{StaticResource styleCalendar}"/>
+                            <TextBlock Canvas.Left="312" Canvas.Top="18"   Text="{x:Static translation:UI.OrderHistory_OrderFrom}" Foreground="Black" Width="70" />
+                            <DatePicker Canvas.Left="585" Canvas.Top="12" Height="30" Name="dtpTocc" Width="124"  CalendarStyle="{StaticResource styleCalendar}"/>
+                            <TextBlock Canvas.Left="529" Canvas.Top="18"  Text="{x:Static translation:UI.OrderHistory_OrderTo}" Foreground="Black"/>
+
+
+                            <TextBox VerticalContentAlignment="Center" Name="txtOrderNumbercc" PreviewTextInput="txtOrderNumber_PreviewTextInput" Canvas.Left="151" Canvas.Top="10" Height="30" Text=""  Width="150" />
+
+                            <!--<RadioButton Canvas.Left="710"  Canvas.Top="4"  Content="My Open" Name="rdbMyOPenOrders" GroupName="Status" Foreground="#ffff" Width="104" />
+            <RadioButton Canvas.Left="820" IsChecked="True" Canvas.Top="4" Content="My closed" GroupName="Status"  Name="rdbMyCompletedOrders" Foreground="#ffff" Width="106" />-->
+
+
+                            <Button Canvas.Left="718" Canvas.Top="12" Content="{x:Static translation:UI.Global_View}" Height="28" Name="btnViewcc" Width="74" Background="#FF007ACC" Foreground="White" Click="btnViewCCFailed_Click" Margin="0" />
+                            <TextBlock Canvas.Left="2" Canvas.Top="18"    Foreground="Black" ><Run Text="{x:Static translation:UI.OrderHistory_OrderNumber}"/><Run Text="/"/> <Run Text="{x:Static translation:UI.Sales_OrderCommentButton}"/></TextBlock>
+                            <!--<Button Canvas.Left="627" Canvas.Top="11" Content="Print" Height="28" Name="btnPrint" Width="75" Click="btnPrint_Click" />-->
+                        </Canvas>
+                        <DataGrid AutoGenerateColumns="False" Margin="2,2,0,2" Visibility="Visible" IsReadOnly="True"
+              RowDetailsVisibilityMode="Collapsed" Grid.Row="1"  Name="dataGrid1cc" LoadingRow="OnRowLoading"  CanUserAddRows="False" HorizontalAlignment="Left" Width="940"  >
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" IsReadOnly="True" Width="120" />
+                                <DataGridTextColumn Header="Description" Binding="{Binding Path=Description}" IsReadOnly="True" Width="120"/>
+                                <DataGridTextColumn Header="Start" Binding="{Binding Path=Start}" IsReadOnly="True" Width="130"/>
+                                <DataGridTextColumn Header="End" Binding="{Binding Path=End}" IsReadOnly="True" Width="130"/>
+
+                                <DataGridTemplateColumn Header="" Width="70">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="{x:Static translation:UI.Global_View}" Background="#FFDCDEDE" Foreground="Black"  Height="25" Width="50" Click="ButtonPrint_Click">
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="" Width="70">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Pay" Background="#FFDCDEDE" Foreground="Black"  Height="25" Width="50" Click="ButtonReturn_Click">
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Canvas Grid.Row="2">
+                            <TextBlock Canvas.Left="336" Canvas.Top="8" Visibility="Hidden" FontSize="18" Name="textBlock1cc" Text="Order(s) Total:" FontWeight="Bold" Foreground="Green"/>
+                            <TextBlock Canvas.Left="465" Canvas.Top="8" Visibility="Hidden" FontSize="18" Name="txtOrdersTotalcc" Text="0" FontWeight="Bold" Foreground="Red"/>
+                        </Canvas>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+            
+        </Grid>
+    </Border>
+
+</Window>

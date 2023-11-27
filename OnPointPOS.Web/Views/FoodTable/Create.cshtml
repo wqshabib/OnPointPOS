@@ -1,0 +1,230 @@
+﻿@model FoodTableViewModel
+
+<div class="panel">
+    <div class="panel-heading">
+        <span id="addEditLabel" class="panel-title"> @Resource.Add  @Resource.Table</span>
+    </div>
+    <div class="panel-body">
+        <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+        <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+        <div class="admin-form">
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.Status)
+            @Html.HiddenFor(m => m.ImageUrl)
+            @Html.HiddenFor(m => m.ColorCode)
+            <div class="section row">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            <label class="control-label pt10"> @Resource.Floor </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field select">
+                                @Html.DropDownListFor(model => model.FloorId, Model.Floors, new { @class = "field select" })
+                                <i class="arrow"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Table @Resource.Name. </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.Name, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Table + " " + Resource.Name })
+                                <label class="field-icon">
+                                    <i class="fa fa-tag"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section row">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            <label class="control-label pt10"> Position X </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+
+                                @Html.TextBoxFor(model => model.PositionX, new { @class = "event-name gui-input br-light light", @placeholder = "Position From Top" })
+                                <label class="field-icon">
+                                    <i class="fa fa-star-o"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label  class="control-label pt10">Position Y</label>
+                         
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+
+                                @Html.TextBoxFor(model => model.PositionY, new { @class = "event-name gui-input br-light light", @placeholder ="Position from Left" })
+                                <label class="field-icon">
+                                    <i class="fa fa-star-o"></i>
+                                </label>
+                            </label>
+                           
+                        </div>
+                      
+                        </div>
+                </div>
+            </div>
+
+           
+            <div class="section row">
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            <label class="control-label pt10"> Height </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+
+                                @Html.TextBoxFor(model => model.Height, new { @class = "event-name gui-input br-light light",  @placeholder = "Height" })
+                                <label class="field-icon">
+                                    <i class="fa fa-star-o"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10">Width</label>
+
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+
+                                @Html.TextBoxFor(model => model.Width, new { @class = "event-name gui-input br-light light",  @placeholder = "Width" })
+                                <label class="field-icon">
+                                    <i class="fa fa-star-o"></i>
+                                </label>
+                            </label>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+    <div class="panel-footer clearfix">
+        <div class="pull-right">
+            <button type="button" id="btnSave" class="btn btn-primary btn-gradient mr40">
+                <span class="fa fa-upload"></span> @Resource.Save
+            </button>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script>
+    $(function () {
+
+  
+        $('#btnSave').click(function () {
+
+            $("#divError").html('');
+            $("#divError").hide('');
+
+            if ($('#Name').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Table  @Resource.Name.");
+                $("#divError").show();
+                $('#Name').focus();
+                return;
+            }
+
+            if ($('#FloorId').val() == '0') {
+
+                $("#divError").html("@Resource.Select @Resource.Outlet.");
+                $("#divError").show();
+                $('#OutletId').focus();
+                return;
+            }
+
+
+
+            var data = {
+                Id: $('#Id').val(),
+                Name: $('#Name').val(),
+                FloorId: $('#FloorId').val(),
+                PositionX: $('#PositionX').val(),
+                PositionY: $('#PositionY').val(),
+                Width: $('#Width').val(),
+                Height: $('#Height').val(),
+                Status: $('#Status').val()
+
+            };
+
+            $.ajax({
+                url: '@Url.Action("Create", "FoodTable")',
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                            window.location = '/FoodTable'
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+
+                    // $("#PartialProductList").html(result);
+
+                }
+            });
+        });
+
+
+
+
+    });
+</script>

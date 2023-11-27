@@ -1,0 +1,54 @@
+Object reference not set to an instance of an object.
+Invalid column name 'OrderId'.
+Invalid column name 'OrderId'.
+Invalid column name 'OrderId'.
+Invalid object name 'Item'.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Invalid object name 'Item'.
+Invalid column name 'OrderId'.
+Invalid column name 'OrderId'.
+Could not find stored procedure 'SP_SaleByUser'.
+Could not find stored procedure 'SP_SaleByUser'.
+Could not find stored procedure 'SP_SaleByUser'.
+Could not find stored procedure 'SP_SaleByUser'.
+Could not find stored procedure 'SP_SaleByUser'.
+Could not find stored procedure 'SP_SaleByUser'.
+Could not find stored procedure 'SP_SaleByUser'.
+Could not find stored procedure 'SP_SaleByUser'.
+Could not find stored procedure 'SP_SaleByUser'.
+Object reference not set to an instance of an object.
+Invalid object name 'Item'.
+Could not find stored procedure 'SP_SaleByCategory'.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Object reference not set to an instance of an object.
+Could not find stored procedure 'SP_SaleByUser'.
+Could not find stored procedure 'SP_SaleByUser'.
+Could not find stored procedure 'SP_SaleByUser'.
+Value cannot be null.
+Parameter name: input
+Could not find stored procedure 'SP_SaleByUser'.

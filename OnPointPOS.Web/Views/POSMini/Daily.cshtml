@@ -1,0 +1,139 @@
+﻿@model DailyCategorySale
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage"><a href="/Report/Index">Report </a>&nbsp;/&nbsp;Dagens</li>
+}
+
+<section>
+<!-- dashboard tiles -->
+        <div class="row">
+            <div class="col-sm-6 col-xl-3">
+
+                <div class="panel panel-tile br-a br-grey">
+                    <div class="panel-body mt10">
+                        <div class="col-sm-6 mb10 admin-form" >
+                            <select name="rest" id="cmbOutlets" class="select2-single form-control">
+                                            <option value="0">All</option>                 
+                            </select>
+                              
+                        </div>
+                        <div class="col-sm-6 mb10">
+                            <input  style="height:38px;cursor:pointer;background:#fff" id="datetimepicker1" class="form-control inp" ><!--value="@DateTime.Now.ToShortDateString()"-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel text-center" id="ByCategory">
+                 @Html.Partial("DailyByCategory", Model)
+                    @*<div class="panel-footer clearfix">
+                        <div class="pull-right">
+                            <form action="/Report/Index" method="post">
+                                <button type="submit" class="btn btn-primary btn-gradient  btn-block"><i class="fa fa-mail-reply"></i> Tillbaka</button>
+                            </form>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="panel panel-tile text-center br-a br-grey" id="ByHours">
+                  @Html.Partial("HourlySale",Model.HourlySales)
+                   @* <div class="panel-footer clearfix">
+                        <div class="pull-right">
+                            <form action="/Report/Index" method="post">
+                                <button type="submit" class="btn btn-primary btn-gradient  btn-block"><i class="fa fa-mail-reply"></i> Tillbaka</button>
+                             </form>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+   
+</section>
+
+
+@section scripts {
+
+    <script>
+
+        $(function () {
+            $('#viewReport').addClass('active');
+            $('#Reports').addClass('active');
+
+            if (!$('#menureports').hasClass('menu-open')) {
+
+                $('#menureports').attr('style', '').toggleClass('menu-open');
+            }
+
+            var html = '<a href="/Report/Daily">Daily</a>'
+            $('#dsh').html(html);
+
+            $('#Reports').addClass('active');
+
+            FillOutlets();
+
+            $("#cmbOutlets").change(function () {
+                GetRportByOutlet();
+                GetRportByHours();
+            });
+          
+            $('#datetimepicker1').datepicker().on('changeDate', function (ev) {
+                GetRportByOutlet();
+                GetRportByHours();
+            });
+           
+        });
+        function GetRportByOutlet() {
+            var outletId = $('#cmbOutlets').val();
+            var date = $('#datetimepicker1').val();           
+            $.ajax({
+                url: '@Url.Action("DailyByCategory", "Report")',
+                type: "Get",
+                data: { outletId: outletId, date: date },
+                success: function (_d) {
+                    $('#ByCategory').html(_d);
+                }
+            });
+        }
+        function GetRportByHours() {
+            var outletId = $('#cmbOutlets').val();
+            var date = $('#datetimepicker1').val();
+            $.ajax({
+                url: '@Url.Action("HourlySale", "Report")',
+                type: "Get",
+                data: { outletId: outletId, date: date },
+                success: function (_d) {
+                    $('#ByHours').html(_d);
+                }
+            });
+        }
+        function FillOutlets() {
+
+            $.ajax({
+                url: '@Url.Action("FillOutlets", "Report")',
+                type: "Get",
+                success: function (_d) {
+                   
+                    $('#cmbOutlets').html('');
+                    var $select = $("#cmbOutlets");
+                    $.each(_d, function (i, item) {
+                       
+                        $('<option>', {
+                            value: item.Id
+                        }).html(item.Name).appendTo($select);
+                    });
+
+                }
+            });
+        }
+    </script>
+
+}
+
+
+
+
+
+
+
+
+
+

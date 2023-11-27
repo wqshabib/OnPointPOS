@@ -1,0 +1,76 @@
+﻿
+@model List<ItemViewModel>
+
+<div class="panel-body pn">
+    <div class="table-responsive">
+        <table id="tbl_del_product" class="table admin-form theme-warning tc-checkbox-1 fs13 " cellspacing="0" width="100%">
+            <thead>
+                <tr class="bg-light">
+                    <th class="">@Resource.Product Title</th>
+                    <th class="">@Resource.Barcode</th>
+                    <th class="">@Resource.Tax</th>
+                    <th class="">@Resource.Active</th>
+                   
+                    <th class=""></th>
+                    <th class="text-right"></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td style="display:none;"><input type="hidden" value="@item.Id" /></td>
+                        <td class="text-left">@item.Description</td>
+                        <td class="text-left">@item.BarCode</td>
+                        <td class="">@item.Tax</td>
+                        <td class="">@item.ActiveStatus</td>
+                        <td class=""><a class="btn btn-primary btn-gradient btn-sm fa fa-edit" style="margin-right:2px; float:right;" onclick="Restore(@item.Id )"> @Resource.Restore</a></td>
+                        
+                    </tr>
+                }
+            </tbody>
+
+
+        </table>
+    </div>
+</div>
+
+<script>
+
+
+
+
+
+
+    $(function () {
+
+        $('#tbl_del_product').dataTable({
+            "bJQueryUI": true,
+            "processing": true, // control the processing indicator.
+
+            "info": true,   // control table information display field
+            "stateSave": true,  //restore table state on page reload,
+            "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]], "oLanguage": {
+                "oPaginate": {
+                    "sPrevious": " ",
+                    "sNext": " "
+                }
+            },
+            "order": [[0, "asc"]],
+            "iDisplayLength": 25,
+            "aLengthMenu": [
+              [5, 10, 25, 50, -1],
+              [5, 10, 25, 50, "All"]
+            ],
+            "sDom": '<"dt-panelmenu clearfix"lfr>t<"dt-panelfooter clearfix"ip>'
+
+        });
+
+
+    });
+
+
+
+</script>
+

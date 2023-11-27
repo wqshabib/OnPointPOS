@@ -1,0 +1,64 @@
+﻿@model SeededCategories
+
+    @if (Model.Categories.Where(s => s.Parant == Model.Seed).Any())
+    {
+        var level = 0;
+    for (int i = 0; i < Model.Categories.Count(); i++)
+    {   
+        if (Model.Categories[i].Parant == Model.Seed)
+        {
+             if(@Model.Categories[i].CategoryLevel==2){
+                 <option class="categorylevel-@Model.Categories[i].CategoryLevel" selected="@Model.Categories[i].IsSelected" value="@Model.Categories[i].CategoryId">
+                    &nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(model => model.Categories[i].Name)
+                </option>
+             }
+             else  if(@Model.Categories[i].CategoryLevel==3){
+                <option class="categorylevel-@Model.Categories[i].CategoryLevel" selected="@Model.Categories[i].IsSelected" value="@Model.Categories[i].CategoryId">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(model => model.Categories[i].Name)
+                </option>
+             }
+             else  if(@Model.Categories[i].CategoryLevel==4){
+                 <option class="categorylevel-@Model.Categories[i].CategoryLevel" selected="@Model.Categories[i].IsSelected" value="@Model.Categories[i].CategoryId">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(model => model.Categories[i].Name)
+                </option>
+             }
+             else  if(@Model.Categories[i].CategoryLevel==5){
+                <option class="categorylevel-@Model.Categories[i].CategoryLevel" selected="@Model.Categories[i].IsSelected" value="@Model.Categories[i].CategoryId">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(model => model.Categories[i].Name)
+                </option>
+             }
+             else if(@Model.Categories[i].CategoryLevel==6){
+                 <option class="categorylevel-@Model.Categories[i].CategoryLevel" selected="@Model.Categories[i].IsSelected" value="@Model.Categories[i].CategoryId">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(model => model.Categories[i].Name)
+                </option>
+             }
+             else  if(@Model.Categories[i].CategoryLevel==7){
+                <option class="categorylevel-@Model.Categories[i].CategoryLevel" selected="@Model.Categories[i].IsSelected" value="@Model.Categories[i].CategoryId">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(model => model.Categories[i].Name)
+                </option>
+             }
+             else  if(@Model.Categories[i].CategoryLevel==8){
+                 <option class="categorylevel-@Model.Categories[i].CategoryLevel" selected="@Model.Categories[i].IsSelected" value="@Model.Categories[i].CategoryId">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(model => model.Categories[i].Name)
+                </option>
+             }
+             else  if(@Model.Categories[i].CategoryLevel==9){
+                 <option class="categorylevel-@Model.Categories[i].CategoryLevel" selected="@Model.Categories[i].IsSelected" value="@Model.Categories[i].CategoryId">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Html.DisplayFor(model => model.Categories[i].Name)
+                </option>
+             }
+             else{ 
+                <option class="categorylevel-@Model.Categories[i].CategoryLevel" selected="@Model.Categories[i].IsSelected" value="@Model.Categories[i].CategoryId">
+               
+                    @Html.DisplayFor(model => model.Categories[i].Name)
+                </option>
+            }
+            @Html.Partial("_TreeCategories", new SeededCategories { Seed = Model.Categories[i].CategoryId, Categories = Model.Categories })
+        }   
+    }
+}
+
+
+
+
+

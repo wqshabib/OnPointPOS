@@ -1,0 +1,156 @@
+﻿@model PrintViewModel
+
+<div class="panel-body p20">
+   
+        <div id="printArea">
+            <div class="row">
+                <label class="col-lg-2"> </label>
+                <div class="col-lg-10 pull-left"><strong> @Model.OutletName</strong></div>
+               
+            </div>
+            <div class="row">
+                <div class="col-lg-2">@Resource.OrgNo: </div>
+                <div class="col-lg-10 pull-left">@Model.OrgNo</div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2">@Resource.Address</div>
+                <div class="col-lg-10 pull-left">@Model.Address</div>
+            </div>
+            <div class="row">
+                <label class="col-lg-2"></label>
+                <div class="col-lg-10 pull-left">@Model.City</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">@Resource.Phone:</div>
+                <div class="col-sm-10 pull-left">@Model.PhoneNo</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">@Resource.ReceiptNumber:</div>
+                <div class="col-sm-10 pull-left">@Model.ReceiptNo</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">@Resource.Date:</div>
+                <div class="col-sm-10 pull-left">@Model.ReceiptDate.ToString("yyyy-MM-dd hh:mm")</div>
+            </div>
+
+            <div style="width:330px;white-space:nowrap">
+                <table class="table">
+                    <thead><tr><th>@Resource.Articles</th><th></th><th></th><th></th> </tr></thead>
+                    <tbody>
+
+                        @foreach (var item in @Model.Items)
+                    {
+                            <tr>
+                                <td align="left" style="width: 150px;padding-right:0 5px 0 0">@item.ItemName</td>
+                                <td align="center">@item.Quantity</td>
+                                <td align="right">@item.UnitPrice</td>
+                                <td align="right">@Math.Round(item.GrossAmountDiscounted(), 2)</td>
+                            </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <div style="width:330px;white-space:nowrap">
+                <table class="table">
+
+                    <tbody>
+
+                        <tr style="border-top:solid 1px black;">
+                            <td align="left">@Resource.Total</td>
+                            <td align="center" style="width: 150px;padding-right:0 5px 0 0"></td>
+                            <td align="right"></td>
+                            <td align="right">@Math.Round(Model.GrandTotal, 2)</td>
+                        </tr>
+                        @if (Model.RoundedAmount != 0)
+                        {
+                            <tr style="border-top:solid 1px black;">
+                                <td align="left">@Resource.Report_Rounding</td>
+                                <td align="center" style="width: 150px;padding-right:0 5px 0 0"></td>
+                                <td align="right"></td>
+                                <td align="right">@Math.Round(Model.RoundedAmount, 2)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+           
+            <div style="width:330px;white-space:nowrap">
+                <table class="table">
+                    <thead><tr><th>@Resource.Report_Payment</th><th ></th><th></th><th></th></tr></thead>
+                    <tbody>
+
+                        @foreach (var item in @Model.Payments)
+                    {
+                            <tr>
+                                <td align="left"  style="width: 150px;padding-right:0 5px 0 0">@item.PaymentRef</td>
+                                <td align="center"></td>
+                                <td align="right"></td>
+                                <td align="right">@item.PaidAmount</td>
+                            </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                @if (Model.CashBack > 0)
+            {
+                    <div class="col-lg-2">@Resource.CashBack </div>
+                    <div class="col-lg-10 pull-left">@Model.CashBack</div>
+            }
+            </div>
+
+            <div style="width:330px;white-space:nowrap">
+                <table class="table">
+                    <thead><tr><th>@Resource.Report_VATPercent</th><th>@Resource.Report_VAT</th><th>@Resource.Report_TotalNet</th><th>@Resource.Total</th></tr></thead>
+                    <tbody>
+
+                        @foreach (var item in @Model.VatDetails)
+                    {
+                            <tr>
+                                <td align="left">@Math.Round(item.VATPercent, 2)</td>
+                                <td align="center">@Math.Round(item.VATTotal, 2)</td>
+                                <td align="right">@Math.Round(item.NetAmount, 2)</td>
+                                <td align="right">@Math.Round(item.Total, 2)</td>
+                            </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">@Resource.ControlUnit:</div>
+                <div class="col-sm-10 pull-left">@Model.ControlUnitName</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">@Resource.Cashier:</div>
+                <div class="col-sm-10 pull-left">@Model.Cashier</div>
+            </div>
+
+        </div>
+   
+</div>
+
+<script type="text/javascript">
+
+    function PrintElemt() {
+
+        Popup($('#printArea').html());
+    }
+
+    function Popup(data) {
+        var mywindow = window.open('', 'Order Receipt', 'height=400,width=600');
+        mywindow.document.write('<html><head><title>Order Receipt</title>');
+        /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write(data);
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+
+</script>

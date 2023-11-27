@@ -1,0 +1,72 @@
+﻿<Window x:Class="POSSUM.Views.Customers.TransactionHistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:POSSUM.Views.Customers"
+        xmlns:translation="clr-namespace:POSSUM.Res"
+        xmlns:WpfKb="clr-namespace:WpfKb.Controls;assembly=WpfKb"
+        mc:Ignorable="d"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" Background="#FFE5E6D6"
+        Title="TransactionHistoryWindow" Height="640" Width="800">
+    <Border BorderBrush="Gray" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border Grid.ColumnSpan="2" Height="35" Background="#FF012537" VerticalAlignment="Top" />
+            <TextBlock Grid.ColumnSpan="2" Name="txtTitle" Text="{x:Static translation:UI.Transection_History}"
+                       Width="200" HorizontalAlignment="Left" Foreground="White" FontSize="16" Margin="10,5" />
+            <Button x:Name="btnClose" Grid.Column="1" VerticalAlignment="Top"
+                    Margin="0 2 2 0"
+                    HorizontalAlignment="Right"
+                    Height="30" Width="40"
+                    Content="X" FontSize="12" FontFamily="Georgia" FontWeight="Bold"
+                    Foreground="WhiteSmoke" Background="Red"
+                    Click="btnCancel_Click" />
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                   
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+
+                <DataGrid Name="TransactionHistoryDataGrid" Height="500" Grid.Row="0" AutoGenerateColumns="False" ScrollViewer.VerticalScrollBarVisibility="Visible" CanUserAddRows="False" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="No" Binding="{Binding Id}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static translation:UI.OrderHistory_Date}" Binding="{Binding CreatedOn}" Width="135" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static translation:UI.Global_Name}" Binding="{Binding CustomerName}" Width="150" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static translation:UI.OrderHistory_OrderNumber}" Binding="{Binding OrderNumber}" Width="100" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static translation:UI.Transection_History_Type}" Binding="{Binding DepositType}" Width="100" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static translation:UI.Transection_History_DRAmount}" Binding="{Binding DebitAmount}" Width="90" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static translation:UI.Transection_History_CRAmount}" Binding="{Binding CreditAmount}" Width="*" IsReadOnly="True"/>
+
+                        <DataGridTemplateColumn Header="" Width="70">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="{x:Static translation:UI.Global_View}" Background="#FFDCDEDE" Foreground="Black"  Height="25" Width="50" Click="ButtonPrint_Click">
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Canvas Grid.Row="1">
+                    <TextBlock Canvas.Left="336" Canvas.Top="8" FontFamily="Segoe UI" FontSize="18" Name="textBlock1" Text="Total summa:" Foreground="Green" />
+                    <TextBlock Canvas.Left="465" Canvas.Top="8"  FontSize="18" Name="txtTotal" Text="0" FontFamily="Segoe UI"  Foreground="Green" FontWeight="Bold"/>
+                </Canvas>
+                
+            </Grid>
+            <Button Content="{x:Static translation:UI.Global_Cancel}" Visibility="Visible"  Margin="2" Height="50"
+                    Width="80" Grid.Row="2" HorizontalAlignment="Right" BorderThickness="0" Background="#FFFF4D4D"
+                    FontSize="14" Click="btnCancel_Click" FontFamily="Segoe UI" Foreground="White" />
+
+        </Grid>
+    </Border>
+</Window>

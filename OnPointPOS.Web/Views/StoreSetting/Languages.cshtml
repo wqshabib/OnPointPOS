@@ -1,0 +1,173 @@
+﻿@model List<Language>
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.Global @Resource.Settings</li>
+
+}
+
+<section>
+
+
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+
+                <li>
+                    <a href="/StoreSetting">@Resource.Global @Resource.Settings</a>
+                </li>
+
+                <li class="active">
+                    <a href="/StoreSetting/Languages">@Resource.Language</a>
+                </li>
+
+
+
+            </ul>
+        </div>
+        <div class="topbar-right">
+
+        </div>
+    </header>
+
+    <div class="pt25">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center">
+
+
+            <div class="panel">
+                <div class="panel-body pn">
+                    <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+                    <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+                    <div class="table-responsive">
+                        <table id="global_settings" class="table admin-form theme-warning tc-checkbox-1 fs13">
+                            <thead>
+                                <tr class="bg-light">
+                                    <th class="">@Resource.Title</th>
+                                    <th class="">@Resource.Code</th>
+                                    <th style="width:100px;" class="">@Resource.Default</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="text-left" id="@item.Id">@item.Name</td>
+                                        <td class="text-left">@item.Code</td>
+                                        <td style="width:100px;"><input type="radio" class="rdb_Lang" name="rdbLang" value="@item.Id" @(Html.Raw(item.IsDefault ? "checked=\"checked\"" : "")) /> </td>
+
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+@section scripts {
+
+    <script>
+        $(document).ready(function () {
+           // $('#global_settings').DataTable();
+        });
+        $(function () {
+
+            var html = '<a href="/StoreSetting">Global Settings</a>'
+            $('#dsh').html(html);
+
+            $('#language').addClass('active');
+            $('#Settings').addClass('active');
+            if (!$('#menuStoreSettings').hasClass('menu-open')) {
+
+                $('#menuStoreSettings').attr('style', '').toggleClass('menu-open');
+            }
+
+           $(".rdb_Lang").change(function() {
+
+                if(this.checked) {
+                    //Do stuff
+         var id=$(this).val();
+        SetDefault(id);
+                }
+      });
+
+        });
+
+        function SetDefault(id) {
+            if (confirm("Do you want to mark this language as defualt?")) {
+                $.ajax({
+                    url: '@Url.Action("SetDefaultLanguage", "StoreSetting")',
+                    type: "GET",
+                    data: { id: id },
+                    success: function (result) {
+                      var res = result.Message;
+                    var arr = res.split(':');
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                            window.location = '/StoreSetting/Languages'
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+
+
+                    }
+                });
+            }
+        }
+    </script>
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

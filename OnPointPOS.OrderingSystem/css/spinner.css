@@ -1,0 +1,52 @@
+﻿.disable-link {
+    pointer-events: none !important;
+    opacity: 0.4 !important;
+    cursor: not-allowed;
+}
+.col-lg-menu-square a { font-size: 14px !important; color:#4f4847 !important; }
+
+.glyphicon-refresh {
+    -webkit-animation:spinner 3s linear infinite !important;
+    -moz-animation:spin 3s linear infinite !important;
+    -ms-animation:spin 3s linear infinite !important;
+    animation:spin 3s linear infinite !important;
+}
+
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg) !important; } }
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg) !important; } }
+@-ms-keyframes spin { 100% { -ms-transform: rotate(360deg) !important; } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg) !important; } }
+
+@-webkit-keyframes spinner {
+    0% { -webkit-transform: rotate3d(0,0,1,0deg); }
+    25% { -webkit-transform: rotate3d(0,0,1,90deg); }
+    50% { -webkit-transform: rotate3d(0,0,1,180deg); }
+    75% { -webkit-transform: rotate3d(0,0,1,270deg); }
+    100% { -webkit-transform: rotate3d(0,0,1,360deg); }
+}
+@-moz-keyframes spin {
+    0% { -moz-transform: rotate3d(0,0,1,0deg); }
+    25% { -moz-transform: rotate3d(0,0,1,90deg); }
+    50% { -moz-transform: rotate3d(0,0,1,180deg); }
+    75% { -moz-transform: rotate3d(0,0,1,270deg); }
+    100% { -moz-transform: rotate3d(0,0,1,360deg); }
+}
+@-ms-keyframes spin {
+    0% { -ms-transform: rotate3d(0,0,1,0deg); }
+    25% { -ms-transform: rotate3d(0,0,1,90deg); }
+    50% { -ms-transform: rotate3d(0,0,1,180deg); }
+    75% { -ms-transform: rotate3d(0,0,1,270deg); }
+    100% { -ms-transform: rotate3d(0,0,1,360deg); }
+}
+@keyframes spin {
+    0% { transform: rotate3d(0,0,1,0deg); }
+    25% { transform: rotate3d(0,0,1,90deg); }
+    50% { transform: rotate3d(0,0,1,180deg); }
+    75% { transform: rotate3d(0,0,1,270deg); }
+    100% {transform: rotate3d(0,0,1,360deg); }
+}
+
+/* --- GO TO TOP --- */
+#toTop {
+ display: block; position: fixed; top: 50%; right: 0; padding: 10px; background: white; cursor: pointer; border-bottom-left-radius:6px; border-top-left-radius:6px; }
+/* --- END: GO TO TOP --- */

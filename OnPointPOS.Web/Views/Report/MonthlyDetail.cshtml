@@ -1,0 +1,14 @@
+﻿@model MonthlyCategorySale
+<div class="col-sm-6 col-xl-6">
+    <div class="panel panel-tile br-a br-grey" id="ByDay">
+        @Html.Partial("SaleByDay", Model.DailySales)
+    </div>
+
+
+</div>
+<div class="col-sm-6 col-xl-6">
+    <div class="panel panel-tile br-a br-grey" id="ByCategory">
+        @Html.Partial("MonthlyByCategory", Model.Categories)
+
+    </div>
+</div>

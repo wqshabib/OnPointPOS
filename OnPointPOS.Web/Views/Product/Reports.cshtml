@@ -1,0 +1,381 @@
+﻿@model ItemViewModel
+<script src="~/Content/js/mustache.min.js"></script>
+
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.lblProducts</li>
+
+}
+<section>
+
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+                <li>
+                    <a href="/Product">@Resource.lblProducts</a>
+                </li>
+                <li class="active">
+                    <a href="/Product/Reports">@Resource.Reports</a>
+                </li>
+
+            </ul>
+        </div>
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="topbar-right">
+
+                <a id="btnProductPrice" class="btn btn-default btn-gradient btn-sm light fw600 ml10 mt5">
+                    <span class="fa fa-print pr5"></span> @Resource.Print @Resource.Price
+                </a>
+
+                <a id="btnItemStock" class="btn btn-default btn-gradient btn-sm light fw600 ml10 mt5">
+                    <span class="fa fa-print pr5"></span> @Resource.Print @Resource.Stock
+                </a>
+
+                <a id="btnProductList" class="btn btn-default btn-gradient btn-sm light fw600 ml10 mt5">
+                    <span class="fa fa-print pr5"></span> @Resource.Print @Resource.Product
+                </a>
+
+
+                <a id="btnProductBarCode" class="btn btn-default btn-gradient btn-sm light fw600 ml10 mt5">
+                    <span class="fa fa-print pr5"></span> @Resource.Print @Resource.Barcode
+                </a>
+
+                <a id="btnProductBarCodeSelected" class="btn btn-default btn-gradient btn-sm light fw600 ml10 mt5">
+                    <span class="fa fa-print pr5"></span> @Resource.Print @Resource.Barcode Selected
+                </a>
+
+                <a id="btnExpiryItems" class="btn btn-default btn-gradient btn-sm light fw600 ml10 mt5">
+                    <span class="fa fa-print pr5"></span> @Resource.Print 'Expiry'
+                </a>
+
+
+            </div>
+        }
+
+    </header>
+
+    <div id="ProductCreate" style="margin:0 0 0 0;">
+
+    </div>
+    <div id="loading" style="display:none;">
+        <img src="~/Content/img/progress.gif" style="height:100px;width:100px;" />
+    </div>
+    <div class="pt10">
+
+        <div class="panel">
+
+
+
+            <div class="panel-menu p12 admin-form theme-primary">
+                <div class="row">
+
+                    <div class="col-md-5 col-sm-5 pull-right">
+                        <select id="filter-category" name="filter-category" class="select2-single form-control">
+                            <option value="0">@Resource.Filterby  @Resource.Category</option>
+                        </select>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel-body">
+
+                <div id="divSelectedProductReport" style="display:none;">
+                    <div class="row">
+                        <button style="float:right;margin:5px;" class="btn-default" id="btnGenerateSelectedProductReport">
+                            Generate Report
+                        </button>
+                    </div>
+                    <div class="row">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Select
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    @*<th>
+                                            SKU
+                                        </th>*@
+                                    <th>
+                                        Price
+                                    </th>
+                                    <th>
+                                        BarCode
+                                    </th>
+                                    @*<th>
+                                            Unit
+                                        </th>*@
+                                </tr>
+                            </thead>
+
+                            <tbody id="tableBody"></tbody>
+
+                        </table>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    <div id="divLoadMore" style="display:none;"><center>Loading...</center></div>
+                </div>
+
+                <div class="row" id="rdlcdiv">
+                    <div class="col-md-12">
+
+                        <iframe id="reporviewerFrame" style="min-height:calc(1000px - 260px);overflow-y:auto;margin-top:0px;float:left;width:calc(100%);" frameborder="0" scrolling="yes"></iframe>
+                    </div>
+                    <div class="col-md-5 col-sm-5" id="PrintSale-Report">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+</section>
+
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+</style>
+
+
+@section scripts {
+
+    <script id="template" type="x-tmpl-mustache">
+        <tr>
+            <td>
+                <input type="checkbox" class="ckbProduct" id="ckb{{Id}}" data-id="{{Id}}" />
+            </td>
+            <td>
+                {{Description}}
+            </td>
+            @*<td>
+                    {{SKU}}
+                </td>*@
+            <td>
+                {{Price}}
+            </td>
+            <td>
+                {{BarCode}}
+            </td>
+            @*<td>
+                    {{Unit}}
+                </td>*@
+        </tr>
+    </script>
+
+
+   <script>
+        var pageNo = 0;
+        var pageSize = 10;
+        //$(window).scroll(function () {
+        //    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+        //        $('div#divLoadMore').show();
+        //        $.ajax({
+        //            url: "loadmore.php",
+        //            success: function (html) {
+        //                if (html) {
+        //                    $("#postswrapper").append(html);
+        //                    $('div#divLoadMore').hide();
+        //                } else {
+        //                    $('div#divLoadMore').html('<center>No more records to show.</center>');
+        //                }
+        //            }
+        //        });
+        //    }
+        //});
+
+        var rootPath = "https://" + window.location.host + '/';
+        $(function () {
+
+            var html = '<a href="/Product">Products</a>';
+            $('#dsh').html(html);
+
+            $('#Cataglog').addClass('active');
+            $('#productreport').addClass('active');
+
+            if (!$('#menuCatalog').hasClass('menu-open')) {
+
+                $('#menuCatalog').attr('style', '').toggleClass('menu-open');
+            }
+            $.ajax({
+                url: '@Url.Action("GetItemCategories", "Product")',
+                type: "GET",
+
+                success: function (result) {
+                    var $select = $("#filter-category");
+                    $.each(result, function (i, item) {
+
+                        $('<option>', {
+                            value: item.CategoryId
+                        }).html(item.Name).appendTo($select);
+                    });
+
+
+                }
+            });
+
+            $('#btnProductPrice').click(function () {
+                var rootPath = "https://" + window.location.host + '/';
+                var catId = $('#filter-category').val();
+                var url = "Reports/ProductReportForm.aspx?catId=" + catId + "&rptName=rptproductprice";
+
+                ShowReport("../" + url);
+               // window.open(rootPath + url);
+
+            });
+
+            $('#btnItemStock').click(function () {
+                var rootPath = "https://" + window.location.host + '/';
+                var catId = $('#filter-category').val();
+                var url = "Reports/ProductReportForm.aspx?catId=" + catId + "&rptName=rptitemstock";
+                ShowReport("../" + url);
+               // window.open(rootPath + url);
+
+            });
+
+            $('#btnProductList').click(function () {
+                var rootPath = "https://" + window.location.host + '/';
+                var catId = $('#filter-category').val();
+                var url = "Reports/ProductReportForm.aspx?catId=" + catId + "&rptName=rptProductList";
+                ShowReport("../" + url);
+                // window.open(rootPath + url);
+
+            });
+
+            $('#btnProductBarCode').click(function () {
+                var rootPath = "https://" + window.location.host + '/';
+                var catId = $('#filter-category').val();
+                var url = "Reports/ProductReportForm.aspx?catId=" + catId + "&rptName=rptProductBarcode";
+                ShowReport("../" + url);
+              //  window.open(rootPath + url);
+
+            });
+
+            $('#filter-category').change(function () {
+                pageNo = 0;
+                isLoading = true;
+                $('#tableBody').empty();
+                $('div#divLoadMore').show();
+                $('#rdlcdiv').hide();
+                $('#divSelectedProductReport').show();
+                categoryID = this.value;
+                LoadProductBarCodeSelected();
+            });
+
+            var categoryID = 0;
+            var isLoading = false;
+
+            $('#btnProductBarCodeSelected').click(function () {
+                pageNo = 0;
+                isLoading = true;
+                $('#tableBody').empty();
+                $('div#divLoadMore').show();
+                $('#rdlcdiv').hide();
+                $('#divSelectedProductReport').show();
+                categoryID = $('#filter-category').val();
+                LoadProductBarCodeSelected();
+            });
+
+            function LoadProductBarCodeSelected() {
+                $.ajax({
+                    url: '@Url.Action("ProductBarCodeReport", "Product")?catid=' + categoryID + '&pageNo=' + pageNo + '&pageSize=' + pageSize,
+                    type: "Get",
+                    success: function (_d) {
+                        if (_d.length > 0) {
+                            for (var i = 0; i < _d.length; i++) {
+                                var template = document.getElementById('template').innerHTML;
+                                var rowHTML = Mustache.render(template, _d[i]);
+                                $('#tableBody').append(rowHTML);
+                            }
+                            pageNo = pageNo + 1;
+
+                            if (isLoading) {
+                                LoadProductBarCodeSelected();
+                            }
+                            else {
+                                $('div#divLoadMore').hide();
+                            }
+                        }
+                        else {
+                            $('div#divLoadMore').hide();
+                        }
+                    }
+                });
+            }
+
+            $('#btnGenerateSelectedProductReport').click(function () {
+                isLoading = false;
+                var lstCheckBoxes = $('.ckbProduct:checkbox:checked');
+
+                var filterProducts = $(".ckbProduct:checkbox:checked").map(function () {
+                    return $(this).data('id')
+                }).get();
+
+                console.log(filterProducts);
+
+                if (filterProducts.length > 0) {
+                    $.ajax({
+                        url: '@Url.Action("SaveFilterProducts", "Product")',
+                        type: "Post",
+                        data: JSON.stringify(filterProducts),
+                        contentType: 'application/json',
+                        success: function (_d) {
+                            var catId = $('#filter-category').val();
+                            var url = "Reports/ProductReportForm.aspx?catId=" + catId + "&rptName=rptProductBarcode&isFiltered=1";
+                            ShowReport("../" + url);
+                        }
+                    });
+                }
+            });
+
+            $('#btnExpiryItems').click(function () {
+                var rootPath = "https://" + window.location.host + '/';
+
+                var url = "Reports/ReportForm.aspx?dtFrom=2018-09-01&dtTo=2018-09-11&terminalId=00000000-0000-0000-0000-000000000000&rptName=rptExpiryItems";
+                ShowReport("../" + url);
+               // window.open(rootPath + url);
+
+            });
+        });
+
+        function ShowReport(rpturl)
+        {
+            $('#rdlcdiv').show();
+            $('#divSelectedProductReport').hide();
+            var frame = document.getElementById('reporviewerFrame');
+            if (frame !== null) {
+                if (frame.src) {
+                    frame.src = url;
+                }
+                else if (frame.contentWindow != null && frame.contentWindow.location != null) {
+                    frame.contentWindow.location = rpturl;
+                }
+                else {
+                    frame.setAttribute('src', rpturl);
+                }
+            }
+            return false;
+        }
+
+
+</script>
+}
+
+
+
+

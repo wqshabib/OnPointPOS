@@ -1,0 +1,106 @@
+﻿@(Html.Kendo().Scheduler<POSSUM.Web.Controllers.MeetingViewModel>()
+    .Name("scheduler")
+    .Date(DateTime.Now)
+    .StartTime(DateTime.Now)
+    .Height(600)
+    .Views(views => {
+        views.DayView();
+        views.WeekView();
+        views.MonthView(view => view.Selected(true));
+        views.AgendaView();
+    })
+    .Editable(editable => {
+        editable.TemplateName("CustomEditorTemplate");
+    })
+    .Timezone("Etc/UTC")
+    .Resources(resource => {
+        resource.Add(m => m.EventTypeID)
+            .Title("Room")
+            .DataTextField("Text")
+            .DataValueField("Value")
+            .DataColorField("Color")
+            .BindTo(new[] {
+                    new { Text = "Meeting Room 101", Value = 1, Color = "#6eb3fa" },
+                    new { Text = "Meeting Room 201", Value = 2, Color = "#f58a8a" }
+           });
+        resource.Add(m => m.Products)
+            .Title("Attendees")
+            .Multiple(true)
+            .DataTextField("Text")
+            .DataValueField("Value")
+            .DataColorField("Color")
+            .BindTo(new[] {
+                    new { Text = "Alex", Value = 1, Color = "#f8a398" },
+                    new { Text = "Bob", Value = 2, Color = "#51a0ed" },
+                    new { Text = "Charlie", Value = 3, Color = "#56ca85" },
+                    new { Text = "Waqas", Value = 4, Color = "#56ca85" }
+           });
+    })
+    .DataSource(d => d
+        .Batch(true)
+        .Model(m => {
+            m.Id(f => f.MeetingID);
+            m.Field(f => f.Title);//.DefaultValue("No title");
+            //m.RecurrenceId(f => f.RecurrenceID);
+        })
+        .Events(e => e.Error("error_handler"))
+        .Read("Meetings_Read", "Booking")
+        .Create("Meetings_Create", "Booking")
+        .Destroy("Meetings_Destroy", "Booking")
+        .Update("Meetings_Update", "Booking")
+    )
+    .Events(e => e.Edit("onEdit"))
+)
+
+
+<script type="text/javascript">
+
+    $(function () {
+        var scheduler = $("#scheduler").data("kendoScheduler");
+
+        scheduler.wrapper.on("mouseup touchend", ".k-scheduler-table td, .k-event", function (e) {
+            var target = $(e.currentTarget);
+
+            if (target.hasClass("k-event")) {
+                var event = scheduler.occurrenceByUid(target.data("uid"));
+                scheduler.editEvent(event);
+            } else {
+                var slot = scheduler.slotByElement(target[0]);
+
+                scheduler.addEvent({
+                    start: slot.startDate,
+                    end: slot.endDate
+                });
+            }
+        });
+    });
+
+	function onEdit(e) {
+		var start = e.event.start;
+		var recurrenceEditor = e.container.find('#RecurrenceRule').data('kendoRecurrenceEditor');
+
+		recurrenceEditor.setOptions({
+			start: start
+		});
+	}
+
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+
+            var scheduler = $("#scheduler").data("kendoScheduler");
+            scheduler.one("dataBinding", function (e) {
+                //prevent saving if server error is thrown
+                e.preventDefault();
+            })
+        }
+    }
+</script>

@@ -1,0 +1,73 @@
+﻿
+@model List<ItemViewModel>
+
+<div class="panel-body pn">
+    <div class="table-responsive">
+        <table id="tbl_product_group" class="table admin-form theme-warning tc-checkbox-1 fs13 " cellspacing="0" width="100%">
+            <thead>
+                <tr class="bg-light" >
+                    <th style="display:none;"></th>
+                    <th class="" style="width:50px"></th>
+                    <th class="">@Resource.Product Title</th>
+                    <th class="">@Resource.Price</th>
+                    <th class="">@Resource.Discount @Resource.Price</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td style="display:none;"><input type="hidden" value="@item.Id" /></td>
+                        <td style="width:50px"><input type="checkbox" /></td>
+                        <td class="text-left">@item.Description</td>
+                        <td class="">@item.Price</td>
+                        <td class="" style="width:70px"><input type="text" value="@item.DiscountPrice" /></td>
+
+                    </tr>
+                }
+            </tbody>
+
+
+        </table>
+    </div>
+</div>
+
+
+<script>
+
+   
+
+
+
+    $(function () {
+     
+        $('#tbl_product_group').dataTable({
+            "bJQueryUI": true,
+            "processing": true, // control the processing indicator.
+          
+            "info": true,   // control table information display field
+            "stateSave": true,  //restore table state on page reload,
+            "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]], "oLanguage": {
+                "oPaginate": {
+                    "sPrevious": " ",
+                    "sNext": " "
+                }
+            },
+            "order": [[0, "asc"]],
+            "iDisplayLength": 25,
+            "aLengthMenu": [
+              [5, 10, 25, 50, -1],
+              [5, 10, 25, 50, "All"]
+            ],
+            "sDom": '<"dt-panelmenu clearfix"lfr>t<"dt-panelfooter clearfix"ip>'
+
+        });
+
+      
+    });
+
+  
+
+</script>
+

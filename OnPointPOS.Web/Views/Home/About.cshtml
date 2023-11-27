@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>Use this area to provide additional information.</p>
+
+
+<div id="newprojectmap" style="height:400px;width:600px;"></div>
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDvbrWjPP5cumvPprMsalXPFbBZJRPxJ9s"
+        type="text/javascript">
+</script>
+<script>
+    window.onload = function () {
+        var startPos;
+        var geoSuccess = function (position) {
+            startPos = position;
+          //  document.getElementById('startLat').innerHTML = startPos.coords.latitude;
+          // document.getElementById('startLon').innerHTML = startPos.coords.longitude;
+
+            var globalLat = startPos.coords.latitude;
+            var globalLng = startPos.coords.longitude;
+            var mapCanvas = document.getElementById('newprojectmap');
+            var mapOptions = {
+                center: new google.maps.LatLng(globalLat, globalLng),
+                zoom: 8,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            var map = new google.maps.Map(mapCanvas, mapOptions);
+            //google.maps.event.addDomListener(window, 'load', initnewmap);
+            google.maps.event.trigger(map, "resize");
+            google.maps.event.addListener(map, 'click', function (event) {
+                setpos(event.latLng);
+            });
+        };
+        navigator.geolocation.getCurrentPosition(geoSuccess);
+    };
+
+    function  setpos(val){
+        alert(val);
+    }
+</script>

@@ -1,0 +1,1020 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Accounting" xml:space="preserve">
+    <value>Konto</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Aktiv</value>
+  </data>
+  <data name="Actual" xml:space="preserve">
+    <value>Faktisk</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Lägg till</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Adress</value>
+  </data>
+  <data name="Administration" xml:space="preserve">
+    <value>Administration</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Alla</value>
+  </data>
+  <data name="Arabic" xml:space="preserve">
+    <value>arabiska</value>
+  </data>
+  <data name="Articles" xml:space="preserve">
+    <value>Artikel</value>
+  </data>
+  <data name="Ask" xml:space="preserve">
+    <value>Fråga</value>
+  </data>
+  <data name="Assign" xml:space="preserve">
+    <value>Tilldela</value>
+  </data>
+  <data name="Barcode" xml:space="preserve">
+    <value>Barkod</value>
+  </data>
+  <data name="Bill" xml:space="preserve">
+    <value>Bill</value>
+  </data>
+  <data name="BuyLimit" xml:space="preserve">
+    <value>Köp Limit</value>
+  </data>
+  <data name="Campaign" xml:space="preserve">
+    <value>Kampanj</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annullera</value>
+  </data>
+  <data name="CashBack" xml:space="preserve">
+    <value>Tillbaka</value>
+  </data>
+  <data name="Cashier" xml:space="preserve">
+    <value>Kassör</value>
+  </data>
+  <data name="Catalog" xml:space="preserve">
+    <value>katalog</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Kategorier</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Kategori</value>
+  </data>
+  <data name="CheckIn" xml:space="preserve">
+    <value>Checka in</value>
+  </data>
+  <data name="CheckOut" xml:space="preserve">
+    <value>Checka ut</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Stad</value>
+  </data>
+  <data name="close" xml:space="preserve">
+    <value>Stäng</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Kod</value>
+  </data>
+  <data name="ColorCode" xml:space="preserve">
+    <value>Färgkod</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Företag</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Bekräfta</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Kontakta</value>
+  </data>
+  <data name="Contract" xml:space="preserve">
+    <value>Avtal</value>
+  </data>
+  <data name="ControlUnit" xml:space="preserve">
+    <value>Kontrollenhet</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Land</value>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Köpare</value>
+  </data>
+  <data name="CustomerNo" xml:space="preserve">
+    <value>kundnummer</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value>Databas</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Radera</value>
+  </data>
+  <data name="DeleteConfMsg" xml:space="preserve">
+    <value>Är du säker på att ta bort den valda posten ?</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Utgår</value>
+  </data>
+  <data name="Deployment" xml:space="preserve">
+    <value>Spridning</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Beskrivning</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Detaljer</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Rabbaterat</value>
+  </data>
+  <data name="DiscountAllowed" xml:space="preserve">
+    <value>Rabatt tillåten</value>
+  </data>
+  <data name="DiscountedAmount" xml:space="preserve">
+    <value>Rabatterat belopp</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Redigera</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-post</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>anställd</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>Slutdatum</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Engelska</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Fel</value>
+  </data>
+  <data name="Expected" xml:space="preserve">
+    <value>Förväntat</value>
+  </data>
+  <data name="ExportFile" xml:space="preserve">
+    <value>exportfil</value>
+  </data>
+  <data name="Filterby" xml:space="preserve">
+    <value>Filtrera efter</value>
+  </data>
+  <data name="First" xml:space="preserve">
+    <value>Först</value>
+  </data>
+  <data name="Floor" xml:space="preserve">
+    <value>Våning</value>
+  </data>
+  <data name="Footer" xml:space="preserve">
+    <value>Sidfot</value>
+  </data>
+  <data name="Forgotten" xml:space="preserve">
+    <value>Forgotten</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Allmänt</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Generera</value>
+  </data>
+  <data name="Global" xml:space="preserve">
+    <value>Globalt</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>grupp</value>
+  </data>
+  <data name="GroupProduct" xml:space="preserve">
+    <value>Grupperade</value>
+  </data>
+  <data name="Hardware" xml:space="preserve">
+    <value>Hårdvara</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>Rubrik</value>
+  </data>
+  <data name="Holder" xml:space="preserve">
+    <value>Hållare</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>timmar</value>
+  </data>
+  <data name="IconStore" xml:space="preserve">
+    <value>Symbol Butiks</value>
+  </data>
+  <data name="Identification" xml:space="preserve">
+    <value>Identifiering</value>
+  </data>
+  <data name="Inactive" xml:space="preserve">
+    <value>Inaktiv</value>
+  </data>
+  <data name="Ingredient" xml:space="preserve">
+    <value>ingredienser</value>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>faktura</value>
+  </data>
+  <data name="Invoices" xml:space="preserve">
+    <value>fakturor</value>
+  </data>
+  <data name="Kitchen" xml:space="preserve">
+    <value>Kök</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Språk</value>
+  </data>
+  <data name="Last" xml:space="preserve">
+    <value>Sista</value>
+  </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Mall</value>
+  </data>
+  <data name="lblProducts" xml:space="preserve">
+    <value>Produkter</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Level</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Plats</value>
+  </data>
+  <data name="Lock" xml:space="preserve">
+    <value>Låsa</value>
+  </data>
+  <data name="Log" xml:space="preserve">
+    <value>Logga</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Logga in</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logga ut</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Meddelande</value>
+  </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>Minuter</value>
+  </data>
+  <data name="Mode" xml:space="preserve">
+    <value>mode</value>
+  </data>
+  <data name="Monthly" xml:space="preserve">
+    <value>Månadsvis</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Namn</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>Ny</value>
+  </data>
+  <data name="new1" xml:space="preserve">
+    <value>ny</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Anmärkningar</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Nummer</value>
+  </data>
+  <data name="Offer" xml:space="preserve">
+    <value>Erbjudande</value>
+  </data>
+  <data name="OpenCustomer" xml:space="preserve">
+    <value>Öppen Kund</value>
+  </data>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Order_Comment" xml:space="preserve">
+    <value>Orderkommentarer</value>
+  </data>
+  <data name="OrgNo" xml:space="preserve">
+    <value>Org nr</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Annan</value>
+  </data>
+  <data name="Outlet" xml:space="preserve">
+    <value>Outlet</value>
+  </data>
+  <data name="Outlets" xml:space="preserve">
+    <value>Outlets</value>
+  </data>
+  <data name="Overview" xml:space="preserve">
+    <value>översikt</value>
+  </data>
+  <data name="Parent" xml:space="preserve">
+    <value>förälder</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Lösenord</value>
+  </data>
+  <data name="PaymentStatus" xml:space="preserve">
+    <value>Betalstatus</value>
+  </data>
+  <data name="Payment_Method_Account" xml:space="preserve">
+    <value>Konto</value>
+  </data>
+  <data name="Payment_Method_Cash" xml:space="preserve">
+    <value>Kontant</value>
+  </data>
+  <data name="Payment_Method_CashBack" xml:space="preserve">
+    <value>Tillbaka</value>
+  </data>
+  <data name="Payment_Method_Coupon" xml:space="preserve">
+    <value>Kupong</value>
+  </data>
+  <data name="Payment_Method_CreditCard" xml:space="preserve">
+    <value>Kort</value>
+  </data>
+  <data name="Payment_Method_DebitCard" xml:space="preserve">
+    <value>Bankkort</value>
+  </data>
+  <data name="Payment_Method_FreeCoupon" xml:space="preserve">
+    <value>Gratiskopong</value>
+  </data>
+  <data name="Payment_Method_Mobile" xml:space="preserve">
+    <value>Mobil korterminal</value>
+  </data>
+  <data name="Payment_Method_Return" xml:space="preserve">
+    <value>Retur</value>
+  </data>
+  <data name="PerCategory" xml:space="preserve">
+    <value>Per kategori</value>
+  </data>
+  <data name="PerDay" xml:space="preserve">
+    <value>Per dag</value>
+  </data>
+  <data name="PerHours" xml:space="preserve">
+    <value>Per timme</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="Place" xml:space="preserve">
+    <value>Plats</value>
+  </data>
+  <data name="Placeholder" xml:space="preserve">
+    <value>Platshållare</value>
+  </data>
+  <data name="Please" xml:space="preserve">
+    <value>Behaga</value>
+  </data>
+  <data name="PLU" xml:space="preserve">
+    <value>PLU</value>
+  </data>
+  <data name="Policy" xml:space="preserve">
+    <value>Policy</value>
+  </data>
+  <data name="PortCode" xml:space="preserve">
+    <value>Portkod</value>
+  </data>
+  <data name="Postal" xml:space="preserve">
+    <value>Post</value>
+  </data>
+  <data name="PreparationTime" xml:space="preserve">
+    <value>Förberedelsetid</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Pris</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Skriva ut</value>
+  </data>
+  <data name="Printer" xml:space="preserve">
+    <value>Skrivare</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Produkt</value>
+  </data>
+  <data name="product1" xml:space="preserve">
+    <value>produkt</value>
+  </data>
+  <data name="Qty" xml:space="preserve">
+    <value>Antal</value>
+  </data>
+  <data name="Receipt" xml:space="preserve">
+    <value>Kvitto</value>
+  </data>
+  <data name="ReceiptNumber" xml:space="preserve">
+    <value>Kvitto nr</value>
+  </data>
+  <data name="Reference" xml:space="preserve">
+    <value>Hänvisa till</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    <value>Anmärkningar</value>
+  </data>
+  <data name="Reportgenerator" xml:space="preserve">
+    <value>Rapportgenerator</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Rapporter</value>
+  </data>
+  <data name="ReportTag" xml:space="preserve">
+    <value>Rapportera tagg</value>
+  </data>
+  <data name="Report_Address" xml:space="preserve">
+    <value>Adress:</value>
+  </data>
+  <data name="Report_CashAdded" xml:space="preserve">
+    <value>Kontant instättning</value>
+  </data>
+  <data name="Report_CashDrawerOpen" xml:space="preserve">
+    <value>Öppningsväxel</value>
+  </data>
+  <data name="Report_CashDrawerOpenCount" xml:space="preserve">
+    <value>Kassaöppningar</value>
+  </data>
+  <data name="Report_CashDropped" xml:space="preserve">
+    <value>Kontant uttag</value>
+  </data>
+  <data name="Report_Cashier" xml:space="preserve">
+    <value>Kassör</value>
+  </data>
+  <data name="Report_CashIn" xml:space="preserve">
+    <value>Cash In</value>
+  </data>
+  <data name="Report_CashOut" xml:space="preserve">
+    <value>Cash Out</value>
+  </data>
+  <data name="Report_CashSum" xml:space="preserve">
+    <value>Cash Sum</value>
+  </data>
+  <data name="Report_CategorySale" xml:space="preserve">
+    <value>Försäljning Kategori</value>
+  </data>
+  <data name="Report_CategorySaleCount" xml:space="preserve">
+    <value>Förs kat antal</value>
+  </data>
+  <data name="Report_CategorySaleCountHeading" xml:space="preserve">
+    <value>Försäljning kategori antal</value>
+  </data>
+  <data name="Report_CategorySaleHeading" xml:space="preserve">
+    <value>Försäljning kategori kronor</value>
+  </data>
+  <data name="Report_CloseDate" xml:space="preserve">
+    <value>Stängdes</value>
+  </data>
+  <data name="Report_Description" xml:space="preserve">
+    <value>Beskrivning</value>
+  </data>
+  <data name="Report_DiscountCount" xml:space="preserve">
+    <value>Antal rabatter</value>
+  </data>
+  <data name="Report_EndOrder" xml:space="preserve">
+    <value>SLUT ORDER</value>
+  </data>
+  <data name="Report_From" xml:space="preserve">
+    <value>Från</value>
+  </data>
+  <data name="Report_GrandTotal" xml:space="preserve">
+    <value>Totalsumma</value>
+  </data>
+  <data name="Report_GrandTotalNet" xml:space="preserve">
+    <value>Totalbelopp</value>
+  </data>
+  <data name="Report_GrandTotalReturn" xml:space="preserve">
+    <value>Totalbelopp(retur) </value>
+  </data>
+  <data name="Report_GrandTotalSale" xml:space="preserve">
+    <value>Totalförsäljningen</value>
+  </data>
+  <data name="Report_HoldCount" xml:space="preserve">
+    <value>Pausade köp</value>
+  </data>
+  <data name="Report_HoldTotalSale" xml:space="preserve">
+    <value>Pausade belopp</value>
+  </data>
+  <data name="Report_OpenDate" xml:space="preserve">
+    <value>Öppnades</value>
+  </data>
+  <data name="Report_OrderCount" xml:space="preserve">
+    <value>Orderantal</value>
+  </data>
+  <data name="Report_OtherNegativeRegistrations" xml:space="preserve">
+    <value>Övriga negativa registreringar</value>
+  </data>
+  <data name="Report_Payment" xml:space="preserve">
+    <value>Betalt</value>
+  </data>
+  <data name="Report_PaymentTypeReturn" xml:space="preserve">
+    <value>Retur betalning</value>
+  </data>
+  <data name="Report_PaymentTypeSale" xml:space="preserve">
+    <value>Betalningssätt</value>
+  </data>
+  <data name="Report_Phone" xml:space="preserve">
+    <value>Telefon:</value>
+  </data>
+  <data name="Report_Printed" xml:space="preserve">
+    <value>Utskriven</value>
+  </data>
+  <data name="Report_PrintedOf" xml:space="preserve">
+    <value>av</value>
+  </data>
+  <data name="Report_ProductsCount" xml:space="preserve">
+    <value>Antal produkter</value>
+  </data>
+  <data name="Report_Quantity" xml:space="preserve">
+    <value>Antal</value>
+  </data>
+  <data name="Report_ReceiptCopy" xml:space="preserve">
+    <value>KOPIA</value>
+  </data>
+  <data name="Report_ReceiptCopyAmount" xml:space="preserve">
+    <value>Kvittokopia belopp</value>
+  </data>
+  <data name="Report_ReceiptCopyCount" xml:space="preserve">
+    <value>Kvittokopia antal</value>
+  </data>
+  <data name="Report_ReceiptCount" xml:space="preserve">
+    <value>Antal kvitton</value>
+  </data>
+  <data name="Report_ReceiptNo" xml:space="preserve">
+    <value>Kvitto nr:</value>
+  </data>
+  <data name="Report_ReportNumber" xml:space="preserve">
+    <value>Löpnr</value>
+  </data>
+  <data name="Report_ReturnCount" xml:space="preserve">
+    <value>Antal returer</value>
+  </data>
+  <data name="Report_ReturnVATPercent" xml:space="preserve">
+    <value>Moms returer %</value>
+  </data>
+  <data name="Report_ReturnVATSum" xml:space="preserve">
+    <value>Moms belopp returer</value>
+  </data>
+  <data name="Report_Rounding" xml:space="preserve">
+    <value>Öresutjämning</value>
+  </data>
+  <data name="Report_Sale" xml:space="preserve">
+    <value>Försäljning</value>
+  </data>
+  <data name="Report_SaleTotal" xml:space="preserve">
+    <value>Försäljning tot</value>
+  </data>
+  <data name="Report_ServicesCount" xml:space="preserve">
+    <value>Antal tjänster</value>
+  </data>
+  <data name="Report_To" xml:space="preserve">
+    <value>Till</value>
+  </data>
+  <data name="Report_TotalNet" xml:space="preserve">
+    <value>Netto</value>
+  </data>
+  <data name="Report_TotalReturn" xml:space="preserve">
+    <value>Returer</value>
+  </data>
+  <data name="Report_TotalSale" xml:space="preserve">
+    <value>Försäljning</value>
+  </data>
+  <data name="Report_Trainingmode" xml:space="preserve">
+    <value>Övning</value>
+  </data>
+  <data name="Report_TrainingModeCount" xml:space="preserve">
+    <value>Övning antal</value>
+  </data>
+  <data name="Report_UniqueIdentification" xml:space="preserve">
+    <value>Kassabeteckning</value>
+  </data>
+  <data name="Report_VAT" xml:space="preserve">
+    <value>Moms</value>
+  </data>
+  <data name="Report_VATPercent" xml:space="preserve">
+    <value>Moms %</value>
+  </data>
+  <data name="Report_VATSum" xml:space="preserve">
+    <value>MOMS belopp försäljning</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Återställa</value>
+  </data>
+  <data name="Revenue" xml:space="preserve">
+    <value>Intäkter</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Roller</value>
+  </data>
+  <data name="Root" xml:space="preserve">
+    <value>Rot</value>
+  </data>
+  <data name="salemonth" xml:space="preserve">
+    <value>månad</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Spara</value>
+  </data>
+  <data name="saved" xml:space="preserve">
+    <value>saved</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Sök</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Välj</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Inställningar</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Visa</value>
+  </data>
+  <data name="ShowButton" xml:space="preserve">
+    <value>visa knapp</value>
+  </data>
+  <data name="SKU" xml:space="preserve">
+    <value>SKU</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sortera</value>
+  </data>
+  <data name="Specify" xml:space="preserve">
+    <value>Specificera</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start datum</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Sticky" xml:space="preserve">
+    <value>klibbig</value>
+  </data>
+  <data name="Stock" xml:space="preserve">
+    <value>Lager</value>
+  </data>
+  <data name="Store" xml:space="preserve">
+    <value>Outlet</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Framgång</value>
+  </data>
+  <data name="successfully" xml:space="preserve">
+    <value>framgångsrikt</value>
+  </data>
+  <data name="Swedish" xml:space="preserve">
+    <value>Svenska</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Bord</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Moms</value>
+  </data>
+  <data name="Terminal" xml:space="preserve">
+    <value>Terminal</value>
+  </data>
+  <data name="Terminals" xml:space="preserve">
+    <value>Terminaler</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Klockslag</value>
+  </data>
+  <data name="TimeSheet" xml:space="preserve">
+    <value>Tidrapport</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Titel</value>
+  </data>
+  <data name="TodaySaleTotal" xml:space="preserve">
+    <value>Dagens totala försäljning</value>
+  </data>
+  <data name="TopSoldProduct" xml:space="preserve">
+    <value>Mest sålda produkter</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Totals</value>
+  </data>
+  <data name="TotalReturn" xml:space="preserve">
+    <value>Att erhålla</value>
+  </data>
+  <data name="TotalSale" xml:space="preserve">
+    <value>Totala försäljning</value>
+  </data>
+  <data name="Training" xml:space="preserve">
+    <value>Träning</value>
+  </data>
+  <data name="TransactionReport" xml:space="preserve">
+    <value>Transaktionsrapport</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="Types" xml:space="preserve">
+    <value>Typer</value>
+  </data>
+  <data name="under" xml:space="preserve">
+    <value>under</value>
+  </data>
+  <data name="Unique" xml:space="preserve">
+    <value>Unik</value>
+  </data>
+  <data name="unit" xml:space="preserve">
+    <value>Enhet</value>
+  </data>
+  <data name="UnitInPack" xml:space="preserve">
+    <value>Enhet I Pack</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Uppdatera</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Uppdaterad</value>
+  </data>
+  <data name="url" xml:space="preserve">
+    <value>url</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Användare</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Användarnamn</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Användare</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Värde</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Volume" xml:space="preserve">
+    <value>Volym</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Vikt</value>
+  </data>
+  <data name="ZipCode" xml:space="preserve">
+    <value>Postnummer</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>kosta</value>
+  </data>
+  <data name="lblPantProducts" xml:space="preserve">
+    <value>PANT Produkter</value>
+  </data>
+  <data name="ScannerOrders" xml:space="preserve">
+    <value>Skannerbeställningar</value>
+  </data>
+  <data name="ReadyOrder" xml:space="preserve">
+    <value>Redo för faktura</value>
+  </data>
+  <data name="ProfitReport" xml:space="preserve">
+    <value>ProfitReport</value>
+  </data>
+  <data name="PurchasePrice" xml:space="preserve">
+    <value>Inköpspris</value>
+  </data>
+  <data name="Exl_Tax" xml:space="preserve">
+    <value>Exl moms</value>
+  </data>
+  <data name="NetProfit" xml:space="preserve">
+    <value>Inköpspris</value>
+  </data>
+  <data name="MarginCalculation" xml:space="preserve">
+    <value>   Marginal:  SEK XXX        XX %</value>
+  </data>
+  <data name="PantProduct" xml:space="preserve">
+    <value>Pantprodukt</value>
+  </data>
+  <data name="Temp Marginal" xml:space="preserve">
+    <value>Tillfälligt pris marginal</value>
+  </data>
+  <data name="Temp Price" xml:space="preserve">
+    <value>Tillfälligt pris</value>
+  </data>
+  <data name="Temp Price End Date" xml:space="preserve">
+    <value>Tillfälligt pris stop datum</value>
+  </data>
+  <data name="Temp Price Start Date" xml:space="preserve">
+    <value>Tillfälligt pris start datum</value>
+  </data>
+  <data name="AccountNumber" xml:space="preserve">
+    <value>Till bankgironr</value>
+  </data>
+  <data name="InvoiceReference" xml:space="preserve">
+    <value>Vår referens</value>
+  </data>
+  <data name="PaymentReceiverName" xml:space="preserve">
+    <value>Betalningsmottagare</value>
+  </data>
+  <data name="PrimaryCategory" xml:space="preserve">
+    <value>Primär kategori</value>
+  </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>Grupp namn</value>
+  </data>
+  <data name="StockHistoryGrouped" xml:space="preserve">
+    <value>Aktiehistorik grupperad</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Kommentar</value>
+  </data>
+  <data name="Inventory" xml:space="preserve">
+    <value>Inventering</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>Historik</value>
+  </data>
+  <data name="lblInventory" xml:space="preserve">
+    <value>Inventering</value>
+  </data>
+	<data name="Action" xml:space="preserve">
+    <value>handling</value>
+  </data>
+  <data name="Section" xml:space="preserve">
+    <value>Sektion</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Sammanfattning</value>
+  </data>
+  <data name="Old" xml:space="preserve">
+    <value>Gammal</value>
+  </data>
+  <data name="Set" xml:space="preserve">
+    <value>Set</value>
+  </data>
+  <data name="Minimum" xml:space="preserve">
+    <value>Minimum</value>
+  </data>
+  <data name="ImportantNote" xml:space="preserve">
+    <value>Viktig notering</value>
+  </data>
+  <data name="Enter" xml:space="preserve">
+    <value>Komma in</value>
+  </data>
+  <data name="Valid" xml:space="preserve">
+    <value>Giltig</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Godkänd</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Godkänna</value>
+  </data>
+  <data name="Discrepancy_Report" xml:space="preserve">
+    <value>Diskrepansrapport</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Rapport</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Kvantitet</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Nivå</value>
+  </data>
+  <data name="Journal" xml:space="preserve">
+    <value>Tidskrift</value>
+  </data>
+  <data name="Journals" xml:space="preserve">
+    <value>Tidskrifter</value>
+  </data>
+  <data name="AutoLogin" xml:space="preserve">
+    <value>Autoinloggning</value>
+  </data>
+</root>

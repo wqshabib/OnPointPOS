@@ -1,0 +1,161 @@
+﻿@model RoleViewModel
+
+
+<div class="forms-page">
+    <div class="panel">
+        <div class="panel-heading"> <span class="panel-title"> <span class="glyphicon glyphicon-pencil"></span>New Role </span> </div>
+        <div class="panel-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="alert alert-success" style="display:none;" id="msgDiv"></div>
+                <div class="alert alert-danger" style="display:none;" id="divError"></div>
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                         
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control col-md-2", @placeholder = "Type name here..." })
+                            @Html.ValidationMessageFor(model => model.Name)
+                        </div>
+                    </div>
+                   
+                        <div class="pull-right">
+                            <input type="button" id="btnSaveRole" value="Save" class="btn bg-purple" />
+                            <input type="button" id="btnCancel" value="Cancel" class="btn bg-purple" />
+                        </div>
+                   
+                </div>
+            }
+
+            </div>
+        </div>
+    </div>
+
+            <script>
+                $(function () {
+                    $('#msgDiv').hide();
+                    $('#divError').hide();
+                    $("#btnSaveRole").click(function () {
+                     
+                        $("#divError").html('');
+                        $("#divError").hide();
+
+
+                        if ($('#Name').val() == '') {
+
+                            $("#divError").html('Specify role name');
+                            $("#divError").show();
+                            $('#Name').focus();
+                            return;
+                        }
+
+
+
+                        var obj = {
+
+                            Name: $("#Name").val()
+                        }
+                        $.ajax({
+
+
+                            url: '@Url.Action("AddRole", "Account")',
+                            type: "POST",
+                            contentType: 'Application/JSON',
+
+                            data: JSON.stringify(obj),
+
+                            success: function (result) {
+                                var res = result.Message;
+                                var arr = res.split(':');
+                                if (arr[0] == "Success") {
+                                    $("#msgDiv").show();
+                                    $('#msgDiv').html(arr[1]);
+                                    var tId;
+
+                                    $("#msgDiv").hide().slideDown();
+                                    clearTimeout(tId);
+                                    tId = setTimeout(function () {
+                                        $("#msgDiv").hide();
+                                        $('.modal-dialog').hide();
+                                        $('.modal-backdrop').hide();
+                                        window.location.reload(true);
+                                    }, 1500);
+                                }
+                                else {
+                                    $("#divError").show();
+                                    $('#divError').html(arr[1]);
+                                }
+
+                            }
+
+                        });
+
+                    });
+                    $("#btnCancel").click(function () {
+                        $('.modal-dialog').hide();
+                        $('.modal-backdrop').hide();
+                    });
+                });
+
+              function SaveRole() {
+                   
+                    $("#divError").html('');
+                    $("#divError").hide();
+
+
+                    if ($('#Name').val() == '') {
+
+                        $("#divError").html('Specify role name');
+                        $("#divError").show();
+                        $('#Name').focus();
+                        return;
+                    }
+
+
+
+                    var obj = {
+
+                        Name: $("#Name").val()
+                    }
+
+                    $.ajax({
+
+
+                        url: '@Url.Action("AddRole", "Account")',
+                        type: "POST",
+                        contentType: 'Application/JSON',
+
+                        data: JSON.stringify(obj),
+
+                        success: function (result) {
+                            var res = result.Message;
+                            var arr = res.split(':');
+                            if (arr[0] == "Success") {
+                                $("#msgDiv").show();
+                                $('#msgDiv').html(arr[1]);
+                                var tId;
+
+                                $("#msgDiv").hide().slideDown();
+                                clearTimeout(tId);
+                                tId = setTimeout(function () {
+                                    $("#msgDiv").hide();
+                                    $('.modal-dialog').hide();
+                                    $('.modal-backdrop').hide();
+                                    window.location.reload(true);
+                                }, 1500);
+                            }
+                            else {
+                                $("#divError").show();
+                                $('#divError').html(arr[1]);
+                            }
+
+                        }
+
+                    });
+
+                }
+            </script>
+    
+    

@@ -1,0 +1,810 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://externalws.client.ers.seamless.com/" name="ERSClientInterface" targetNamespace="http://externalws.client.ers.seamless.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema xmlns:tns="http://externalws.client.ers.seamless.com/" elementFormDefault="unqualified" targetNamespace="http://externalws.client.ers.seamless.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="buyReservedVoucher" type="tns:buyReservedVoucher" />
+      <xs:element name="buyReservedVoucherResponse" type="tns:buyReservedVoucherResponse" />
+      <xs:element name="buyVoucher" type="tns:buyVoucher" />
+      <xs:element name="buyVoucherResponse" type="tns:buyVoucherResponse" />
+      <xs:element name="buyVouchers" type="tns:buyVouchers" />
+      <xs:element name="buyVouchersResponse" type="tns:buyVouchersResponse" />
+      <xs:element name="cancelTopup" type="tns:cancelTopup" />
+      <xs:element name="cancelTopupResponse" type="tns:cancelTopupResponse" />
+      <xs:element name="cancelTransaction" type="tns:cancelTransaction" />
+      <xs:element name="cancelTransactionResponse" type="tns:cancelTransactionResponse" />
+      <xs:element name="cancelVoucherReservation" type="tns:cancelVoucherReservation" />
+      <xs:element name="cancelVoucherReservationResponse" type="tns:cancelVoucherReservationResponse" />
+      <xs:element name="changeClientPassword" type="tns:changeClientPassword" />
+      <xs:element name="changeClientPasswordResponse" type="tns:changeClientPasswordResponse" />
+      <xs:element name="commitTopup" type="tns:commitTopup" />
+      <xs:element name="commitTopupResponse" type="tns:commitTopupResponse" />
+      <xs:element name="executeReport" type="tns:executeReport" />
+      <xs:element name="executeReportResponse" type="tns:executeReportResponse" />
+      <xs:element name="getClientAccounts" type="tns:getClientAccounts" />
+      <xs:element name="getClientAccountsResponse" type="tns:getClientAccountsResponse" />
+      <xs:element name="getClientStatus" type="tns:getClientStatus" />
+      <xs:element name="getClientStatusResponse" type="tns:getClientStatusResponse" />
+      <xs:element name="getProductList" type="tns:getProductList" />
+      <xs:element name="getProductListBySequence" type="tns:getProductListBySequence" />
+      <xs:element name="getProductListBySequenceResponse" type="tns:getProductListBySequenceResponse" />
+      <xs:element name="getProductListCount" type="tns:getProductListCount" />
+      <xs:element name="getProductListCountResponse" type="tns:getProductListCountResponse" />
+      <xs:element name="getProductListResponse" type="tns:getProductListResponse" />
+      <xs:element name="getReceipt" type="tns:getReceipt" />
+      <xs:element name="getReceiptResponse" type="tns:getReceiptResponse" />
+      <xs:element name="getSubscriber" type="tns:getSubscriber" />
+      <xs:element name="getSubscriberResponse" type="tns:getSubscriberResponse" />
+      <xs:element name="prepareTopup" type="tns:prepareTopup" />
+      <xs:element name="prepareTopupResponse" type="tns:prepareTopupResponse" />
+      <xs:element name="reportVouchersSoldOn" type="tns:reportVouchersSoldOn" />
+      <xs:element name="reportVouchersSoldOnResponse" type="tns:reportVouchersSoldOnResponse" />
+      <xs:element name="requestAdminUserTransaction" type="tns:requestAdminUserTransaction" />
+      <xs:element name="requestAdminUserTransactionResponse" type="tns:requestAdminUserTransactionResponse" />
+      <xs:element name="reserveVoucher" type="tns:reserveVoucher" />
+      <xs:element name="reserveVoucherResponse" type="tns:reserveVoucherResponse" />
+      <xs:element name="topup" type="tns:topup" />
+      <xs:element name="topupResponse" type="tns:topupResponse" />
+      <xs:element name="transferCredit" type="tns:transferCredit" />
+      <xs:element name="transferCreditResponse" type="tns:transferCreditResponse" />
+      <xs:complexType name="getClientAccounts">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="clientMSISDN" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="clientContext">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="channel" type="xs:string" />
+          <xs:element minOccurs="0" name="clientId" type="xs:string" />
+          <xs:element name="clientRequestTimeout" type="xs:long" />
+          <xs:element minOccurs="0" name="clientUserId" type="xs:string" />
+          <xs:element minOccurs="0" name="password" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getClientAccountsResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:getClientAccountsResponseData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getClientAccountsResponseData">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:response">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="accounts" nillable="true" type="tns:clientAccountData" />
+              <xs:element minOccurs="0" name="clientMSISDN" type="xs:string" />
+              <xs:element minOccurs="0" name="clientName" type="xs:string" />
+              <xs:element minOccurs="0" name="receipt" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="response">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="errorDescription" type="xs:string" />
+          <xs:element minOccurs="0" name="ersReference" type="xs:string" />
+          <xs:element name="resultCode" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="clientAccountData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="accountId" type="xs:string" />
+          <xs:element minOccurs="0" name="balance" type="tns:amount" />
+          <xs:element minOccurs="0" name="creditLimit" type="tns:amount" />
+          <xs:element minOccurs="0" name="description" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="amount">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="currency" type="xs:string" />
+          <xs:element minOccurs="0" name="value" type="xs:decimal" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="abstractCollection" abstract="true">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="abstractList" abstract="true">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractCollection">
+            <xs:sequence />
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="vector">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractList">
+            <xs:sequence />
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="buyVoucher">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="transactionData" type="tns:clientTransactionData" />
+          <xs:element minOccurs="0" name="productId" type="xs:string" />
+          <xs:element minOccurs="0" name="receiptFormatId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="clientTransactionData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="clientComment" type="xs:string" />
+          <xs:element minOccurs="0" name="clientReference" type="xs:string" />
+          <xs:element minOccurs="0" name="clientTag" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="buyVoucherResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:buyVoucherResponseData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="buyVoucherResponseData">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:response">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="productEAN" type="xs:string" />
+              <xs:element minOccurs="0" name="productName" type="xs:string" />
+              <xs:element minOccurs="0" name="productSKU" type="xs:string" />
+              <xs:element minOccurs="0" name="receipt" type="xs:string" />
+              <xs:element minOccurs="0" name="voucher" type="tns:voucherData" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="voucherData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="code" type="xs:string" />
+          <xs:element minOccurs="0" name="expiryDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="serial" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="transferCredit">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="transactionData" type="tns:clientTransactionData" />
+          <xs:element minOccurs="0" name="receiverResellerId" type="xs:string" />
+          <xs:element minOccurs="0" name="amount" type="tns:amount" />
+          <xs:element minOccurs="0" name="receiptFormatId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="transferCreditResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:creditTransferResponseData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="creditTransferResponseData">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:response">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="amount" type="tns:amount" />
+              <xs:element minOccurs="0" name="receipt" type="xs:string" />
+              <xs:element minOccurs="0" name="senderAccount" type="tns:transactionAccountInformation" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="transactionAccountInformation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="accountId" type="xs:string" />
+          <xs:element minOccurs="0" name="balanceAfter" type="tns:amount" />
+          <xs:element minOccurs="0" name="balanceBefore" type="tns:amount" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getSubscriber">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="subscriberMSISDN" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getSubscriberResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:getSubscriberResponseData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getSubscriberResponseData">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:response">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="accountClass" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="accountList" nillable="true" type="tns:clientAccountData" />
+              <xs:element minOccurs="0" name="language" type="xs:string" />
+              <xs:element minOccurs="0" name="status" type="xs:string" />
+              <xs:element minOccurs="0" name="subscriberMSISDN" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="buyReservedVoucher">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="ersReference" type="xs:string" />
+          <xs:element minOccurs="0" name="receiptFormatId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="buyReservedVoucherResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:buyVoucherResponseData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="reportVouchersSoldOn">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="transactionData" type="tns:clientTransactionData" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="arg2" type="tns:voucherSaleData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="voucherSaleData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="productId" type="xs:string" />
+          <xs:element minOccurs="0" name="recipientTypeId" type="xs:string" />
+          <xs:element minOccurs="0" name="saleReference" type="xs:string" />
+          <xs:element minOccurs="0" name="serial" type="xs:string" />
+          <xs:element minOccurs="0" name="timeOfSale" type="xs:dateTime" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="reportVouchersSoldOnResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:response" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getProductListCount">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getProductListCountResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:productCountData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="productCountData">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:response">
+            <xs:sequence>
+              <xs:element name="totalCount" type="xs:int" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="getClientStatus">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="receiptFormatId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getClientStatusResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:getClientStatusResponseData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getClientStatusResponseData">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:response">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="accounts" nillable="true" type="tns:clientAccountData" />
+              <xs:element minOccurs="0" name="clientName" type="xs:string" />
+              <xs:element minOccurs="0" name="receipt" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="reserveVoucher">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="transactionData" type="tns:clientTransactionData" />
+          <xs:element minOccurs="0" name="productId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="reserveVoucherResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:response" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="commitTopup">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="transactionData" type="tns:clientTransactionData" />
+          <xs:element minOccurs="0" name="ersReference" type="xs:string" />
+          <xs:element minOccurs="0" name="receiptFormatId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="commitTopupResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:topupResponseData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="topupResponseData">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:response">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="doubleToppedUp" type="tns:amount" />
+              <xs:element minOccurs="0" name="receiverAccount" type="tns:topupAccountInformation" />
+              <xs:element minOccurs="0" name="receiverReceipt" type="xs:string" />
+              <xs:element minOccurs="0" name="senderAccount" type="tns:topupAccountInformation" />
+              <xs:element minOccurs="0" name="senderReceipt" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="topupAccountInformation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="accountId" type="xs:string" />
+          <xs:element minOccurs="0" name="balanceAfter" type="tns:amount" />
+          <xs:element minOccurs="0" name="balanceBefore" type="tns:amount" />
+          <xs:element minOccurs="0" name="expiryAfter" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="expiryBefore" type="xs:dateTime" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="requestAdminUserTransaction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="adminUserOperation" type="tns:adminUserOperation" />
+          <xs:element minOccurs="0" name="adminUser" type="tns:adminUser" />
+          <xs:element minOccurs="0" name="adminPassword" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="adminUser">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="email" type="xs:string" />
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+          <xs:element minOccurs="0" name="phone" type="xs:string" />
+          <xs:element minOccurs="0" name="userId" type="xs:string" />
+          <xs:element minOccurs="0" name="userRole" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="requestAdminUserTransactionResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:response" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="changeClientPassword">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="newPassword" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="changeClientPasswordResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:response" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="topup">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="transactionData" type="tns:clientTransactionData" />
+          <xs:element minOccurs="0" name="productId" type="xs:string" />
+          <xs:element minOccurs="0" name="accountId" type="xs:string" />
+          <xs:element minOccurs="0" name="amount" type="tns:amount" />
+          <xs:element minOccurs="0" name="receiptFormatId" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="topupResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:topupResponseData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getReceipt">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="ersReference" type="xs:string" />
+          <xs:element minOccurs="0" name="receiptType" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getReceiptResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:getReceiptResponseData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getReceiptResponseData">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:response">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="receipt" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="cancelVoucherReservation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="ersReference" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="cancelVoucherReservationResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:response" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getProductList">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getProductListResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:getProductListResponseData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getProductListResponseData">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:response">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="suppliers" nillable="true" type="tns:supplierData" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="supplierData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="products" nillable="true" type="tns:productData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="productData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="customerPrice" type="tns:amount" />
+          <xs:element minOccurs="0" name="ean" type="xs:string" />
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+          <xs:element minOccurs="0" name="sku" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getProductListBySequence">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element name="startSeq" type="xs:int" />
+          <xs:element name="endSeq" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getProductListBySequenceResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:getProductListResponseData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="buyVouchers">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="transactionData" type="tns:clientTransactionData" />
+          <xs:element minOccurs="0" name="productId" type="xs:string" />
+          <xs:element name="count" type="xs:int" />
+          <xs:element name="reportAsSoldOnDirectly" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="buyVouchersResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:buyVouchersResponseData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="buyVouchersResponseData">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:response">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="productEAN" type="xs:string" />
+              <xs:element minOccurs="0" name="productName" type="xs:string" />
+              <xs:element minOccurs="0" name="productSKU" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="vouchers" nillable="true" type="tns:voucherData" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="prepareTopup">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="transactionData" type="tns:clientTransactionData" />
+          <xs:element minOccurs="0" name="productId" type="xs:string" />
+          <xs:element minOccurs="0" name="accountId" type="xs:string" />
+          <xs:element minOccurs="0" name="amount" type="tns:amount" />
+          <xs:element minOccurs="0" name="isAccountIdMSISDN" type="xs:boolean" />
+          <xs:element minOccurs="0" name="isDirectTopup" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="prepareTopupResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:response" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="executeReport">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="transactionData" type="tns:clientTransactionData" />
+          <xs:element minOccurs="0" name="reportId" type="xs:string" />
+          <xs:element minOccurs="0" name="language" type="xs:string" />
+          <xs:element minOccurs="0" name="parameters" type="tns:parameterMap" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="parameterMap">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="parameter" type="tns:mapArray" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="mapArray">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="entry" type="tns:parameter" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="parameter">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="key" type="xs:string" />
+          <xs:element minOccurs="0" name="value" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="executeReportResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:reportResponseData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="reportResponseData">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:response">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="reportData" type="tns:reportData" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="reportData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="content" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="contentString" type="xs:string" />
+          <xs:element minOccurs="0" name="mimeType" type="xs:string" />
+          <xs:element minOccurs="0" name="title" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="cancelTransaction">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="transactionData" type="tns:clientTransactionData" />
+          <xs:element minOccurs="0" name="ersReference" type="xs:string" />
+          <xs:element minOccurs="0" name="verificationCode" type="xs:string" />
+          <xs:element minOccurs="0" name="reasonCode" type="xs:string" />
+          <xs:element minOccurs="0" name="reason" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="cancelTransactionResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:response" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="cancelTopup">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="context" type="tns:clientContext" />
+          <xs:element minOccurs="0" name="transactionData" type="tns:clientTransactionData" />
+          <xs:element minOccurs="0" name="ersReference" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="cancelTopupResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:response" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="adminUserOperation">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Add" />
+          <xs:enumeration value="Remove" />
+          <xs:enumeration value="Block" />
+          <xs:enumeration value="Unblock" />
+          <xs:enumeration value="ChangePassword" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="topupResponse">
+    <wsdl:part name="parameters" element="ns1:topupResponse" />
+  </wsdl:message>
+  <wsdl:message name="buyVoucherResponse">
+    <wsdl:part name="parameters" element="ns1:buyVoucherResponse" />
+  </wsdl:message>
+  <wsdl:message name="changeClientPasswordResponse">
+    <wsdl:part name="parameters" element="ns1:changeClientPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="cancelTopup">
+    <wsdl:part name="parameters" element="ns1:cancelTopup" />
+  </wsdl:message>
+  <wsdl:message name="prepareTopup">
+    <wsdl:part name="parameters" element="ns1:prepareTopup" />
+  </wsdl:message>
+  <wsdl:message name="reserveVoucher">
+    <wsdl:part name="parameters" element="ns1:reserveVoucher" />
+  </wsdl:message>
+  <wsdl:message name="requestAdminUserTransactionResponse">
+    <wsdl:part name="parameters" element="ns1:requestAdminUserTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="cancelTopupResponse">
+    <wsdl:part name="parameters" element="ns1:cancelTopupResponse" />
+  </wsdl:message>
+  <wsdl:message name="prepareTopupResponse">
+    <wsdl:part name="parameters" element="ns1:prepareTopupResponse" />
+  </wsdl:message>
+  <wsdl:message name="cancelTransaction">
+    <wsdl:part name="parameters" element="ns1:cancelTransaction" />
+  </wsdl:message>
+  <wsdl:message name="commitTopupResponse">
+    <wsdl:part name="parameters" element="ns1:commitTopupResponse" />
+  </wsdl:message>
+  <wsdl:message name="buyReservedVoucher">
+    <wsdl:part name="parameters" element="ns1:buyReservedVoucher" />
+  </wsdl:message>
+  <wsdl:message name="reserveVoucherResponse">
+    <wsdl:part name="parameters" element="ns1:reserveVoucherResponse" />
+  </wsdl:message>
+  <wsdl:message name="cancelVoucherReservation">
+    <wsdl:part name="parameters" element="ns1:cancelVoucherReservation" />
+  </wsdl:message>
+  <wsdl:message name="getProductListCountResponse">
+    <wsdl:part name="parameters" element="ns1:getProductListCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="getClientStatusResponse">
+    <wsdl:part name="parameters" element="ns1:getClientStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="getProductListResponse">
+    <wsdl:part name="parameters" element="ns1:getProductListResponse" />
+  </wsdl:message>
+  <wsdl:message name="reportVouchersSoldOn">
+    <wsdl:part name="parameters" element="ns1:reportVouchersSoldOn" />
+  </wsdl:message>
+  <wsdl:message name="getProductListBySequence">
+    <wsdl:part name="parameters" element="ns1:getProductListBySequence" />
+  </wsdl:message>
+  <wsdl:message name="getProductListBySequenceResponse">
+    <wsdl:part name="parameters" element="ns1:getProductListBySequenceResponse" />
+  </wsdl:message>
+  <wsdl:message name="getProductList">
+    <wsdl:part name="parameters" element="ns1:getProductList" />
+  </wsdl:message>
+  <wsdl:message name="getSubscriberResponse">
+    <wsdl:part name="parameters" element="ns1:getSubscriberResponse" />
+  </wsdl:message>
+  <wsdl:message name="getProductListCount">
+    <wsdl:part name="parameters" element="ns1:getProductListCount" />
+  </wsdl:message>
+  <wsdl:message name="buyReservedVoucherResponse">
+    <wsdl:part name="parameters" element="ns1:buyReservedVoucherResponse" />
+  </wsdl:message>
+  <wsdl:message name="getClientStatus">
+    <wsdl:part name="parameters" element="ns1:getClientStatus" />
+  </wsdl:message>
+  <wsdl:message name="executeReportResponse">
+    <wsdl:part name="parameters" element="ns1:executeReportResponse" />
+  </wsdl:message>
+  <wsdl:message name="getClientAccountsResponse">
+    <wsdl:part name="parameters" element="ns1:getClientAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="cancelTransactionResponse">
+    <wsdl:part name="parameters" element="ns1:cancelTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="changeClientPassword">
+    <wsdl:part name="parameters" element="ns1:changeClientPassword" />
+  </wsdl:message>
+  <wsdl:message name="reportVouchersSoldOnResponse">
+    <wsdl:part name="parameters" element="ns1:reportVouchersSoldOnResponse" />
+  </wsdl:message>
+  <wsdl:message name="buyVouchers">
+    <wsdl:part name="parameters" element="ns1:buyVouchers" />
+  </wsdl:message>
+  <wsdl:message name="getClientAccounts">
+    <wsdl:part name="parameters" element="ns1:getClientAccounts" />
+  </wsdl:message>
+  <wsdl:message name="getReceiptResponse">
+    <wsdl:part name="parameters" element="ns1:getReceiptResponse" />
+  </wsdl:message>
+  <wsdl:message name="getReceipt">
+    <wsdl:part name="parameters" element="ns1:getReceipt" />
+  </wsdl:message>
+  <wsdl:message name="buyVouchersResponse">
+    <wsdl:part name="parameters" element="ns1:buyVouchersResponse" />
+  </wsdl:message>
+  <wsdl:message name="commitTopup">
+    <wsdl:part name="parameters" element="ns1:commitTopup" />
+  </wsdl:message>
+  <wsdl:message name="requestAdminUserTransaction">
+    <wsdl:part name="parameters" element="ns1:requestAdminUserTransaction" />
+  </wsdl:message>
+  <wsdl:message name="transferCreditResponse">
+    <wsdl:part name="parameters" element="ns1:transferCreditResponse" />
+  </wsdl:message>
+  <wsdl:message name="cancelVoucherReservationResponse">
+    <wsdl:part name="parameters" element="ns1:cancelVoucherReservationResponse" />
+  </wsdl:message>
+  <wsdl:message name="getSubscriber">
+    <wsdl:part name="parameters" element="ns1:getSubscriber" />
+  </wsdl:message>
+  <wsdl:message name="executeReport">
+    <wsdl:part name="parameters" element="ns1:executeReport" />
+  </wsdl:message>
+  <wsdl:message name="buyVoucher">
+    <wsdl:part name="parameters" element="ns1:buyVoucher" />
+  </wsdl:message>
+  <wsdl:message name="topup">
+    <wsdl:part name="parameters" element="ns1:topup" />
+  </wsdl:message>
+  <wsdl:message name="transferCredit">
+    <wsdl:part name="parameters" element="ns1:transferCredit" />
+  </wsdl:message>
+  <wsdl:portType name="ERSClientInterface">
+    <wsdl:operation name="getClientAccounts">
+      <wsdl:input name="getClientAccounts" message="ns1:getClientAccounts" />
+      <wsdl:output name="getClientAccountsResponse" message="ns1:getClientAccountsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="buyVoucher">
+      <wsdl:input name="buyVoucher" message="ns1:buyVoucher" />
+      <wsdl:output name="buyVoucherResponse" message="ns1:buyVoucherResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="transferCredit">
+      <wsdl:input name="transferCredit" message="ns1:transferCredit" />
+      <wsdl:output name="transferCreditResponse" message="ns1:transferCreditResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getSubscriber">
+      <wsdl:input name="getSubscriber" message="ns1:getSubscriber" />
+      <wsdl:output name="getSubscriberResponse" message="ns1:getSubscriberResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="buyReservedVoucher">
+      <wsdl:input name="buyReservedVoucher" message="ns1:buyReservedVoucher" />
+      <wsdl:output name="buyReservedVoucherResponse" message="ns1:buyReservedVoucherResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="reportVouchersSoldOn">
+      <wsdl:input name="reportVouchersSoldOn" message="ns1:reportVouchersSoldOn" />
+      <wsdl:output name="reportVouchersSoldOnResponse" message="ns1:reportVouchersSoldOnResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getProductListCount">
+      <wsdl:input name="getProductListCount" message="ns1:getProductListCount" />
+      <wsdl:output name="getProductListCountResponse" message="ns1:getProductListCountResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getClientStatus">
+      <wsdl:input name="getClientStatus" message="ns1:getClientStatus" />
+      <wsdl:output name="getClientStatusResponse" message="ns1:getClientStatusResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="reserveVoucher">
+      <wsdl:input name="reserveVoucher" message="ns1:reserveVoucher" />
+      <wsdl:output name="reserveVoucherResponse" message="ns1:reserveVoucherResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="commitTopup">
+      <wsdl:input name="commitTopup" message="ns1:commitTopup" />
+      <wsdl:output name="commitTopupResponse" message="ns1:commitTopupResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="requestAdminUserTransaction">
+      <wsdl:input name="requestAdminUserTransaction" message="ns1:requestAdminUserTransaction" />
+      <wsdl:output name="requestAdminUserTransactionResponse" message="ns1:requestAdminUserTransactionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="changeClientPassword">
+      <wsdl:input name="changeClientPassword" message="ns1:changeClientPassword" />
+      <wsdl:output name="changeClientPasswordResponse" message="ns1:changeClientPasswordResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="topup">
+      <wsdl:input name="topup" message="ns1:topup" />
+      <wsdl:output name="topupResponse" message="ns1:topupResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getReceipt">
+      <wsdl:input name="getReceipt" message="ns1:getReceipt" />
+      <wsdl:output name="getReceiptResponse" message="ns1:getReceiptResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="cancelVoucherReservation">
+      <wsdl:input name="cancelVoucherReservation" message="ns1:cancelVoucherReservation" />
+      <wsdl:output name="cancelVoucherReservationResponse" message="ns1:cancelVoucherReservationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getProductList">
+      <wsdl:input name="getProductList" message="ns1:getProductList" />
+      <wsdl:output name="getProductListResponse" message="ns1:getProductListResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getProductListBySequence">
+      <wsdl:input name="getProductListBySequence" message="ns1:getProductListBySequence" />
+      <wsdl:output name="getProductListBySequenceResponse" message="ns1:getProductListBySequenceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="buyVouchers">
+      <wsdl:input name="buyVouchers" message="ns1:buyVouchers" />
+      <wsdl:output name="buyVouchersResponse" message="ns1:buyVouchersResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="prepareTopup">
+      <wsdl:input name="prepareTopup" message="ns1:prepareTopup" />
+      <wsdl:output name="prepareTopupResponse" message="ns1:prepareTopupResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="executeReport">
+      <wsdl:input name="executeReport" message="ns1:executeReport" />
+      <wsdl:output name="executeReportResponse" message="ns1:executeReportResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="cancelTransaction">
+      <wsdl:input name="cancelTransaction" message="ns1:cancelTransaction" />
+      <wsdl:output name="cancelTransactionResponse" message="ns1:cancelTransactionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="cancelTopup">
+      <wsdl:input name="cancelTopup" message="ns1:cancelTopup" />
+      <wsdl:output name="cancelTopupResponse" message="ns1:cancelTopupResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

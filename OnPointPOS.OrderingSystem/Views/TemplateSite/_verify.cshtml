@@ -1,0 +1,135 @@
+﻿@model LUETemplateSite.Models.SiteModel
+@{
+    var icon = "glyphicon-refresh";
+    var color = "#6ABA36"; //grön
+}
+@switch (Model.OrderStatus)
+{
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+        icon = "glyphicon-refresh";
+        color = "#6ABA36";
+        break;
+    case 6:
+    case 7:
+    case 8:
+        icon = "glyphicon-ok-circle";
+        color = "#6ABA36";
+        break;
+    case 9:
+    case 10:
+        icon = "glyphicon-ban-circle";
+        color = "#CB2A41";
+        break;
+}
+
+<div class="modal-body">
+
+    <div class="col-lg-12 col-md-12 col-xs-12">
+        <div class="checkout-btn-wrap">
+            <span class="modal-icon-big modal-icon-ok glyphicon @icon" style="color:@color"></span><br />
+            <br />
+            <h1>@(Model.VerificationMessages.Values.Count != 0 ? Model.VerificationMessages.Values.Last() : String.Empty)</h1>
+        </div>
+    </div>
+
+    @if (!ViewBag.Poll && Model.OrderStatus != 9 && Model.OrderStatus != 10)
+    {
+        <div class="col-lg-12 col-md-12 col-xs-12">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 modal-success" style="@(Model.ShopConfig.ShopTemplate == 2 ? "display:none" : String.Empty)">
+                <h4>Din order är klar</h4>
+                <h2>@Model.DeliveryDateTime</h2>
+            </div>
+            <div class="@(Model.ShopConfig.ShopTemplate == 2 ? "col-lg-6 col-md-6 col-sm-6 col-xs-12" : "col-lg-3 col-md-3 col-sm-3 col-xs-12") modal-success">
+                <h4>Ordernr</h4>
+                <h2>@Model.DailyOrderNo</h2>
+            </div>
+            <div class="@(Model.ShopConfig.ShopTemplate == 2 ? "col-lg-6 col-md-6 col-sm-6 col-xs-12" : "col-lg-3 col-md-3 col-sm-3 col-xs-12") modal-success">
+                <h4>Summa</h4>
+                <h2>@Model.TotalAmount kr</h2>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 modal-success" style="@(Model.ShopConfig.ShopTemplate == 2 ? "display:none" : String.Empty)">
+                <h4>Restaurang</h4>
+                <h2>@Model.OrderPrinter</h2>
+            </div>
+        </div>
+
+    }
+
+    @if (!ViewBag.Poll)
+    {
+        <script type="text/javascript">
+            var closeModalen = function () {
+                $.ajax({
+                    cache: false,
+                    type: 'GET',
+                    url: '/Home/Cancel'
+                });
+            }
+        </script>
+
+        <div class="col-lg-12 col-md-12 col-xs-12 btn-wrap-modal">
+            @if (Model.OrderFlow.Equals("SIMPLE"))
+            {
+                <button class="btn-change-order" onclick="return closeModalen()">Stäng</button>
+            }
+            else
+            {
+                <button class="btn-change-order" onclick="location.href = '/'">Tillbaka</button>   
+            }
+            <button onclick="location.href='/Home/Customer/@Model.CustomerGuid'" class="nav-toggle">Orderhistorik</button>
+        </div>
+    }
+
+    <div id="collapse1" style="display:none" class="col-lg-4 col-md-6 col-xs-12 .nav-toggle">
+        Här ska det vara ett riktigt kvitto som går att ladda ner
+
+        @*<div class="col-lg-12 col-md-12 col-xs-12 col-reciept">
+                <h4>Ordernr.</h4>
+                <p>7654321</p>
+                <h4>Leveranssätt</h4>
+                <p>Utkörning</p>
+            </div>
+            <div class="col-lg-12 col-md-12 col-xs-12 col-reciept">
+                <h4>Artiklar</h4>
+                <p>Margerita<span class="reciept-right">75 kr</span></p>
+                <p>Capricciosa<span class="reciept-right">75 kr</span></p>
+                <p>Quattro Stragioni<span class="reciept-right">75 kr</span></p>
+                <p>Vesuvio<span class="reciept-right">75 kr</span></p>
+            </div>
+            <div class="col-lg-12 col-md-12 col-xs-12 col-reciept">
+                <h4>Totalt<span class="reciept-right">340 kr</span></h4>
+            </div>
+            <div class="col-lg-12 col-md-12 col-xs-12 col-reciept">
+                <h4>Kundinfo</h4>
+                <p>Order-ID: 234586754</p>
+                <p>Namn: John Doe</p>
+                <p>Adress:<br />Exempelgatan 42<br />41724 Göteborg</p>
+                <p>Portkod: 1375</p>
+                <p>Våning: 5</p>
+            </div>
+            <div class="col-lg-12 col-md-12 col-xs-12 col-reciept">
+                <h4>Beställningstid</h4>
+                <p>16:20</p>
+            </div>
+            <div class="col-lg-12 col-md-12 col-xs-12 col-reciept col-reciept-last">
+                <h4>Önskad leveranstid</h4>
+                <p>16:45</p>
+            </div>
+            <div class="col-lg-12 col-md-12 col-xs-12 col-reciept">
+                <button class="btn-reciept"><span class="glyphicon glyphicon-file"></span> Spara kvitto</button>
+            </div>*@
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    var vpoll = @(ViewBag.Poll.ToString().ToLower() + ";")
+    $(document).ready(function () {
+        polling = vpoll;
+    });
+
+</script>

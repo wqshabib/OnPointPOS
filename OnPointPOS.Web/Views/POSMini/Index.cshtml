@@ -1,0 +1,43 @@
+﻿@model ReportViewModel
+
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">Reports</li>
+}
+<section>
+        <!-- dashboard tiles -->
+        <div class="mt20 pl10 pr10">
+            <div class="col-sm-6 col-xs-6">
+                <div class="panel  text-center">
+                  @Html.Partial("DailySale",Model.DailySale)
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-6">
+                <div class="panel panel-tile text-center">
+                    @Html.Partial("MonthlySale", Model.MonthlySale)
+                </div>
+            </div>
+        </div>
+    
+</section>
+
+@section scripts {
+
+    <script>
+
+        $(function () {
+            var html = '<a href="/Report">Reports</a>'
+            $('#dsh').html(html);
+          
+
+            $('#viewReport').addClass('active');
+            $('#Reports').addClass('active');
+
+            if (!$('#menureports').hasClass('menu-open')) {
+
+                $('#menureports').attr('style', '').toggleClass('menu-open');
+            }
+        });
+
+    </script>
+
+}

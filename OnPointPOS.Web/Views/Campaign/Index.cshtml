@@ -1,0 +1,260 @@
+﻿@model List<Campaign>
+
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.Campaign</li>
+
+}
+<section>
+
+
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+
+
+
+                <li>
+                    <a href="/StoreSetting">@Resource.Settings</a>
+                </li>
+                <li class="active">
+                    <a href="/Accounting">@Resource.Campaign</a>
+                </li>
+
+            </ul>
+        </div>
+        <div class="topbar-right">
+            <a class="btn btn-default btn-gradient btn-sm light fw600 mr15 mt5" id="btnAddCampaign">
+                <span class="fa fa-plus pr5"></span>
+                @Resource.Add @Resource.Campaign
+              
+            </a>
+           
+        </div>
+    </header>
+
+    <div class="pt25">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center">
+            <div id="terminalcreate">
+            </div>
+            <div class="panel top mb35">
+                
+                <div class="panel-body pn">
+                    <div class="table-responsive">
+                        <table id="tbl_terminal" class="table admin-form theme-warning tc-checkbox-1 fs13">
+
+                            <thead>
+                                <tr class="bg-light">
+                                    <th class="">@Resource.Description</th>
+                                    <th class="">@Resource.BuyLimit</th>
+                                    <th class="">@Resource.Offer</th>
+                                    <th class="">Discount In Percentage</th>
+                                    <th class="">Start</th>
+                                    <th class="">End</th>
+                                   
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="text-left">@item.Description</td>
+                                        <td>@item.BuyLimit</td>
+                                        <td>@item.FreeOffer</td>
+                                        <td>@item.DiscountPercentage</td>
+                                        <td>@item.StartDate.ToString("yyyy-MM-dd")</td>
+                                        <td>@item.EndDate.ToString("yyyy-MM-dd")</td>
+                                       
+                                        <td class="text-right" style="width: 80px;">
+                                            <button class="btn btn-primary btn-sm btn-gradient fa fa-edit" onclick="Edit('@item.Id')" type="button"> @Resource.Edit </button>
+                                        </td>
+                                        <td class="text-right" style="width: 80px;">
+                                            <button class="btn btn-danger btn-sm btn-gradient fa fa-trash-o" onclick="Delete('@item.Id');" type="button"> @Resource.Delete </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+     </div>
+        </div>
+
+</section>
+<!-- Modal -->
+<div class="modal fade" id="addEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@Resource.Edit @Resource.Campaign</h4>
+            </div>
+            <div class="modal-body">
+                <div class="admin-form">
+                    <div class="section row">
+                        <div class="col-md-12 pn mb10">
+                            <div class="form-group">
+                                <div class="col-md-3 text-right">
+                                    <label class="control-label pt10"> Label Text </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="field prepend-icon" data-toggle="tooltip">
+                                        <input class="event-name gui-input br-light light" type="text" value="" placeholder="" name="labelText" title="Label Text">
+
+                                        <label class="field-icon">
+                                            <i class="fa fa-comment"></i>
+                                        </label>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 pn mb10">
+                            <div class="form-group">
+                                <div class="col-md-3 text-right pln">
+                                    <label class="control-label pt10"> @Resource.Code </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="field prepend-icon" data-toggle="tooltip">
+                                        <input class="event-name gui-input br-light light" type="text" value="" placeholder="" name="code" title="Code">
+
+                                        <label class="field-icon">
+                                            <i class="fa fa-tag"></i>
+                                        </label>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pn mb10">
+                            <div class="form-group">
+                                <div class="col-md-3 text-right">
+                                    <label class="control-label pt10"> @Resource.Value </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="field prepend-icon" data-toggle="tooltip">
+                                        <input class="event-name gui-input br-light light" type="text" value="" placeholder="" name="value" title="value">
+
+                                        <label class="field-icon">
+                                            <i class="fa fa-building-o"></i>
+                                        </label>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-gradient" data-dismiss="modal"><span class="fa fa-times"></span> @Resource.close</button>
+                <button type="button" class="btn btn-primary btn-gradient mr10"><span class="fa fa-upload"></span>  @Resource.Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+@section scripts {
+
+    <script>
+        $(function () {
+
+            var html = '<a href="/Campaign">@Resource.Campaign</a>'
+            $('#dsh').html(html);
+
+            $('#campaign').addClass('active');
+            $('#Settings').addClass('active');
+
+            if (!$('#menuStoreSettings').hasClass('menu-open')) {
+
+                $('#menuStoreSettings').attr('style', '').toggleClass('menu-open');
+            }
+            $('#btnAddCampaign').click(function () {
+
+                $('#loading').show();
+
+                $.ajax({
+                    url: '@Url.Action("Create", "Campaign")',
+                    type: "GET",
+                    data: { id: 0 },
+                    success: function (result) {
+                        $('#loading').hide();
+                        $("#terminalcreate").html(result);
+
+                    }
+                });
+            });
+
+        });
+        function Edit(id) {
+
+
+            $.ajax({
+                url: '@Url.Action("Create", "Campaign")',
+                type: "GET",
+                data: { id: id },
+                success: function (result) {
+                    $('#loading').hide();
+                    $("#terminalcreate").html(result);
+                    $('#addEditLabel').text('Edit Campaing');
+
+                }
+            });
+        }
+
+        function Delete(id) {
+            if (confirm("@Resource.DeleteConfMsg")) {
+                $.ajax({
+                    url: '@Url.Action("DeleteCampaign", "Campaign")',
+                    type: "Post",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ id: id }),
+                    success: function (result) {
+                        var res = result.Message;
+                        var arr = res.split(':');
+                        if (arr[0] == "Success" || arr[0] =="Framgång") {
+                            alert(arr[1]);
+                            window.location = '/Campaign'
+                        }
+                        else
+                            alert(arr[1]);
+
+                    }
+                });
+            }
+        }
+
+
+    </script>
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

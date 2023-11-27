@@ -1,0 +1,212 @@
+﻿@model IEnumerable<POSSUM.Model.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.Product</li>
+
+}
+
+<section>
+
+
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+
+                <li>
+                    <a href="/Product">@Resource.lblProducts</a>
+                </li>
+
+                <li class="active">
+                    <a href="/Category">@Resource.Categories</a>
+                </li>
+
+
+
+            </ul>
+
+        </div>
+
+
+
+        <div class="topbar-right hidden-xs hidden-sm">
+            <a id="btnAddProduct" class="btn btn-default btn-sm  btn-gradient light fw600 ml10 mt5">
+                <span class="fa fa-plus pr5"></span> @Resource.Add @Resource.lblPantProducts
+            </a>
+        </div>
+        @*<div>
+                <div  class="dataTables_filter"><label>Search:<input type="text" id="searchby"  class="" style="margin-top:6px;" ></label></div>
+            </div>*@
+    </header>
+
+    <div class="pt25">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center">
+
+            <!-- create new order panel -->
+            <div id="ProductCreate">
+
+            </div>
+
+            <!-- recent orders table -->
+            <div id="PartialCategoryList" style="margin-bottom:50px;">
+                @(Html.Grid("PANTGrid")
+                                                    .AddColumn(new Column("Id").SetHidden(true))
+                                                          .AddColumn(new Column("Name").SetLabel(Resource.Name).SetWidth(150).SetAlign(Align.Left))
+                                                    .AddColumn(new Column("Price").SetLabel(Resource.Price).SetWidth(70).SetSearch(false).SetAlign(Align.Center))
+                                                    .AddColumn(new Column("Deleted").SetLabel(Resource.Deleted)
+                                                                          .SetSearchType(Searchtype.Select).SetWidth(50)
+                                                                          .SetSearchTerms((string[])ViewBag.DeleteStatus).SetWidth(50))
+                                                     .AddColumn(new Column("&nbsp;").SetSearch(false).SetCustomFormatter("buttonize")
+                                                                                    .SetWidth(85)
+                                                                                    .SetAlign(Align.Right))
+                                                    .SetUrl(Url.Action("GeProductByFilter", new { controller = "PantProducts" }))
+                                                    .SetAutoWidth(true)
+                                                    .SetRowNum(10)
+                                                    .SetRowList(new[] { 10, 15, 20, 50 })
+                                                    .SetViewRecords(true)
+                                                    .SetPager("pager")
+                                                    .SetSearchToolbar(true)
+                                                    .SetSearchOnEnter(false)
+                                                    .SetSearchClearButton(true)
+                                                    .SetSearchToggleButton(false)
+                )
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+@section scripts {
+
+    @Styles.Render("~/Content/jqGrid/jqgridui")
+    @Scripts.Render("~/bundles/jqgrid")
+    <script>
+
+        $(function () {
+
+           // var html = '<a href="/Category">Categories</a>'
+           // $('#dsh').html(html);
+
+            $('#pantProducts').addClass('active');
+            $('#Cataglog').addClass('active');
+
+            if (!$('#menuCatalog').hasClass('menu-open')) {
+
+                $('#menuCatalog').attr('style', '').toggleClass('menu-open');
+            }
+            $('#btnAddProduct').click(function () {
+                $.ajax({
+                    url: '@Url.Action("Create", "PantProducts")',
+                    type: "GET",
+
+                    success: function (result) {
+                        $("#ProductCreate").html(result);
+
+                    }
+                });
+            });
+
+
+            $(function () {
+
+                $('.tree li:has(ul)').addClass('parent_li ').find(' > span').attr('title', 'Collapse this branch');
+                $('.tree li:has(ul)').addClass('parent_li ').find(' > span').addClass('minus');
+
+                $('.tree li.parent_li > span').on('click', function (e) {
+                    var children = $(this).parent('li.parent_li').find(' > ul > li');
+                    if (children.is(":visible")) {
+                        $(this).removeClass('minus');
+                        $(this).addClass('plus');
+                        children.hide('fast');
+                        $(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus-sign').removeClass('icon-minus-sign');
+                    } else {
+                        $(this).removeClass('plus');
+                        $(this).addClass('minus');
+                        children.show('fast');
+                        $(this).attr('title', 'Collapse this branch').find(' > i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
+                    }
+                    e.stopPropagation();
+                });
+
+
+            });
+
+
+
+        });
+
+    function Edit(id) {
+        var url ='/PantProducts/Edit?id='+id;
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function (result) {
+                $("#ProductCreate").html(result);
+
+            }
+        });
+
+    }
+
+    function Delete(id) {
+          if (confirm("Are you sure to delete this product?")) {
+        var url = '/PantProducts/Delete?id=' + id;
+        $.ajax({
+            url: url,
+            type: "POST",
+            success: function (result) {
+                alert(result.Message);
+                if (result.Message.includes("Product")) {
+                }
+                else {
+                    window.location.reload();
+                }
+            }
+        });
+        }
+    }
+
+        function Restore(id) {
+          if (confirm("Are you sure to restore this product?")) {
+              var url = '/PantProducts/Restore?id=' + id;
+        $.ajax({
+            url: url,
+            type: "POST",
+            success: function (result) {
+                alert(result.Message);
+                window.location.reload();
+            }
+        });
+        }
+    }
+
+        function buttonize(cellvalue, options, rowobject) {
+            if (rowobject[3]=='False') {
+
+                return '<a  style="margin-right:2px; float:right;" title="Delete"  class="btn btn-danger btn-gradient btn-sm fa fa-trash-o" onclick="Delete(' + "'" + options.rowId + "'" + ')"> @Resource.Delete</a>' +
+                    '<a   style="margin-right:2px; float:right;" title="Edit" class="btn btn-primary btn-gradient btn-sm fa fa-edit" onclick="Edit(' + "'"+ options.rowId + "'" + ')"> @Resource.Edit</a>';
+            }
+            else {
+
+                return '<a class="btn btn-primary btn-gradient btn-sm fa fa-edit" style="margin-right:2px; float:right;"  onclick="Restore(' + "'" + options.rowId + "'"+ ')"> @Resource.Restore </a>' ;
+            }
+
+        }
+    </script>
+
+}
+

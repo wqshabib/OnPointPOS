@@ -1,0 +1,78 @@
+﻿@model  List<OrderViewModel>
+
+<div class="table-responsive">
+    <table id="tbl_orders" class="table admin-form theme-warning tc-checkbox-1 fs13 " cellspacing="0" width="100%">
+        <thead>
+            <tr class="bg-light">
+                <th class="">@Resource.ReceiptNumber</th>
+                <th class="">Order No of Day</th>
+                <th class="">@Resource.Date</th>
+                <th class="">@Resource.Customer / @Resource.Table</th>
+                <th class="">@Resource.Status</th>
+                <th class="">@Resource.Total</th>
+                <th class="">@Resource.Report_Rounding</th>
+                <th class="text-right"></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+            <tr>
+                <td>@order.InvoiceNumber</td>
+                <td>@order.OrderNoOfDay</td>
+                <td>@Convert.ToDateTime(order.InvoiceDate).ToString("yyyy-MM-dd hh:mm:ss")</td>
+                <td>@order.OrderComments</td>
+                <td>@order.Status</td>
+                <td>@order.OrderTotal</td>
+                <td>@order.RoundedAmount</td>
+                <td>
+                    <button class="btn btn-primary btn-sm btn-gradient fa fa-edit" onclick="ViewDetail('@order.Id')" type="button" data-toggle='modal' data-target='#orderViewModal'> @Resource.Show </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    $(function () {
+
+        $('#tbl_orders').dataTable({
+            "aoColumnDefs": [{
+                'bSortable': false,
+                'aTargets': [-1]
+            }],
+            "oLanguage": {
+                "oPaginate": {
+                    "sPrevious": " ",
+                    "sNext": " "
+                }
+            },
+            "iDisplayLength": 25,
+            "aLengthMenu": [
+              [5, 10, 25, 50, -1],
+              [5, 10, 25, 50, "All"]
+            ],
+
+            "sDom": '<"dt-panelmenu clearfix"Tfr>t<"dt-panelfooter clearfix"ip>',
+
+        });
+
+    });
+    function ViewDetail(id) {
+
+
+        $.ajax({
+            url: '@Url.Action("OrderReceipt", "TransactionReport")',
+            type: "GET",
+            data: { id: id },
+            success: function (result) {
+                $("#OrderDetail").html(result);
+            }
+        });
+
+    }
+</script>
+
+
+

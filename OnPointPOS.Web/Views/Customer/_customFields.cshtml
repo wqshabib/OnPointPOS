@@ -1,0 +1,239 @@
+﻿@model List<CustomerCustomField>
+<style>
+	.datepicker {
+		z-index: 1600 !important; /* has to be larger than 1050 */
+	}
+
+	.detailTable {
+		border-collapse: collapse;
+	}
+
+	.detailth {
+		border: 1px solid #000000;
+		vertical-align: middle;
+		background-color: silver;
+		height: 30px;
+		padding: 5px;
+	}
+
+	.detailtd {
+		border: 1px solid #000000;
+		vertical-align: middle;
+		padding-left: 1px;
+		padding-top: 1px;
+		padding-bottom: 1px;
+	}
+</style>
+<div class="section">
+	<div class="alert alert-success" style="display:none;" id="messageBox"></div>
+	<div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+	<div class="section row">
+		<table style="width:380px;">
+			<tr>
+				<td><label style="margin-left:50px;"> Märka</label></td>
+
+				<td><label style="margin-left:30px;"> @Resource.Sort</label></td>
+
+
+				<td></td>
+
+			</tr>
+			<tr>
+
+				<td><input type="text" id="txtCaption" value="" placeholder="Märka" class="form-control" style="margin-left:5px;margin-right:5px; width:200px; height:25px;" /></td>
+				<td><input type="number" id="txtSortOrder" value="@(Model.Count+1)" placeholder="@Resource.Sort" class="form-control" style="margin-left:5px;margin-right:5px; width:100px; height:25px;" /></td>
+
+
+				<td>
+					<a id="btnAddRow" class="btn btn-default btn-gradient btn-sm light fw600 ml10 mt5">
+						<span class="fa fa-plus pr5"></span>Add
+					</a>
+				</td>
+
+
+
+			</tr>
+
+		</table>
+
+	</div>
+
+
+
+
+
+	<div class="section row">
+		<table id="detailTable" class="detailTable mt10" style="width:380px;">
+			<thead>
+				<tr>
+
+					<th class="detailth" style="width:200px">Märka</th>
+					<th class="detailth" style="width:100px">@Resource.Sort</th>
+					<th class="detailth"></th>
+
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var itm in Model)
+				{
+					<tr id="@itm.Id">
+						<td class="detailtd" style="width:200px"><span class="control-label pt10">@itm.Caption</span></td>
+						<td class="detailtd" style="width:100px"><span class="control-label pt10">@itm.SortOrder</span></td>
+
+						<td class="detailtd"><a class="btn btn-danger btn-gradient btn-sm fa fa-trash-o del" style="margin-right:2px;"> @Resource.Delete</a></td>
+					</tr>
+
+				}
+
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script>
+
+     $('#btnAddRow').click(function () {
+          AddRow();
+    });
+
+	 $('#txtCaption').keypress(function (e) {
+            var code = e.keyCode || e.which;
+            if (code == 13 && $('#txtCaption').val() != '') {
+                AddRow();
+            }
+        });
+
+	 $('#txtSortOrder').keypress(function (e) {
+            var code = e.keyCode || e.which;
+            if (code == 13 && $('#txtCaption').val() != '') {
+                AddRow();
+            }
+        });
+
+    $('.del').click(function () {
+
+    var id=$(this).parent().parent().attr('id');
+
+    if(id!="00000000-0000-0000-0000-000000000000")
+    {
+        if (confirm("Are you sure to delete this field?"))
+        {
+
+            $.ajax({
+                url: '@Url.Action("DeleteCustomField", "Customer")',
+                type: "Get",
+                data:{id:id},
+                success: function (result) {
+
+                    $(this).parent().parent().remove();
+                }
+            });
+        }
+    }
+       $(this).parent().parent().remove();
+    });
+
+     $('#btnSaveDetail').click(function () {
+
+            $("#divError").html('');
+            $("#divError").hide('');
+
+            var tableObject = [];
+
+
+        $('#detailTable tbody tr').map(function () {
+
+            var $row = $(this);
+
+
+            id=  $(this).attr('id');
+            caption = $row.find(':nth-child(1)').find('span').text();
+	        sortOrder = $row.find(':nth-child(2)').find('span').text();
+
+            var _obj = {
+                Id:id,
+                Caption: caption,
+	            SortOrder:sortOrder
+            };
+            tableObject.push(_obj);
+
+
+        });
+        if (tableObject.length == 0) {
+            alert('add some item');
+            return;
+        }
+
+
+            $.ajax({
+                url: '@Url.Action("SaveCustomField", "Customer")',
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(tableObject),
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                            window.location = '/Customer'
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+
+                    // $("#PartialProductList").html(result);
+
+                }
+            });
+        });
+
+
+
+    ////
+    function AddRow() {
+        if ($('#txtCaption').val() == '') {
+            alert('Enter any caption');
+            $('#txtCaption').focus();
+            return;
+        }
+
+        var caption = $('#txtCaption').val();
+	 var sortorder = $('#txtSortOrder').val();
+        $('#txtCaption').val('');
+	 var _sortorder = parseInt(sortorder);
+	  $('#txtSortOrder').val(_sortorder+1);
+
+        var html = '<tr>';
+
+        html += '<td class="detailtd" style="width:200px"><span class="control-label pt10">'+caption+'</span> </td>';
+	   html += '<td class="detailtd" style="width:100px"><span class="control-label pt10">'+sortorder+'</span> </td>';
+
+        html += '<td class="detailtd"><a class="btn btn-danger btn-gradient btn-sm fa fa-trash-o" style="margin-right:2px;" > @Resource.Delete</a></td></tr>';
+
+
+        $('#detailTable').append(html);
+	
+        $('#txtCaption').focus();
+    }
+
+</script>

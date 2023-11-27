@@ -1,0 +1,188 @@
+﻿@model Accounting
+
+<div class="panel">
+    <div class="panel-heading">
+        <span id="addEditLabel" class="panel-title"> @Resource.Add  @Resource.Accounting</span>
+    </div>
+    <div class="panel-body">
+        <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+        <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+        <div class="admin-form">
+            @Html.HiddenFor(m => m.Id)
+
+
+            <div class="section row">
+
+
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Number  </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.AcNo, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Number })
+                                <label class="field-icon">
+                                    <i class="fa fa-edit"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section row">
+
+
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Name  </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.Name, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Name })
+                                <label class="field-icon">
+                                    <i class="fa fa-edit"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section row">
+
+
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Tax  </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.TAX, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Tax })
+                                <label class="field-icon">
+                                    <i class="fa fa-edit"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section row">
+
+
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Sort  </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.SortOrder, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Sort })
+                                <label class="field-icon">
+                                    <i class="fa fa-edit"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="panel-footer clearfix">
+        <div class="pull-right">
+            <button type="button" id="btnSave" class="btn btn-primary btn-gradient mr40">
+                <span class="fa fa-upload"></span> @Resource.Save
+            </button>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script>
+    $(function () {
+        $('#btnSave').click(function () {
+
+            $("#divError").html('');
+            $("#divError").hide('');
+
+            if ($('#AcNo').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Accounting  @Resource.Number.");
+                $("#divError").show();
+                $('#AcNo').focus();
+                return;
+            }
+            if ($('#Name').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Accounting  @Resource.Name.");
+                $("#divError").show();
+                $('#Name').focus();
+                return;
+            }
+
+
+
+
+            var data = {
+                Id: $('#Id').val(),
+                Name: $('#Name').val(),
+                AcNo: $('#AcNo').val(),
+                TAX: $('#TAX').val(),
+     SortOrder: $('#SortOrder').val()
+
+            };
+
+            $.ajax({
+                url: '@Url.Action("Create", "Accounting")',
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                            window.location = '/Accounting'
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+
+                    // $("#PartialProductList").html(result);
+
+                }
+            });
+        });
+
+
+
+
+    });
+</script>

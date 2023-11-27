@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "InventoryHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.Inventory @Resource.Settings</li>
+}
+
+<section>
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+                <li class="active">
+                    <a class="active">@Resource.Inventory @Resource.Settings</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <div class="pt25">
+        <div class="panel">
+            <div class="panel-heading">
+                <span class="panel-title">@Resource.Settings</span>
+            </div>
+            <div class="panel-body">
+                <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+                <div class="alert alert-danger" style="display:none;" id="divError"></div>
+                <div class="admin-form">
+                    <div class="section row">
+                        <div style="padding-left: 3.5%;">
+                            <p style="color: #b94a48; text-decoration: underline;"><strong>@Resource.ImportantNote: -</strong></p>
+                            <span style="color: #b94a48;"><strong>* @Resource.Minimum @Resource.Stock @Resource.Qty will be @Resource.Set on all @Resource.lblProducts.</strong></span><br />
+                        </div>
+                    </div>
+                    <div class="section row">
+                        <div class="col-md-6 pn">
+                            <div class="form-group">
+                                <div class="col-md-3 text-right">
+                                    <label class="control-label pt10">@Resource.Minimum @Resource.Stock @Resource.Qty</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="field prepend-icon" data-toggle="tooltip">
+                                        <input class="event-name gui-input br-light light" value="@ViewBag.MinStockLevel" id="txtMinStockValue" type="text" placeholder="@Resource.Minimum @Resource.Stock @Resource.Qty" style="padding-left: 10px;" />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer clearfix">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary btn-gradient mr40" onclick="ShowModel();">
+                        @Resource.Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="ConfirmationModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@Resource.Save @Resource.Inventory @Resource.Settings</h4>
+            </div>
+            <div class="modal-body">
+                <span>Are you sure you want to save minimum stock value on all products?</span><br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-gradient" data-dismiss="modal"><span class="fa fa-times"></span> @Resource.close</button>
+                <button type="button" id="btnSave" class="btn btn-primary btn-gradient mr10"><span class="fa fa-upload"></span>  @Resource.Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $('#Inventory').addClass('active');
+            $('#InventorySettings').addClass('active');
+
+            if (!$('#menuinventory').hasClass('menu-open')) {
+                $('#menuinventory').attr('style', '').toggleClass('menu-open');
+            }
+        });
+
+        $('#btnSave').click(function () {
+            SaveInventorySettings();
+        });
+
+        function ShowModel() {
+            $("#divError").html('');
+            $("#divError").hide();
+
+            var stockValue = parseFloat($("#txtMinStockValue").val());
+
+            if (isNaN(stockValue) || stockValue < 0) {
+                $("#divError").html("@Resource.Please @Resource.Enter @Resource.Valid @Resource.Stock @Resource.Value.");
+                $("#divError").show();
+                $('#txtMinStockValue').focus();
+                return;
+            } else {
+                $("#ConfirmationModel").modal("show");
+            }
+        }
+
+        function SaveInventorySettings() {
+            $.ajax({
+                url: '@Url.Action("SaveInventorySettings", "InventoryHistory")',
+                type: "POST",
+                data: { MinStockValue: parseFloat($("#txtMinStockValue").val()) },
+                success: function (result) {
+                    $("#ConfirmationModel").modal("hide");
+                    //$("#txtMinStockValue").val('');
+
+                    if (result == 'Success') {
+                        $("#messageBox").show();
+                        $('#messageBox').html(result);
+                    } else {
+                        $("#divError").show();
+                        $('#divError').html(result);
+                    }
+                }
+            });
+        }
+    </script>
+}

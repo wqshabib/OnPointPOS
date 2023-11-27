@@ -1,0 +1,69 @@
+﻿@model List<Item_PricePolicy>
+
+<input type="hidden" id="hfItemId" value="@ViewBag.ItemId" />
+
+<section>
+   
+   
+
+        <div class="tray tray-center">
+            <div id="PriceArea">
+
+            </div>
+
+
+            <div id="tblDiv" class="panel" style="height:200px;overflow-y:auto;">
+              @Html.Partial("_PricePolicyList", Model)
+            </div>
+        </div>
+   
+
+</section>
+
+<script>
+    $(function () {
+
+            EditPricePolicy(0);
+
+    });
+    function EditPricePolicy(id) {
+        var itemId = $('#hfItemId').val();
+        $.ajax({
+            url: '@Url.Action("EditPricePolicy", "Product")',
+            type: "GET",
+            data: { id: id, itemId: itemId },
+            success: function (result) {
+
+
+                $("#PriceArea").html(result);
+            }
+        });
+    }
+    function DeletePricePolicy(id) {
+
+         if (confirm("Are you sure to delete this policy?")) {
+        var url = '/Product/DeletePolicy?id=' + id;
+        $.ajax({
+            url: url,
+            type: "POST",
+            success: function (result) {
+                alert(result.Message);
+                GetList();
+            }
+        });
+        }
+
+    }
+    function GetList() {
+        var itemId = $('#hfItemId').val();
+        $.ajax({
+            url: '@Url.Action("_PricePolicyList", "Product")',
+            type: "GET",
+            data: { itemId: itemId },
+            success: function (result) {
+
+                $("#tblDiv").html(result);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,320 @@
+﻿@{
+    ViewBag.Title = "InventoryDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.Inventory @Resource.Details</li>
+}
+
+<style>
+    td.details-control {
+        background: url('https://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('https://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
+    }
+</style>
+
+<section>
+    <input id="txtInventoryHistoryId" hidden value="@ViewBag.InventoryHistoryId" />
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+                <li class="active">
+                    <a>@Resource.Inventory @Resource.Details</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    @if (ViewBag.InventoryHistoryStatus == 0)
+    {
+        <header id="topbar">
+            <div class="topbar-left">
+
+            </div>
+            <div class="topbar-right">
+                <div class="pull-right">
+                    <button class="btn btn-primary fa fa-save" id="btnUpdateStock" type="button" onclick="updateStock();"> @Resource.Update</button>
+                    <button class="btn bg-green2" id="btnApproveStock" type="button">@Resource.Approved</button>
+                </div>
+            </div>
+        </header>
+    }
+    <div class="pt25">
+        <div class="panel">
+            <div class="panel-body pn">
+                <div class="table-responsive">
+                    <table id="tbl_grouped_stock" class="table admin-form theme-warning tc-checkbox-1 fs13 " cellspacing="0">
+                        <thead>
+                            <tr class="bg-light">
+                                <th class="col-sm-2" style="padding-left: 11px;">@Resource.Date</th>
+                                <th style="padding-left: 11px;">@Resource.Section @Resource.Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="ConfirmationModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@Resource.Approve @Resource.Stock</h4>
+            </div>
+            <div class="modal-body">
+                <span>Are you sure you want to approve?</span><br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-gradient" data-dismiss="modal"><span class="fa fa-times"></span> @Resource.close</button>
+                <button type="button" class="btn btn-primary btn-gradient mr10" onclick="approvedStock();"><span class="fa fa-upload"></span>  @Resource.Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #tbl_cat_sale_wrapper .dt-panelmenu {
+        margin: 0
+    }
+
+    .dt-buttons {
+        float: right !important;
+        margin-left: 15px;
+    }
+
+    .buttons-excel {
+        margin-right: 15px;
+    }
+</style>
+
+<link href="~/Content/DataTables/css/buttons.dataTables.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables/buttons.flash.min.js"></script>
+<script src="~/Scripts/DataTables/jszip.min.js"></script>
+<script src="~/Scripts/DataTables/vfs_fonts.js"></script>
+<script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
+
+@section scripts{
+    <script>
+        var viewTableGroupStock = $('#tbl_grouped_stock');
+        var objDataTable;
+        var dataToPost = [];
+        var dataApproved = [];
+
+        $(function () {
+            var html = '<a href="/Product">Products</a>';
+            $('#dsh').html(html);
+
+            if (!$('#menuinventory').hasClass('menu-open')) {
+                $('#menuinventory').attr('style', '').toggleClass('menu-open');
+            }
+
+            objDataTable = viewTableGroupStock.dataTable({
+                "bJQueryUI": true,
+                "cache": false,
+                "bServerSide": true,
+                "sAjaxSource": "/InventoryHistory/GetInventoryDetails?inventoryHistoryId=" + $("#txtInventoryHistoryId").val(),
+                "fnServerData": function (sSource, aoData, fnCallback) {
+                    $.getJSON(sSource, aoData, function (json) {
+                        fnCallback(json);
+                        dataApproved = [];
+                        $.each(json.aaData, function (i, section) {
+                            $.each(section.StockHistory, function (i, stockHistory) {
+                                dataApproved.push(stockHistory);
+                            });
+                        });
+                    });
+                },
+                "drawCallback": function (settings) {
+
+                },
+                "bProcessing": true,
+                "buttons": [
+
+                ],
+                "aoColumns": [
+                    {
+                        "sName": "Date",
+                        "data": "CreatedDateString",
+                        "render": function (data, type, object) {
+                            return `<strong>${object.CreatedDateString }</strong>`;
+                        },
+                        "orderable": false
+                    },
+                    {
+                        "sName": "Section Name",
+                        "data": "GroupName",
+                        "render": function (data, type, object) {
+                            return `<strong>${object.GroupName}</strong>`;
+                        },
+                        "orderable": false
+                    },
+                ],
+                "info": true,   // control table information display field
+                "stateSave": true,  //restore table state on page reload,
+                "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": " ",
+                        "sNext": " "
+                    }
+                },
+                "iDisplayLength": 10,
+                "aLengthMenu": [
+                  [10, 25, 50, 10000],
+                  [10, 25, 50, "All"]
+                ],
+                "dom": '<"dt-panelmenu clearfix"lBfr>t<"dt-panelfooter clearfix"ip>'
+            });
+        });
+
+        var tableBody = viewTableGroupStock.find('tBody');
+        tableBody.on('click', 'tr', function () {
+            var table = viewTableGroupStock.DataTable();
+            var row = table.row($(this));
+
+            if (row.child.isShown()) {
+                row.child.hide();
+                $(this).removeClass('shown');
+            } else {
+                var data = row.data();
+                if (data != null && data.StockHistory.length > 0) {
+                    row.child(format(data.StockHistory)).show();
+                    $(this).addClass('shown');
+                }
+            }
+        });
+
+        function format(objStockHistory) {
+            var tableString = `<table class="table admin-form theme-warning tc-checkbox-1 fs13 tbl_product_stock" cellspacing="0">` +
+                `<thead>` +
+                `<tr class="bg-light">` +
+                `<th hidden></th>` +
+                `<th>@Resource.Date</th>` +
+                `<th>@Resource.Product @Resource.Name</th>` +
+                `<th>@Resource.Barcode</th>` +
+                `<th>@Resource.Product @Resource.Stock</th>` +
+                //`<th>@Resource.Last @Resource.Stock</th>` +
+                //`<th>@Resource.New @Resource.Stock</th>` +
+                `<th>@Resource.Stock @Resource.Value</th></tr>` +
+                `</thead>` +
+                `<tbody>`;
+
+            $.each(objStockHistory, function (i) {
+                var _object = objStockHistory[i];
+
+                tableString = tableString + `<tr>`;
+                tableString = tableString + `<td hidden>${_object.Id}|${_object.StockValue}</td>`;
+                tableString = tableString + `<td class="col-sm-2">${_object.CreatedDateString}</td>`;
+                tableString = tableString + `<td class="col-sm-2">${_object.ProductName}</td>`;
+                tableString = tableString + `<td class="col-sm-2">${_object.BarCode}</td>`;
+                tableString = tableString + `<td class="col-sm-2">${_object.ProductStock}</td>`;
+                //tableString = tableString + `<td class="col-sm-2">${_object.LastStock}</td>`;
+                //tableString = tableString + `<td class="col-sm-2">${_object.NewStock}</td>`;
+                tableString = tableString + `<td class="col-sm-2"><input type="text" value="${_object.StockValue}" onkeyup="onStockValueKeyUp(this, '${_object.Id}', '${_object.StockValue}');" style="width: 50px !important; text-align: center;" /></td>`;
+                tableString = tableString + `</tr>`;
+            });
+
+            tableString = tableString + `</tbody></table>`;
+
+            return tableString;
+        }
+
+        function onStockValueKeyUp(view, id, originalStockValue) {
+            var objOriginalStockValue = parseFloat(originalStockValue);
+            var stockValue = parseFloat($(view).val());
+
+            var objStockHistory = dataToPost.find(i => i.Id == id);
+            //For Update Data
+            if (objStockHistory != undefined) {
+                var objStockHistoryPos = dataToPost.indexOf(objStockHistory);
+                if (objStockHistoryPos != -1)
+                    dataToPost.splice(objStockHistoryPos, 1);
+            }
+
+            if (isNaN(stockValue)) {
+                //For Update Data
+                dataToPost.push({
+                    Id: id,
+                    StockValue: 0
+                });
+
+                //For Approved Data
+                for (var i in dataApproved) {
+                    if (dataApproved[i].Id == id) {
+                        dataApproved[i].StockValue = 0;
+                        break;
+                    }
+                }
+            } else {
+                //For Update Data
+                if (stockValue != objOriginalStockValue) {
+                    dataToPost.push({
+                        Id: id,
+                        StockValue: stockValue
+                    });
+                }
+
+                //For Approved Data
+                for (var i in dataApproved) {
+                    if (dataApproved[i].Id == id) {
+                        dataApproved[i].StockValue = stockValue;
+                        break;
+                    }
+                }
+            }
+        }
+
+        $('#btnApproveStock').click(function () {
+            openConfirmationDialog();
+        });
+
+        function openConfirmationDialog() {
+            if (dataApproved.length > 0) {
+                $("#ConfirmationModel").modal("show");
+            }
+        }
+
+        function updateStock() {
+            if (dataToPost.length > 0) {
+                $.ajax({
+                    url: '@Url.Action("UpdateInventoryHistory", "InventoryHistory")',
+                    type: "POST",
+                    data: { InventoryHistoryId: '@ViewBag.InventoryHistoryId', ProductStockHistories: dataToPost },
+                    success: function (result) {
+                        if (result == "Success")
+                            viewTableGroupStock.DataTable().ajax.reload();
+                    }
+                });
+            }
+        }
+
+        function approvedStock() {
+            $.ajax({
+                url: '@Url.Action("ApproveInventoryHistory", "InventoryHistory")',
+                type: "POST",
+                data: { InventoryHistoryId: '@ViewBag.InventoryHistoryId', ProductStockHistories: dataApproved },
+                success: function (result) {
+                    $("#ConfirmationModel").modal("hide");
+                    if (result == "Success") {
+                        var baseUrl = window.location.origin;
+                        window.open(baseUrl + '/InventoryHistory', "_self");
+                    }
+                }
+            });
+        }
+    </script>
+}

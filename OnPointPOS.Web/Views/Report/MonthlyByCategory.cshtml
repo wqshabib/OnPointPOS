@@ -1,0 +1,18 @@
+﻿@model List<SaleDetail>
+<div class="panel-heading">Per kategori</div>
+<div class="panel-body br-t p12">
+    <table class="table">
+        <tbody>
+            <tr><th>Kategori</th><th style="text-align:right;">@Resource.Report_TotalNet</th><th style="text-align:right;">@Resource.Report_TotalSale</th></tr>
+            @foreach (var item in Model)
+            {
+                <tr><td align="left" style="width:150px;">@item.GroupName</td><td align="right">@item.NetTotal</td><td align="right">@item.GrossTotal kr</td></tr>
+            }
+            <tr>
+                <td align="left" style="width:150px;border-top:solid 1px Black;"><strong>@Resource.Report_GrandTotal</strong></td>
+                <td align="right" style="border-top:solid 1px Black;"><strong> @Model.Sum(s => s.NetTotal)</strong></td>
+                <td align="right" style="border-top:solid 1px Black;"><strong> @Model.Sum(s => s.GrossTotal) Kr</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

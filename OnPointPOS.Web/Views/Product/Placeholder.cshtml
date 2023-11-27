@@ -1,0 +1,204 @@
+﻿
+@{
+    ViewBag.Title = "Placeholder";
+}
+
+<section>
+
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+                <li >
+                    <a href="/Product">@Resource.lblProducts</a>
+                </li>
+                <li class="active">
+                    <a href="/Product/Placeholder">@Resource.Placeholder</a>
+                </li>
+              
+            </ul>
+        </div>
+
+        <div class="topbar-right">
+            <a id="btnAddProduct1" class="btn btn-default btn-gradient btn-sm light fw600 ml10 mt5" href="/Product/Create">
+                <span class="fa fa-plus pr5"></span> @Resource.Add @Resource.Product
+            </a>
+           
+        </div>
+
+    </header>
+
+
+
+    <div class="pt25">
+
+        <div class="tray tray-center">
+
+
+            <div id="ProductCreate">
+                <div id="loading" style="display:none;">
+                    <img src="~/Content/img/progress.gif" style="height:100px;width:100px;" />
+                </div>
+            </div>
+            <div class="panel">
+                <div  class="panel-menu p12 admin-form theme-primary">
+                    <div class="row">
+                       
+                        <div class="col-md-4 col-sm-4 pull-right">
+                            <select id="filter-category" name="filter-category" class="select2-single form-control">
+                                <option value="0">@Resource.Filterby  @Resource.Category</option>
+                            </select>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel"> 
+                <div id="PartialProductList" style="margin-bottom:50px;">
+                    <table id="tbl_product" class="table admin-form theme-warning tc-checkbox-1 fs13 " cellspacing="0" width="100%">
+                        <thead>
+                            <tr class="bg-light">
+                                <th class="">@Resource.Product Title</th>
+                                <th class="">@Resource.Barcode</th>
+                                <th class="">@Resource.Price</th>
+                                <th class="">@Resource.Tax</th>
+                                <th class="">@Resource.Active</th>
+                                <th class=""></th>
+                                <th class=""></th>
+                                <th class="text-right"></th>
+
+                            </tr>
+                        </thead>
+                    </table>
+
+
+                </div>
+            </div>
+           
+        </div>
+    </div>
+
+
+
+
+
+</section>
+
+@section scripts {
+    <script>
+
+
+        $(function () {
+
+
+            GetByPlaceholderCategory(0);
+        var html = '<a href="/Product">Products</a>';
+        $('#dsh').html(html);
+
+        $('#Cataglog').addClass('active');
+        $('#products').addClass('active');
+
+        if (!$('#menuCatalog').hasClass('menu-open')) {
+
+            $('#menuCatalog').attr('style', '').toggleClass('menu-open');
+        }
+
+
+        $('#btnAddProduct').click(function () {
+            //$('#loading').show();
+
+            $.ajax({
+                url: '@Url.Action("Create", "Product")',
+                type: "GET",
+
+                success: function (result) {
+                    //$('#loading').hide();
+
+                    $("#ProductCreate").html(result);
+
+                }
+            });
+        });
+
+        $.ajax({
+            url: '@Url.Action("GetItemCategories", "Product")',
+            type: "GET",
+
+            success: function (result) {
+                var $select = $("#filter-category");
+                $.each(result, function (i, item) {
+
+                    $('<option>', {
+                        value: item.CategoryId
+                    }).html(item.Name).appendTo($select);
+                });
+
+
+            }
+        });
+
+
+        $("#filter-category").change(function () {
+
+            GetByPlaceholderCategory($('#filter-category').val());
+
+        });
+
+    });
+
+        function GetByPlaceholderCategory(catid) {
+
+            $.ajax({
+                url: '@Url.Action("GetPlaceholderByCategory", "Product")',
+                type: "GET",
+                data: { id: catid, placeholder: 1 },
+                success: function (result) {
+                    $('#PartialProductList').html(result);
+                    // $('#tbl_product').DataTable().ajax.reload();
+                    //  RefreshTable("#tbl_product", result)
+
+
+                }
+            });
+        }
+
+        function Edit(id) {
+
+
+
+            window.location = '/Product/Edit?id=' + id;
+
+
+            var url = '/Product/Edit?id=' + id;
+            //$.ajax({
+            //    url: url,
+            //    type: "GET",
+
+            //    success: function (result) {
+
+            //        $("#ProductCreate").html(result);
+
+            //    }
+            //});
+        }
+
+        function Delete(id) {
+            if (confirm("Are you sure to delete this product?")) {
+                var url = '/Product/Delete?id=' + id;
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+
+                    success: function (result) {
+
+                        alert(result.Message);
+                        window.location.reload();
+
+                    }
+                });
+            }
+        }
+</script>
+}

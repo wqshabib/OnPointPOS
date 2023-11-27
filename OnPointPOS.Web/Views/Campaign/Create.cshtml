@@ -1,0 +1,381 @@
+﻿@model Campaign
+
+<div class="panel">
+    <div class="panel-heading">
+        <span id="addEditLabel" class="panel-title"> @Resource.Add  @Resource.Campaign</span>
+    </div>
+    <div class="panel-body">
+        <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+        <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+        <div class="admin-form">
+            @Html.HiddenFor(m => m.Id)
+
+
+
+            <div class="section row">
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Discount  </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip" style="margin-top: 15px;">
+                                @*@Html.TextBoxFor(model => model.BuyLimit, new { @class = "event-name gui-input br-light light", @placeholder = Resource.BuyLimit })*@
+                                @Html.CheckBoxFor(model => model.IsDiscount, new { @type = "checkbox" })
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section row">
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> Number of items required </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.LimitDiscountPercentage, new { @class = "event-name gui-input br-light light", @placeholder = "Number of items required", @type = "number" })
+                                <label class="field-icon">
+                                    <i class="fa fa-edit"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section row">
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Discount Type </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.DropDownListFor(model => model.DiscountType, ViewBag.DiscountTypeList as SelectList, new { @class = "form-control" })
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section row">
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Discount Value </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.DiscountPercentage, new { @class = "event-name gui-input br-light light", @placeholder = @Resource.Discount + " Value", @type = "number" })
+                                <label class="field-icon">
+                                    <i class="fa fa-edit"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section row">
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> Buy X </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.BuyLimit, new { @class = "event-name gui-input br-light light", @placeholder = "Buy X", @type = "number" })
+                                <label class="field-icon">
+                                    <i class="fa fa-edit"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section row">
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10">Get Free</label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.FreeOffer, new { @class = "event-name gui-input br-light light", @placeholder = "Get Free", @type = "number" })
+                                <label class="field-icon">
+                                    <i class="fa fa-edit"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="section row">
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Description  </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.Description, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Description })
+                                <label class="field-icon">
+                                    <i class="fa fa-edit"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section row">
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10">@Resource.Report_From:  </label>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="col-md-3 col-sm-5">
+                                @Html.TextBoxFor(model => model.StartDate, "{0:yyyy-MM-dd}", new { @class = "form-control datepicker", @placeholder = @Resource.StartDate })
+                                @*<input type='text' id="txtdtFrom" class="form-control datepicker" />*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section row">
+                <div class="col-md-12 pn">
+                    <div class="form-group">
+                        <div class="col-md-3 text-right pln">
+                            <label class="control-label pt10"> @Resource.Report_To: </label>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="col-md-3 col-sm-5">
+                                @Html.TextBoxFor(model => model.EndDate, "{0:yyyy-MM-dd}", new { @class = "form-control datepicker", @placeholder = @Resource.EndDate })
+                                @*<input type='text' id="txtdtTo" class="form-control datepicker" />*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="section row">
+            <div class="col-md-12 pn">
+                <div class="form-group">
+                    <div class="col-md-3 text-right pln">
+                        <label class="control-label pt10"> Apply Once Only </label>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="field prepend-icon" data-toggle="tooltip" style="margin-top: 15px;">
+                            @Html.CheckBoxFor(model => model.OnceOnly, new { @type = "checkbox" })
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+
+
+
+        </div>
+        <div class="panel-footer clearfix">
+            <div class="pull-right">
+                <button type="button" id="btnSave" class="btn btn-primary btn-gradient mr40">
+                    <span class="fa fa-upload"></span> @Resource.Save
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <script>
+        $(function () {
+
+            if ($("#IsDiscount").is(':checked'))
+            {
+                $("#BuyLimit").prop("disabled", true);
+                $("#FreeOffer").prop("disabled", true);
+                //$("#Description").prop("disabled", true);
+            }
+            else {
+                $("#DiscountPercentage").prop("disabled", true);
+                $("#DiscountType").prop("disabled", true);
+                $("#LimitDiscountPercentage").prop("disabled", true);
+            }
+
+            $('#StartDate').datepicker();
+            $('#EndDate').datepicker();
+
+            $('.datepicker').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
+
+
+            $('#BuyLimit').on('input', function (e) {
+                $("#Description").val("Buy " + $('#BuyLimit').val() + " Get " + $('#FreeOffer').val() + " Free");
+            });
+            $('#FreeOffer').on('input', function (e) {
+                $("#Description").val("Buy " + $('#BuyLimit').val() + " Get " + $('#FreeOffer').val() + " Free");
+            });
+            $('#LimitDiscountPercentage').on('input', function (e) {
+                updateDiscountDescription();
+            });
+            $('#DiscountPercentage').on('input', function (e) {
+                updateDiscountDescription();
+            });
+            $('#DiscountType').change(function () {
+                updateDiscountDescription();
+            });
+
+
+            function updateDiscountDescription() {
+                if ($('#DiscountType').val() == '0') {
+                    if ($('#LimitDiscountPercentage').val() == '' || $('#LimitDiscountPercentage').val() == '0') {
+                        $("#Description").val("Discount " + $('#DiscountPercentage').val() + "%.");
+                    }
+                    else {
+                        $("#Description").val("Buy " + $('#LimitDiscountPercentage').val() + " , Get next at " + $('#DiscountPercentage').val() + "% discount.");
+                    }
+                }
+                else {
+                    if ($('#LimitDiscountPercentage').val() == '' || $('#LimitDiscountPercentage').val() == '0') {
+                        $("#Description").val("Discount " + $('#DiscountPercentage').val() + ".");
+                    }
+                    else {
+                        $("#Description").val("Buy " + $('#LimitDiscountPercentage').val() + " , Get next at " + $('#DiscountPercentage').val() + ".");
+                    }
+                }
+            }
+
+        $('#btnSave').click(function () {
+
+            $("#divError").html('');
+            $("#divError").hide('');
+
+            @*if ($('#BuyLimit').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.BuyLimit  @Resource.Qty.");
+                $("#divError").show();
+                $('#BuyLimit').focus();
+                return;
+            }
+            if ($('#FreeOffer').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Offer  @Resource.Qty.");
+                $("#divError").show();
+                $('#FreeOffer').focus();
+                return;
+            }*@
+            @*if ($('#Description').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Description ");
+                $("#divError").show();
+                $('#Description').focus();
+                return;
+            }*@
+
+            var description = $('#Description').val();
+
+            //if ($("#IsDiscount").is(':checked')) {
+            //    description = $('#DiscountPercentage').val()+" %";
+            //}
+
+            var data = {
+                Id: $('#Id').val(),
+                BuyLimit: $('#BuyLimit').val(),
+                FreeOffer: $('#FreeOffer').val(),
+                Description: description,
+                IsDiscount: $("#IsDiscount").is(':checked'),
+                StartDate: $('#StartDate').val(),
+                EndDate: $('#EndDate').val(),
+                DiscountPercentage: $('#DiscountPercentage').val(),
+                DiscountType: $('#DiscountType').val(),
+                LimitDiscountPercentage: $('#LimitDiscountPercentage').val(),
+                OnceOnly: false
+            };
+
+            $.ajax({
+                url: '@Url.Action("Create", "Campaign")',
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                            window.location = '/Campaign'
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+
+                    // $("#PartialProductList").html(result);
+
+                }
+            });
+        });
+
+
+
+
+    });
+
+
+    $('#IsDiscount').change(function () {
+        if (this.checked) {
+            $("#DiscountPercentage").prop("disabled", false);
+            $("#DiscountType").prop("disabled", false);
+            $("#LimitDiscountPercentage").prop("disabled", false);
+            $("#BuyLimit").prop("disabled", true);
+            $("#FreeOffer").prop("disabled", true);
+            //$("#Description").prop("disabled", true);
+
+            $("#FreeOffer").val("");
+            $("#BuyLimit").val("");
+            $("#Description").val("");
+            $("#DiscountPercentage").val("");
+        }
+        else {
+            $("#DiscountPercentage").prop("disabled", true);
+            $("#DiscountType").prop("disabled", true);
+            $("#LimitDiscountPercentage").prop("disabled", true);
+            $("#BuyLimit").prop("disabled", false);
+            $("#FreeOffer").prop("disabled", false);
+            //$("#Description").prop("disabled", false);
+            $("#DiscountPercentage").val("");
+            $("#Description").val("");
+
+        }
+    });
+    </script>

@@ -1,0 +1,85 @@
+﻿@model SeamlessClient
+<div class="panel">
+   
+    <div class="panel-body">
+        <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+        <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+        <div class="admin-form form-horizontal">
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.CompanyId)
+          
+                    <div class="form-group">
+                        <div class="col-md-4 text-right">
+                            <label class="control-label pt10"> @Resource.User @Resource.Name </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.ClientId, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Location })
+                                <label class="field-icon">
+                                    <i class="fa fa-star-o"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+               
+                    <div class="form-group">
+                        <div class="col-md-4 text-right pln">
+                            <label class="control-label pt10"> @Resource.Password </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+
+                                @Html.TextBoxFor(model => model.Password, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Password })
+                                <label class="field-icon">
+                                    <i class="fa fa-star-o"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                
+
+                    <div class="form-group">
+                        <div class="col-md-4 text-right">
+                            <label class="control-label pt10">Request Timeout </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+                                @Html.TextBoxFor(model => model.ClientRequestTimeout, new { @class = "event-name gui-input br-light light", @placeholder = "Reuest Timeout" })
+                                <label class="field-icon">
+                                    <i class="fa fa-star-o"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+              
+                    <div class="form-group">
+                        <div class="col-md-4 text-right pln">
+                            <label class="control-label pt10"> @Resource.url </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="field prepend-icon" data-toggle="tooltip">
+
+                                @Html.TextBoxFor(model => model.Web_url, new { @class = "event-name gui-input br-light light", @placeholder = Resource.url })
+                                <label class="field-icon">
+                                    <i class="fa fa-star-o"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+              
+
+
+
+
+
+        </div>
+
+
+    </div>
+   
+
+
+</div>
+
+

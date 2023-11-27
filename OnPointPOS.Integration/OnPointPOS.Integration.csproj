@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CCCD1857-D3E7-4A3B-9DD6-87AA0CCDA50C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>POSSUM.Integration</RootNamespace>
+    <AssemblyName>POSSUM.Integration</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Bambora.Connect2T, Version=2.9.0.0, Culture=neutral, PublicKeyToken=a0705436df8b4979, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Integration\PaymentDevices\BamboraConnect2T\Bambora.Connect2T.dll</HintPath>
+    </Reference>
+    <Reference Include="BPTIInterop, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>Lib\BPTIInterop.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.BPTI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>obj\Debug\Interop.BPTI.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.CleanCash_1_1, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>Lib\Interop.CleanCash_1_1.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.2\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PaymentSdk, Version=1.0.8441.25274, Culture=neutral, PublicKeyToken=3b37f45c0e1ae0b5, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Integration\PaymentDevices\VerifonePSDK\PaymentSdk.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DefaultsIntegrations.cs" />
+    <Compile Include="Extra\LogWriter.cs" />
+    <Compile Include="Extra\ReceiptData.cs" />
+    <Compile Include="Extra\Utilities.cs" />
+    <Compile Include="Integration\ControlUnits\CleanCash\CcuResponse.cs" />
+    <Compile Include="Integration\ControlUnits\CleanCash\CcuData.cs" />
+    <Compile Include="Integration\ControlUnits\CleanCash\CleanCashConfiguraiton.cs" />
+    <Compile Include="Integration\ControlUnits\CleanCash\CcuPost.cs" />
+    <Compile Include="Integration\ControlUnits\CleanCash\CloudCashControlUnit.cs" />
+    <Compile Include="Integration\Utility.cs" />
+    <Compile Include="IntegrationLogWriter.cs" />
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extra\ExtraClasses.cs" />
+    <Compile Include="Integration\CashDrawerFactory.cs" />
+    <Compile Include="Integration\CashDrawers\DirectHardware\DirectHWCashDrawer.cs" />
+    <Compile Include="Integration\CashDrawers\DirectHardware\RawIO.cs" />
+    <Compile Include="Integration\CashDrawers\DirectHardware\RawPrinterHelper.cs" />
+    <Compile Include="Integration\CashDrawers\Dummy\DummyCashDrawer.cs" />
+    <Compile Include="Integration\CashDrawers\PartnerPOS\PartnerCashDrawer.cs" />
+    <Compile Include="Integration\CashDrawers\Printer\PrinterCashDrawer.cs" />
+    <Compile Include="Integration\CashGuardFactory.cs" />
+    <Compile Include="Integration\CashGuard\CashGuardAPI.cs" />
+    <Compile Include="Integration\CashGuard\CashGuardIntegration.cs" />
+    <Compile Include="Integration\ControlUnitFactory.cs" />
+    <Compile Include="Integration\ControlUnits\CleanCash\Ccsp.cs" />
+    <Compile Include="Integration\ControlUnits\CleanCash\CleanCashControlUnit.cs" />
+    <Compile Include="Integration\ControlUnits\CleanCash\CleanCashControlUnit2.cs" />
+    <Compile Include="Integration\ControlUnits\Dummy\DummyControlUnit.cs" />
+    <Compile Include="Integration\ICashDrawer.cs" />
+    <Compile Include="Integration\IControlUnit.cs" />
+    <Compile Include="Integration\IPaymentDevice.cs" />
+    <Compile Include="Integration\IScale.cs" />
+    <Compile Include="Integration\PaymentDeviceFactory.cs" />
+    <Compile Include="Integration\PaymentDevices\BabsBptiInterop\BabsBpiInteropApi.cs" />
+    <Compile Include="Integration\PaymentDevices\BabsBptiInterop\BabsBptiInteropPaymentDevice.cs" />
+    <Compile Include="Integration\PaymentDevices\BabsBpti\BabsBpiApi.cs" />
+    <Compile Include="Integration\PaymentDevices\BabsBpti\BabsBptiPaymentDevice.cs" />
+    <Compile Include="Integration\PaymentDevices\BamboraConnect2T\BamboraConnect2TApi.cs" />
+    <Compile Include="Integration\PaymentDevices\BamboraConnect2T\BamboraConnect2TPaymentDevice.cs" />
+    <Compile Include="Integration\PaymentDevices\Dummy\DummyPaymentDevice.cs" />
+    <Compile Include="Integration\PaymentDevices\Verifone\Command.cs" />
+    <Compile Include="Integration\PaymentDevices\Verifone\Receipt.cs" />
+    <Compile Include="Integration\PaymentDevices\Verifone\Response.cs" />
+    <Compile Include="Integration\PaymentDevices\Verifone\VerifoneApi.cs" />
+    <Compile Include="Integration\PaymentDevices\Verifone\VerifonePaymentDevice.cs" />
+    <Compile Include="Integration\PaymentDevices\Verifone\VerifoneReceipt.cs" />
+    <Compile Include="Integration\ScaleFactory.cs" />
+    <Compile Include="Integration\Scale\Dummy\DummyScale.cs" />
+    <Compile Include="Integration\Scale\NCI\NCIApi.cs" />
+    <Compile Include="Integration\Scale\NCI\NCIScale.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Integration\CashDrawers\DirectHardware\inpout32.dll" />
+    <Content Include="Integration\CashDrawers\DirectHardware\inpoutx64.dll" />
+    <Content Include="Integration\CashGuard\CashBIPRO.dll" />
+    <Content Include="Integration\CashGuard\cglogics.dll" />
+    <Content Include="Integration\ControlUnits\CleanCash\Interop.CleanCash_1_1.dll" />
+    <Content Include="Integration\PaymentDevices\BabsBpti\BPTI.dll" />
+    <Content Include="Integration\PaymentDevices\BamboraConnect2T\Bambora.Connect2T.dll" />
+    <Content Include="Lib\Bambora.Connect2T.dll" />
+    <Content Include="Lib\BPTI.dll" />
+    <Content Include="Lib\BPTIInterop.dll" />
+    <Content Include="Lib\Interop.BPTI.dll" />
+    <Content Include="Lib\Interop.CleanCash_1_1.dll" />
+    <Content Include="Lib\POSSUM.Model.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OnPointPOS.Data\OnPointPOS.Data.csproj">
+      <Project>{5333dafb-9f80-4f20-be71-3ef89398c0ab}</Project>
+      <Name>OnPointPOS.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OnPointPOS.Model\OnPointPOS.Model.csproj">
+      <Project>{c6a7bc6f-8e72-42ed-8bec-9e18c7ea7abc}</Project>
+      <Name>OnPointPOS.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,411 @@
+﻿@*<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurent</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/se-default.css" rel="stylesheet" />
+    <link href="~/Content/se-menu-page.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Logs", "Logs", "Home")</li>
+                    <li>@Html.ActionLink("DeletLogs", "DeletLogs", "Home")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+<!DOCTYPE html>*@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    @*<meta name="viewport" content="width=device-width, initial-scale=1">*@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="~/Content/se-default.css" rel="stylesheet" />
+    <link href="~/Content/se-menu-page.css" rel="stylesheet" />
+
+    <title>@ViewBag.Title</title>
+
+    <!-- FONTS -->
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,400,700,900,100italic,300italic,400italic,900italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,700,800,600' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
+    <!-- Custom CSS -->
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/kendo.dataviz.default.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
+
+
+    @if (Model.ShopConfig.ShopTemplate == 1 || Model.ShopConfig.ShopTemplate == 3 || Model.ShopConfig.ShopTemplate == 4)
+    {
+        <link href="~/css/lue.css" rel="stylesheet">
+    }
+    else
+    {
+        <link href="~/css/generic.css" rel="stylesheet">
+    }
+    @if (Model.ShopConfig.CSS != string.Empty)
+    {
+        <style type="text/css">
+                @Model.ShopConfig.CSS
+        </style>
+    }
+    <link href="~/css/icons.css" rel="stylesheet">
+    <link href="~/css/bootstrap.css" rel="stylesheet">
+    <link href="~/css/spinner.css" rel="stylesheet">
+    <link href="~/css/responsiveslides.css" rel="stylesheet">
+
+    @*<script src="~/Scripts/modernizr-2.8.3.js"></script>*@
+    <script>
+        if (!("ontouchstart" in document.documentElement)) {
+            document.documentElement.className += " no-touch";
+        } else {
+            document.documentElement.className += " touch";
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script>
+        @MvcHtmlString.Create("var lat = "+(String.IsNullOrEmpty(Model.GetCompanyInfo.Lat) ? "0" : Model.GetCompanyInfo.Lat)+";")
+        @MvcHtmlString.Create("var long = " + (String.IsNullOrEmpty(Model.GetCompanyInfo.Long) ? "0" : Model.GetCompanyInfo.Long) + ";")
+        @MvcHtmlString.Create("var imagesrc = '/Content/img/pipicon_40x40.png'")
+        @MvcHtmlString.Create("var name = '"+Model.GetCompanyInfo.Name+"';")
+
+        function initialize() {
+            var myLatLng = new google.maps.LatLng(lat, long);
+            var mapCanvas = document.getElementById('map-canvas');
+            var mapOptions = {
+                center: myLatLng,
+                zoom: 12,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                mapTypeControl: false
+            }
+
+            var map = new google.maps.Map(mapCanvas, mapOptions);
+            var directionsPath = "https://www.google.com/maps/dir/Current+Location/" + lat + "," + long;
+            var infowindow = new google.maps.InfoWindow({
+                content: "<strong>" + name + "</strong><br><a href='" + directionsPath + "' target='_blank'>Hitta hit</a>"
+            });
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: name,
+                icon: imagesrc
+            });
+            google.maps.event.addListener(marker, 'click', function () {
+                infowindow.open(map, marker);
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+        function resizeIframe(obj) {
+            obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+        }
+    </script>
+
+    <style>
+        * {
+            text-transform: none !important;
+        }
+
+        #map-canvas {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="~/Scripts/jquery-2.1.3.js"></script>
+</head>
+<body style="@Model.BodyStyle">
+
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Logs", "Logs", "Home")</li>
+                    <li>@Html.ActionLink("DeletLogs", "DeletLogs", "Home")</li>
+                    <li>@Html.ActionLink("TemplateSite", "Index", "TemplateSite")</li>
+                </ul>
+            </div>
+        </div>
+    </div>*@
+
+    <i id="load-animation" class="fa fa-spinner fa-spin" style="position: fixed; top: 40%; text-align: center; width: 100%; font-size: 50px; display: none; z-index: 9001;"></i>
+
+    @RenderBody()
+
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap-typeahead.js"></script>
+    <script src="~/Scripts/kendo.all.min.js"></script>
+    <script src="~/Scripts/kendo.aspnetmvc.min.js"></script>
+    <script src="~/Scripts/iframeResizer.contentWindow.min.js"></script>
+    <script src="~/Scripts/responsiveslides.min.js"></script>
+    <script src="~/Scripts/scroll.up.js"></script>
+
+
+
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+
+        //Initiera slides-show:
+        $(function () {
+            $(".rslides").responsiveSlides({
+                nav: true,
+                prevText: "<span class='glyphicon glyphicon-chevron-left'></span>",   // String: Text for the "previous" button
+                nextText: "<span class='glyphicon glyphicon-chevron-right'></span>",
+                auto: true,
+                pager: true,
+            });
+        });
+
+
+        $(document).ready(function () {
+
+            //Uppdatera cart-badge:
+            UpdateCartBadge();
+
+            //Visa och göm kvitto
+            $('.nav-toggle').click(function () {
+                var collapse_content_selector = $(this).attr('href');
+                var toggle_switch = $(this);
+
+                $(collapse_content_selector).toggle(function () {
+                    if ($(this).css('display') == 'none') {
+                        toggle_switch.html('Visa kvitto');
+                    } else {
+                        toggle_switch.html('Göm kvitto');
+                    }
+                });
+            });
+
+
+
+            //För att disabla add-knappar när restaurangen är offline
+            @MvcHtmlString.Create("var disable = " + (Model.CustomerOrderPrinterStatus.Offline ? "true" : "false"));
+            if (disable) {
+                $(".food-menu-add-item").addClass("disable-link");
+            }
+
+        });
+    </script>
+
+
+    @if (Model.ShopConfig.ShopListType != 3)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                //För att minimera kategorier när fönstret är litet
+                function checkMedia() {
+                    if (window.matchMedia('(max-width: 990px)').matches) {
+                        $(".food-items-wrapper").hide();
+                    } else {
+                        $(".food-items-wrapper").show();
+                    }
+                }
+                var ww = $(window).width();
+                $(window).on('resize', function (event) {
+                    if (ww != $(window).width()) {
+                        ww = $(window).width();
+                        checkMedia();
+                    }
+                });
+                checkMedia();
+
+                //För att minimera kategorier med ett knapptryck:
+                $(".col-food-header").click(function () {
+                    var that = $(this);
+                    if (that != null) {
+                        that.nextUntil(".col-food-header").toggle();
+                    }
+                });
+            });
+        </script>
+    }
+
+
+    @if ((Model.ShopConfig.ShopTemplate == 1 || Model.ShopConfig.ShopTemplate == 3) && Model.ShopConfig.ShopListType != 3)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                //Kundvagnen:
+                var scrollPos = 0;
+                var sel = $("#basket").find("div").not(".cart-header");
+                var element = $('#basket');
+                var element2 = $(".col-lg-top-menu");
+                var cartinfo = $('#cartinfo');
+                var carttitle = $('#carttitle');
+                var first = true;
+                var originalY = element.offset().top;
+                var originalWidth = element.css("width");
+                var elementClasses = element.attr("class");
+                var sw = element2.offset().top + $(".col-lg-top-menu").outerHeight(true);
+                @(!Model.StandAlone ? "sw = 0;" : String.Empty)
+                var toggleCart = function () {
+                    if (sel.is(":visible")) {
+                        sel.hide();
+                    } else {
+                        sel.show();
+                    }
+                }
+                $(".cart-header").click(function () {
+                    toggleCart();
+                });
+                var doChecks = function () {
+                    scrollPos = window.pageYOffset;
+
+                    if (window.matchMedia('(max-width: 990px)').matches) {
+                        element.prependTo("body");
+                        element.attr("class", "");
+                        element.css("position", "fixed");
+                        element.css("width", "100%");
+                        element.css("z-index", "1000");
+                        element.css("top", "0");
+                        carttitle.css("padding-bottom", "5px");
+                        cartinfo.show();
+                        sel.hide();
+                    } else {
+                        element.appendTo(".col-right-sidebar");
+                        element.attr("class", elementClasses);
+                        sel.show();
+                        carttitle.css("padding-bottom", "20px");
+                        cartinfo.hide();
+                        if (first) {
+                            first = false;
+                            originalY = element.offset().top;
+                        }
+                        if (scrollPos > sw) {
+                            element.css("position", "fixed");
+                            element.css("top", "0");
+                            element.css("width", originalWidth);
+                        } else {
+                            originalWidth = element.css("width");
+                            element.css("position", "relative");
+                        }
+                    }
+                }
+                var ww2 = $(window).width();
+                $(window).on('resize', function (event) {
+                    if (ww2 != $(window).width()) {
+                        ww2 = $(window).width();
+                        doChecks();
+                    }
+                });
+                $(window).scroll(function (event) {
+                    doChecks();
+                });
+                doChecks();
+            });
+        </script>
+    }
+
+    @if (Model.ShopConfig.ShopTemplate == 2)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                //CMS-Content-pages:
+                var hClass = function (h) {
+                    if (h != "") {
+                        return "." + h.substring(1);
+                    }
+                    return "";
+                }
+                var oldHash = "";
+                var checkHash = function (t) {
+                    window.scrollTo(0, 0);
+
+                    var hash = typeof t != "undefined" ? t.hash : window.location.hash;
+                    hash = hash.toString();
+
+                    console.log(hash);
+                    if (hash != "" && new RegExp("^[#][p][0-9]{1,4}$").test(hash)) {
+
+                        $(hClass(oldHash)).hide();
+                        $(hClass(hash)).show();
+                        $(".everything-else").hide();
+                        oldHash = hash;
+                    } else {
+                        $(hClass(oldHash)).hide();
+                        $(".everything-else").show();
+
+                        //gör häftiga saker med produkter här (framtida fullt fungerande feature):
+                        @*@(Model.ShopConfig.MultipleMenus ? "forceload = true;" : "forceload = false;")
+                            if (hash.length > 7) LoadModal(hash.substring(1), forceload);*@
+                    }
+                };
+                checkHash();
+
+                //$(".my-nav-link").click(function () {
+                //    checkHash(this);
+                //});
+
+                window.addEventListener("hashchange", function () {
+                    checkHash();
+                }, false);
+            });
+        </script>
+    }
+
+    <div id="toTop"><span class="glyphicon glyphicon-menu-up"></span></div>
+</body>
+</html>

@@ -1,0 +1,958 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CannotConnectToController" xml:space="preserve">
+    <value>No se puede conectar a dispositivo de control </value>
+  </data>
+  <data name="CannotRegisterToController" xml:space="preserve">
+    <value>No se puede registrar dispositivo de control</value>
+  </data>
+  <data name="CheckOutOrder_ClearAll" xml:space="preserve">
+    <value>Limpiar todo</value>
+  </data>
+  <data name="CheckOutOrder_Done" xml:space="preserve">
+    <value>Listo</value>
+  </data>
+  <data name="CheckOutOrder_Invoice" xml:space="preserve">
+    <value>Factura</value>
+  </data>
+  <data name="CheckOutOrder_Label_BalanceAmount" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="CheckOutOrder_Label_CashBack" xml:space="preserve">
+    <value>Devolver</value>
+  </data>
+  <data name="CheckOutOrder_Label_PaidCash" xml:space="preserve">
+    <value>Efectivo:</value>
+  </data>
+  <data name="CheckOutOrder_Label_PaidOthers" xml:space="preserve">
+    <value>Otros</value>
+  </data>
+  <data name="CheckOutOrder_Label_Remaining" xml:space="preserve">
+    <value>Restante</value>
+  </data>
+  <data name="CheckOutOrder_Label_Returned" xml:space="preserve">
+    <value>Devolver</value>
+  </data>
+  <data name="CheckOutOrder_Label_TotalBill" xml:space="preserve">
+    <value>Total a pagar</value>
+  </data>
+  <data name="CheckOutOrder_Method_Account" xml:space="preserve">
+    <value>Cuenta</value>
+  </data>
+  <data name="CheckOutOrder_Method_Cash" xml:space="preserve">
+    <value>Efectivo</value>
+  </data>
+  <data name="CheckOutOrder_Method_Coupon" xml:space="preserve">
+    <value>Cupón</value>
+  </data>
+  <data name="CheckOutOrder_Method_CreditCard" xml:space="preserve">
+    <value>Tarjeta de credito</value>
+  </data>
+  <data name="CheckOutOrder_Method_DebitCard" xml:space="preserve">
+    <value>Tarjeta de debito</value>
+  </data>
+  <data name="CheckOutOrder_Method_FreeCoupon" xml:space="preserve">
+    <value>Cupón gratis</value>
+  </data>
+  <data name="CheckOutOrder_Method_TipAmount" xml:space="preserve">
+    <value>Propina</value>
+  </data>
+  <data name="CheckOutOrder_Not_Receipt" xml:space="preserve">
+    <value>NO RECIBO</value>
+  </data>
+  <data name="CloseTerminal" xml:space="preserve">
+    <value>Cierre de terminal</value>
+  </data>
+  <data name="Global_Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Global_Checkout" xml:space="preserve">
+    <value>PAGAR</value>
+  </data>
+  <data name="Global_Return" xml:space="preserve">
+    <value>Devolución</value>
+  </data>
+  <data name="Global_Total" xml:space="preserve">
+    <value>Suma</value>
+  </data>
+  <data name="Global_VAT" xml:space="preserve">
+    <value>IVA</value>
+  </data>
+  <data name="Global_View" xml:space="preserve">
+    <value>Ver</value>
+  </data>
+  <data name="Login_Closed" xml:space="preserve">
+    <value>Caja cerrada</value>
+  </data>
+  <data name="Login_Exit" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>MENÚ</value>
+  </data>
+  <data name="Main_About" xml:space="preserve">
+    <value>Acerca de</value>
+  </data>
+  <data name="Main_Deposit" xml:space="preserve">
+    <value>Depósito</value>
+  </data>
+  <data name="Main_Manual" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="Main_Shift" xml:space="preserve">
+    <value>Cambio</value>
+  </data>
+  <data name="Main_Withdrawal" xml:space="preserve">
+    <value>Retirar</value>
+  </data>
+  <data name="Menu_PaymentTerminalUtil" xml:space="preserve">
+    <value>Terminal de pago</value>
+  </data>
+  <data name="OpenOrder_ConfirmMerg" xml:space="preserve">
+    <value>Quiere unir pedidos marcados?</value>
+  </data>
+  <data name="OpenOrder_ConfirmMove" xml:space="preserve">
+    <value>Quiere mover pedidos marcados?</value>
+  </data>
+  <data name="OpenOrder_HoldButton" xml:space="preserve">
+    <value>Retrasar pedido</value>
+  </data>
+  <data name="OpenOrder_Merge" xml:space="preserve">
+    <value>Unir pedido</value>
+  </data>
+  <data name="OpenOrder_MoveButton" xml:space="preserve">
+    <value>Mover pedido</value>
+  </data>
+  <data name="OpenOrder_SplitButton" xml:space="preserve">
+    <value>Separar pedido</value>
+  </data>
+  <data name="OpenOrder_TableButton" xml:space="preserve">
+    <value>Mesa</value>
+  </data>
+  <data name="OpenOrder_ValidateToMerge" xml:space="preserve">
+    <value>Eligir dos pedidos o mas para unir!</value>
+  </data>
+  <data name="OrderHistory" xml:space="preserve">
+    <value>Historial</value>
+  </data>
+  <data name="OrderHistory_BackButton" xml:space="preserve">
+    <value>Atrás</value>
+  </data>
+  <data name="OrderHistory_Date" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="OrderHistory_OrderFrom" xml:space="preserve">
+    <value>Pedido desde:</value>
+  </data>
+  <data name="OrderHistory_OrderList" xml:space="preserve">
+    <value>Historial</value>
+  </data>
+  <data name="OrderHistory_OrderNumber" xml:space="preserve">
+    <value>Número de pedido</value>
+  </data>
+  <data name="OrderHistory_OrderTo" xml:space="preserve">
+    <value>Pedido a:</value>
+  </data>
+  <data name="OrderHistory_PaymentStatus" xml:space="preserve">
+    <value>Estado de pago</value>
+  </data>
+  <data name="OrderHistory_Print" xml:space="preserve">
+    <value>Imprimir</value>
+  </data>
+  <data name="OrderHistory_ReceiptNumber" xml:space="preserve">
+    <value>Número de recibo</value>
+  </data>
+  <data name="OrderStatus_AssignedKitchenBar" xml:space="preserve">
+    <value>Traspaso a cocina/bar</value>
+  </data>
+  <data name="OrderStatus_AvailabilityPartialComplete" xml:space="preserve">
+    <value>Disponibilidad parcial, completa</value>
+  </data>
+  <data name="OrderStatus_AvailabilityPartialCompleteSomeItemsUnavailable" xml:space="preserve">
+    <value>Pedido disponibilidad parcial, completa, algunos articulos faltan</value>
+  </data>
+  <data name="OrderStatus_Completed" xml:space="preserve">
+    <value>Listo</value>
+  </data>
+  <data name="OrderStatus_OrderAvailabilityComplete" xml:space="preserve">
+    <value>Pedido completa</value>
+  </data>
+  <data name="OrderStatus_OrderCancelled" xml:space="preserve">
+    <value>Cancelado</value>
+  </data>
+  <data name="OrderStatus_OrderPackerAssigned" xml:space="preserve">
+    <value>Paquete de pedida traspasado</value>
+  </data>
+  <data name="OrderStatus_OrderPackerComplete" xml:space="preserve">
+    <value> Paquete de pedido completo</value>
+  </data>
+  <data name="OrderStatus_OrderSPOAssign" xml:space="preserve">
+    <value>Para asignar SPO</value>
+  </data>
+  <data name="OrderStatus_Pending" xml:space="preserve">
+    <value>Pendiente</value>
+  </data>
+  <data name="OrderStatus_ReadyToServe" xml:space="preserve">
+    <value>Listo para servir</value>
+  </data>
+  <data name="OrderStatus_Served" xml:space="preserve">
+    <value>Servido</value>
+  </data>
+  <data name="Order_Comment" xml:space="preserve">
+    <value>Comentarios de pedida</value>
+  </data>
+  <data name="PlaceOrder_BIDSButton" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="PlaceOrder_CashDrawButton" xml:space="preserve">
+    <value>Abrir caja registradora</value>
+  </data>
+  <data name="PlaceOrder_CustomerButton" xml:space="preserve">
+    <value>Cliente</value>
+  </data>
+  <data name="PlaceOrder_HoldCommentButton" xml:space="preserve">
+    <value>Retrasar comentario</value>
+  </data>
+  <data name="PlaceOrder_NetTotalLabel" xml:space="preserve">
+    <value>Total neto:</value>
+  </data>
+  <data name="PlaceOrder_NewButton" xml:space="preserve">
+    <value>Nuevo</value>
+  </data>
+  <data name="PlaceOrder_OpenOrderButton" xml:space="preserve">
+    <value>Abrir pedido</value>
+  </data>
+  <data name="PlaceOrder_OrderCommentButton" xml:space="preserve">
+    <value>Comentario de pedido</value>
+  </data>
+  <data name="PlaceOrder_ProductComment" xml:space="preserve">
+    <value>Comentario del producto</value>
+  </data>
+  <data name="PlaceOrder_SelectTableButton" xml:space="preserve">
+    <value>Eligir mesa</value>
+  </data>
+  <data name="PlaceOrder_SubmitButton" xml:space="preserve">
+    <value>Pedido</value>
+  </data>
+  <data name="PlaceOrder_TakeAwayButton" xml:space="preserve">
+    <value>Para llevar</value>
+  </data>
+  <data name="PlaceOrder_TotalLabel" xml:space="preserve">
+    <value>A pagar:</value>
+  </data>
+  <data name="Report_Address" xml:space="preserve">
+    <value>Dirección:</value>
+  </data>
+  <data name="Report_CashDrawerOpen" xml:space="preserve">
+    <value>Cambio de inicio</value>
+  </data>
+  <data name="Report_CashDrawerOpenCount" xml:space="preserve">
+    <value>Contador de abre cajaregistradora</value>
+  </data>
+  <data name="Report_Cashier" xml:space="preserve">
+    <value>Cajero:</value>
+  </data>
+  <data name="Report_CategorySale" xml:space="preserve">
+    <value>Categoría de venta</value>
+  </data>
+  <data name="Report_CloseDate" xml:space="preserve">
+    <value>Fecha de cierre</value>
+  </data>
+  <data name="Report_Description" xml:space="preserve">
+    <value>Denominación</value>
+  </data>
+  <data name="Report_DiscountCount" xml:space="preserve">
+    <value>Descuentos</value>
+  </data>
+  <data name="Report_EndOrder" xml:space="preserve">
+    <value>FIN DE PEDIDO</value>
+  </data>
+  <data name="Report_Trainingmode" xml:space="preserve">
+    <value>Modo práctica</value>
+  </data>
+  <data name="Report_GrandTotalNet" xml:space="preserve">
+    <value>Cuota total</value>
+  </data>
+  <data name="Report_GrandTotalReturn" xml:space="preserve">
+    <value>Cuota total(Devolución)</value>
+  </data>
+  <data name="Report_GrandTotalSale" xml:space="preserve">
+    <value>Venta total</value>
+  </data>
+  <data name="Report_HoldCount" xml:space="preserve">
+    <value>Compras en pausa</value>
+  </data>
+  <data name="Report_HoldTotalSale" xml:space="preserve">
+    <value>Cuotas en pausa</value>
+  </data>
+  <data name="Report_OpenDate" xml:space="preserve">
+    <value>Fecha de apertura</value>
+  </data>
+  <data name="Report_OrderCount" xml:space="preserve">
+    <value>Contador de pedidos</value>
+  </data>
+  <data name="Report_OtherNegativeRegistrations" xml:space="preserve">
+    <value>Otros registros negativos</value>
+  </data>
+  <data name="Report_Payment" xml:space="preserve">
+    <value>Pagado</value>
+  </data>
+  <data name="Report_PaymentTypeReturn" xml:space="preserve">
+    <value>Tipo de pago de devolución</value>
+  </data>
+  <data name="Report_PaymentTypeSale" xml:space="preserve">
+    <value>Tipo de pago</value>
+  </data>
+  <data name="Report_Phone" xml:space="preserve">
+    <value>Teléfono:</value>
+  </data>
+  <data name="Report_ProductsCount" xml:space="preserve">
+    <value>Cantidad de productos</value>
+  </data>
+  <data name="Report_Quantity" xml:space="preserve">
+    <value>Cantidad</value>
+  </data>
+  <data name="Report_ReceiptCopyAmount" xml:space="preserve">
+    <value>Cuota de copia de recibos</value>
+  </data>
+  <data name="Report_ReceiptCopyCount" xml:space="preserve">
+    <value>Cantidad de copia de recibos</value>
+  </data>
+  <data name="Report_ReceiptCount" xml:space="preserve">
+    <value>Cantidad de recibos</value>
+  </data>
+  <data name="Report_ReceiptNo" xml:space="preserve">
+    <value>Número de recibo:</value>
+  </data>
+  <data name="Report_ReportNumber" xml:space="preserve">
+    <value>Número de reporte</value>
+  </data>
+  <data name="Report_ReturnCount" xml:space="preserve">
+    <value>Cantidad de devoluciones</value>
+  </data>
+  <data name="Report_ServicesCount" xml:space="preserve">
+    <value>Cantidad de servicios</value>
+  </data>
+  <data name="Report_TotalNet" xml:space="preserve">
+    <value>Neto</value>
+  </data>
+  <data name="Report_TotalReturn" xml:space="preserve">
+    <value>Devoluciones</value>
+  </data>
+  <data name="Report_TotalSale" xml:space="preserve">
+    <value>Venta</value>
+  </data>
+  <data name="Report_TrainingModeCount" xml:space="preserve">
+    <value>Cantidad de práctica</value>
+  </data>
+  <data name="Report_UniqueIdentification" xml:space="preserve">
+    <value>Identificación de cajero</value>
+  </data>
+  <data name="Report_VATSum" xml:space="preserve">
+    <value>Reporte, Suma de IVA</value>
+  </data>
+  <data name="ShowReport" xml:space="preserve">
+    <value>Mostrar reporte</value>
+  </data>
+  <data name="SyncData" xml:space="preserve">
+    <value>Datos a syncronizar</value>
+  </data>
+  <data name="Payment_Skip_Referral" xml:space="preserve">
+    <value>TODO: Salta remisión</value>
+  </data>
+  <data name="Progress_Wait" xml:space="preserve">
+    <value>Espere...</value>
+  </data>
+  <data name="PlaceOrder_Pause" xml:space="preserve">
+    <value>Pausa</value>
+  </data>
+  <data name="Login_Error" xml:space="preserve">
+    <value>Error de inicio sesión</value>
+  </data>
+  <data name="Login_PinMissing" xml:space="preserve">
+    <value>Falta PIN</value>
+  </data>
+  <data name="Login_WrongPin" xml:space="preserve">
+    <value>PIN Incorrecto</value>
+  </data>
+  <data name="Message_CancelOrder" xml:space="preserve">
+    <value>Esta seguro que quiere cancelar ?</value>
+  </data>
+  <data name="Message_CashChange" xml:space="preserve">
+    <value>Cambio</value>
+  </data>
+  <data name="Message_ConfirmChange" xml:space="preserve">
+    <value>Confirme cambio</value>
+  </data>
+  <data name="Message_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Message_RequiredField" xml:space="preserve">
+    <value>Campo obligatorio</value>
+  </data>
+  <data name="Message_Saved_Fail" xml:space="preserve">
+    <value>Error, no guardado</value>
+  </data>
+  <data name="Message_Saved_Success" xml:space="preserve">
+    <value>Guardado correctamente</value>
+  </data>
+  <data name="Message_Updated_Fail" xml:space="preserve">
+    <value>No se puede actualizar</value>
+  </data>
+  <data name="Message_Updated_Success" xml:space="preserve">
+    <value>Actualizado</value>
+  </data>
+  <data name="PlaceOrder_Discount" xml:space="preserve">
+    <value>Descuento</value>
+  </data>
+  <data name="Terminal_Open_Change" xml:space="preserve">
+    <value>Cambio</value>
+  </data>
+  <data name="Terminal_Open_Confirm" xml:space="preserve">
+    <value>Apertura de caja, confirmar</value>
+  </data>
+  <data name="Report_ReceiptCopy" xml:space="preserve">
+    <value>COPIA</value>
+  </data>
+  <data name="PlaceOrder_EnterComment" xml:space="preserve">
+    <value>Escribir comentario</value>
+  </data>
+  <data name="PlanceOrder_CartEmpty" xml:space="preserve">
+    <value>Ningún producto en la cesta de compra</value>
+  </data>
+  <data name="PlaceOrder_EnterPrice" xml:space="preserve">
+    <value>Introducir precio</value>
+  </data>
+  <data name="PlaceOrder_ReturnOrder" xml:space="preserve">
+    <value>Devolver pedido</value>
+  </data>
+  <data name="Main_Amount" xml:space="preserve">
+    <value>Cantidad</value>
+  </data>
+  <data name="Main_CashDepositWithDraw" xml:space="preserve">
+    <value>Intruduce entrada/retirada de cambio</value>
+  </data>
+  <data name="Main_InvalidAmount" xml:space="preserve">
+    <value>Cantidad no válida</value>
+  </data>
+  <data name="Main_Report" xml:space="preserve">
+    <value>Reporte</value>
+  </data>
+  <data name="CheckOutOrder_Label_ReceivedCash" xml:space="preserve">
+    <value>Recibido en efectivo</value>
+  </data>
+  <data name="CheckOutOrder_Label_TotalReturnBill" xml:space="preserve">
+    <value>Devolución</value>
+  </data>
+  <data name="CheckOutOrder_RoundOff" xml:space="preserve">
+    <value>Redondear</value>
+  </data>
+  <data name="CheckOutOrder_Performa" xml:space="preserve">
+    <value>Proforma</value>
+  </data>
+  <data name="Report_CashAdded" xml:space="preserve">
+    <value>Entrada en efectivo</value>
+  </data>
+  <data name="Report_CashDropped" xml:space="preserve">
+    <value>Retirar en efectivo</value>
+  </data>
+  <data name="EnterPrice" xml:space="preserve">
+    <value>Introducir precio</value>
+  </data>
+  <data name="Global_Confirm" xml:space="preserve">
+    <value>Confirmar</value>
+  </data>
+  <data name="Global_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Global_Warning" xml:space="preserve">
+    <value>Advertencia</value>
+  </data>
+  <data name="Message_CannotCancelCompletedOrder" xml:space="preserve">
+    <value>No se puede cancelar pedido completo</value>
+  </data>
+  <data name="Message_CashDrawerUnitControlNotDefined" xml:space="preserve">
+    <value>Cajero no definido</value>
+  </data>
+  <data name="Message_CouponExceedTotal" xml:space="preserve">
+    <value>Cupón gratuita no se puede superar el total.</value>
+    <comment>Free coupon cannot be more than bill total.</comment>
+  </data>
+  <data name="Message_DataSyncFailed" xml:space="preserve">
+    <value>Error de sincronización</value>
+  </data>
+  <data name="Message_DataSyncSucessfull" xml:space="preserve">
+    <value> Sincronización con exito </value>
+  </data>
+  <data name="Message_DoYouWantToSyncData" xml:space="preserve">
+    <value>Quiere sincronizar todo?</value>
+  </data>
+  <data name="Message_EANMissing" xml:space="preserve">
+    <value>Falta codigó EAN</value>
+  </data>
+  <data name="Message_EntyerTipAmount" xml:space="preserve">
+    <value>Introducir couta de propina</value>
+  </data>
+  <data name="Message_ErrorSavingReturnOrder" xml:space="preserve">
+    <value>Guardar pedido de devolución erróneo </value>
+  </data>
+  <data name="Message_InvalidEAN" xml:space="preserve">
+    <value>Codigó EAN no válido.</value>
+  </data>
+  <data name="Message_InvalidPLU" xml:space="preserve">
+    <value>Número PLU no válido.</value>
+  </data>
+  <data name="Message_NoItemSelectedForreturnOrder" xml:space="preserve">
+    <value>Ningún artículo eligido para devolución</value>
+  </data>
+  <data name="Message_NoLineItem" xml:space="preserve">
+    <value>Ninguna línea para imprimir</value>
+    <comment>Ningún linea para imprimir</comment>
+  </data>
+  <data name="Message_OrderCancellationFailed" xml:space="preserve">
+    <value>Cancelación de pedida erróneo.</value>
+  </data>
+  <data name="Message_OrderSavingFailed" xml:space="preserve">
+    <value>Guardar pedido erróneo </value>
+    <comment>Error in saving order</comment>
+  </data>
+  <data name="Message_PaymentSavedSucessully" xml:space="preserve">
+    <value>Pago de cuenta guardado con exito</value>
+  </data>
+  <data name="Message_PLUMissing" xml:space="preserve">
+    <value>Falta numero PLU</value>
+  </data>
+  <data name="Message_PrintingProblemTryLater" xml:space="preserve">
+    <value>Error de imprenta, intentalo de nuevo.</value>
+  </data>
+  <data name="Message_SelectItemToAddInCart" xml:space="preserve">
+    <value>Elige un artículo para poner en la cesta de compra</value>
+  </data>
+  <data name="Message_SumGreaterThanTotalBalance" xml:space="preserve">
+    <value>Cuota superior del total.</value>
+    <comment>Including above amounts Sum cannot more than total balance.</comment>
+  </data>
+  <data name="Message_SureToCancelOrder" xml:space="preserve">
+    <value>Seguro que quiere cancelar?</value>
+  </data>
+  <data name="Message_SureToCancelReceipt" xml:space="preserve">
+    <value>Seguro que cancela el recibo?</value>
+  </data>
+  <data name="PaymentTerminal_Close" xml:space="preserve">
+    <value>Cierre de terminal</value>
+  </data>
+  <data name="PaymentTerminal_CloseBatch" xml:space="preserve">
+    <value>Cierre del dia</value>
+  </data>
+  <data name="PaymentTerminal_EnterCode" xml:space="preserve">
+    <value>Introducir codigo</value>
+  </data>
+  <data name="PaymentTerminal_ShowSettings" xml:space="preserve">
+    <value>Ajustes</value>
+  </data>
+  <data name="PaymentTerminal_ShowUnsentTransaction" xml:space="preserve">
+    <value>Transacciones guardadas</value>
+  </data>
+  <data name="PaymentTerminal_TestConnection" xml:space="preserve">
+    <value>Verificar conexión</value>
+  </data>
+  <data name="PaymentTerminal_TransactionReport" xml:space="preserve">
+    <value>Reporte de transacciones</value>
+  </data>
+  <data name="Global_DiscountAmount" xml:space="preserve">
+    <value>Cuota de descuento</value>
+  </data>
+  <data name="Global_DiscountPercentage" xml:space="preserve">
+    <value>Descuento %</value>
+  </data>
+  <data name="PaymentTerminal_Detailed" xml:space="preserve">
+    <value>Detallado</value>
+  </data>
+  <data name="PaymentTerminal_Total" xml:space="preserve">
+    <value>Totales</value>
+  </data>
+  <data name="Global_Enter" xml:space="preserve">
+    <value>Introducir</value>
+  </data>
+  <data name="PaymentTerminal_Endorsement" xml:space="preserve">
+    <value>Firma</value>
+  </data>
+  <data name="PaymentTerminal_EnterTransactionCount" xml:space="preserve">
+    <value>Introducir transacción</value>
+  </data>
+  <data name="PaymentTerminal_GettingCloseBatch" xml:space="preserve">
+    <value>Recibir número de cierre</value>
+  </data>
+  <data name="PaymentTerminal_GettingConfig" xml:space="preserve">
+    <value>Recibir configuración</value>
+  </data>
+  <data name="PaymentTerminal_GettingDetailLog" xml:space="preserve">
+    <value>Recibir detalles</value>
+  </data>
+  <data name="PaymentTerminal_GettingTotalLog" xml:space="preserve">
+    <value>Recibir detalles totales</value>
+  </data>
+  <data name="PaymentTerminal_ResponseCode" xml:space="preserve">
+    <value>Código de respuesta</value>
+  </data>
+  <data name="PaymentTerminal_SignatureBuy" xml:space="preserve">
+    <value>Compra con firma</value>
+  </data>
+  <data name="PaymentTerminal_Waiting" xml:space="preserve">
+    <value>Esperando terminal</value>
+  </data>
+  <data name="Report_CategorySaleCount" xml:space="preserve">
+    <value>Contador, venta de categoría</value>
+  </data>
+  <data name="Report_CashIn" xml:space="preserve">
+    <value>Depósito en efectivo</value>
+  </data>
+  <data name="Report_CashOut" xml:space="preserve">
+    <value>Retirada en efectivo</value>
+  </data>
+  <data name="Report_CashSum" xml:space="preserve">
+    <value>Suma en efectivo</value>
+  </data>
+  <data name="Report_TrainingModeSale" xml:space="preserve">
+    <value>Práctica de venta</value>
+  </data>
+  <data name="Report_SaleTotal" xml:space="preserve">
+    <value>Ventas totales</value>
+  </data>
+  <data name="PlaceOrder_SelectCustomer" xml:space="preserve">
+    <value>Eligir cliente</value>
+  </data>
+  <data name="Global_AddNew" xml:space="preserve">
+    <value>Nuevo</value>
+  </data>
+  <data name="Global_Address" xml:space="preserve">
+    <value>Dirección</value>
+  </data>
+  <data name="Global_City" xml:space="preserve">
+    <value>Ciudad</value>
+  </data>
+  <data name="Global_Name" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Global_OrgNo" xml:space="preserve">
+    <value>CIF/Número identificativo</value>
+  </data>
+  <data name="Global_Reference" xml:space="preserve">
+    <value>Referencia</value>
+  </data>
+  <data name="Global_Search" xml:space="preserve">
+    <value>Búsqueda</value>
+  </data>
+  <data name="Global_ZipCode" xml:space="preserve">
+    <value>Código postal</value>
+  </data>
+  <data name="Message_NameMissing" xml:space="preserve">
+    <value>Falta el nombre</value>
+  </data>
+  <data name="Global_Email" xml:space="preserve">
+    <value>Correo electrónico</value>
+  </data>
+  <data name="Global_Employee" xml:space="preserve">
+    <value>Empleado</value>
+  </data>
+  <data name="Global_FirstName" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Global_LastName" xml:space="preserve">
+    <value>Apellido</value>
+  </data>
+  <data name="Main_CheckIn" xml:space="preserve">
+    <value>Hora de entrada</value>
+  </data>
+  <data name="Main_CheckOut" xml:space="preserve">
+    <value>Hora de salida</value>
+  </data>
+  <data name="Global_EnterSSN" xml:space="preserve">
+    <value>Por favor, introducir su NIF/NIE/DNI.</value>
+  </data>
+  <data name="Main_PersonLog" xml:space="preserve">
+    <value>Registro de empleados</value>
+  </data>
+  <data name="EnterWeight" xml:space="preserve">
+    <value>Intruducir peso</value>
+  </data>
+  <data name="Message_InvalidQty" xml:space="preserve">
+    <value>Cantidad no válida</value>
+  </data>
+  <data name="Message_InvalidWeight" xml:space="preserve">
+    <value>Peso no válido</value>
+  </data>
+  <data name="PaymentTerminal_ResetConnection" xml:space="preserve">
+    <value>Reiniciar conexión</value>
+  </data>
+  <data name="Global_Transaction" xml:space="preserve">
+    <value>Transacción</value>
+  </data>
+  <data name="Global_Voucher" xml:space="preserve">
+    <value>Voucher</value>
+  </data>
+  <data name="Report_VATPercent" xml:space="preserve">
+    <value>IVA %</value>
+  </data>
+  <data name="Report_ZReport" xml:space="preserve">
+    <value>Reporte Z</value>
+  </data>
+  <data name="CheckOutOrder_Method_Mobile" xml:space="preserve">
+    <value>Terminal de tarjeta portable</value>
+  </data>
+  <data name="PlaceOrder_PurchasePrice" xml:space="preserve">
+    <value>Adquisición</value>
+  </data>
+  <data name="PlaceOrder_SearchProduct" xml:space="preserve">
+    <value>Búsqueda de producto</value>
+  </data>
+  <data name="PlaceOrder_Unit" xml:space="preserve">
+    <value>Unidad</value>
+  </data>
+  <data name="PlaceOrder_UnitPrice" xml:space="preserve">
+    <value>Precio de unidad</value>
+  </data>
+  <data name="Report_Printed" xml:space="preserve">
+    <value>Reporte imprimido</value>
+  </data>
+  <data name="Report_PrintedOf" xml:space="preserve">
+    <value>De</value>
+  </data>
+  <data name="Report_CategorySaleCountHeading" xml:space="preserve">
+    <value>Cantidad , venta por categoría</value>
+  </data>
+  <data name="Report_CategorySaleHeading" xml:space="preserve">
+    <value>Cantidad de venta por categoría</value>
+  </data>
+  <data name="PlaceOrder_Create" xml:space="preserve">
+    <value>Crear</value>
+  </data>
+  <data name="OpenOrder_SplitWhole" xml:space="preserve">
+    <value>Dividir todo</value>
+  </data>
+  <data name="Message_InvalidNumber" xml:space="preserve">
+    <value>Cantidad no valido</value>
+  </data>
+  <data name="Message_ConfirmMergItem" xml:space="preserve">
+    <value>Seguro desea unir artículo para la misma categoría ?</value>
+  </data>
+  <data name="OpenOrder_MergeItem" xml:space="preserve">
+    <value>Juntar artículos</value>
+  </data>
+  <data name="OpenOrder_SplitItem" xml:space="preserve">
+    <value>Dividir</value>
+  </data>
+  <data name="Global_Barcode" xml:space="preserve">
+    <value>Código de barras</value>
+  </data>
+  <data name="Global_Category" xml:space="preserve">
+    <value>Categoría</value>
+  </data>
+  <data name="Global_Description" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="Global_Product" xml:space="preserve">
+    <value>Producto</value>
+  </data>
+  <data name="Message_AddConfirm" xml:space="preserve">
+    <value>Quiere crear nuevo producto?</value>
+  </data>
+  <data name="Message_UnknowBarcode" xml:space="preserve">
+    <value>Código de barra no válido!</value>
+  </data>
+  <data name="Report_ReturnVATPercent" xml:space="preserve">
+    <value>Devolución de IVA %</value>
+  </data>
+  <data name="Report_ReturnVATSum" xml:space="preserve">
+    <value>Devolución de IVA</value>
+  </data>
+  <data name="Report_Rounding" xml:space="preserve">
+    <value>Redondeo</value>
+  </data>
+  <data name="Global_Net" xml:space="preserve">
+    <value>neto</value>
+  </data>
+  <data name="Report_Accounting" xml:space="preserve">
+    <value>Cuentas</value>
+  </data>
+  <data name="Global_AskPrice" xml:space="preserve">
+    <value>Precio</value>
+  </data>
+  <data name="Global_Not" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Global_SubjectToVAT" xml:space="preserve">
+    <value>Base Imponible</value>
+  </data>
+  <data name="Global_VatAmount" xml:space="preserve">
+    <value>Cuota de IVA</value>
+  </data>
+  <data name="Report_InvoiceFee" xml:space="preserve">
+    <value>Cuota de facturación</value>
+  </data>
+  <data name="Global_CustomerRef" xml:space="preserve">
+    <value>Su referencia</value>
+  </data>
+  <data name="Global_InvoiceDate" xml:space="preserve">
+    <value>Fecha de vencimiento</value>
+  </data>
+  <data name="Global_InvoiceNo" xml:space="preserve">
+    <value>Número factura</value>
+  </data>
+  <data name="Global_SalePersonRef" xml:space="preserve">
+    <value>Nestra referencia</value>
+  </data>
+  <data name="Global_Location" xml:space="preserve">
+    <value>Lugar</value>
+  </data>
+  <data name="Global_Printer" xml:space="preserve">
+    <value>Impresora</value>
+  </data>
+  <data name="Global_Setting" xml:space="preserve">
+    <value>Ajustes</value>
+  </data>
+  <data name="Global_Update" xml:space="preserve">
+    <value>Actualizar</value>
+  </data>
+  <data name="Global_Print" xml:space="preserve">
+    <value>Imprimir</value>
+  </data>
+  <data name="Global_ShowButton" xml:space="preserve">
+    <value>Butón de presentación</value>
+  </data>
+  <data name="Global_PaymentSender" xml:space="preserve">
+    <value>Remitente de pago</value>
+  </data>
+  <data name="Global_Bong_Confirm" xml:space="preserve">
+    <value>Är du säker på att du vill bonga?</value>
+  </data>
+  <data name="Gloabl_DiscountPrice" xml:space="preserve">
+    <value>rabatt pris</value>
+  </data>
+  <data name="Global_ActualPrice" xml:space="preserve">
+    <value>Faktisk pris</value>
+  </data>
+  <data name="Global_StockQty" xml:space="preserve">
+    <value>Lager Antal</value>
+  </data>
+</root>

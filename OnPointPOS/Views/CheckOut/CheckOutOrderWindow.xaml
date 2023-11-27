@@ -1,0 +1,251 @@
+﻿<Window x:Class="POSSUM.Views.CheckOut.CheckOutOrderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
+        xmlns:translation="clr-namespace:POSSUM.Res"
+        Title="PrintOrderWindow"   
+        Height="810"  Width="830" WindowStartupLocation="CenterScreen" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" SizeToContent="Height" ShowInTaskbar="False"  WindowStyle="None" Background="#FFE5E6D6" ResizeMode="NoResize" Loaded="CheckOutOrderWindow_OnLoaded">
+
+    <Grid Background="Transparent" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="387*"/>
+            <ColumnDefinition Width="436*"/>
+        </Grid.ColumnDefinitions>
+        <Border Name="DialogCheckoutOrder"  Width="825" Grid.Row="0" Grid.Column="0" Background="#FF6C7779" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  BorderThickness="1" Margin="0,0,-1.8,-6.8" Grid.ColumnSpan="2">
+            <Grid Background="Transparent" Margin="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="400"/>
+                    <ColumnDefinition Width="402*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.ColumnSpan="2" Grid.Row="0" Background="#FF28475D">
+                    <TextBlock Name="lblTitle" Text="{x:Static translation:UI.Global_Checkout}" Foreground="White" TextAlignment="Center" Margin="4" FontSize="16" Grid.ColumnSpan="2"  />
+                </Border>
+                <Border Grid.Column="0" Grid.Row="1" BorderThickness="10,10,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="60"/>
+                            
+
+
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Visibility="Collapsed" Text="Mottaget" Grid.Column="2" Foreground="White" FontSize="16" FontWeight="Bold" Margin="5,5"/>
+
+
+                        <Button Name="btnCoupon" Content="{x:Static translation:UI.CheckOutOrder_Method_GiftCard}" Grid.Row="2" Click="BtnCoupon_Click" Visibility="Visible" Foreground="Black" Background="#FFEEF5A8" FontSize="24" />
+                        <Button Name="btnAccont" Content="{x:Static translation:UI.CheckOutOrder_Method_Account}" Grid.Row="3"  Foreground="Black" Background="#FFFFADAD" FontSize="24" Click="CheckOutAccount_Click"/>
+                        <Button Name="btnCreditCard" Content="{x:Static translation:UI.CheckOutOrder_Method_CreditCard}" Grid.Row="0" Click="BtnCreditCard_Click" Foreground="Black" Background="#FF74E4B1" FontSize="24" />
+                        <Button Visibility="Collapsed" Name="btnDebitCard" Content="{x:Static translation:UI.CheckOutOrder_Method_DebitCard}"    Grid.Row="5"  Click="BtnDebitCard_Click" />
+                        <Button Name="btnCash" Content="{x:Static translation:UI.CheckOutOrder_Method_Cash}" Grid.Row="1" Click="BtnCash_Click" Foreground="Black" FontSize="24" Background="#FFA7D7FF" />
+                        <!--<Button Name="btnTipAmount" Content="{x:Static translation:UI.CheckOutOrder_Method_TipAmount}" Grid.Row="3"  Visibility="Visible" Foreground="Black" Click="BtnTipAmount_Click"/>-->
+                        <Button Name="btnSwish" Content="Swish" Grid.Row="4" FontSize="24" Click="BtnSwish_Click" Background="#FF007ACC"  Visibility="Visible" Foreground="Black"  />
+                        <!--<Button Name="btnElevkort1" Content="Elevkort" Grid.Row="5" FontSize="24" Click="BtnStudentCard_Click" Background="#FFEEC84E"  Visibility="Visible" Foreground="Black"  Margin="0" Height="80" VerticalAlignment="Bottom"  />-->
+                        <Button Name="btnMobileTerminal1" Content="{x:Static translation:UI.CheckOutOrder_Method_Mobile}" Grid.Row="5" FontSize="24" Click="BtnMobileTerminal_Click" Background="#FF4D6082"  Visibility="Visible" Foreground="Black" />
+                        <Button Name="btnDeposit" Content="{x:Static translation:UI.CheckOutOrder_Method_Deposit}" Grid.Row="6" FontSize="24" Click="BtnDeposit_Click" Background="#FF4D6082"  Visibility="Visible" Foreground="Black" />
+                        <StackPanel Orientation="Vertical"  Grid.Row="7" >
+                            <Button Name="btnElevkort" Content="Elevkort" Height="60" FontSize="24" Click="BtnStudentCard_Click" Background="#FFEEC84E"  Visibility="Visible" Foreground="Black"  Margin="0" VerticalAlignment="Bottom"  />
+                            <Button Name="btnCreditNote" Content="{x:Static translation:UI.CheckOutOrder_Method_CreditNote}" Height="60" FontSize="24" Click="BtnCreditNote_Click" Background="#FF7DCB3D"  Visibility="Visible" Foreground="Black" />
+                            <Button Name="btnBeam" Content="{x:Static translation:UI.CheckOutOrder_Method_Beam}" Height="60" FontSize="24" Click="BtnBeam_Click" Background="#FF256774"  Visibility="Visible" Foreground="Black" />
+                            <Button Name="btnTip" Height="60"  Content="{x:Static translation:UI.CheckOutOrder_Method_TipAmount}" FontSize="24" Click="BtnTipAmount_Click" Background="#FF68217A"  Visibility="Visible" Foreground="Black" />
+                            <Button Name="btnOnlineCash" Content="Online Kontant" Height="60" FontSize="24" Click="BtnOnline_Click" Background="#FF9AE3F9"  Visibility="Collapsed" Foreground="Black" />
+
+                        </StackPanel>
+                        <Button Name="btnDiscount"  Content="{x:Static translation:UI.Sales_Discount}" Grid.Row="8" FontSize="24" Click="BtnDiscount_Click" Background="#FF68217A"  Visibility="Visible" Foreground="Black" />
+
+                        <TextBlock Visibility="Collapsed" x:Name="lblReceivedPayments" Text="{Binding Path=ReceivedPayments,Mode=TwoWay}" Grid.Column="4" HorizontalAlignment="Right" Foreground="White" FontSize="16" FontWeight="Bold" Margin="5,5"/>
+
+                        <Border Background="#FF96AEB9" BorderBrush="{x:Null}" Grid.Row="0" Grid.Column="1">
+                            <TextBlock Background="#FF96AEB9" Grid.Row="0" Grid.Column="1" FontFamily="Arial" FontSize="24"  Tag="4"  Name="txtCreditCardAmount" Padding="0" TextAlignment="Right" Width="140" VerticalAlignment="Center" Margin="0,0,10,0" />
+                        </Border>
+                        <Border Background="#FF96AEB9" BorderBrush="{x:Null}" Grid.Row="1" Grid.Column="1">
+                            <TextBlock Background="#FF96AEB9" Grid.Row="1" Grid.Column="1" FontFamily="Arial" FontSize="24"   Tag="1"  Name="txtReceivedCash" VerticalAlignment="Center" Padding="0" TextAlignment="Right" Width="140" Margin="0,0,10,0" />
+                        </Border>
+                        <Border Background="#FF96AEB9" BorderBrush="{x:Null}" Grid.Row="2" Grid.Column="1">
+                            <TextBlock Background="#FF96AEB9" Grid.Row="2" Grid.Column="1" FontFamily="Arial" FontSize="24"  Tag="3"  Name="txtCouponAmount" VerticalAlignment="Center" Padding="0" TextAlignment="Right" Width="140" Margin="0,0,10,0" />
+                        </Border>
+
+
+                        <Border Background="#FF96AEB9" BorderBrush="{x:Null}" Grid.Row="3" Grid.Column="1">
+                            <TextBlock Background="#FF96AEB9" Grid.Row="3" Grid.Column="1" FontFamily="Arial" FontSize="24"  Tag="2" Name="txtAccountAmount" VerticalAlignment="Center" Padding="0" TextAlignment="Right" Width="140"  Margin="0,0,10,0" />
+                        </Border>
+                        <Border Background="#FF96AEB9" BorderBrush="{x:Null}" Grid.Row="4" Grid.Column="1" Visibility="Collapsed">
+                            <TextBlock Visibility="Collapsed" Background="#FF96AEB9" Grid.Row="3" Grid.Column="1"  FontFamily="Arial" FontSize="24"  Tag="5" Name="txtDebitCardAmount" Padding="0" TextAlignment="Right"  Margin="0,0,10,0" />
+                        </Border>
+
+
+                        <Border Background="#FF96AEB9" BorderBrush="{x:Null}" Grid.Row="4" Grid.Column="1" Visibility="Visible">
+                            <TextBlock Background="#FF96AEB9" Grid.Row="0" Grid.Column="1" FontFamily="Arial" FontSize="24"  Tag="0"   Name="txtSwishAmount" Padding="0"  TextAlignment="Right" Width="140" Height="59" Margin="0,0,10,0" />
+                        </Border>                       
+                       
+                        <Border Background="#FF96AEB9" BorderBrush="{x:Null}" Grid.Row="5" Grid.Column="1" Visibility="Visible">
+                            <TextBlock Visibility="Visible" Background="#FF96AEB9" Grid.Row="3" Grid.Column="1"  FontFamily="Arial" FontSize="24"  Tag="5" Name="txtMobileTerminalAmount" VerticalAlignment="Center" Padding="0" TextAlignment="Right"  Margin="0,0,10,0" />
+                        </Border>
+                        <Border Background="#FF96AEB9" BorderBrush="{x:Null}" Grid.Row="6" Grid.Column="1" Visibility="Visible">
+                            <TextBlock Visibility="Visible" Background="#FF96AEB9" Grid.Row="5" Grid.Column="1"  FontFamily="Arial" FontSize="24"  Tag="5" Name="txtDepositAmount" VerticalAlignment="Center" Padding="0" TextAlignment="Right"  Margin="0,0,10,0" />
+                        </Border>
+                        <StackPanel Orientation="Vertical"  Grid.Row="7" Grid.Column="1">
+
+                            <Border Background="#FF96AEB9" Name="borderStudentCardAmount" BorderBrush="{x:Null}" Grid.Row="5" Grid.Column="1" Visibility="Visible">
+                                <TextBlock Background="#FF96AEB9" Grid.Row="3" Grid.Column="1" FontFamily="Arial" FontSize="24"  Tag="5"   Name="txtStudentCardAmount" Padding="0"  TextAlignment="Right" Width="140" Height="59" Margin="0,0,10,0" />
+                            </Border>
+                            <Border Background="#FF96AEB9" Name="borderCreditNote" BorderBrush="{x:Null}" Grid.Row="7" Grid.Column="1" Visibility="Visible" Height="60">
+                                <TextBlock Visibility="Visible" Background="#FF96AEB9" Grid.Row="3" Grid.Column="1"  FontFamily="Arial" FontSize="24"  Tag="5" Name="txtCreditNote" VerticalAlignment="Center" Padding="0" TextAlignment="Right"  Margin="0,0,10,0" />
+                            </Border>
+                            <Border Background="#FF96AEB9" Name="borderBeam" BorderBrush="{x:Null}" Grid.Row="7" Grid.Column="1" Visibility="Visible" Height="60">
+                                <TextBlock Visibility="Visible" Background="#FF96AEB9" Grid.Row="3" Grid.Column="1"  FontFamily="Arial" FontSize="24"  Tag="5" Name="txtBeam" VerticalAlignment="Center" Padding="0" TextAlignment="Right"  Margin="0,0,10,0" />
+                            </Border>
+                           
+                            <Border Background="#FF96AEB9" Name="borderTip" BorderBrush="{x:Null}" Grid.Row="6" Grid.Column="1" Visibility="Visible" Height="60">
+                                <TextBlock Visibility="Visible" Background="#FF96AEB9" Grid.Row="3" Grid.Column="1"  FontFamily="Arial" FontSize="24"  Tag="5" Name="txtTip" VerticalAlignment="Center" Padding="0" TextAlignment="Right"  Margin="0,0,10,0" />
+                           
+                            </Border>
+
+                            <Border Background="#FF96AEB9" Name="borderOnlineCash" BorderBrush="{x:Null}" Grid.Row="7" Grid.Column="1" Visibility="Visible" Height="60">
+                                <TextBlock Visibility="Visible" Background="#FF96AEB9" Grid.Row="3" Grid.Column="1"  FontFamily="Arial" FontSize="24"  Tag="5" Name="txtOnlineCash" VerticalAlignment="Center" Padding="0" TextAlignment="Right"  Margin="0,0,10,0" />
+                            </Border>
+
+                        </StackPanel>
+                        
+                        <Border Background="#FF96AEB9" BorderBrush="{x:Null}" Grid.Row="8" Grid.Column="1" Visibility="Visible">
+                            <TextBlock Visibility="Visible" Background="#FF96AEB9" Grid.Row="3" Grid.Column="1"  FontFamily="Arial" FontSize="24"  Tag="5" Name="txtDiscountAmount" VerticalAlignment="Center" Padding="0" TextAlignment="Right"  Margin="0,0,10,0" />
+                        </Border>
+
+
+
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="1" Grid.Row="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="263"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Column="0" Grid.Row="0" Margin="0,10,0,0">
+                            <Border  Grid.Row="1" Grid.RowSpan="7" Grid.Column="2"   Background="#FF6C7779" VerticalAlignment="Center" Width="400" Margin="0,0,0,0" >
+
+
+                                <Grid Grid.Row="1"  Name="OrderGrid"  Grid.Column="2" Grid.RowSpan="7">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="28"/>
+                                        <RowDefinition Height="28"/>
+                                        <RowDefinition Height="28"/>
+                                        <RowDefinition Height="28"/>
+                                        <RowDefinition Height="28"/>
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="35" />
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.RowSpan="9" Background="#FF22343E"/>
+
+                                    <Border BorderThickness="1" BorderBrush="White">
+                                        <TextBlock Name="lblTotalBill" Text="{x:Static translation:UI.CheckOutOrder_Label_TotalBill}" Grid.Row="0"  Foreground="White" VerticalAlignment="Center" Width="100" HorizontalAlignment="Left" Margin="5" FontSize="16" FontWeight="Bold"/>
+                                    </Border>
+                                    <TextBlock Text="{Binding TotalBillAmount,StringFormat=C}" Foreground="White" Grid.Row="0" Name="lblTotalBillPayment"  VerticalAlignment="Center" Width="100" TextAlignment="Right" HorizontalAlignment="Right" FontSize="16" Margin="5" FontWeight="Bold"/>
+                                    <Border Grid.Row="1" BorderThickness="1" BorderBrush="White">
+                                        <TextBlock Name="lblTip" Text="{x:Static translation:UI.CheckOutOrder_Label_Tips}" Grid.Row="1" Foreground="White" VerticalAlignment="Center" Width="100" HorizontalAlignment="Left" Margin="5" FontSize="16" FontWeight="Bold"/>
+                                    </Border>
+                                    <TextBlock Text="{Binding TipAmount,StringFormat=C}"  Foreground="White" Grid.Row="1" Name="lblTipamount" VerticalAlignment="Center"  Width="100" TextAlignment="Right" HorizontalAlignment="Right" FontSize="16" Margin="5" FontWeight="Bold"/>
+
+                                    <Border Grid.Row="2" BorderThickness="1" BorderBrush="White">
+                                        <TextBlock Name="lblTotalBalanceAmount"  Text="{x:Static translation:UI.CheckOutOrder_Label_BalanceAmount}" Grid.Row="2" Foreground="White" VerticalAlignment="Center" Width="130" HorizontalAlignment="Left" Margin="5" FontSize="16" FontWeight="Bold"/>
+                                    </Border>
+                                    <TextBlock Text="{Binding TotalBalanceAmount,StringFormat=C}" Foreground="White" Grid.Row="2" Name="txtTotalBalance" VerticalAlignment="Center" Width="100" TextAlignment="Right"  HorizontalAlignment="Right" FontSize="16" Margin="5" FontWeight="Bold"/>
+                                    <Border Grid.Row="3" BorderThickness="1" BorderBrush="White">
+                                        <TextBlock Name="LabelPaidCash" Text="{x:Static translation:UI.CheckOutOrder_Label_PaidCash}" Grid.Row="3" Foreground="White" VerticalAlignment="Center" Width="110" HorizontalAlignment="Left" Margin="5" FontSize="16" FontWeight="Bold"/>
+                                    </Border>
+                                    <TextBlock Text="{Binding PaidCashAmount,StringFormat=C}" Name="lblPaidCash" Grid.Row="3" Foreground="White" VerticalAlignment="Center" Width="100" TextAlignment="Right" HorizontalAlignment="Right"  FontSize="16" Margin="5" FontWeight="Bold"/>
+                                    <Border Grid.Row="4" BorderThickness="1" BorderBrush="White">
+                                        <TextBlock Name="LabelPaidOther" Text="{x:Static translation:UI.CheckOutOrder_Label_PaidOthers}" Grid.Row="4" Foreground="White" VerticalAlignment="Center" Width="152" HorizontalAlignment="Left" Margin="5.2,2.2,0,2.4" FontSize="16" FontWeight="Bold"/>
+                                    </Border>
+                                    <TextBlock Text="{Binding PaidOthersAmount,StringFormat=C}" Name="lblPaidOther" Grid.Row="4" Foreground="White" VerticalAlignment="Center" Width="100" TextAlignment="Right" HorizontalAlignment="Right"  FontSize="16" Margin="5" FontWeight="Bold"/>
+                                    <Border Grid.Row="5" BorderThickness="1" BorderBrush="White">
+                                        <TextBlock Name="labelRemaining" Text="{x:Static translation:UI.CheckOutOrder_Label_Remaining}" Foreground="White" Grid.Row="5" VerticalAlignment="Center" Width="138" HorizontalAlignment="Left" Margin="5.2,2.2,0,2.4" FontSize="16" FontWeight="Bold"/>
+                                    </Border>
+                                    <TextBlock Text="{Binding RemainingAmount,StringFormat=C}" Foreground="White" Grid.Row="5" Name="lblRemaining" VerticalAlignment="Center" Width="100" TextAlignment="Right" HorizontalAlignment="Right"  FontSize="16" Margin="5" FontWeight="Bold"/>
+                                    <Border Grid.Row="6" BorderThickness="1" BorderBrush="White">
+                                        <TextBlock  Name="LabelCashBack" Text="{x:Static translation:UI.CheckOutOrder_Label_CashBack}" Grid.Row="6" Foreground="White" VerticalAlignment="Center" Width="133" HorizontalAlignment="Left" Margin="5.2,2.2,0,2.4" FontSize="16" FontWeight="Bold"/>
+                                    </Border>
+                                    <TextBlock Text="{Binding CashBackAmount,StringFormat=C}"  Name="lblCashBack" Grid.Row="6" Foreground="White" VerticalAlignment="Center" Width="100" TextAlignment="Right" HorizontalAlignment="Right"  FontSize="16" Margin="5" FontWeight="Bold"/>
+                                    <Border Grid.Row="7" BorderThickness="1" BorderBrush="White">
+                                        <TextBlock  Name="LabelReturned" Text="{x:Static translation:UI.CheckOutOrder_Label_Returned}" Grid.Row="7" Foreground="White" VerticalAlignment="Center" Width="100" HorizontalAlignment="Left" Margin="5" FontSize="16" FontWeight="Bold"/>
+                                    </Border>
+                                    <TextBlock Text="{Binding ReturnedAmount,StringFormat=C}"  Name="lblReturnCash" Grid.Row="7" Foreground="White" VerticalAlignment="Center" Width="100" TextAlignment="Right" HorizontalAlignment="Right"  FontSize="16" Margin="5" FontWeight="Bold"/>
+                                    <Border Grid.Row="8" BorderThickness="1" BorderBrush="White">
+                                        <TextBlock  Name="LabelRounded" Text="Rounded" Grid.Row="7" Foreground="White" VerticalAlignment="Center" Width="100" HorizontalAlignment="Left" Margin="5" FontSize="16" FontWeight="Bold"/>
+                                    </Border>
+                                    <TextBlock Text="{Binding RoundedAmount,StringFormat=C}"  Name="lblRoundedAmount" Grid.Row="8" Foreground="White" VerticalAlignment="Center" Width="100" TextAlignment="Right" HorizontalAlignment="Right"  FontSize="16" Margin="5" FontWeight="Bold"/>
+                                </Grid>
+                            </Border>
+                        </Border>
+
+                        <Border Grid.ColumnSpan="2" Grid.Row="1">
+                            <Border Width="400px" Background="#FF6C7779"  >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="70"/>
+                                        <RowDefinition Height="70"/>
+                                        <RowDefinition Height="70"/>
+                                        <RowDefinition Height="70"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Foreground="#FFFFFFFF" Background="#FF22343E"  BorderThickness="0"  Name="txtPaymentAmount"  FontWeight="Bold" Grid.Row="0" Grid.ColumnSpan="5" Margin="1" Text="" TextAlignment="Right" PreviewTextInput="PreviewTextInputHandler"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"    />
+
+                                    <Button Grid.Row="1" Grid.Column="0" Content="7" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="14" Click="ButtonNumber_Click"/>
+                                    <Button Grid.Row="1" Grid.Column="1" Content="8" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="14" Click="ButtonNumber_Click"/>
+                                    <Button Grid.Row="1" Grid.Column="2" Content="9" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="14" Click="ButtonNumber_Click"/>
+                                    <Button Grid.Row="1" Grid.Column="2" Content="9" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="14" Click="ButtonNumber_Click"/>
+                                    <Button Grid.Row="2" Grid.Column="0" Content="4" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="14" Click="ButtonNumber_Click"/>
+                                    <Button Grid.Row="2" Grid.Column="1" Content="5" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="14" Click="ButtonNumber_Click"/>
+                                    <Button Grid.Row="2" Grid.Column="2" Content="6" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="14" Click="ButtonNumber_Click"/>
+                                    <Button Grid.Row="3" Grid.Column="0" Content="1" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="14" Click="ButtonNumber_Click"/>
+                                    <Button Grid.Row="3" Grid.Column="1" Content="2" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="14" Click="ButtonNumber_Click"/>
+                                    <Button Grid.Row="3" Grid.Column="2" Content="3" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="14" Click="ButtonNumber_Click"/>
+                                    <Button Grid.Row="4" Grid.Column="0" Content="0" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="14" Click="ButtonNumber_Click"/>
+
+                                    <Button Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" BorderThickness="0.2" BorderBrush="Black" Content="00" FontWeight="bold"  Foreground="Black" Click="ButtonNumber_Click"  />
+
+                                    <Button Grid.Row="1" Grid.Column="3"  Content="," Foreground="Black" FontSize="14" Name="DecimalFormatButton" Click="ButtonNumber_Click" />
+                                    <Button Grid.Row="1" Grid.Column="4" Content="{x:Static translation:UI.CheckOutOrder_C}" Foreground="Black" FontSize="14" Name="btnClear" Click="btnClearBox_Click" />
+                                    <Button Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Name="btnClearAll" Content="{x:Static translation:UI.CheckOutOrder_ClearAll}" BorderThickness="0.2" BorderBrush="Black" FontSize="14" Click="BTNClearAll_Click"  Foreground="Black" Background="#FFD49424" />
+                                    <Button Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" BorderThickness="0.2" BorderBrush="Black" Name="btnClose" Content="{x:Static translation:UI.Global_Cancel}" Foreground="Black" FontSize="14" Click="BtnCloseCheckout_OnClick" Background="#FFFD3333" />
+                                    <Button Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" x:Name="btnDoneCheckOut" Content="{x:Static translation:UI.CheckOutOrder_Done}" BorderThickness="0.2" BorderBrush="Black" Foreground="Black" FontSize="14"  Click="CheckOutOrder_Click" Background="ForestGreen" />
+                                </Grid>
+                            </Border>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>

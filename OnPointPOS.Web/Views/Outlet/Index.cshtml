@@ -1,0 +1,219 @@
+﻿@model List<OutletViewModel>
+@section BreadCrumb {
+    <li class="crumb-trail" id="currentpage">@Resource.Outlets</li>
+}
+
+<section>
+    <header id="topbar" class="ph10">
+        <div class="topbar-left">
+            <ul class="nav nav-list nav-list-topbar pull-left">
+
+                <li>
+                    <a href="/StoreSetting">@Resource.Global @Resource.Settings</a>
+                </li>
+
+                <li>
+                    <a href="/Terminal">@Resource.Terminals</a>
+                </li>
+
+                <li class="active">
+                    <a href="/Outlet">@Resource.Outlets</a>
+                </li>
+
+            </ul>
+        </div>
+        <div class="topbar-right">
+            <a class="btn btn-default btn-sm btn-gradient light fw600 mr15 mt5" id="btnAddOutlet">
+                <span class="fa fa-plus pr5"></span>
+                @Resource.Add @Resource.Outlet
+            </a>
+        </div>
+    </header>
+
+
+
+    <!-- begin: .tray-center -->
+    <div class="tray tray-center ">
+        <div id="outletcreate">
+            
+        </div>
+        <div class="panel mt25 top mb35">
+            
+            <div class="panel-body pn">
+                <div class="table-responsive">
+                    <table id="tbl_outlet" class="table admin-form theme-warning tc-checkbox-1 fs13">
+                        <thead>
+                            <tr class="bg-light">
+
+
+                                <th class="">@Resource.Name</th>
+                                <th class="">@Resource.City</th>
+                                <th class="">@Resource.Postal @Resource.Code</th>
+                                <th class="">@Resource.Address</th>
+
+
+                                <th class=""></th>
+                              
+                                <th class="text-right"></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+
+
+                                <tr>
+
+                                    <td class="text-left">@item.Name</td>
+                                    <td class="">@item.City</td>
+                                    <td class="">@item.PostalCode</td>
+                                    <td class="">@item.Address1</td>
+
+                                    <td class="text-right" style="width: 80px;">
+
+                                        <button type="button" onclick="Edit(@item.OuletId);" class="btn btn-primary btn-sm  btn-gradient fa fa-edit">
+                                            @Resource.Edit
+                                        </button>
+                                    </td>
+                                   
+                                    <td class="text-right" style="width: 80px;">
+                                        <button type="button" onclick="Delete(@item.OuletId);" class="btn btn-danger btn-sm btn-gradient fa fa-trash-o">
+                                            @Resource.Delete
+                                        </button>
+                                    </td>
+                                    
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="addEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit settings</h4>
+            </div>
+            <div class="modal-body" id="setting">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-gradient" data-dismiss="modal"><span class="fa fa-times"></span> close</button>
+                <button type="button" id="btnSaveSetting" class="btn btn-primary btn-gradient mr10"><span class="fa fa-upload"></span>  Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+
+    <script>
+        $(function () {
+
+            var html = '<a href="/Outlet">Outlets</a>'
+            $('#dsh').html(html);
+
+            $('#outlet').addClass('active');
+            $('#Settings').addClass('active');
+            if (!$('#menuStoreSettings').hasClass('menu-open')) {
+
+                $('#menuStoreSettings').attr('style', '').toggleClass('menu-open');
+            }
+            $('#btnAddOutlet').click(function () {
+
+                $.ajax({
+                    url: '@Url.Action("Create", "Outlet")',
+                    type: "GET",
+                    success: function (result) {
+                        $("#outletcreate").html(result);
+                    }
+                });
+            });
+
+        });
+
+        function Edit(id) {
+            $.ajax({
+                url: '@Url.Action("Create", "Outlet")',
+                type: "GET",
+                data: { id: id },
+                success: function (result) {
+                    $("#outletcreate").html(result);
+                    $('#addEditLabel').text('Edit Outlet');
+
+                }
+            });
+        }
+        function Delete(id) {
+            if (confirm("@Resource.DeleteConfMsg")) {
+                $.ajax({
+                    url: '@Url.Action("DeleteOutlet", "Outlet")',
+                    type: "Post",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ id: id }),
+                    success: function (result) {
+                        var res = result.Message;
+                        var arr = res.split(':');
+                        if (arr[0] == "Success") {
+                          
+                            window.location = '/Outlet'
+                        }
+                        else
+                            alert(arr[1]);
+
+                    }
+                });
+            }
+        }
+        function EditSetting(id) {
+            $.ajax({
+                url: '@Url.Action("Setting", "Outlet")',
+                type: "GET",
+                data: { id: id },
+                success: function (result) {
+                    $("#setting").html(result);
+                }
+            });
+        }
+    </script>
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

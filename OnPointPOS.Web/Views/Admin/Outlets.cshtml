@@ -1,0 +1,198 @@
+﻿@model List<AdminOutlet>
+@{
+    ViewBag.Title = "Outlets";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+	#tbl_Outlet_wrapper .dt-panelmenu {
+		margin: 0
+	}
+
+	.dt-buttons {
+		float: right !important;
+		margin-left: 15px;
+	}
+
+	.buttons-excel {
+		margin-right: 15px;
+	}
+</style>
+
+<section>
+	<header id="topbar" class="ph10">
+		<div class="topbar-left">
+			<ul class="nav nav-list nav-list-topbar pull-left">
+
+				<li>
+					<a href="/Admin">@Resource.Company</a>
+				</li>
+				<li class="active">
+					<a href="/Admin/Outlets">@Resource.Outlets</a>
+				</li>
+			</ul>
+			
+		</div>
+		
+		<div class="topbar-right">
+			<a class="btn btn-default btn-sm btn-gradient light fw600 mr15 mt5" id="btnAddMessage"  data-toggle="modal" data-target="#messageModal">
+				<span class="fa fa-plus pr5"></span>
+				@Resource.Add @Resource.Message
+			</a>
+		</div>
+	</header>
+
+
+
+	<!-- begin: .tray-center -->
+	<div class="tray tray-center ">
+		<div id="outletcreate">
+
+		</div>
+		<div class="panel mt25 top mb35">
+
+			<div class="panel-body pn">
+				<div class="table-responsive">
+					<table id="tbl_Outlet" class="table admin-form theme-warning tc-checkbox-1 fs13">
+						<thead>
+							<tr class="bg-light">
+
+
+								<th class="">@Resource.Name</th>
+								
+
+								<th class="text-right"></th>
+
+							</tr>
+						</thead>
+						<tbody>
+
+							@foreach (var item in Model)
+							{
+
+
+								<tr>
+
+									<td class="text-left">@item.Name</td>
+									
+									<td class="text-right" style="width: 70px;">
+
+										<button type="button" onclick="AddMessage('@item.Id');" class="btn btn-primary btn-sm  btn-gradient fa fa-upload"   data-toggle="modal" data-target="#messageModal">
+											@Resource.Message
+										</button>
+									</td>
+									
+
+								</tr>
+
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+
+</section>
+
+<!-- Modal -->
+
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">@Resource.Message</h4>
+			</div>
+			<div class="modal-body" id="messagecreate">
+
+			</div>
+			<div class="panel-footer clearfix">
+				<div class="pull-right">
+					<button type="button" id="btnSave" class="btn btn-primary btn-gradient mr40">
+						<span class="fa fa-upload"></span> @Resource.Save
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+@section scripts {
+
+	<script>
+        $(function () {
+
+
+            $('#tbl_Outlet').dataTable({
+                "processing": true, // control the processing indicator.
+
+                "info": true,   // control table information display field
+                "stateSave": true,  //restore table state on page reload,
+                "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],   // use the first inner array as the page length values and the second inner array as the displayed options
+                "order": [[0, "asc"]],
+                "iDisplayLength": 25,
+                "aLengthMenu": [
+                  [5, 10, 25, 50, -1],
+                  [5, 10, 25, 50, "All"]
+                ],
+                "sDom": '<"dt-panelmenu clearfix"lfr>t<"dt-panelfooter clearfix"ip>'
+            });
+
+
+            var html = '<a href="/Admin">Company</a>'
+            $('#dsh').html(html);
+
+            $('#outlet').addClass('active');
+            $('#administration').addClass('active');
+            if (!$('#menuadmin').hasClass('menu-open')) {
+
+                $('#menuadmin').attr('style', '').toggleClass('menu-open');
+            }
+            $('#btnAddMessage').click(function () {
+
+                $.ajax({
+                    url: '@Url.Action("CustomerMessage", "Admin")',
+                    type: "GET",
+                    data: { id: '00000000-0000-0000-0000-000000000000' },
+                    success: function (result) {
+                        $("#messagecreate").html(result);
+                    }
+                });
+            });
+
+
+
+
+        });
+
+        function AddMessage(id) {
+             $.ajax({
+                    url: '@Url.Action("CustomerMessage", "Admin")',
+                    type: "GET",
+                    data: { id: id },
+                    success: function (result) {
+                        $("#messagecreate").html(result);
+                    }
+                });
+        }
+
+	</script>
+
+	<script>
+    $(function () {
+
+
+
+
+
+    });
+	</script>
+
+}
+
+
+
+
+

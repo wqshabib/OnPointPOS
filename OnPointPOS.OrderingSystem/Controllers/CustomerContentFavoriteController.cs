@@ -1,0 +1,88 @@
+﻿using ML.Common.Handlers.Serializers;
+using ML.Rest2.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Threading.Tasks;
+using System.Xml;
+
+namespace ML.Rest2.Controllers
+{
+    public class CustomerContentFavoriteController : ApiController
+    {
+        private List<Result> _mResults = new List<Result>();
+        private Result _mResult = new Result();
+
+        public CustomerContentFavoriteController()
+        {
+            _mResults.Add(_mResult);
+        }
+
+        public HttpResponseMessage Get(string secret, string companyId, string customerId, string contentId, int favorite)
+        {
+            if (Redirection.IsValid(companyId,
+                Request.RequestUri.ToString()
+                , "CustomerContentFavoriteController-> public HttpResponseMessage Get(string secret, string companyId, string customerId, string contentId, int favorite)"
+                , @"api/CustomerContentFavorite/Get/" + secret + "/" + companyId + "/" + customerId + "/" + contentId + "/" + favorite
+                )
+                )
+            {
+                APIRedirect apiRedirect = new APIRedirect();
+                string url = @"api/CustomerContentFavorite/Get/" + secret + "/" + companyId + "/" + customerId + "/" + contentId + "/" + favorite;
+                return apiRedirect.GetRequst(url);
+            }
+
+            if (string.IsNullOrEmpty(secret) && !ML.Common.Text.IsGuidNotEmpty(companyId) && string.IsNullOrEmpty(customerId) && !ML.Common.Text.IsGuidNotEmpty(contentId) && favorite < 0  && favorite > 1)
+            {
+                _mResult.Status = RestStatus.ParameterError;
+                _mResult.StatusText = "Parameter Error";
+                return ML.Common.RestHelper.ConvertStream((MemoryStream)Serializer.Serialize(_mResults));
+            }
+            Guid guidCompanyGuid = new Guid(companyId);
+
+            if (!new DB.CompanyService().IsIntegrationAuthorized(companyId, secret))
+            {
+                _mResult.Status = RestStatus.AuthenticationFailed;
+                _mResult.StatusText = "Authentication Failed";
+                return ML.Common.RestHelper.ConvertStream((MemoryStream)Serializer.Serialize(_mResults));
+            }
+
+            // Get Customer
+            DB.tCustomer customer = new DB.CustomerRepository().GetByCompanyGuidAndAdditionalCustomerNo(guidCompanyGuid, customerId);
+            if (customer == null)
+            {
+                _mResult.Status = RestStatus.NotExisting;
+                _mResult.StatusText = "Not Existing";
+                return ML.Common.RestHelper.ConvertStream((MemoryStream)Serializer.Serialize(_mResults));
+            }
+
+            Guid guidContentGuid = new Guid(contentId);
+
+            // Get Content
+            DB.tContent content = new DB.ContentRepository().GetContent(new Guid(contentId));
+            if (content == null)
+            {
+                _mResult.Status = RestStatus.NotExisting;
+                _mResult.StatusText = "Not Existing";
+                return ML.Common.RestHelper.ConvertStream((MemoryStream)Serializer.Serialize(_mResults));
+            }
+
+            // Set Favorite
+            if(new DB.CustomerContentFavoriteService().SetFavorite(customer.CustomerGuid, guidContentGuid, favorite == 1 ? true : false) != DB.Repository.Status.Success)
+            {
+                _mResult.Status = RestStatus.GenericError;
+                _mResult.StatusText = "Generic Error";
+                return ML.Common.RestHelper.ConvertStream((MemoryStream)Serializer.Serialize(_mResults));
+            }
+
+            // Success
+            _mResult.Status = RestStatus.Success;
+            _mResult.StatusText = "Success";
+            return ML.Common.RestHelper.ConvertStream((MemoryStream)Serializer.Serialize(_mResults));
+        }
+    }
+}

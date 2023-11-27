@@ -1,0 +1,300 @@
+﻿@model ContractViewModel
+@{
+    ViewBag.Title = "Create";
+   // Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="mt25">
+    <div class="panel">
+        <div class="panel-heading">
+            <span id="addEditLabel" class="panel-title"> @Resource.Add @Resource.Contract</span>
+        </div>
+        <div class="alert alert-success" style="display:none;" id="messageBox"></div>
+        <div class="alert alert-danger" style="display:none;" id="divError"></div>
+
+
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.CompanyId)
+            <div class="admin-form">
+                <div class="section row">
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10">@Resource.Description </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.Description, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Description })
+                                    <label class="field-icon">
+                                        <i class="fa fa-user"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label for="inputStandard" class="control-label" style="padding-top: 10px;"> @Resource.Status</label>
+                            </div>
+                            <div class="col-md-8">
+                                <label for="name2" class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.DropDownListFor(model => model.Status, Model.StatusList, new { @class = "field select" })
+
+                                    <label for="name2" class="field-icon">
+                                        <i class="fa fa-tag"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                      
+                    </div>
+                </div>
+
+                <div class="section row">
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right pln">
+                                <label class="control-label pt10"> @Resource.StartDate </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.StartDate, new { @class = "event-name gui-input br-light light datepicker", @placeholder = Resource.StartDate  })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10"> @Resource.EndDate  </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.EndDate, new { @class = "event-name gui-input br-light light datepicker", @placeholder = Resource.EndDate })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <div class="section row">
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right pln">
+                                <label class="control-label pt10"> @Resource.Expected @Resource.Date </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.Expected_Deployment_Date , new { @class = "event-name gui-input br-light light datepicker", @placeholder = Resource.Expected +" "+Resource.Date })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10"> @Resource.Deployment @Resource.Date  </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.Actual_Deployment_Date, new { @class = "event-name gui-input br-light light datepicker", @placeholder = Resource.Actual+" "+Resource.Date })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+         
+
+                <div class="section row">
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10"> @Resource.Monthly @Resource.Price </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.MonthlyPrice, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Monthly+" "+Resource.Price })
+                                    <label class="field-icon">
+                                        <i class="fa fa-certificate"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pn">
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                <label class="control-label pt10">POS @Resource.Version </label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextBoxFor(model => model.POSVersion, new { @class = "event-name gui-input br-light light", @placeholder ="POS "+ Resource.Version })
+                                    <label class="field-icon">
+                                        <i class="fa fa-certificate"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="section row">
+                    <div class="col-md-12 pn">
+                        <div class="form-group">
+                            <div class="col-md-2 text-right">
+                                <label class="control-label pt10">@Resource.Notes </label>
+                            </div>
+                            <div class="col-md-10">
+                                <label class="field prepend-icon" data-toggle="tooltip">
+                                    @Html.TextAreaFor(model => model.Notes, new { @class = "event-name gui-input br-light light", @placeholder = Resource.Notes })
+                                    <label class="field-icon">
+                                        <i class="fa fa-building-o"></i>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                 
+
+                </div>
+              
+              
+            </div>
+
+
+        </div>
+        <div class="panel-footer clearfix">
+            <div class="pull-right">
+                <button type="button" id="btnSave" class="btn btn-primary btn-gradient mr40">
+                    <span class="fa fa-upload"></span> @Resource.Save
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#Expected_Deployment_Date").datepicker({ dateFormat: 'yy-mm-dd' });
+        $("#Actual_Deployment_Date").datepicker({ dateFormat: 'yy-mm-dd' });
+
+        $('#Expected_Deployment_Date').on('changeDate', function (ev) {
+            $(this).datepicker('hide');
+        });
+
+        $('#Actual_Deployment_Date').on('changeDate', function (ev) {
+            $(this).datepicker('hide');
+        });
+
+        $("#StartDate").datepicker({ dateFormat: 'yy-mm-dd' });
+        $("#EndDate").datepicker({ dateFormat: 'yy-mm-dd' });
+
+        $('#StartDate').on('changeDate', function (ev) {
+            $(this).datepicker('hide');
+        });
+
+        $('#EndDate').on('changeDate', function (ev) {
+            $(this).datepicker('hide');
+        });
+        $('#btnSave').click(function () {
+
+            $("#divError").html('');
+            $("#divError").hide('');
+
+            if ($('#Description').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.Contract @Resource.Description.");
+                $("#divError").show();
+                $('#Description').focus();
+                return;
+            }
+            if ($('#StartDate').val() == '') {
+
+                $("#divError").html("@Resource.Specify @Resource.StartDate.");
+                $("#divError").show();
+                $('#StartDate').focus();
+                return;
+            }
+            var data = {
+                Id: $('#Id').val(),
+                CompanyId: $('#CompanyId').val(),
+                Description: $('#Description').val(),
+                Status: $('#Status').val(),
+                StartDate: $('#StartDate').val(),
+                EndDate: $('#EndDate').val(),
+                Expected_Deployment_Date: $('#Expected_Deployment_Date').val(),
+                Actual_Deployment_Date: $('#Actual_Deployment_Date').val(),
+                MonthlyPrice: $('#MonthlyPrice').val(),
+                POSVersion: $('#POSVersion').val(),
+                Notes: $('#Notes').val()
+
+            };
+
+            $.ajax({
+                url: '@Url.Action("CreateContract", "Admin")',
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    var res = result.Message;
+                    var arr = res.split(':');
+                    if (arr[0] == "Success") {
+                        $("#messageBox").show();
+                        $('#messageBox').html(arr[1]);
+                        var tId;
+
+                        $("#messageBox").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#messageBox").hide();
+                            window.location = '/Admin/Contracts?id=' + $('#CompanyId').val();
+
+                        }, 2000);
+                    }
+                    else {
+                        $("#divError").show();
+                        $('#divError').html(arr[1]);
+                        var tId;
+
+                        $("#divError").hide().slideDown();
+                        clearTimeout(tId);
+                        tId = setTimeout(function () {
+                            $("#divError").hide();
+
+
+                        }, 2000);
+                    }
+
+                    // $("#PartialProductList").html(result);
+
+                }
+            });
+        });
+
+
+
+
+    });
+</script>

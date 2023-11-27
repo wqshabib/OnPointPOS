@@ -1,0 +1,88 @@
+/*===================================================
+  IV. PRINT STYLES - Designed soley for Invoice Page
+      Problems will arise if you attempt to use
+	  these styles globally
+=====================================================*/
+@media print {
+  /* Reset + Hide Primary Page Components */
+  header.navbar,
+  #sidebar_left,
+  #sidebar_right,
+  #topbar,
+  #skin-toolbox,
+  .panel-heading,
+  .invoice-buttons,
+  .panel-sidemenu {
+    display: none !important;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    outline: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden; }
+
+  /* Modify Primary Container */
+  #content_wrapper {
+    background: 0;
+    margin: 0 auto;
+    left: auto;
+    right: auto;
+    transition: none; }
+
+  #content {
+    padding: 0;
+    background: none; }
+
+  #content_wrapper:after {
+    margin: 0;
+    display: none; }
+
+  /* Shorten and center page */
+  #main {
+    width: 1000px !important;
+    margin: 0 auto; }
+
+  /* Remove all Panel Borders */
+  .panel {
+    border: 0;
+    margin: 0; }
+
+  /* Hide Image Logo and reveal Text logo */
+  .invoice-logo {
+    display: none !important; }
+
+  .invoice-logo-text {
+    display: block !important;
+    visibility: visible !important; }
+
+  /* Modify Invoice Container */
+  .table-layout > .col-md-10 {
+    width: 100% !important;
+    padding: 0 !important; }
+
+  /* Modify Invoice Panels */
+  #invoice-info {
+    border-top: 1px dashed #ddd;
+    border-bottom: 1px dashed #ddd;
+    margin-top: 20px !important;
+    margin-bottom: 40px !important;
+    background-color: #ddd; }
+
+  /* Modify Invoice Panels */
+  #invoice-info > .col-md-4 {
+    float: none;
+    display: inline-block;
+    width: 33%;
+    padding: 0; }
+
+  #invoice-info > .col-md-4:nth-child(2) {
+    text-align: center; }
+
+  #invoice-info > .col-md-4:last-child {
+    text-align: right;
+    position: relative;
+    top: 8px; }
+
+  #invoice-info > .col-md-4 .panel-body {
+    padding: 10px; } }
